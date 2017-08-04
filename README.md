@@ -1,4 +1,5 @@
 # bashy
+
 Making bash great again
 
 ## Installng bashy
@@ -12,3 +13,31 @@ Then edit ~/.bashrc and add:
 	source ~/.bashy/bashy.sh
 
 In my own setup this is the only line in my ~/.bashrc
+
+## Working with bashy
+
+To check the status of bashy use:
+
+	bashy_status
+
+To disable or enable a plugins or to change the order in which
+they are applied just copy ~/.bashy/bashy.list
+to ~/.bashy.list and edit as you like.
+
+To install prepreqs to bashy enabled plugins use:
+
+	bashy_install
+
+To reread the plugins use:
+
+	bashy_load
+
+To reinit bashy when a new version is installed or pulled:
+
+	bashy_init
+
+## Writing bashy plugins
+
+TBD
+
+	Mark Veltzer <mark.veltzer@gmail.com>
