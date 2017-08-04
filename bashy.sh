@@ -28,7 +28,7 @@ export BASHY_DEBUG=$1
 
 # basic functions that are needed for all subsequent scripts.
 
-FILE_PATHUTILS="$HOME/.bashy/pathutils.sh"
+FILE_PATHUTILS="$HOME/.bashy/core/pathutils.sh"
 if ! [ -f "$FILE_PATHUTILS" ]
 then
 	echo "$FILE_PATHUTILS" is missing
@@ -36,7 +36,7 @@ then
 fi
 source "$FILE_PATHUTILS"
 
-FILE_GITUTILS="$HOME/.bashy/gitutils.sh"
+FILE_GITUTILS="$HOME/.bashy/core/gitutils.sh"
 if ! [ -f "$FILE_GITUTILS" ]
 then
 	echo "$FILE_GITUTILS" is missing
