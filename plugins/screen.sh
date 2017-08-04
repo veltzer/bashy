@@ -15,7 +15,7 @@ https://pascal.nextrem.ch/2010/04/30/automatically-start-screen-on-ssh-login
 COMMENT
 
 function configure_screen() {
-	if is_in_path screen; then
+	if pathutils_is_in_path screen; then
 		if [[ -z ${SCREEN+x} ]]; then
 			export SCREEN=yes
 			exec screen -q -RR

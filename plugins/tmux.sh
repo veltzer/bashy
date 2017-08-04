@@ -5,7 +5,7 @@ This runs tmux at the start of a session.
 COMMENT
 
 function configure_tmux() {
-	if is_in_path tmux; then
+	if pathutils_is_in_path tmux; then
 		if [[ -z ${TMUX+x} ]]; then
 			exec tmux
 		fi

@@ -2,18 +2,24 @@
 
 The is the main entry point of bashy....
 
-It reads the support functions under ~/.bashy.sh
-Then it reads all the files under ~/.bashrc.d so that we could split our
-bash rc into multiple segments independent of one another.
+Here is the general flow here:
+
+It reads the support functions under
+	~/.bashy/core
+
+It reads all the plugins that you want enabled under:
+	~/.bashy/bashy.list
+
+It runs all the plugins from:
+	~/.bashy/plugins
+	and
+	~/.bashy/external
 
 Writing bashy scripts:
 - each script should be independent and handle just one issue.
-- scripts should not really do anything when sources, just register
+- scripts should not really do anything when sourced, just register
 functions to be called later.
-- If a script wants to be called ahead of other scripts it can register
-itself at the top.
-- order among script will currently be random. In the future we may support
-order between them.
+- order among script will be according to their order in bashy.list.
 - the scripts are run with '-e' which means that if any error is automatically
 critical. If a script does not wish this it can turn the error mode off with
 'set +e' but currently it is the script responsiblity to turn it back on
@@ -23,7 +29,7 @@ COMMENT
 
 # handle input parameters
 
-export BASHY_DEBUG=$1
+export BASHY_DEBUG=1
 
 
 # basic functions that are needed for all subsequent scripts.
@@ -53,11 +59,6 @@ function update_repo() {
 		sudo apt-get update -o Dir::Etc::sourcelist="sources.list.d/${source}" \
 		-o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0"    
 	done
-}
-
-function is_in_path() {
-	local prog=$1
-	hash $prog 2> /dev/null
 }
 
 function is_debug() {

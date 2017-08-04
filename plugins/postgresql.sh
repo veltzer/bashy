@@ -1,6 +1,6 @@
 function configure_postgresql() {
 	# this configures the default options for postgresql
-	if is_in_path psql; then
+	if pathutils_is_in_path psql; then
 		export PGDATABASE=postgres
 		return 0
 	else

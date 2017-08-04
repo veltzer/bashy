@@ -192,11 +192,11 @@ function myenv_prompt() {
 # code on every prompt. This is done via the 'PROMPT_COMMAND' feature
 # of bash.
 function configure_myenv() {
-	if ! is_in_path virtualenv
+	if ! pathutils_is_in_path virtualenv
 	then
 		return 1
 	fi
-	if ! is_in_path md5sum
+	if ! pathutils_is_in_path md5sum
 	then
 		return 1
 	fi

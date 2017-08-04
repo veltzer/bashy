@@ -41,3 +41,8 @@ function pathutils_remove() {
 	done
 	echo "${path[*]}"
 }
+
+function pathutils_is_in_path() {
+	local prog=$1
+	hash $prog 2> /dev/null
+}
