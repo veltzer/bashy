@@ -30,7 +30,7 @@ To install prepreqs to bashy enabled plugins use:
 
 To reread the plugins use:
 
-	bashy_load
+	bashy_load_plugins
 
 To reinit bashy when a new version is installed or pulled:
 
