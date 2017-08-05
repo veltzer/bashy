@@ -1,5 +1,3 @@
-- bashy should collect which sources of which plugins went bad
-	and print that info in bashy_status.
 - bashy should not pollute the users bash namespace with too many functions.
 	this is a work in progress, look at core/misc.sh.
 - bashy should allow the main config file (~/.bashy/external/bashy.list)
