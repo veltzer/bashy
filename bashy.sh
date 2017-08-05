@@ -4,16 +4,14 @@ The is the main entry point of bashy....
 
 Here is the general flow here:
 
-It reads the support functions under
-	~/.bashy/core
-
-It reads all the plugins that you want enabled under:
-	~/.bashy/bashy.list
-
-It runs all the plugins from:
+bashy_load_core - loads core functions under ~/.bashy/core/*.sh
+bashy_read_plugins - reads which plugins you wannt loaded
+	from either ~/.bashy.list or ~/.bashy/bashy.list
+bashy_load_plugins - loads the plugins you wanted from
 	~/.bashy/plugins
 	and
 	~/.bashy/external
+bashy_run_plugins - runs the plugins
 
 Writing bashy scripts:
 - each script should be independent and handle just one issue.
@@ -27,42 +25,16 @@ when it is done with 'set -e'.
 
 COMMENT
 
-# handle input parameters
-
-export BASHY_DEBUG=1
-
-
 # basic functions that are needed for all subsequent scripts.
 
-FILE_PATHUTILS="$HOME/.bashy/core/pathutils.sh"
-if ! [ -f "$FILE_PATHUTILS" ]
-then
-	echo "$FILE_PATHUTILS" is missing
-	return 1
-fi
-source "$FILE_PATHUTILS"
-
-FILE_GITUTILS="$HOME/.bashy/core/gitutils.sh"
-if ! [ -f "$FILE_GITUTILS" ]
-then
-	echo "$FILE_GITUTILS" is missing
-	return 1
-fi
-source "$FILE_GITUTILS"
-
-
-# update just a single apt repo view
-# References:
-# http://askubuntu.com/questions/65245/apt-get-update-only-for-a-specific-repository
-function update_repo() {
-	for source in "$@"; do
-		sudo apt-get update -o Dir::Etc::sourcelist="sources.list.d/${source}" \
-		-o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0"    
+function bashy_load_core() {
+	for f in $(compgen -G "$HOME/.bashy/core/*.sh"); do
+		source "$f"
 	done
 }
 
 function is_debug() {
-	return $BASHY_DEBUG
+	return 1
 }
 
 function is_debug_interactive() {
@@ -86,16 +58,11 @@ function is_step() {
 	return 1
 }
 
-# we check for interactivity using "$- == *i*"
-function is_interactive() {
-	[[ $- == *i* ]]
-}
-
 function do_source() {
 	local filename=$1
-	#if is_debug; then
-	#	echo "sourcing $filename"
-	#fi
+	if is_debug; then
+		echo "sourcing $filename"
+	fi
 	source "$filename"
 }
 
@@ -130,40 +97,9 @@ function source_bashrcd() {
 	fi
 }
 
-# check if I am on a certain host, expects hostname
-function is_hostname() {
-	local name=$1
-	[ "$HOSTNAME" = "$name" ]
-	return $?
-}
-
-function cecho() {
-	local color=$1
-	local text=$2
-	local newline=$3
-	local code="\033["
-	case "$1" in
-		black  | bk) color="${code}0;30m";;
-		red    |  r) color="${code}1;31m";;
-		green  |  g) color="${code}1;32m";;
-		yellow |  y) color="${code}1;33m";;
-		blue   |  b) color="${code}1;34m";;
-		purple |  p) color="${code}1;35m";;
-		cyan   |  c) color="${code}1;36m";;
-		gray   | gr) color="${code}0;37m";;
-	esac
-	local text="$color${text}${code}0m"
-	if [ $newline = 0 ]; then
-		echo -e "$text"
-	else
-		echo -en "$text"
-	fi
-}
-
-declare -a init_array
 function register() {
 	local function=$1
-	init_array+=($function)
+	bashy_init_array+=($function)
 }
 
 function register_interactive() {
@@ -174,55 +110,43 @@ function register_interactive() {
 	fi
 }
 
-# print all the initialization functions
-function print_init_array() {
-	echo "${init_array[@]}"
+function bashy_print_bashy_init_array() {
+	echo "${bashy_init_array[@]}"
 }
 
-function measure() {
-	local function_name=$1
-	local start=$(date +%s.%N)
-	$function_name
-	local ret=$?
-	local end=$(date +%s.%N)
-	diff=$(echo "$end - $start" | bc -l)
-	return $ret
-}
-
-function run_registered() {
-	if is_debug_interactive; then
-		echo "running ${#init_array[@]} of them..."
-	fi
-	for i in "${!init_array[@]}"; do
-		if is_debug_interactive; then
-			cecho gr "${init_array[$i]}..." 1
-		fi
+function bashy_run_plugins() {
+	for i in "${!bashy_init_array[@]}"; do
 		if is_step; then
 			read -n 1
 		fi
 		if is_profile; then
-			measure ${init_array[$i]}
-			res=$?
-			local t=$(printf "%.3f" $diff)
-			if is_debug_interactive; then
-				if [ $res = 0 ]; then
-					cecho g "OK ($t)" 0
-				else
-					cecho r "ERROR ($t)" 0
-				fi
-			fi
+			measure ${bashy_init_array[$i]}
+			return_value_array+=($?)
+			time_array+=($diff)
 		else
-			${init_array[$i]}
-			res=$?
-			if is_debug_interactive; then
-				if [ $res = 0 ]; then
-					cecho g "OK" 0
-				else
-					cecho r "ERROR" 0
-				fi
-			fi
+			${bashy_init_array[$i]}
+			return_value_array+=($?)
 		fi
 	done
+}
+
+function bashy_status() {
+	for i in "${!bashy_init_array[@]}"; do
+		cecho gr "${bashy_init_array[$i]}..." 1
+		res=???
+		diff=???
+		if is_profile
+		then
+			local t=$(printf "%.3f" $diff)
+		fi
+		if [ $res = 0 ]
+		then
+			cecho g "OK ($t)" 0
+		else
+			cecho r "ERROR ($t)" 0
+		fi
+	done
+	echo "${bashy_enabled_array[@]}"
 }
 
 function before_uncertain() {
@@ -250,11 +174,54 @@ function at_end() {
 	:
 }
 
-function run_bashy() {
-	at_start
-	source_bashrcd
-	run_registered
-	at_end
+function bashy_read_plugins() {
+	filename="$HOME/.bashy/bashy.list"
+	bashy_enabled_array=()
+	while read F
+	do
+		bashy_enabled_array+=($F)
+	done < $filename
 }
 
-run_bashy
+function bashy_load_plugins() {
+	for elem in "${bashy_enabled_array[@]}"
+	do
+		current_filename="$HOME/.bashy/plugins/$elem.sh"
+		if [ -r $current_filename ]
+		then
+			echo "bashy: loading [$elem]..."
+			source $current_filename
+		else
+			current_filename="$HOME/.bashy/external/$elem.sh"
+			if [ -r $current_filename ]
+			then
+				echo "bashy: loading [$elem]..."
+				source $current_filename
+			else
+				echo "bashy: plugin [$elem] not found"
+			fi
+		fi
+	done
+}
+
+function bashy_run_plugins() {
+	:
+}
+
+function bashy_init() {
+	declare -a bashy_init_array
+	declare -a return_value_array
+	declare -a time_array
+
+	bashy_load_core
+	bashy_read_plugins
+	bashy_load_plugins
+	at_start
+	source_bashrcd
+	at_end
+	bashy_run_plugins
+}
+
+# now run bashy_init
+# we don't want to force the user to do anything more than source ~/.bashy/bashy.sh
+bashy_init
