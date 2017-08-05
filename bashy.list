@@ -1,11 +1,10 @@
 tmux
 ansible
 bash_completions_aws
-bash_completions_own
+bash_completions_userdir
 bash_completions_system
 bash_config
 bash_it
-by_host
 careful_aliases
 development_aliases
 fzf
@@ -14,11 +13,8 @@ gzip
 host_aliases
 ls_with_colors
 manpath
-mount_encfs
 myenv
 path_dot_local
-path_mine
-path_pycharm_add
 path_remove_games
 postgresql
 pymultigit
