@@ -18,6 +18,7 @@ path_dot_local
 path_remove_games
 postgresql
 pymultigit
+python
 spark
 system_default_bashrc
 umask
