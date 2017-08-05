@@ -119,4 +119,5 @@ function bashy_init() {
 
 # now run bashy_init
 # we don't want to force the user to do anything more than source ~/.bashy/bashy.sh
+# in his ~/.bashrc
 bashy_init
