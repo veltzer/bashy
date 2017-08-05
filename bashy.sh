@@ -24,7 +24,11 @@
 function bashy_load_core() {
 	for f in $(compgen -G "$HOME/.bashy/core/*.sh")
 	do
+		name="${f##*/}"
+		name="${name%%.*}"
+		bashy_core_names+=("$name")
 		source "$f"
+		bashy_core_res+=($?)
 	done
 }
 
@@ -55,12 +59,14 @@ function bashy_load_plugins() {
 		then
 			# echo "bashy: loading [$elem]..."
 			source $current_filename
+			bashy_source_array+=($?)
 		else
 			current_filename="$HOME/.bashy/external/$elem.sh"
 			if [ -r $current_filename ]
 			then
 				# echo "bashy: loading [$elem]..."
 				source $current_filename
+				bashy_source_array+=($?)
 			else
 				echo "bashy: plugin [$elem] not found"
 			fi
@@ -69,20 +75,39 @@ function bashy_load_plugins() {
 }
 
 function bashy_run_plugins() {
-	for i in "${!bashy_init_array[@]}"
+	for func in "${bashy_init_array[@]}"
 	do
+		if is_debug
+		then
+			echo $func
+		fi
 		if is_step
 		then
 			read -n 1
 		fi
 		if is_profile
 		then
-			measure ${bashy_init_array[$i]}
+			measure "$func"
 			bashy_res_array+=($?)
 			bashy_diff_array+=($diff)
 		else
-			${bashy_init_array[$i]}
+			"$func"
 			bashy_res_array+=($?)
+		fi
+	done
+}
+
+function bashy_core_status() {
+	for ((i=0;i<${#bashy_core_names[@]};++i))
+	do
+		name="${bashy_core_names[$i]}"
+		cecho gr "$name" 1
+		res="${bashy_core_res[$i]}"
+		if [ "$res" = 0 ]
+		then
+			cecho g "\tOK" 0
+		else
+			cecho r "\tERROR" 0
 		fi
 	done
 }
@@ -90,31 +115,44 @@ function bashy_run_plugins() {
 function bashy_status() {
 	for ((i=0;i<${#bashy_init_array[@]};++i))
 	do
-		cecho gr "${bashy_init_array[$i]}..." 1
-		res="${bashy_res_array[i]}"
-		diff="${bashy_diff_array[i]}"
+		cecho gr "${bashy_init_array[$i]}" 1
+		local source="${bashy_source_array[$i]}"
+		if [ "$source" = 0 ]
+		then
+			cecho g "\tLOAD_OK" 1
+		else
+			cecho r "\tLOAD_ERROR" 1
+		fi
+		local res="${bashy_res_array[$i]}"
+		if [ "$res" = 0 ]
+		then
+			cecho g "\tOK" 1
+		else
+			cecho r "\tERROR" 1
+		fi
 		if is_profile
 		then
+			local diff="${bashy_diff_array[$i]}"
 			local t=$(printf "%.3f" $diff)
-		fi
-		if [ $res = 0 ]
-		then
-			cecho g "OK ($t)" 0
-		else
-			cecho r "ERROR ($t)" 0
+			echo -e "\t$t"
 		fi
 	done
 }
 
+declare -a bashy_core_names
+declare -a bashy_core_res
 declare -a bashy_enabled_array
+declare -a bashy_source_array
 declare -a bashy_res_array
 declare -a bashy_diff_array
 
 function bashy_init() {
+	set -e
 	bashy_load_core
 	bashy_read_plugins
 	bashy_load_plugins
 	bashy_run_plugins
+	set +e
 }
 
 # now run bashy_init

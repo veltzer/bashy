@@ -56,16 +56,16 @@ function is_interactive() {
 }
 
 function bashy_before_uncertain() {
-	# set +e
-	:
+	set +e
 }
 
 function bashy_after_uncertain() {
-	# set -e
-	:
+	set -e
 }
 
 function is_debug() {
+	# 0 means debug is on
+	# 1 means debug is off
 	return 1
 }
 
