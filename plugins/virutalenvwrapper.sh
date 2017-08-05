@@ -4,19 +4,23 @@ function configure_virtualenvwrapper() {
 	export WORKON_HOME="$HOME/.virtualenvs"
 	export PROJECT_HOME="$HOME/git"
 	found=false
-	if [ -f /usr/local/bin/virtualenvwrapper.sh -a $found = false ]; then
+	if [ -f /usr/local/bin/virtualenvwrapper.sh -a $found = false ]
+	then
 		FOUND_IN=/usr/local/bin/virtualenvwrapper.sh
 		found=true
 	fi
-	if [ -f ~/.local/bin/virtualenvwrapper.sh -a $found = false ]; then
+	if [ -f ~/.local/bin/virtualenvwrapper.sh -a $found = false ]
+	then
 		FOUND_IN=~/.local/bin/virtualenvwrapper.sh
 		found=true
 	fi
-	if [ -f /usr/share/virtualenvwrapper/virtualenvwrapper.sh -a $found = false ]; then
+	if [ -f /usr/share/virtualenvwrapper/virtualenvwrapper.sh -a $found = false ]
+	then
 		FOUND_IN=/usr/share/virtualenvwrapper/virtualenvwrapper.sh
 		found=true
 	fi
-	if $found; then
+	if $found
+	then
 		source $FOUND_IN
 		return 0
 	else

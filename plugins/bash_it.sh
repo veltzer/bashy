@@ -1,6 +1,7 @@
 function configure_bash_it() {
 	export BASH_IT="$HOME/.bash_it"
-	if ! [ -d "$BASH_IT" ]; then
+	if ! [ -d "$BASH_IT" ]
+	then
 		return 1
 	fi
 	# Path to the bash it configuration

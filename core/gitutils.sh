@@ -1,9 +1,4 @@
-<<'COMMENT'
-
-This is a set of git shell functions for support.
-
-COMMENT
-
+# This is a set of git bash functions for support for bashy.
 
 # a function that returns whether or not the current working directory
 # is inside a git tree

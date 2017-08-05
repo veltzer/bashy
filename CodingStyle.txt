@@ -1,0 +1,15 @@
+if [ ]
+then
+	[code]
+fi
+
+(no ; then)
+
+same for others.
+
+for x in [...]
+do
+	[code]
+done
+
+(no ; do)

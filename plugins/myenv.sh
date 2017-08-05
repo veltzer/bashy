@@ -1,27 +1,21 @@
-<<'COMMENT'
-
-This init script manages your python virtual envrionment for you.
-
-Here is what it does:
-- Whenever you 'cd' into a directory it will activate the right
-virtual env for you.
-- If a virtual env was not created, it will automatically create
-one for you.
-- If a virtual env falls out of sync with the 'requirements.txt'
-file which was used to create it then it will be re-created.
-This is done by comparing the md5 checksum of the 'requirements.txt'
-file and a checksum which is stored inside each created virtual
-environment.
-- to recreate the venvs for a bunch for folders use:
-	$ for x in py*; do cd $x; myenv_prompt ; cd ../;done
-just doing:
-	$ for x in py*; do cd $x; cd ../;done
-will not do as bash with not activate the "PROMPT_COMMAND" for
-such a loop.
-
-				Mark Veltzer
-
-COMMENT
+# This init script manages your python virtual envrionment for you.
+#
+# Here is what it does:
+# - Whenever you 'cd' into a directory it will activate the right
+# virtual env for you.
+# - If a virtual env was not created, it will automatically create
+# one for you.
+# - If a virtual env falls out of sync with the 'requirements.txt'
+# file which was used to create it then it will be re-created.
+# This is done by comparing the md5 checksum of the 'requirements.txt'
+# file and a checksum which is stored inside each created virtual
+# environment.
+# - to recreate the venvs for a bunch for folders activate
+# myenv_prompt in each the folders. It *is not* enough to just
+# cd into these folders as part of a command line since then
+# PROMPT_COMMAND will not be activated.
+# 
+# 				Mark Veltzer
 
 myenv_conf_file_name=".myenv"
 myenv_md5_file_name="md5sum"

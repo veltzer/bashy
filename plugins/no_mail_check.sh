@@ -4,7 +4,8 @@ function configure_nomailcheck() {
 	# bash doesn't do mail checking anymore
 	# References:
 	# - https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-MAILCHECK
-	if [ -n "${MAILCHECK}" ]; then
+	if [ -n "${MAILCHECK}" ]
+	then
 		unset MAILCHECK
 		return 0
 	else

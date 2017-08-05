@@ -4,7 +4,8 @@ function configure_fzf() {
 	# stuff so this must be after the system_deafult script
 	# which does bash completions.
 	FILE="$HOME/.fzf.bash"
-	if [ -f "$FILE" ]; then
+	if [ -f "$FILE" ]
+	then
 		source "$FILE"
 		return 0
 	else

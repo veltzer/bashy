@@ -2,7 +2,8 @@
 # References:
 # http://askubuntu.com/questions/65245/apt-get-update-only-for-a-specific-repository
 function update_repo() {
-	for source in "$@"; do
+	for source in "$@"
+	do
 		sudo apt-get update -o Dir::Etc::sourcelist="sources.list.d/${source}" \
 		-o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0"    
 	done
@@ -31,7 +32,8 @@ function cecho() {
 		gray   | gr) color="${code}0;37m";;
 	esac
 	local text="$color${text}${code}0m"
-	if [ $newline = 0 ]; then
+	if [ $newline = 0 ]
+	then
 		echo -e "$text"
 	else
 		echo -en "$text"

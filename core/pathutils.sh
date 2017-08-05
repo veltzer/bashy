@@ -3,8 +3,10 @@ function pathutils_add_head() {
 	local IFS=':'
 	local -a path
 	local -A map
-	for DIR in $1; do
-		if [ "$DIR" != "$2" ] && [ "${map[$DIR]}" != "yes" ]; then
+	for DIR in $1
+	do
+		if [ "$DIR" != "$2" ] && [ "${map[$DIR]}" != "yes" ]
+		then
 			path+=($DIR)
 			map[$DIR]="yes"
 		fi
@@ -18,8 +20,10 @@ function pathutils_add_tail() {
 	local IFS=':'
 	local -a path
 	local -A map
-	for DIR in $1; do
-		if [ "$DIR" != "$2" ] && [ "${map[$DIR]}" != "yes" ]; then
+	for DIR in $1
+	do
+		if [ "$DIR" != "$2" ] && [ "${map[$DIR]}" != "yes" ]
+		then
 			path+=($DIR)
 			map[$DIR]="yes"
 		fi
@@ -33,8 +37,10 @@ function pathutils_remove() {
 	local IFS=':'
 	local -a path
 	local -A map
-	for DIR in $1; do
-		if [ "$DIR" != "$2" ] && [ "${map[$DIR]}" != "yes" ]; then
+	for DIR in $1
+	do
+		if [ "$DIR" != "$2" ] && [ "${map[$DIR]}" != "yes" ]
+		then
 			path+=($DIR)
 			map[$DIR]="yes"
 		fi

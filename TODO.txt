@@ -1,16 +1,10 @@
-- bashy should not print anything during loading of plugins but rather just
-	gather the debug info.
-- a later command bashy info would print all this info.
-- bashy should include all of its components by including everything
-	under $BASHY/core
-	and not one by one.
+- bashy should collect which sources of which plugins went bad
+	and print that info in bashy_status.
 - bashy should not pollute the users bash namespace with too many functions.
-- bashy should read which plugins to include using config file. First
-	~/.bashy.list
-	and then $BASHY/bashy.list
-	The first is where a user should put his config to override what bashy author
-	thinks is the best configuration.
-	If a user does not wish to override what the bashy author think is the best
-	configuration then he should just not create such a file in which case
-	bashy will activate the default that comes with it and gets updated with it.
-	
+	this is a work in progress, look at core/misc.sh.
+- bashy should allow the main config file (~/.bashy/external/bashy.list)
+	to add plugins to whatever there is in the default
+	bashy configuration and to remove plugins.
+	maybe:
+	+ [name]
+	- [name]
