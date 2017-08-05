@@ -52,3 +52,40 @@ function measure() {
 function is_interactive() {
 	[[ $- == *i* ]]
 }
+
+function bashy_before_uncertain() {
+	# set +e
+	:
+}
+
+function bashy_after_uncertain() {
+	# set -e
+	:
+}
+
+function is_debug() {
+	return 1
+}
+
+function is_debug_interactive() {
+	if is_debug
+	then
+		if is_interactive
+		then
+			return 0
+		fi
+	fi
+	return 1
+}
+
+function is_profile() {
+	# 0 means profile is on
+	# 1 means profile is off
+	return 0
+}
+
+function is_step() {
+	# 0 means step is on
+	# 1 means step is off
+	return 1
+}

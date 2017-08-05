@@ -51,9 +51,9 @@ function configure_bash_it() {
 	# export BASH_IT_AUTOMATIC_RELOAD_AFTER_CONFIG_CHANGE=1
 
 	# Load Bash It
-	before_uncertain
+	bashy_before_uncertain
 	source "$BASH_IT/bash_it.sh"
-	after_uncertain
+	bashy_after_uncertain
 	return 0
 }
 
