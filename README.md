@@ -38,6 +38,9 @@ To reinit bashy when a new version is installed or pulled:
 
 ## Writing bashy plugins
 
-TBD
+bashy plugins may never fail a command (all commands need to return 0)
+
+bashy plugins need to set a variable 'result' to either 0 or 1.
+
 
 	Mark Veltzer <mark.veltzer@gmail.com>
