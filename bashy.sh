@@ -57,16 +57,16 @@ function bashy_load_plugins() {
 		current_filename="$HOME/.bashy/plugins/$elem.sh"
 		if [ -r $current_filename ]
 		then
-			# echo "bashy: loading [$elem]..."
+			# echo -n "bashy: loading [$elem]..."
 			source $current_filename
 			bashy_source_array+=($?)
 		else
 			current_filename="$HOME/.bashy/external/$elem.sh"
 			if [ -r $current_filename ]
 			then
-				# echo "bashy: loading [$elem]..."
+				# echo -n "bashy: loading [$elem]..."
 				source $current_filename
-				bashy_source_array+=($result)
+				bashy_source_array+=($?)
 			else
 				echo "bashy: plugin [$elem] not found"
 			fi
@@ -88,11 +88,11 @@ function bashy_run_plugins() {
 		if is_profile
 		then
 			measure "$func"
-			bashy_res_array+=($?)
-			bashy_diff_array+=($diff)
+			bashy_result_array+=("$result")
+			bashy_diff_array+=("$diff")
 		else
 			"$func"
-			bashy_res_array+=($?)
+			bashy_result_array+=("$result")
 		fi
 	done
 }
@@ -123,12 +123,12 @@ function bashy_status() {
 		else
 			cecho r "\tLOAD_ERROR" 1
 		fi
-		local res="${bashy_res_array[$i]}"
-		if [ "$res" = 0 ]
+		local result="${bashy_result_array[$i]}"
+		if [ "$result" = 0 ]
 		then
-			cecho g "\tOK" 1
+			cecho g "\tRESULT_OK" 1
 		else
-			cecho r "\tERROR" 1
+			cecho r "\tRESULT_ERROR" 1
 		fi
 		if is_profile
 		then
@@ -143,7 +143,7 @@ declare -a bashy_core_names
 declare -a bashy_core_res
 declare -a bashy_enabled_array
 declare -a bashy_source_array
-declare -a bashy_res_array
+declare -a bashy_result_array
 declare -a bashy_diff_array
 
 function bashy_init() {
