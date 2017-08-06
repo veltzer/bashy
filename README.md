@@ -42,5 +42,9 @@ bashy plugins may never fail a command (all commands need to return 0)
 
 bashy plugins need to set a variable 'result' to either 0 or 1.
 
+## Similar projects
+
+	https://github.com/Bash-it/bash-it
+
 
 	Mark Veltzer <mark.veltzer@gmail.com>
