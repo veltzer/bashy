@@ -109,7 +109,7 @@ function bashy_core_status() {
 		else
 			cecho r "\tERROR" 0
 		fi
-	done
+	done | column -t
 }
 
 function bashy_status() {
@@ -136,7 +136,7 @@ function bashy_status() {
 			local t=$(printf "%.3f" $diff)
 			echo -e "\t$t"
 		fi
-	done
+	done | column -t
 }
 
 declare -a bashy_core_names
