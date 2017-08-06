@@ -66,7 +66,7 @@ function bashy_after_uncertain() {
 function is_debug() {
 	# 0 means debug is on
 	# 1 means debug is off
-	return 1
+	return 0
 }
 
 function is_debug_interactive() {
@@ -89,5 +89,5 @@ function is_profile() {
 function is_step() {
 	# 0 means step is on
 	# 1 means step is off
-	return 1
+	return 0
 }

@@ -1,4 +1,4 @@
-function configure_bash_completions_own() {
+function configure_bash_completions_userdir() {
 	# my own bash completions
 	# note that the 'source' command in bash cannot
 	# sources more than one file at a time so we must
@@ -32,4 +32,4 @@ function configure_bash_completions_own() {
 	fi
 }
 
-register_interactive configure_bash_completions_own
+register_interactive configure_bash_completions_userdir
