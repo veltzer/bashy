@@ -3,6 +3,7 @@ function configure_bash_it() {
 	if ! [ -d "$BASH_IT" ]
 	then
 		result=1
+		return 0
 	fi
 	# Path to the bash it configuration
 
