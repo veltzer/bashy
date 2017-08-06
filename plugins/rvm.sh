@@ -6,9 +6,9 @@ function configure_rvm() {
 	then
 		export PATH=$(pathutils_add_tail "$PATH" "$HOME/.rvm/bin")
 		source "$HOME/.rvm/scripts/rvm"
-		return 0
+		result=0
 	else
-		return 1
+		result=1
 	fi
 }
 

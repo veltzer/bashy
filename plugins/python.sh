@@ -9,7 +9,7 @@ function configure_python() {
 	# add user base to python path
 	# export PYTHONPATH=$(pathutils_add_head "$PYTHONPATH" "`python -c \"import site; print site.USER_SITE;\"`")
 	export PYTHONIOENCODING=UTF-8
-	return 0
+	result=0
 }
 
 function prun() {

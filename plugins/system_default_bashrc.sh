@@ -5,9 +5,9 @@ function configure_system_default_bashrc() {
 		bashy_before_uncertain
 		source /etc/bash.bashrc
 		bashy_after_uncertain
-		return 0
+		result=0
 	else
-		return 1
+		result=1
 	fi
 }
 

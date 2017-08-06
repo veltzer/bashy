@@ -7,9 +7,9 @@ function configure_spark() {
 		export SPARK_HOME="$FOLDER"
 		# Where you specify options you would normally add after bin/pyspark
 		export PYSPARK_SUBMIT_ARGS="--master local[2] pyspark-shell"
-		return 0
+		result=0
 	else
-		return 1
+		result=1
 	fi
 }
 

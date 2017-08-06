@@ -1,5 +1,5 @@
 function configure_fail() {
-	return 1
+	result=1
 }
 
 register configure_fail

@@ -6,9 +6,9 @@ function configure_bash_completions_system() {
 		bashy_before_uncertain
 		source /usr/share/bash-completion/bash_completion
 		bashy_after_uncertain
-		return 0
+		result=0
 	else
-		return 1
+		result=1
 	fi
 }
 

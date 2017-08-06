@@ -18,6 +18,7 @@ function configure_bash_completions_userdir() {
 			done
 		fi
 	fi
+	result=0
 }
 
 register_interactive configure_bash_completions_userdir

@@ -6,7 +6,7 @@ function configure_bash_config() {
 	shopt -s globstar
 	# do long completions
 	set completeopt=menu,longest
-	return 0
+	result=0
 }
 
 register_interactive configure_bash_config

@@ -188,14 +188,14 @@ function myenv_prompt() {
 function configure_myenv() {
 	if ! pathutils_is_in_path virtualenv
 	then
-		return 1
+		result=1
 	fi
 	if ! pathutils_is_in_path md5sum
 	then
-		return 1
+		result=1
 	fi
 	export PROMPT_COMMAND="myenv_prompt; $PROMPT_COMMAND"
-	return 0
+	result=0
 }
 
 register_interactive configure_myenv

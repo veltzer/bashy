@@ -4,9 +4,9 @@ function configure_vi_default_editor() {
 	then
 		export EDITOR='vim'
 		export VISUAL='vim'
-		return 0
+		result=0
 	else
-		return 1
+		result=1
 	fi
 }
 

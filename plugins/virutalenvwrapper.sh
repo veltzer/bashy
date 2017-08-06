@@ -22,9 +22,9 @@ function configure_virtualenvwrapper() {
 	if $found
 	then
 		source $FOUND_IN
-		return 0
+		result=0
 	else
-		return 1
+		result=1
 	fi
 }
 

@@ -5,9 +5,9 @@ function configure_ansible() {
 	if pathutils_is_in_path ansible
 	then
 		export ANSIBLE_NOCOWS=1
-		return 0
+		result=0
 	else
-		return 1
+		result=1
 	fi
 }
 

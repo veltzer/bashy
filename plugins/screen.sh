@@ -17,12 +17,12 @@ function configure_screen() {
 		then
 			export SCREEN=yes
 			exec screen -q -RR
-			return 0
+			result=0
 		else
-			return 0
+			result=0
 		fi
 	else
-		return 1
+		result=1
 	fi
 }
 

@@ -6,9 +6,9 @@ function configure_host_aliases() {
 	if [[ -f $HOSTS_FILE ]]
 	then
 		export HOSTALIASES=$HOSTS_FILE
-		return 0
+		result=0
 	else
-		return 1
+		result=1
 	fi
 }
 

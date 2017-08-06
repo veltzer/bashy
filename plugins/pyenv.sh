@@ -5,9 +5,9 @@ function configure_pyenv() {
 	then
 		export PATH=$(pathutils_add_head "$PATH" "$PYENV_ROOT/bin")
 		eval "$(pyenv init -)"
-		return 0
+		result=0
 	else
-		return 1
+		result=1
 	fi
 }
 

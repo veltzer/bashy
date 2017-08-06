@@ -7,9 +7,9 @@ function configure_fzf() {
 	if [ -f "$FILE" ]
 	then
 		source "$FILE"
-		return 0
+		result=0
 	else
-		return 1
+		result=1
 	fi
 }
 

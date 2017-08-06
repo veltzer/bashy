@@ -8,9 +8,9 @@ function configure_path_dot_local() {
 	then
 		export PATH=$(pathutils_add_head "$PATH" "$HOME/.local/bin")
 		export LD_LIBRARY_PATH=$(pathutils_add_head "$LD_LIBRARY_PATH" "$HOME/.local/lib")
-		return 0
+		result=0
 	else
-		return 1
+		result=1
 	fi
 }
 

@@ -66,7 +66,7 @@ function bashy_load_plugins() {
 			then
 				# echo "bashy: loading [$elem]..."
 				source $current_filename
-				bashy_source_array+=($?)
+				bashy_source_array+=($result)
 			else
 				echo "bashy: plugin [$elem] not found"
 			fi

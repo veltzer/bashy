@@ -4,9 +4,9 @@ function configure_bash_completions_aws() {
 	if pathutils_is_in_path aws_completer
 	then
 		complete -C aws_completer aws
-		return 0
+		result=0
 	else
-		return 1
+		result=1
 	fi
 }
 

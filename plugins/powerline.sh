@@ -33,9 +33,9 @@ function configure_powerline() {
 			$POWERLINE_DAEMON -q
 			source $POWERLINE_SH
 			bashy_after_uncertain
-			return 0
+			result=0
 		else
-			return 1
+			result=1
 		fi
 	fi
 }

@@ -4,7 +4,7 @@ function configure_umask() {
 	# the default umask of ubuntu is 0002
 	# this uses a stricter setting
 	umask 022
-	return 0
+	result=0
 }
 
 register configure_umask

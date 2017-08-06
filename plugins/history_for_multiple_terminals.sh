@@ -14,7 +14,7 @@ function configure_history_for_multiple_terminals() {
 	# https://superuser.com/questions/117227/a-command-before-every-bash-command
 	# This does not work
 	# bind 'RETURN: "\e[1~history -n \e[4~\n"'
-	return 0
+	result=0
 }
 
 register_interactive configure_history_for_multiple_terminals

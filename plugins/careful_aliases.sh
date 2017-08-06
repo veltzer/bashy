@@ -4,7 +4,7 @@ function configure_careful_aliases() {
 	alias cp='cp -i'
 	alias rm='rm -i'
 	alias ln="ln -i"
-	return 0
+	result=0
 }
 
 register_interactive configure_careful_aliases

@@ -1,5 +1,5 @@
 function configure_git() {
-	return 0
+	result=0
 }
 
 function git_root() {

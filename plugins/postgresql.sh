@@ -3,9 +3,9 @@ function configure_postgresql() {
 	if pathutils_is_in_path psql
 	then
 		export PGDATABASE=postgres
-		return 0
+		result=0
 	else
-		return 1
+		result=1
 	fi
 }
 

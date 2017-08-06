@@ -2,7 +2,7 @@ function configure_bash_it() {
 	export BASH_IT="$HOME/.bash_it"
 	if ! [ -d "$BASH_IT" ]
 	then
-		return 1
+		result=1
 	fi
 	# Path to the bash it configuration
 
@@ -55,7 +55,7 @@ function configure_bash_it() {
 	bashy_before_uncertain
 	source "$BASH_IT/bash_it.sh"
 	bashy_after_uncertain
-	return 0
+	result=0
 }
 
 register_interactive configure_bash_it
