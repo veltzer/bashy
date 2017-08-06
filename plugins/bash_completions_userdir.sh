@@ -14,21 +14,9 @@ function configure_bash_completions_userdir() {
 				if [ -r "$x" ]
 				then
 					source "$x"
-					ret=$?
-					if [ $ret != 0 ]
-					then
-						return 1
-					fi
-				else
-					return 1
 				fi
 			done
-			return 0
-		else
-			return 1
 		fi
-	else
-		return 1
 	fi
 }
 
