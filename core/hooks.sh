@@ -4,7 +4,7 @@ declare -a bashy_init_array
 
 function register() {
 	local function=$1
-	bashy_init_array+=($function)
+	bashy_init_array+=("$function")
 }
 
 function register_interactive() {

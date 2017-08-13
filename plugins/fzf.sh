@@ -13,4 +13,10 @@ function configure_fzf() {
 	fi
 }
 
+function install_fzf() {
+	rm -rf ~/.bashy/install/fzf > /dev/null 2> /dev/null
+	git clone --depth 1 https://github.com/junegunn/fzf.git ~/.bashy/install/fzf > /dev/null 2> /dev/null
+	~/.bashy/install/fzf/install --no-update-rc --key-bindings --completion > /dev/null 2> /dev/null
+}
+
 register_interactive configure_fzf
