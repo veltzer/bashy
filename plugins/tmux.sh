@@ -5,7 +5,7 @@ function configure_tmux() {
 	then
 		if [[ -z ${TMUX+x} ]]
 		then
-			exec tmux
+			exec tmux attach
 		fi
 		result=0
 	else
