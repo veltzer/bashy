@@ -6,3 +6,11 @@
 	maybe:
 	+ [name]
 	- [name]
+
+- separate myenv from bashy.
+
+TODO list for myenv
+===================
+- make sure not to create the environment concurrently (this happens if you
+have two terminals on the same myenv project and the requirements.txt file
+changed for example).
