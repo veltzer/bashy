@@ -6,7 +6,11 @@
 	maybe:
 	+ [name]
 	- [name]
-
+- make bashy be reloadable (currently it is not as the array just keep growing).
+- make every bashy plugin have turn on and turn off so that we could turn them
+	on and off.
+	do commands for that.
+- make bash have uninstall for each plugin and install.
 - separate myenv from bashy.
 
 TODO list for myenv
