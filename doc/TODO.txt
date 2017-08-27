@@ -12,6 +12,9 @@
 	do commands for that.
 - make bash have uninstall for each plugin and install.
 - separate myenv from bashy.
+- stop calling all the functions bashy_* and configure_* install_* these pollute the users
+	namespace. Put _bashy in front of any function that is internal to bashy.
+	bashy_+[TAB] should only show functions that users may want to run.
 
 TODO list for myenv
 ===================
