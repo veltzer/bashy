@@ -6,8 +6,8 @@ function configure_path_dot_local() {
 	FOLDER2="$HOME/.local/lib"
 	if [ -d "$FOLDER1" ] && [ -d "$FOLDER2" ]
 	then
-		export PATH=$(pathutils_add_head "$PATH" "$HOME/.local/bin")
-		export LD_LIBRARY_PATH=$(pathutils_add_head "$LD_LIBRARY_PATH" "$HOME/.local/lib")
+		pathutils_add_head PATH "$HOME/.local/bin"
+		pathutils_add_head LD_LIBRARY_PATH "$HOME/.local/lib"
 		result=0
 	else
 		result=1

@@ -33,18 +33,19 @@ function bashy_load_core() {
 }
 
 function bashy_list_file() {
-	filename="$HOME/.bashy/external/bashy.list"
-	if [ -r $filename ]
+	local __user_var=$1
+	local _filename="$HOME/.bashy/external/bashy.list"
+	if [ -r $_filename ]
 	then
-		echo $filename
+		eval $__user_var=$_filename
 	else
 		filename="$HOME/.bashy/bashy.list"
-		echo $filename
+		eval $__user_var=$_filename
 	fi
 }
 
 function bashy_read_plugins() {
-	filename=$(bashy_list_file)
+	bashy_list_file filename
 	while read F
 	do
 		bashy_enabled_array+=($F)
@@ -133,8 +134,7 @@ function bashy_status() {
 		if is_profile
 		then
 			local diff="${bashy_diff_array[$i]}"
-			local t=$(printf "%.3f" $diff)
-			echo -e "\t$t"
+			printf "\t%.3f\n" $diff
 		fi
 	done | column -t
 }

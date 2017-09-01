@@ -3,7 +3,7 @@ function configure_pyenv() {
 	export PYENV_ROOT="$HOME/.pyenv"
 	if [ -d "$PYENV_ROOT" ] && pathutils_is_in_path pyenv
 	then
-		export PATH=$(pathutils_add_head "$PATH" "$PYENV_ROOT/bin")
+		pathutils_add_head PATH "$PYENV_ROOT/bin"
 		eval "$(pyenv init -)"
 		result=0
 	else
