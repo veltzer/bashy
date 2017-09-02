@@ -22,7 +22,7 @@
 # when it is done with 'set -e'.
 
 function bashy_load_core() {
-	for f in $(compgen -G "$HOME/.bashy/core/*.sh")
+	for f in $HOME/.bashy/core/*.sh
 	do
 		name="${f##*/}"
 		name="${name%%.*}"
