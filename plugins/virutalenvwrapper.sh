@@ -1,4 +1,5 @@
 function configure_virtualenvwrapper() {
+	local __user_var=$1
 	# you can install virtualenvwrapper with
 	# $ apt install virtualenvwrapper
 	export WORKON_HOME="$HOME/.virtualenvs"
@@ -22,9 +23,9 @@ function configure_virtualenvwrapper() {
 	if $found
 	then
 		source $FOUND_IN
-		result=0
+		var_set_by_name "$__user_var" 0
 	else
-		result=1
+		var_set_by_name "$__user_var" 1
 	fi
 }
 

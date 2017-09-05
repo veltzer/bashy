@@ -1,4 +1,5 @@
 function configure_spark() {
+	local __user_var=$1
 	# this is a bashrc snipplet to work with spark and ipython
 	FOLDER="$HOME/install/spark"
 	if [[ -d $FOLDER ]]
@@ -7,9 +8,9 @@ function configure_spark() {
 		export SPARK_HOME="$FOLDER"
 		# Where you specify options you would normally add after bin/pyspark
 		export PYSPARK_SUBMIT_ARGS="--master local[2] pyspark-shell"
-		result=0
+		var_set_by_name "$__user_var" 0
 	else
-		result=1
+		var_set_by_name "$__user_var" 1
 	fi
 }
 

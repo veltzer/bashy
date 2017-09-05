@@ -1,4 +1,5 @@
 function configure_fzf() {
+	local __user_var=$1
 	# this installs fzf for fuzzy matching
 	# it seems that this collides with bash completion
 	# stuff so this must be after the system_deafult script
@@ -7,9 +8,9 @@ function configure_fzf() {
 	if [ -f "$FILE" ]
 	then
 		source "$FILE"
-		result=0
+		var_set_by_name "$__user_var" 0
 	else
-		result=1
+		var_set_by_name "$__user_var" 1
 	fi
 }
 

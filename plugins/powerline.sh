@@ -1,4 +1,5 @@
 function configure_powerline() {
+	local __user_var=$1
 	# powerline
 	if [ -x /usr/bin/clear_console ]
 	then
@@ -33,9 +34,9 @@ function configure_powerline() {
 			$POWERLINE_DAEMON -q
 			source $POWERLINE_SH
 			bashy_after_uncertain
-			result=0
+			var_set_by_name "$__user_var" 0
 		else
-			result=1
+			var_set_by_name "$__user_var" 1
 		fi
 	fi
 }

@@ -1,4 +1,5 @@
 function configure_nomailcheck() {
+	local __user_var=$1
 	# stop bash from checking mail
 	# currently it is not needed anymore since by default
 	# bash doesn't do mail checking anymore
@@ -7,9 +8,9 @@ function configure_nomailcheck() {
 	if [ -n "${MAILCHECK}" ]
 	then
 		unset MAILCHECK
-		result=0
+		var_set_by_name "$__user_var" 0
 	else
-		result=1
+		var_set_by_name "$__user_var" 1
 	fi
 }
 

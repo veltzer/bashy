@@ -88,11 +88,14 @@ function bashy_run_plugins() {
 		fi
 		if is_profile
 		then
-			measure "$func"
+			local result
+			local diff
+			measure diff "$func" result
 			bashy_result_array+=("$result")
 			bashy_diff_array+=("$diff")
 		else
-			"$func"
+			local result
+			"$func" result
 			bashy_result_array+=("$result")
 		fi
 	done

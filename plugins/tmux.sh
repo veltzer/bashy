@@ -1,6 +1,7 @@
 # This runs tmux at the start of a session.
 
 function configure_tmux() {
+	local __user_var=$1
 	if pathutils_is_in_path tmux
 	then
 		if [[ -z ${TMUX+x} ]]
@@ -8,9 +9,9 @@ function configure_tmux() {
 			#exec tmux attach
 			exec tmux
 		fi
-		result=0
+		var_set_by_name "$__user_var" 0
 	else
-		result=1
+		var_set_by_name "$__user_var" 1
 	fi
 }
 

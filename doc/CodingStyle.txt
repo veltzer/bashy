@@ -13,3 +13,8 @@ do
 done
 
 (no ; do)
+
+
+names of files:
+all bash filea are .sh
+all include files are .bashinc

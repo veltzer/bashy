@@ -1,4 +1,5 @@
 function configure_bash_config() {
+	local __user_var=$1
 	# this script is where I configure bash to myliking
 	# this does not mean aliases, just shopts and sets.
 
@@ -6,7 +7,7 @@ function configure_bash_config() {
 	shopt -s globstar
 	# do long completions
 	set completeopt=menu,longest
-	result=0
+	var_set_by_name "$__user_var" 0
 }
 
 register_interactive configure_bash_config

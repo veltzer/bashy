@@ -1,9 +1,10 @@
 function configure_bash_it() {
+	local __user_var=$1
 	# Path to the bash it configuration
 	export BASH_IT="$HOME/.bash_it"
 	if ! [ -d "$BASH_IT" ]
 	then
-		result=1
+		var_set_by_name "$__user_var" 1
 	else
 		# Lock and Load a custom theme file
 		# location /.bash_it/themes/
@@ -54,7 +55,7 @@ function configure_bash_it() {
 		bashy_before_uncertain
 		source "$BASH_IT/bash_it.sh"
 		bashy_after_uncertain
-		result=0
+		var_set_by_name "$__user_var" 0
 	fi
 }
 

@@ -1,11 +1,12 @@
 function configure_postgresql() {
+	local __user_var=$1
 	# this configures the default options for postgresql
 	if pathutils_is_in_path psql
 	then
 		export PGDATABASE=postgres
-		result=0
+		var_set_by_name "$__user_var" 0
 	else
-		result=1
+		var_set_by_name "$__user_var" 1
 	fi
 }
 

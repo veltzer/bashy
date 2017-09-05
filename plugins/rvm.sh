@@ -1,4 +1,5 @@
 function configure_rvm() {
+	local __user_var=$1
 	# RVM is the ruby version manager
 	# default version of RUBY
 	export RUBY_VERSION=2.3.3
@@ -6,9 +7,9 @@ function configure_rvm() {
 	then
 		pathutils_add_tail PATH "$HOME/.rvm/bin"
 		source "$HOME/.rvm/scripts/rvm"
-		result=0
+		var_set_by_name "$__user_var" 0
 	else
-		result=1
+		var_set_by_name "$__user_var" 1
 	fi
 }
 

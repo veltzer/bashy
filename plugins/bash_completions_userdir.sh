@@ -1,4 +1,5 @@
 function configure_bash_completions_userdir() {
+	local __user_var=$1
 	# my own bash completions
 	# note that the 'source' command in bash cannot
 	# sources more than one file at a time so we must
@@ -18,7 +19,7 @@ function configure_bash_completions_userdir() {
 			done
 		fi
 	fi
-	result=0
+	var_set_by_name "$__user_var" 0
 }
 
 register_interactive configure_bash_completions_userdir

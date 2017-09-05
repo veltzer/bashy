@@ -22,15 +22,6 @@ myenv_conf_file_name=".myenv"
 myenv_md5_file_name="md5sum"
 
 function myenv_getconf() {
-	if ! git_is_inside
-	then
-		myenv_debug "not inside git tree, exiting"
-		return 1
-	fi
-
-	export myenv_git_root
-	git_top_level myenv_git_root
-
 	assoc_create myenv_conf
 	export myenv_conf
 
@@ -38,46 +29,46 @@ function myenv_getconf() {
 	if [ -r "$myenv_home_conf_file" ]
 	then
 		assoc_config_read myenv_conf "$myenv_home_conf_file"
-	else
-		myenv_debug "cannot find config $myenv_home_conf_file for myenv, exiting"
-		return 1
 	fi
 
-	export myenv_conf_file="$myenv_git_root/$myenv_conf_file_name"
-	if [ -r "$myenv_conf_file" ]
+	if git_is_inside
 	then
-		assoc_config_read myenv_conf "$myenv_conf_file"
+		export myenv_git_root
+		git_top_level myenv_git_root
+		export myenv_conf_file="$myenv_git_root/$myenv_conf_file_name"
+		if [ -r "$myenv_conf_file" ]
+		then
+			assoc_config_read myenv_conf "$myenv_conf_file"
+		fi
+		local myenv_git_repo_name
+		git_repo_name myenv_git_repo_name
+		export myenv_folder="$HOME/.virtualenvs/$myenv_git_repo_name"
+		export myenv_in_git=0
 	else
-		myenv_debug "cannot find config $myenv_conf_file for myenv, exiting"
-		return 1
+		export myenv_in_git=1
 	fi
 
-	export myenv_python_version myenv_auto
-	assoc_get myenv_conf myenv_auto "auto"
+	export myenv_python_version myenv_error_deactivate myenv_git_activate myenv_git_deactivate myenv_debug
 	assoc_get myenv_conf myenv_python_version "python_version"
-
-	local myenv_git_repo_name
-	git_repo_name myenv_git_repo_name
-
-	export myenv_folder="$HOME/.virtualenvs/$myenv_git_repo_name"
-
-	return 0
+	assoc_get myenv_conf myenv_error_deactivate "error_deactivate"
+	assoc_get myenv_conf myenv_git_activate "git_activate"
+	assoc_get myenv_conf myenv_git_deactivate "git_deactivate"
+	assoc_get myenv_conf myenv_debug "debug"
 }
 
 # function to issue a message if we are in debug mode
-function myenv_debug() {
-	# echo "myenv: debug: $1"
-	:
+function myenv_print_debug() {
+	local msg=$1
+	if [ "$myenv_debug" = 0 ]
+	then
+		echo "myenv: debug: $msg"
+	fi
 }
 
 # function to issue a message even if we are not in debug mode
 function myenv_msg() {
-	echo "myenv: $1"
-}
-
-function myenv_act_msg() {
-	# echo "myenv: act/deact: $1"
-	return 0
+	local msg=$1
+	echo "myenv: $msg"
 }
 
 function myenv_create() {
@@ -121,26 +112,20 @@ function myenv_error() {
 	echo "$1"
 }
 
-# should we deactivate a virtual env when we exit the
-# folder for which is it defined?
-function myenv_deactivate_out_of_context() {
-	return 1
-}
-
 function myenv_deactivate() {
 	if ! [ -n "${VIRTUAL_ENV}" ]
 	then
 		myenv_error "not in virtual env"
 		return
 	fi
-	myenv_act_msg "deactivating virtual env"
+	myenv_print_debug "deactivating virtual env"
 	deactivate
 }
 
 function myenv_deactivate_soft() {
 	if myenv_in_virtual_env
 	then
-		myenv_act_msg "deactivating virtual env"
+		myenv_print_debug "deactivating virtual env"
 		deactivate
 	fi
 }
@@ -148,7 +133,7 @@ function myenv_deactivate_soft() {
 function myenv_activate_soft() {
 	if ! [ -n "${VIRTUAL_ENV}" ]
 	then
-		myenv_act_msg "activating virtual env"
+		myenv_print_debug "activating virtual env"
 		source "$myenv_folder/bin/activate"
 	fi
 }
@@ -158,7 +143,7 @@ function myenv_activate() {
 	then
 		myenv_error "in virtual env"
 	fi
-	myenv_act_msg "activating virtual env"
+	myenv_print_debug "activating virtual env"
 	source "$myenv_folder/bin/activate"
 }
 
@@ -167,28 +152,32 @@ function myenv_current_virtualenv() {
 }
 
 function myenv_prompt() {
-	if ! myenv_getconf
+	myenv_getconf
+	if ! [ "$myenv_in_git" = 0 ] || ! [ -r "$myenv_git_root/requirements.txt" ]
 	then
-		myenv_debug "decided we are not in context, not doing anything"
-		if myenv_deactivate_out_of_context
+		myenv_print_debug "getconf or requirements.txt error"
+		if [ "$myenv_error_deactivate" = 0 ]
 		then
 			myenv_deactivate_soft
 		fi
-		return 0
+		return
 	fi
-	if [ $myenv_auto = 0 ]
+
+	if git_is_inside
 	then
-		return 0
-	fi
-	if ! [ -r "$myenv_git_root/requirements.txt" ]
-	then
-		myenv_debug "did not find requirements, not doing anything"
-		if myenv_deactivate_out_of_context
+		if [ "$myenv_git_activate" != 0 ]
 		then
 			myenv_deactivate_soft
+			return
 		fi
-		return 0
+	else
+		if [ "$myenv_git_deactivate" = 0 ]
+		then
+			myenv_deactivate_soft
+			return
+		fi
 	fi
+
 	# if we are in the wrong virtual env, deactivate
 	if myenv_in_virtual_env
 	then
@@ -205,16 +194,19 @@ function myenv_prompt() {
 # code on every prompt. This is done via the 'PROMPT_COMMAND' feature
 # of bash.
 function configure_myenv() {
+	local __user_var=$1
 	if ! pathutils_is_in_path virtualenv
 	then
-		result=1
+		var_set_by_name "$__user_var" 1
+		return
 	fi
 	if ! pathutils_is_in_path md5sum
 	then
-		result=1
+		var_set_by_name "$__user_var" 1
+		return
 	fi
 	export PROMPT_COMMAND="myenv_prompt; $PROMPT_COMMAND"
-	result=0
+	var_set_by_name "$__user_var" 0
 }
 
 register_interactive configure_myenv
