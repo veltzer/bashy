@@ -91,8 +91,6 @@ function bashy_run_plugins() {
 			local result
 			local diff
 			measure diff "$func" result
-			echo "diff is $diff"
-			sleep 1
 			bashy_result_array+=("$result")
 			bashy_diff_array+=("$diff")
 		else
