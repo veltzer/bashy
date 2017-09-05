@@ -8,14 +8,14 @@ function pathutils_add_head() {
 	eval tmp=\$$__user_var
 	for DIR in $tmp
 	do
-		if [ "$DIR" != "$2" ] && [ "${map[$DIR]}" != "yes" ]
+		if [ "$DIR" != "$2" ] && [ "${map[$DIR]+muhaha}" ] && [ "${map[$DIR]}" != "yes" ]
 		then
 			path+=($DIR)
 			map[$DIR]="yes"
 		fi
 	done
 	path=($2 "${path[@]}")
-	eval $__user_var="${path[*]}"
+	eval "$__user_var='${path[*]}'"
 }
 
 function pathutils_add_tail() {
@@ -27,14 +27,14 @@ function pathutils_add_tail() {
 	eval tmp=\$$__user_var
 	for DIR in $tmp
 	do
-		if [ "$DIR" != "$2" ] && [ "${map[$DIR]}" != "yes" ]
+		if [ "$DIR" != "$2" ] && [ "${map[$DIR]+muhaha}" ] && [ "${map[$DIR]}" != "yes" ]
 		then
 			path+=($DIR)
 			map[$DIR]="yes"
 		fi
 	done
 	path+=($2)
-	eval $__user_var="${path[*]}"
+	eval "$__user_var='${path[*]}'"
 }
 
 function pathutils_remove() {
@@ -46,13 +46,13 @@ function pathutils_remove() {
 	eval tmp=\$$__user_var
 	for DIR in $tmp
 	do
-		if [ "$DIR" != "$2" ] && [ "${map[$DIR]}" != "yes" ]
+		if [ "$DIR" != "$2" ] && [ "${map[$DIR]+muhaha}" ] && [ "${map[$DIR]}" != "yes" ]
 		then
 			path+=($DIR)
 			map[$DIR]="yes"
 		fi
 	done
-	eval $__user_var="${path[*]}"
+	eval "$__user_var='${path[*]}'"
 }
 
 function pathutils_is_in_path() {

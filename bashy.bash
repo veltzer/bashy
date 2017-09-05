@@ -55,14 +55,14 @@ function bashy_read_plugins() {
 function bashy_load_plugins() {
 	for elem in "${bashy_enabled_array[@]}"
 	do
-		current_filename="$HOME/.bashy/plugins/$elem.sh"
+		current_filename="$HOME/.bashy/plugins/$elem.bash"
 		if [ -r $current_filename ]
 		then
 			# echo -n "bashy: loading [$elem]..."
 			source $current_filename
 			bashy_source_array+=($?)
 		else
-			current_filename="$HOME/.bashy/external/$elem.sh"
+			current_filename="$HOME/.bashy/external/$elem.bash"
 			if [ -r $current_filename ]
 			then
 				# echo -n "bashy: loading [$elem]..."
@@ -91,6 +91,8 @@ function bashy_run_plugins() {
 			local result
 			local diff
 			measure diff "$func" result
+			echo "diff is $diff"
+			sleep 1
 			bashy_result_array+=("$result")
 			bashy_diff_array+=("$diff")
 		else
@@ -159,6 +161,6 @@ function bashy_init() {
 }
 
 # now run bashy_init
-# we don't want to force the user to do anything more than source ~/.bashy/bashy.sh
+# we don't want to force the user to do anything more than source ~/.bashy/bashy.bash
 # in his ~/.bashrc
 bashy_init

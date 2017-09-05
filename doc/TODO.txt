@@ -1,3 +1,6 @@
+- measurements do not work, bring them back.
+- myenv to work auto well.
+
 - bashy should not pollute the users bash namespace with too many functions.
 	this is a work in progress, look at core/misc.sh.
 - bashy should allow the main config file (~/.bashy/external/bashy.list)
