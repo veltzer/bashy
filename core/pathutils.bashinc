@@ -1,6 +1,6 @@
 function pathutils_add_head() {
-	# pypathutil_add "$1" "$2"
 	local __user_var=$1
+	local add=$2
 	local IFS=':'
 	local -a path
 	local -A map
@@ -8,18 +8,19 @@ function pathutils_add_head() {
 	eval tmp=\$$__user_var
 	for DIR in $tmp
 	do
-		if [ "$DIR" != "$2" ] && [ "${map[$DIR]+muhaha}" ] && [ "${map[$DIR]}" != "yes" ]
+		if [ "$DIR" != "add" ] && ! [ "${map[$DIR]+muhaha}" ]
 		then
 			path+=($DIR)
 			map[$DIR]="yes"
 		fi
 	done
-	path=($2 "${path[@]}")
+	path=("$add" "${path[@]}")
 	eval "$__user_var='${path[*]}'"
 }
 
 function pathutils_add_tail() {
 	local __user_var=$1
+	local add=$2
 	local IFS=':'
 	local -a path
 	local -A map
@@ -27,18 +28,19 @@ function pathutils_add_tail() {
 	eval tmp=\$$__user_var
 	for DIR in $tmp
 	do
-		if [ "$DIR" != "$2" ] && [ "${map[$DIR]+muhaha}" ] && [ "${map[$DIR]}" != "yes" ]
+		if [ "$DIR" != "$add" ] && ! [ "${map[$DIR]+muhaha}" ]
 		then
 			path+=($DIR)
 			map[$DIR]="yes"
 		fi
 	done
-	path+=($2)
+	path+=("$add")
 	eval "$__user_var='${path[*]}'"
 }
 
 function pathutils_remove() {
 	local __user_var=$1
+	local remove=$2
 	local IFS=':'
 	local -a path
 	local -A map
@@ -46,7 +48,7 @@ function pathutils_remove() {
 	eval tmp=\$$__user_var
 	for DIR in $tmp
 	do
-		if [ "$DIR" != "$2" ] && [ "${map[$DIR]+muhaha}" ] && [ "${map[$DIR]}" != "yes" ]
+		if [ "$DIR" != "$remove" ] && ! [ "${map[$DIR]+muhaha}" ]
 		then
 			path+=($DIR)
 			map[$DIR]="yes"
