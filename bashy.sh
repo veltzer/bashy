@@ -2,7 +2,7 @@
 #
 # Here is the general flow here:
 #
-# bashy_load_core - loads core functions under ~/.bashy/core/*.sh
+# bashy_load_core - loads core functions under ~/.bashy/core/*.bashinc
 # bashy_read_plugins - reads which plugins you wannt loaded
 # 	from either ~/.bashy.list or ~/.bashy/bashy.list
 # bashy_load_plugins - loads the plugins you wanted from
@@ -22,7 +22,7 @@
 # when it is done with 'set -e'.
 
 function bashy_load_core() {
-	for f in $HOME/.bashy/core/*.sh
+	for f in $HOME/.bashy/core/*.bashinc
 	do
 		name="${f##*/}"
 		name="${name%%.*}"

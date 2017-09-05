@@ -16,6 +16,7 @@
 # PROMPT_COMMAND will not be activated.
 # 
 # 				Mark Veltzer
+#				<mark.veltzer@gmail.com>
 
 myenv_conf_file_name=".myenv"
 myenv_md5_file_name="md5sum"
@@ -26,22 +27,40 @@ function myenv_getconf() {
 		myenv_debug "not inside git tree, exiting"
 		return 1
 	fi
-	export myenv_git_root=$(git_top_level)
-	export myenv_conf_file="$myenv_git_root/$myenv_conf_file_name"
-	if ! [ -r "$myenv_conf_file" ]
+
+	export myenv_git_root
+	git_top_level myenv_git_root
+
+	assoc_create myenv_conf
+	export myenv_conf
+
+	export myenv_home_conf_file="$HOME/$myenv_conf_file_name"
+	if [ -r "$myenv_home_conf_file" ]
 	then
+		assoc_config_read myenv_conf "$myenv_home_conf_file"
+	else
+		myenv_debug "cannot find config $myenv_home_conf_file for myenv, exiting"
+		return 1
+	fi
+
+	export myenv_conf_file="$myenv_git_root/$myenv_conf_file_name"
+	if [ -r "$myenv_conf_file" ]
+	then
+		assoc_config_read myenv_conf "$myenv_conf_file"
+	else
 		myenv_debug "cannot find config $myenv_conf_file for myenv, exiting"
 		return 1
 	fi
-	export myenv_python_version=`grep python_version= $myenv_conf_file | cut -d = -f 2`
-	if grep auto= $myenv_conf_file > /dev/null
-	then
-		export myenv_auto=`grep auto= $myenv_conf_file | cut -d = -f 2`
-	else
-		export myenv_auto=1
-	fi
-	local myenv_git_repo_name=$(git_repo_name)
+
+	export myenv_python_version myenv_auto
+	assoc_get myenv_conf myenv_auto "auto"
+	assoc_get myenv_conf myenv_python_version "python_version"
+
+	local myenv_git_repo_name
+	git_repo_name myenv_git_repo_name
+
 	export myenv_folder="$HOME/.virtualenvs/$myenv_git_repo_name"
+
 	return 0
 }
 
