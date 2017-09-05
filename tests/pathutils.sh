@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# a test suite for .pathutils.sh
+# a test suite for pathutils.bashinc
 
-source ../core/pathutils.sh
+source ../core/pathutils.bashinc
 
 P="/usr/games:/usr/bin:/bin"
 R="/usr/games"
