@@ -1,7 +1,5 @@
 #!/bin/bash -eu
 
-# a test suite for pathutils.bashinc
-
 source ../core/pathutils.bashinc
 
 P="/usr/games:/usr/bin:/bin"

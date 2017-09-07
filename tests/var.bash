@@ -1,7 +1,5 @@
 #!/bin/bash -eu
 
-# a test suite for var.bashinc
-
 source ../core/var.bashinc
 
 b=5

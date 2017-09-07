@@ -1,7 +1,5 @@
 #!/bin/bash -eu
 
-# a test suite for assoc.bashinc
-
 source ../core/assoc.bashinc
 
 assoc_create conf

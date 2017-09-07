@@ -1,5 +1,17 @@
 # A set of functions to help with dealing with arrays
 
+function array_new() {
+	local __user_var=$1
+	eval "declare -gA $__user_var"
+}
+
+function array_set() {
+	local -n array=$1
+	local pos=$2
+	local value=$3
+	array[$pos]=$value
+}
+
 # A function that prints an array.
 # This should be usable for sparse array too.
 function array_print() {
@@ -19,6 +31,6 @@ function array_length() {
 
 function array_push() {
 	local -n array=$1
-	local __var=$2
-	$array+=("$var")
+	local var=$2
+	array+=("$var")
 }
