@@ -25,12 +25,21 @@ function array_print() {
 
 function array_length() {
 	local -n array=$1
-	local __user_var=$2
-	eval "$__user_var=${#array[@]}"
+	local -n __user_var=$2
+	__user_var=${#array[@]}
+	# eval "$__user_var=${#array[@]}"
 }
 
 function array_push() {
 	local -n array=$1
 	local var=$2
 	array+=("$var")
+}
+
+# lets pop an element
+function array_pop() {
+	local -n array=$1
+	local -n var=$2
+	local var=${array[${#array[@]}-1]}
+	unset 'array[${#array[@]}-1]'
 }
