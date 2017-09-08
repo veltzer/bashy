@@ -30,3 +30,24 @@ if [ "$d" != "a" ]
 then
 	echo "ERROR"
 fi
+
+array_new arr3
+array_push arr3 a
+array_push arr3 b
+array_push arr3 c
+d=5
+array_pop arr3 d
+if [ "$d" != "c" ]
+then
+	echo "ERROR"
+fi
+array_pop arr3 d
+if [ "$d" != "b" ]
+then
+	echo "ERROR"
+fi
+array_pop arr3 d
+if [ "$d" != "a" ]
+then
+	echo "ERROR"
+fi
