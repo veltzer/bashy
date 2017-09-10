@@ -48,11 +48,14 @@ function myenv_getconf() {
 		export myenv_in_git=1
 	fi
 
-	export myenv_python_version myenv_error_deactivate myenv_git_activate myenv_git_deactivate myenv_debug
+	export myenv_python_version myenv_error_deactivate myenv_git_activate myenv_git_deactivate
+	export myenv_auto_method
+	export myenv_debug
 	assoc_get myenv_conf myenv_python_version "python_version"
 	assoc_get myenv_conf myenv_error_deactivate "error_deactivate"
 	assoc_get myenv_conf myenv_git_activate "git_activate"
 	assoc_get myenv_conf myenv_git_deactivate "git_deactivate"
+	assoc_get myenv_conf myenv_auto_method "auto_method"
 	assoc_get myenv_conf myenv_debug "debug"
 }
 
@@ -142,6 +145,7 @@ function myenv_activate() {
 	if [ -n "${VIRTUAL_ENV}" ]
 	then
 		myenv_error "in virtual env"
+		return
 	fi
 	myenv_print_debug "activating virtual env"
 	source "$myenv_folder/bin/activate"
@@ -153,29 +157,48 @@ function myenv_current_virtualenv() {
 
 function myenv_prompt() {
 	myenv_getconf
-	if ! [ "$myenv_in_git" = 0 ] || ! [ -r "$myenv_git_root/requirements.txt" ]
-	then
-		myenv_print_debug "getconf or requirements.txt error"
-		if [ "$myenv_error_deactivate" = 0 ]
-		then
-			myenv_deactivate_soft
-		fi
-		return
-	fi
 
-	if git_is_inside
+	found_method=1
+	if [ "$myenv_auto_method" = "git" ]
 	then
-		if [ "$myenv_git_activate" != 0 ]
+		if ! [ "$myenv_in_git" = 0 ] || ! [ -r "$myenv_git_root/requirements.txt" ]
+		then
+			myenv_print_debug "getconf or requirements.txt error"
+			if [ "$myenv_error_deactivate" = 0 ]
+			then
+				myenv_deactivate_soft
+			fi
+			return
+		fi
+		if git_is_inside
+		then
+			if [ "$myenv_git_activate" != 0 ]
+			then
+				myenv_deactivate_soft
+				return
+			fi
+		else
+			if [ "$myenv_git_deactivate" = 0 ]
+			then
+				myenv_deactivate_soft
+				return
+			fi
+		fi
+		found_method=0
+	fi
+	if [ "$myenv_auto_method" = "myenv" ]
+	then
+		if ! [ -r ".myenv" ] || ! [ -r "requirements.txt" ]
 		then
 			myenv_deactivate_soft
 			return
 		fi
-	else
-		if [ "$myenv_git_deactivate" = 0 ]
-		then
-			myenv_deactivate_soft
-			return
-		fi
+		found_method=0
+	fi
+	if [ "$found_method" = "1" ]
+	then
+		myenv_deactivate_soft
+		return
 	fi
 
 	# if we are in the wrong virtual env, deactivate
