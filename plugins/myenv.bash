@@ -49,13 +49,16 @@ function myenv_getconf() {
 	fi
 
 	export myenv_python_version myenv_error_deactivate myenv_git_activate myenv_git_deactivate
-	export myenv_auto_method
+	export myenv_auto_method myenv_auto_create myenv_auto_activate myenv_auto_deactivate
 	export myenv_debug
 	assoc_get myenv_conf myenv_python_version "python_version"
 	assoc_get myenv_conf myenv_error_deactivate "error_deactivate"
 	assoc_get myenv_conf myenv_git_activate "git_activate"
 	assoc_get myenv_conf myenv_git_deactivate "git_deactivate"
 	assoc_get myenv_conf myenv_auto_method "auto_method"
+	assoc_get myenv_conf myenv_auto_create "auto_create"
+	assoc_get myenv_conf myenv_auto_activate "auto_activate"
+	assoc_get myenv_conf myenv_auto_deactivate "auto_deactivate"
 	assoc_get myenv_conf myenv_debug "debug"
 }
 
@@ -201,16 +204,25 @@ function myenv_prompt() {
 		return
 	fi
 
-	# if we are in the wrong virtual env, deactivate
-	if myenv_in_virtual_env
+	if [ "$myenv_auto_deactivate" = 0 ]
 	then
-		if [ $(readlink -f $myenv_folder) != $(myenv_current_virtualenv) ]
+		# if we are in the wrong virtual env, deactivate
+		if myenv_in_virtual_env
 		then
-			myenv_deactivate
+			if [ $(readlink -f $myenv_folder) != $(myenv_current_virtualenv) ]
+			then
+				myenv_deactivate
+			fi
 		fi
 	fi
-	myenv_recreate
-	myenv_activate_soft
+	if [ "$myenv_auto_create" = 0 ]
+	then
+		myenv_recreate
+	fi
+	if [ "$myenv_auto_activate" = 0 ]
+	then
+		myenv_activate_soft
+	fi
 }
 
 # this is the main function for myenv, it takes care of running the myenv
