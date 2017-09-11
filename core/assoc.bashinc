@@ -51,7 +51,7 @@ function assoc_get() {
 	then
 		eval "$__var_name=\${$__assoc_name['$key']}"
 	else
-		eval "$__var_name='NULL'"
+		null_get_value "$__var_name"
 	fi
 }
 
