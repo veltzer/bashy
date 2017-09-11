@@ -14,6 +14,13 @@
 # myenv_prompt in each the folders. It *is not* enough to just
 # cd into these folders as part of a command line since then
 # PROMPT_COMMAND will not be activated.
+#
+# TODO: (this is a the TODO list for myenv until it becomes
+# a project on it's own)
+# - the md5 must be make out of the requirements and the python version.
+# we once had the myenv configuration file added to requirements
+# but this is wrong since there could be many myenv configuration files.
+# we just want the python version and the requirements.txt file.
 # 
 # 				Mark Veltzer
 #				<mark.veltzer@gmail.com>
