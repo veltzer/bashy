@@ -157,21 +157,24 @@ function myenv_error() {
 	echo "$1"
 }
 
+function myenv_deactivate_real() {
+	myenv_print_debug "deactivating virtual env"
+	deactivate
+}
+
 function myenv_deactivate() {
 	if ! [ -n "${VIRTUAL_ENV}" ]
 	then
 		myenv_error "not in virtual env"
 		return
 	fi
-	myenv_print_debug "deactivating virtual env"
-	deactivate
+	myenv_deactivate_real
 }
 
 function myenv_deactivate_soft() {
 	if myenv_in_virtual_env
 	then
-		myenv_print_debug "deactivating virtual env"
-		deactivate
+		myenv_deactivate_real
 	fi
 }
 
@@ -260,6 +263,16 @@ function myenv_prompt() {
 	fi
 }
 
+function myenv_prompt_outer() {
+	myenv_prompt
+	if [ "$VIRTUAL_ENV" ]
+	then
+		export myenv_powerline="$myenv_python_version"
+	else
+		export -n myenv_powerline=""
+	fi
+}
+
 # this is the main function for myenv, it takes care of running the myenv
 # code on every prompt. This is done via the 'PROMPT_COMMAND' feature
 # of bash.
@@ -275,7 +288,7 @@ function configure_myenv() {
 		var_set_by_name "$__user_var" 1
 		return
 	fi
-	export PROMPT_COMMAND="myenv_prompt; $PROMPT_COMMAND"
+	export PROMPT_COMMAND="myenv_prompt_outer; $PROMPT_COMMAND"
 	var_set_by_name "$__user_var" 0
 }
 
