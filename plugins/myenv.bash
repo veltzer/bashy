@@ -196,7 +196,7 @@ function myenv_activate() {
 	source "$myenv_folder/bin/activate"
 }
 
-function myenv_prompt() {
+function myenv_prompt_inner() {
 	myenv_getconf
 
 	found_method=1
@@ -263,8 +263,8 @@ function myenv_prompt() {
 	fi
 }
 
-function myenv_prompt_outer() {
-	myenv_prompt
+function myenv_prompt() {
+	myenv_prompt_inner
 	if [ "$VIRTUAL_ENV" ]
 	then
 		export myenv_powerline="$myenv_python_version"
@@ -288,7 +288,7 @@ function configure_myenv() {
 		var_set_by_name "$__user_var" 1
 		return
 	fi
-	export PROMPT_COMMAND="myenv_prompt_outer; $PROMPT_COMMAND"
+	export PROMPT_COMMAND="myenv_prompt; $PROMPT_COMMAND"
 	var_set_by_name "$__user_var" 0
 }
 
