@@ -58,6 +58,13 @@ function pathutils_remove() {
 }
 
 function pathutils_is_in_path() {
-	local prog=$1
-	hash $prog 2> /dev/null
+	local result=0
+	for x in "$@"
+	do
+		if ! hash $x 2> /dev/null
+		then
+			result=1
+		fi
+	done
+	return $result
 }
