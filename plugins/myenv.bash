@@ -72,7 +72,11 @@ function myenv_getconf() {
 	# set the folder to the virtual env
 	export myenv_virtual_env_folder="$HOME/.virtualenvs/$myenv_virtual_env_name"
 	# the the python version used (could be used for powerline)
-	export myenv_virtual_env_python_version="setme!"
+	export myenv_virtual_env_python_version=$("$myenv_virtual_env_python" --version)
+	# retain only what is after the last space (Python 3.5.3 -> 3.5.3)
+	myenv_virtual_env_python_version="${myenv_virtual_env_python_version##* }"
+	# retain only what is before the last dot (3.5.3 -> 3.5)
+	myenv_virtual_env_python_version="${myenv_virtual_env_python_version%.*}"
 }
 
 # function to issue a message if we are in debug mode
