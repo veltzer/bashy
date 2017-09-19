@@ -1,0 +1,17 @@
+- derive the python version correctly from the python interpreter.
+- make sure not to create the environment concurrently (this happens if you
+have two terminals on the same myenv project and the requirements.txt file
+changed for example).
+- unify myenv and gcloud.
+	allow to have more than one virtual env per folder and to select between them.
+		this is good for both 2.7 and 3.5 testing for instance.
+	add a feature to myenv that enables it to install not just the packages in requirements
+		but a full list of files.
+	allow myenv to specify the full path to the python interpreter from which to create
+		the virtual env and not only the version.
+		This gives more flexibility.
+	allow to control git identity with myenv.
+	allow to control aws account with myenv.
+	allow to control default mysql and postgres database with myenv.
+	allow to remove the ssh ugliness of the wrong url when doing
+		checkout.
