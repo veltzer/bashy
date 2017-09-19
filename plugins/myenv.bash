@@ -21,6 +21,8 @@
 # we once had the myenv configuration file added to requirements
 # but this is wrong since there could be many myenv configuration files.
 # we just want the python version and the requirements.txt file.
+# - do not read the config again if the data of the myenv config files
+# did not change (performance enhancement).
 # 
 # 				Mark Veltzer
 #				<mark.veltzer@gmail.com>
@@ -46,14 +48,14 @@ function myenv_getconf() {
 	fi
 
 	# get all the other parameters from the config
-	export myenv_virtual_env_python_version
+	export myenv_virtual_env_python
 	export myenv_virtual_env_auto_create
 	export myenv_virtual_env_auto_activate
 	export myenv_virtual_env_auto_deactivate
 	export myenv_virtual_env_name
 	export myenv_virtual_env_name_by_folder
 	export myenv_debug
-	assoc_get myenv_conf myenv_virtual_env_python_version "virtual_env_python_version"
+	assoc_get myenv_conf myenv_virtual_env_python "virtual_env_python"
 	assoc_get myenv_conf myenv_virtual_env_auto_create "virtual_env_auto_create"
 	assoc_get myenv_conf myenv_virtual_env_auto_activate "virtual_env_auto_activate"
 	assoc_get myenv_conf myenv_virtual_env_auto_deactivate "virtual_env_auto_deactivate"
@@ -69,6 +71,8 @@ function myenv_getconf() {
 	fi
 	# set the folder to the virtual env
 	export myenv_virtual_env_folder="$HOME/.virtualenvs/$myenv_virtual_env_name"
+	# the the python version used (could be used for powerline)
+	export myenv_virtual_env_python_version="setme!"
 }
 
 # function to issue a message if we are in debug mode
@@ -88,7 +92,7 @@ function myenv_msg() {
 
 function myenv_create() {
 	mkdir -p "$myenv_virtual_env_folder"
-	virtualenv --quiet "--python=/usr/bin/python$myenv_virtual_env_python_version" "$myenv_virtual_env_folder"
+	virtualenv --quiet "--python=$myenv_virtual_env_python" "$myenv_virtual_env_folder"
 	source "$myenv_virtual_env_folder/bin/activate"
 	pip install --quiet -r "requirements.txt"
 	cat "requirements.txt" | md5sum > "$myenv_virtual_env_folder/$myenv_md5_file_name"
