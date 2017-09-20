@@ -37,10 +37,10 @@ function bashy_list_file() {
 	local _filename="$HOME/.bashy/external/bashy.list"
 	if [ -r $_filename ]
 	then
-		eval $__user_var=$_filename
+		eval "$__user_var=$_filename"
 	else
 		filename="$HOME/.bashy/bashy.list"
-		eval $__user_var=$_filename
+		eval "$__user_var=$_filename"
 	fi
 }
 
@@ -58,18 +58,28 @@ function bashy_load_plugins() {
 		current_filename="$HOME/.bashy/plugins/$elem.bash"
 		if [ -r $current_filename ]
 		then
-			# echo -n "bashy: loading [$elem]..."
-			source $current_filename
-			bashy_source_array+=($?)
+			bashy_found_array+=(0)
+			if is_debug
+			then
+				echo -n "bashy: loading [$elem]..."
+			fi
+			returncode=0
+			source $current_filename > /dev/null 2> /dev/null || returncode=1
+			bashy_source_array+=("$returncode")
 		else
 			current_filename="$HOME/.bashy/external/$elem.bash"
 			if [ -r $current_filename ]
 			then
-				# echo -n "bashy: loading [$elem]..."
-				source $current_filename
-				bashy_source_array+=($?)
+				bashy_found_array+=(0)
+				if is_debug
+				then
+					echo -n "bashy: loading [$elem]..."
+				fi
+				returncode=0
+				source $current_filename > /dev/null 2> /dev/null || returncode=1
+				bashy_source_array+=("$returncode")
 			else
-				echo "bashy: plugin [$elem] not found"
+				bashy_found_array+=(1)
 			fi
 		fi
 	done
@@ -101,7 +111,7 @@ function bashy_run_plugins() {
 	done
 }
 
-function bashy_core_status() {
+function bashy_status_core() {
 	for ((i=0;i<${#bashy_core_names[@]};++i))
 	do
 		name="${bashy_core_names[$i]}"
@@ -116,10 +126,20 @@ function bashy_core_status() {
 	done | column -t
 }
 
-function bashy_status() {
-	for ((i=0;i<${#bashy_init_array[@]};++i))
+# show status of files and their load success
+# this is differnt than plugin status since one file
+# can supply 0 or more plugins
+function bashy_status_load() {
+	for ((i=0;i<${#bashy_enabled_array[@]};++i))
 	do
-		cecho gr "${bashy_init_array[$i]}" 1
+		cecho gr "${bashy_enabled_array[$i]}" 1
+		local found="${bashy_found_array[$i]}"
+		if [ "$found" = 0 ]
+		then
+			cecho g "\tFOUND_OK" 1
+		else
+			cecho r "\tFOUND_ERROR" 1
+		fi
 		local source="${bashy_source_array[$i]}"
 		if [ "$source" = 0 ]
 		then
@@ -127,6 +147,19 @@ function bashy_status() {
 		else
 			cecho r "\tLOAD_ERROR" 1
 		fi
+		echo
+	done | column -t
+}
+
+# show status of plugins and their init success.
+# this is different than file status since if a file
+# failed to load it may not have installed any plugin
+# handlers which may have succeeded in initializing
+# or not...
+function bashy_status_plugins() {
+	for ((i=0;i<${#bashy_init_array[@]};++i))
+	do
+		cecho gr "${bashy_init_array[$i]}" 1
 		local result="${bashy_result_array[$i]}"
 		if [ "$result" = 0 ]
 		then
@@ -138,6 +171,8 @@ function bashy_status() {
 		then
 			local diff="${bashy_diff_array[$i]}"
 			printf "\t%.3f\n" $diff
+		else
+			echo
 		fi
 	done | column -t
 }
@@ -145,6 +180,7 @@ function bashy_status() {
 declare -a bashy_core_names
 declare -a bashy_core_res
 declare -a bashy_enabled_array
+declare -a bashy_found_array
 declare -a bashy_source_array
 declare -a bashy_result_array
 declare -a bashy_diff_array

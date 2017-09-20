@@ -16,9 +16,17 @@ In my own setup this is the only line in my ~/.bashrc
 
 ## Working with bashy
 
-To check the status of bashy use:
+To check the status of the core of bashy use:
 
-	bashy_status
+	bashy_status_core
+
+To check the status of file loading of bashy use:
+
+	bashy_status_load
+
+To check the status of plugins of bashy use:
+
+	bashy_status_plugins
 
 To disable or enable a plugins or to change the order in which
 they are applied just copy ~/.bashy/bashy.list
