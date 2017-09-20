@@ -24,7 +24,7 @@
 function bashy_load_core() {
 	for f in $HOME/.bashy/core/*.bashinc
 	do
-		echo "bashy: loading [$f]..."
+		# echo "bashy: loading [$f]..."
 		local _name="${f##*/}"
 		_name="${_name%%.*}"
 		bashy_core_names+=("$_name")
