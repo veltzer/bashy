@@ -2,7 +2,7 @@ ASSERT_FAILED_CODE=128
 
 function assertEqual() {
 	local a=$1
-	local b=$1
+	local b=$2
 	if ! [ "$a" = "$b" ]
 	then
 		echo "assertion failed [ $a = $b ]"
@@ -12,7 +12,7 @@ function assertEqual() {
 
 function assertNotEqual() {
 	local a=$1
-	local b=$1
+	local b=$2
 	if ! [ "$a" != "$b" ]
 	then
 		echo "assertion failed [ $a != $b ]"
