@@ -1,6 +1,6 @@
 #!/bin/bash -eu
 
-source ../core/pathutils.bashinc
+source core/pathutils.bashinc
 
 P="/usr/games:/usr/bin:/bin"
 R="/usr/games"

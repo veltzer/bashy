@@ -1,7 +1,7 @@
 #!/bin/bash -eu
 
-source ../core/var.bashinc
-source ../core/measure.bashinc
+source core/var.bashinc
+source core/measure.bashinc
 
 function test_it() {
 	sleep 2

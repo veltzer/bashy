@@ -1,6 +1,6 @@
 #!/bin/bash -eu
 
-source ../core/var.bashinc
+source core/var.bashinc
 
 b=5
 var_set_by_name b 6

@@ -1,3 +1,6 @@
+source core/null.bashinc
+
+
 # This file defines helpers for dealing with associative arrays
 # in bash
 #

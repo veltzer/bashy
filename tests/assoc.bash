@@ -1,6 +1,6 @@
 #!/bin/bash -eu
 
-source ../core/assoc.bashinc
+source core/assoc.bashinc
 
 assoc_create conf
 assoc_config_read conf $HOME/.myenv
