@@ -19,3 +19,8 @@ function assertNotEqual() {
 		exit $ASSERT_FAILED_CODE
 	fi
 }
+
+function assertFail() {
+	echo "assertion failed"
+	exit $ASSERT_FAILED_CODE
+}

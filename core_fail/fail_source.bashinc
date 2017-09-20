@@ -1,0 +1,3 @@
+# this file is here to fail on purpose
+
+source this_doesnt_exist

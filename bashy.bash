@@ -24,11 +24,13 @@
 function bashy_load_core() {
 	for f in $HOME/.bashy/core/*.bashinc
 	do
-		name="${f##*/}"
-		name="${name%%.*}"
-		bashy_core_names+=("$name")
-		source "$f"
-		bashy_core_res+=($?)
+		echo "bashy: loading [$f]..."
+		local _name="${f##*/}"
+		_name="${_name%%.*}"
+		bashy_core_names+=("$_name")
+		local _result=0
+		source "$f" || _result=1
+		bashy_core_res+=("$_result")
 	done
 }
 

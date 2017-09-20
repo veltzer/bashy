@@ -1,25 +1,17 @@
 #!/bin/bash -eu
 
+source core/assert.bashinc
 source core/pathutils.bashinc
 
 P="/usr/games:/usr/bin:/bin"
 R="/usr/games"
 
 pathutils_remove P $R
-if [ "$P" != "/usr/bin:/bin" ]
-then
-	echo "ERROR1"
-fi
+assertEqual "$P" "/usr/bin:/bin"
 
 pathutils_add_head R "/bin"
-if [ "$R" != "/bin:/usr/games" ]
-then
-	echo "ERROR2"
-fi
+assertEqual "$R" "/bin:/usr/games"
 
 before_path=$PATH
 pathutils_add_head PATH "/opt"
-if [ "/opt:$before_path" != "$PATH" ]
-then
-	echo "ERROR3"
-fi
+assertEqual "/opt:$before_path" "$PATH"
