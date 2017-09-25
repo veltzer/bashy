@@ -15,3 +15,6 @@ changed for example).
 	allow to control default mysql and postgres database with myenv.
 	allow to remove the ssh ugliness of the wrong url when doing
 		checkout.
+- add ability for myenv to run a one time bash script when entering a directory.
+- add ability for myenv to source a script when entering a directory and a different one
+	when exiting a directory.
