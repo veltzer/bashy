@@ -18,3 +18,5 @@ changed for example).
 - add ability for myenv to run a one time bash script when entering a directory.
 - add ability for myenv to source a script when entering a directory and a different one
 	when exiting a directory.
+- add ability for myenv to have a different list of requirements files per virtual
+	env. This is good for 2.7 vs 3.5 lists of requirements.
