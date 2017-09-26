@@ -69,6 +69,8 @@ function myenv_getconf() {
 
 	# calculate variables from other variables
 
+	# turn to array
+	myenv_virtual_env_requirement_files=($myenv_virtual_env_requirement_files)
 	# set the folder to the virtual env
 	export myenv_virtual_env_folder="$HOME/.virtualenvs/$myenv_virtual_env_name"
 	# the the python version used (could be used for powerline)
@@ -95,8 +97,13 @@ function myenv_create() {
 	mkdir -p "$myenv_virtual_env_folder"
 	virtualenv --quiet "--python=$myenv_virtual_env_python" "$myenv_virtual_env_folder"
 	source "$myenv_virtual_env_folder/bin/activate"
-	pip install --quiet -r "requirements.txt"
-	cat "requirements.txt" | md5sum > "$myenv_virtual_env_folder/$myenv_md5_file_name"
+	local file
+	for file in "${myenv_virtual_env_requirement_files[@]}"
+	do
+		pip install --quiet -r "$file"
+	done
+	# no quotes in the next command are a must
+	cat "${myenv_virtual_env_requirement_files[@]}" | md5sum > "$myenv_virtual_env_folder/$myenv_md5_file_name"
 }
 
 function myenv_recreate() {
@@ -113,7 +120,7 @@ function myenv_recreate() {
 		myenv_create
 		return
 	fi
-	local a=$(cat "requirements.txt" | md5sum)
+	local a=$(cat "${myenv_virtual_env_requirement_files[@]}" | md5sum)
 	local b=$(cat "$myenv_virtual_env_folder/$myenv_md5_file_name")
 	if [ "$a" != "$b" ]
 	then
@@ -174,11 +181,21 @@ function myenv_activate() {
 function myenv_prompt_inner() {
 	myenv_getconf
 
-	if ! [ -r "$myenv_conf_file_name" ] || ! [ -r "requirements.txt" ]
+	if ! [ -r "$myenv_conf_file_name" ]
 	then
 		myenv_deactivate_soft
 		return
 	fi
+
+	local file
+	for file in "${myenv_virtual_env_requirement_files[@]}"
+	do
+		if ! [ -r "$file" ]
+		then
+			myenv_deactivate_soft
+			return
+		fi
+	done
 
 	if [ "$myenv_virtual_env_auto_deactivate" = 0 ]
 	then
