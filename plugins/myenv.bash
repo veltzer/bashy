@@ -49,26 +49,26 @@ function myenv_getconf() {
 
 	# get all the other parameters from the config
 	export myenv_virtual_env_python
+	export myenv_virtual_env_name
+	export myenv_virtual_env_requirement_files
+
+	# general myenv parameters
 	export myenv_virtual_env_auto_create
 	export myenv_virtual_env_auto_activate
 	export myenv_virtual_env_auto_deactivate
-	export myenv_virtual_env_name
-	export myenv_virtual_env_name_by_folder
 	export myenv_debug
+
 	assoc_get myenv_conf myenv_virtual_env_python "virtual_env_python"
+	assoc_get myenv_conf myenv_virtual_env_name "virtual_env_name"
+	assoc_get myenv_conf myenv_virtual_env_requirement_files "virtual_env_requirement_files"
+
 	assoc_get myenv_conf myenv_virtual_env_auto_create "virtual_env_auto_create"
 	assoc_get myenv_conf myenv_virtual_env_auto_activate "virtual_env_auto_activate"
 	assoc_get myenv_conf myenv_virtual_env_auto_deactivate "virtual_env_auto_deactivate"
-	assoc_get myenv_conf myenv_virtual_env_name "virtual_env_name"
-	assoc_get myenv_conf myenv_virtual_env_name_by_folder "virtual_env_name_by_folder"
 	assoc_get myenv_conf myenv_debug "debug"
 
 	# calculate variables from other variables
 
-	if [ "$myenv_virtual_env_name_by_folder" = "0" ]
-	then
-		myenv_virtual_env_name="${PWD##*/}"
-	fi
 	# set the folder to the virtual env
 	export myenv_virtual_env_folder="$HOME/.virtualenvs/$myenv_virtual_env_name"
 	# the the python version used (could be used for powerline)

@@ -59,9 +59,12 @@ function assoc_config_read() {
 	local __assoc_name=$1
 	local filename=$2
 	file="/etc/passwd"
-	while IFS== read -r key value
+	while read line
 	do
-		assoc_set "$__assoc_name" "$key" "$value"
+		if [[ $line =~ ^([_[:alpha:]][_[:alnum:]]*)"="(.*) ]]
+		then
+			assoc_set "$__assoc_name" "${BASH_REMATCH[1]}" "${BASH_REMATCH[2]}"
+		fi
 	done < "$filename"
 }
 
