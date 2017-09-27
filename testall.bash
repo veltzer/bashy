@@ -2,6 +2,7 @@
 
 # source the bootstrap code
 source core/source.bashinc
+source core/color.bashinc
 
 # source all tests
 for f in $HOME/.bashy/tests/*.bashinc
@@ -26,15 +27,22 @@ do
 		($name) || res=$?
 		if [ "$res" == "0" ]
 		then
-			echo "OK"
+			cecho g "OK" 0
 			let "count_ok+=1"
 		else
-			echo "ERROR"
+			cecho r "ERROR" 0
 			let "count_err+=1"
 		fi
 	fi
 done
 echo "summary"
-echo "number of tests run [$count]"
-echo "number of tests failed [$count_er]"
-echo "number of tests ok [$count_ok]"
+echo "number of tests run --> $count"
+echo -n "number of tests ok --> "
+cecho g $count_ok 0
+echo -n "number of tests failed --> "
+if [ $count_er -eq 0 ]
+then
+	cecho g $count_er 0
+else
+	cecho r $count_er 0
+fi
