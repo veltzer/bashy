@@ -94,8 +94,9 @@ function myenv_msg() {
 }
 
 function myenv_create() {
+	set +e
 	mkdir -p "$myenv_virtual_env_folder"
-	virtualenv --quiet "--python=$myenv_virtual_env_python" "$myenv_virtual_env_folder"
+	virtualenv --clear --quiet "--python=$myenv_virtual_env_python" "$myenv_virtual_env_folder" > /dev/null
 	source "$myenv_virtual_env_folder/bin/activate"
 	local file
 	for file in "${myenv_virtual_env_requirement_files[@]}"
@@ -104,6 +105,7 @@ function myenv_create() {
 	done
 	# no quotes in the next command are a must
 	cat "${myenv_virtual_env_requirement_files[@]}" | md5sum > "$myenv_virtual_env_folder/$myenv_md5_file_name"
+	set -e
 }
 
 function myenv_recreate() {
