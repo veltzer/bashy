@@ -1,0 +1,22 @@
+source_relative ../core/assert.bashinc
+source_relative ../core/pathutils.bashinc
+
+function testRemove() {
+	local P="/usr/games:/usr/bin:/bin"
+	local R="/usr/games"
+	pathutils_remove P $R
+	assertEqual "$P" "/usr/bin:/bin"
+}
+
+function testAddHead() {
+	local P="/usr/games:/usr/bin:/bin"
+	local R="/usr/games"
+	pathutils_add_head R "/bin"
+	assertEqual "$R" "/bin:/usr/games"
+}
+
+function testPATH() {
+	before_path=$PATH
+	pathutils_add_head PATH "/opt"
+	assertEqual "/opt:$before_path" "$PATH"
+}
