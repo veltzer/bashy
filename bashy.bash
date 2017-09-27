@@ -22,6 +22,7 @@
 # when it is done with 'set -e'.
 
 function bashy_load_core() {
+	source $HOME/.bashy/core/source.bashinc
 	for f in $HOME/.bashy/core/*.bashinc
 	do
 		# echo "bashy: loading [$f]..."
@@ -29,7 +30,7 @@ function bashy_load_core() {
 		_name="${_name%%.*}"
 		bashy_core_names+=("$_name")
 		local _result=0
-		source "$f" || _result=1
+		source_absolute "$f" || _result=1
 		bashy_core_res+=("$_result")
 	done
 }

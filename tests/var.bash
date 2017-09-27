@@ -1,7 +1,8 @@
 #!/bin/bash -eu
 
-source core/assert.bashinc
-source core/var.bashinc
+source core/source.bashinc
+source_relative ../core/assert.bashinc
+source_relative ../core/var.bashinc
 
 b=5
 var_set_by_name b 6

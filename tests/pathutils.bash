@@ -1,7 +1,8 @@
 #!/bin/bash -eu
 
-source core/assert.bashinc
-source core/pathutils.bashinc
+source core/source.bashinc
+source_relative ../core/assert.bashinc
+source_relative ../core/pathutils.bashinc
 
 P="/usr/games:/usr/bin:/bin"
 R="/usr/games"

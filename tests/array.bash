@@ -1,7 +1,8 @@
 #!/bin/bash -eu
 
-source core/assert.bashinc
-source core/array.bashinc
+source core/source.bashinc
+source_relative ../core/assert.bashinc
+source_relative ../core/array.bashinc
 
 array_new my_array
 array_set my_array 2 4

@@ -1,6 +1,8 @@
 # floating point utilities
 # https://stackoverflow.com/questions/8654051/how-to-compare-two-floating-point-numbers-in-bash
 
+ASSERT_FAILED_CODE=128
+
 function floatGt() {
 	local a=$1
 	local b=$2
@@ -67,4 +69,24 @@ function floatDiv() {
 	local b=$3
 	local result=$(echo "$a/$b" |bc -l)
 	eval "$__user_var=$result"
+}
+
+function assertLt() {
+	local a=$1
+	local b=$2
+	if ! floatLt "$a" "$b"
+	then
+		echo "assertion failed ! floatLt $a $b"
+		exit $ASSERT_FAILED_CODE
+	fi
+}
+
+function assertGt() {
+	local a=$1
+	local b=$2
+	if ! floatGt "$a" "$b"
+	then
+		echo "assertion failed ! floatGt $a $b"
+		exit $ASSERT_FAILED_CODE
+	fi
 }

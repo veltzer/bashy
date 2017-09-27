@@ -1,8 +1,8 @@
 #!/bin/bash -eu
 
-source core/assert.bashinc
-source core/null.bashinc
-source core/assoc.bashinc
+source core/source.bashinc
+source_relative ../core/assert.bashinc
+source_relative ../core/assoc.bashinc
 
 assoc_create conf
 assoc_config_read conf "tests/test.conf"
