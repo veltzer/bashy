@@ -1,4 +1,9 @@
-- derive the python version correctly from the python interpreter.
+- in the function 'myenv_create' make sure that there are no errors,
+	but DO NOT TERMINATE THE SHELL IF THERE ARE. (no -e)
+	log the whole creating of the virtual env into a log file
+	and let the user know that there was an error in the virtual
+	env creation process and show or point him to the log file where
+	he could investigate the error.
 - make sure not to create the environment concurrently (this happens if you
 have two terminals on the same myenv project and the requirements.txt file
 changed for example).
