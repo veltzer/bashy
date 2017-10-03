@@ -11,15 +11,14 @@
 # 	~/.bashy/external
 # bashy_run_plugins - runs the plugins
 # 
-# Writing bashy scripts:
-# - each script should be independent and handle just one issue.
-# - scripts should not really do anything when sourced, just register
+# Writing bashy plugin:
+# - each plugin should be independent and handle just one issue.
+# - plugins should not really do anything when sourced, just register
 # functions to be called later.
-# - order among script will be according to their order in bashy.list.
-# - the scripts are run with '-e' which means that if any error is automatically
-# critical. If a script does not wish this it can turn the error mode off with
-# 'set +e' but currently it is the script responsiblity to turn it back on
-# when it is done with 'set -e'.
+# - order among plugins will be according to their order in bashy.list.
+# - plugins are in charge of their own error handling. The plugins are
+# run with 'set +e'. The reason is that forcing 'set -e' on all plugins
+# is a really bad design descision.
 
 function bashy_load_core() {
 	source $HOME/.bashy/core/source.bashinc
@@ -189,12 +188,10 @@ declare -a bashy_result_array
 declare -a bashy_diff_array
 
 function bashy_init() {
-	set -e
 	bashy_load_core
 	bashy_read_plugins
 	bashy_load_plugins
 	bashy_run_plugins
-	set +e
 }
 
 # now run bashy_init

@@ -1,0 +1,4 @@
+We don't use 'set -e'
+	The short reason is that it's bad error handling for bash.
+	The long reason is here:
+		http://mywiki.wooledge.org/BashFAQ/105

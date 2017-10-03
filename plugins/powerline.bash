@@ -29,11 +29,11 @@ function configure_powerline() {
 			POWERLINE_BASH_CONTINUATION=1
 			POWERLINE_BASH_SELECT=1
 			# the daemon and script may have has warnings or errors
-			# and that is why we surround their code with 'bashy_before_uncertain', 'bashy_after_uncertain'
-			bashy_before_uncertain
+			# and that is why we surround their code with 'bashy_before_thirdparty', 'bashy_after_thirdparty'
+			bashy_before_thirdparty
 			$POWERLINE_DAEMON -q
 			source $POWERLINE_SH
-			bashy_after_uncertain
+			bashy_after_thirdparty
 			var_set_by_name "$__user_var" 0
 		else
 			var_set_by_name "$__user_var" 1

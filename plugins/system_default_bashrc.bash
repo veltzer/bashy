@@ -3,9 +3,9 @@ function configure_system_default_bashrc() {
 	# This script sources the systems default .bashrc.
 	if [ -f /etc/bash.bashrc ]
 	then
-		bashy_before_uncertain
+		bashy_before_thirdparty
 		source /etc/bash.bashrc
-		bashy_after_uncertain
+		bashy_after_thirdparty
 		var_set_by_name "$__user_var" 0
 	else
 		var_set_by_name "$__user_var" 1

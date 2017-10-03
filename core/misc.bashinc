@@ -21,12 +21,12 @@ function is_interactive() {
 	[[ $- == *i* ]]
 }
 
-function bashy_before_uncertain() {
-	set +e
+function bashy_before_thirdparty() {
+	:
 }
 
-function bashy_after_uncertain() {
-	set -e
+function bashy_after_thirdparty() {
+	:
 }
 
 function is_debug() {
