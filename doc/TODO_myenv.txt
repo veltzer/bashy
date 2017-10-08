@@ -1,3 +1,5 @@
+- myenv does not work well when the basic config file (~/.myenv)
+	does not exist. Make it not so.
 - in the function 'myenv_create' make sure that there are no errors,
 	but DO NOT TERMINATE THE SHELL IF THERE ARE. (no -e)
 	log the whole creating of the virtual env into a log file
