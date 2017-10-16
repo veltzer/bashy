@@ -1,3 +1,5 @@
+- make a script that installs bashy locally without the .git
+	folder.
 - make a script run_tests.bash
 	that runs all tests and makes sure that everything is fine.
 - bashy should not pollute the users bash namespace with too many functions.
