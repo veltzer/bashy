@@ -1,5 +1,9 @@
 - myenv does not work well when the basic config file (~/.myenv)
 	does not exist. Make it not so.
+- myenv is not smart - if the requirements just got augmented it reinstalls
+	the whole virtual env. Make it smart - let it save the old
+	requirements and if the new one just augments the old then
+	just install the extra requirements.
 - myenv should not turn off virtual envs that I light up myself.
 - in the function 'myenv_create' make sure that there are no errors,
 	but DO NOT TERMINATE THE SHELL IF THERE ARE. (no -e)
