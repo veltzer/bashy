@@ -1,1 +1,3 @@
 https://github.com/jmkhael/bashy
+https://github.com/mitsuhiko/dotfiles
+https://github.com/topics/bash-configuration
