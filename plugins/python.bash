@@ -20,12 +20,19 @@ function prun() {
 	# this is very convenient
 	# get the suffix
 	local suffix=${1:(-3)}
-	if [ "$suffix" = ".py " ]
+	if [ "$suffix" = ".py" ]
 	then
 		# remove .py
 		local module=${1:0:-3}
 	else
-		local module=$1
+		local suffix=${1:(-1)}
+		if [ "$suffix" = "/" ]
+		then
+			# remove /
+			local module=${1:0:-1}
+		else
+			local module=$1
+		fi
 	fi
 	# replace slashes by dots
 	module=${module//\//.}
