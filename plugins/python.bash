@@ -14,9 +14,19 @@ function configure_python() {
 }
 
 function prun() {
-	# this function run a python module using python2 by its filename
-	# remove .py
-	module=${1:0:-3}
+	# this function run a python module using python -m by its filename
+	# why do you need this? python -m does not auto complete python modules
+	# while file names are auto completed by the shell...
+	# this is very convenient
+	# get the suffix
+	local suffix=${1:(-3)}
+	if [ "$suffix" = ".py " ]
+	then
+		# remove .py
+		local module=${1:0:-3}
+	else
+		local module=$1
+	fi
 	# replace slashes by dots
 	module=${module//\//.}
 	python -m $module ${@:2}
