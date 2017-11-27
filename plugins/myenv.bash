@@ -156,6 +156,7 @@ function myenv_deactivate() {
 
 function myenv_deactivate_soft() {
 	if [ "$myenv_virtual_env_auto_deactivate" = 0 ]
+	then
 		if myenv_in_virtual_env
 		then
 			myenv_deactivate_real
@@ -200,15 +201,12 @@ function myenv_prompt_inner() {
 		fi
 	done
 
-	if [ "$myenv_virtual_env_auto_deactivate" = 0 ]
+	# if we are in the wrong virtual env, deactivate
+	if myenv_in_virtual_env
 	then
-		# if we are in the wrong virtual env, deactivate
-		if myenv_in_virtual_env
+		if [ $(readlink -f "$myenv_virtual_env_folder") != "$VIRTUAL_ENV" ]
 		then
-			if [ $(readlink -f "$myenv_virtual_env_folder") != "$VIRTUAL_ENV" ]
-			then
-				myenv_deactivate
-			fi
+			myenv_deactivate
 		fi
 	fi
 	if [ "$myenv_virtual_env_auto_create" = 0 ]

@@ -63,7 +63,7 @@ function bashy_load_plugins() {
 			bashy_found_array+=(0)
 			if is_debug
 			then
-				echo -n "bashy: loading [$elem]..."
+				echo "bashy: loading [$elem]..."
 			fi
 			returncode=0
 			source $current_filename > /dev/null 2> /dev/null || returncode=1
@@ -75,7 +75,7 @@ function bashy_load_plugins() {
 				bashy_found_array+=(0)
 				if is_debug
 				then
-					echo -n "bashy: loading [$elem]..."
+					echo "bashy: loading [$elem]..."
 				fi
 				returncode=0
 				source $current_filename > /dev/null 2> /dev/null || returncode=1
