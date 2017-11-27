@@ -155,9 +155,11 @@ function myenv_deactivate() {
 }
 
 function myenv_deactivate_soft() {
-	if myenv_in_virtual_env
-	then
-		myenv_deactivate_real
+	if [ "$myenv_virtual_env_auto_deactivate" = 0 ]
+		if myenv_in_virtual_env
+		then
+			myenv_deactivate_real
+		fi
 	fi
 }
 
