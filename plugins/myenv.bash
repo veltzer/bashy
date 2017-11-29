@@ -89,9 +89,10 @@ function myenv_print_debug() {
 }
 
 # function to issue a message even if we are not in debug mode
-function myenv_msg() {
+function myenv_info() {
 	local msg=$1
-	echo "myenv: $msg"
+	# echo "myenv: info: $msg"
+	cecho g "myenv: info: $msg" 0
 }
 
 function myenv_create() {
@@ -110,13 +111,13 @@ function myenv_create() {
 function myenv_recreate() {
 	if [ ! -d "$myenv_virtual_env_folder" ]
 	then
-		myenv_msg "no virtual env found, setting up virtual env"
+		myenv_info "no virtual env found, setting up virtual env"
 		myenv_create
 		return
 	fi
 	if [ ! -f "$myenv_virtual_env_folder/$myenv_md5_file_name" ]
 	then
-		myenv_msg "md5 file is missing, recreating environment"
+		myenv_info "md5 file is missing, recreating environment"
 		rm -rf "$myenv_virtual_env_folder"
 		myenv_create
 		return
@@ -125,7 +126,7 @@ function myenv_recreate() {
 	local b=$(cat "$myenv_virtual_env_folder/$myenv_md5_file_name")
 	if [ "$a" != "$b" ]
 	then
-		myenv_msg "md5 is out of sync, recreating envrionment"
+		myenv_info "md5 is out of sync, recreating envrionment"
 		rm -rf "$myenv_virtual_env_folder"
 		myenv_create
 		return
@@ -137,7 +138,8 @@ function myenv_in_virtual_env() {
 }
 
 function myenv_error() {
-	echo "$1"
+	# echo "$1"
+	cecho r "myenv: error: $1" 0
 }
 
 function myenv_deactivate_real() {
@@ -168,7 +170,12 @@ function myenv_activate_soft() {
 	if ! [ -n "${VIRTUAL_ENV}" ]
 	then
 		myenv_print_debug "activating virtual env"
-		source "$myenv_virtual_env_folder/bin/activate"
+		if [ -r "$myenv_virtual_env_folder/bin/activate" ]
+		then
+			source "$myenv_virtual_env_folder/bin/activate"
+		else
+			myenv_error "cannot activate virtual env at [$myenv_virtual_env_folder]"
+		fi
 	fi
 }
 
@@ -179,7 +186,12 @@ function myenv_activate() {
 		return
 	fi
 	myenv_print_debug "activating virtual env"
-	source "$myenv_virtual_env_folder/bin/activate"
+	if [ -r "$myenv_virtual_env_folder/bin/activate" ]
+	then
+		source "$myenv_virtual_env_folder/bin/activate"
+	else
+		myenv_error "cannot activate virtual env at [$myenv_virtual_env_folder]"
+	fi
 }
 
 function myenv_prompt_inner() {
@@ -204,7 +216,7 @@ function myenv_prompt_inner() {
 	# if we are in the wrong virtual env, deactivate
 	if myenv_in_virtual_env
 	then
-		if [ $(readlink -f "$myenv_virtual_env_folder") != "$VIRTUAL_ENV" ]
+		if [ "$(readlink -f "$myenv_virtual_env_folder")" != "$VIRTUAL_ENV" ]
 		then
 			myenv_deactivate
 		fi
