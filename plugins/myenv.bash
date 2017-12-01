@@ -105,7 +105,7 @@ function myenv_create() {
 		pip install --quiet -r "$file"
 	done
 	# no quotes in the next command are a must
-	cat "${myenv_virtual_env_requirement_files[@]}" | md5sum > "$myenv_virtual_env_folder/$myenv_md5_file_name"
+	cat "${myenv_virtual_env_requirement_files[@]}" | egrep -v "^#" | sort | md5sum > "$myenv_virtual_env_folder/$myenv_md5_file_name"
 }
 
 function myenv_recreate() {
@@ -122,7 +122,7 @@ function myenv_recreate() {
 		myenv_create
 		return
 	fi
-	local a=$(cat "${myenv_virtual_env_requirement_files[@]}" | md5sum)
+	local a=$(cat "${myenv_virtual_env_requirement_files[@]}" | egrep -v "^#" | sort | md5sum)
 	local b=$(cat "$myenv_virtual_env_folder/$myenv_md5_file_name")
 	if [ "$a" != "$b" ]
 	then
