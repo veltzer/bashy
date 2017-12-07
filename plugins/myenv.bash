@@ -11,9 +11,16 @@
 # file and a checksum which is stored inside each created virtual
 # environment.
 # - to recreate the venvs for a bunch for folders activate
-# myenv_prompt in each the folders. It *is not* enough to just
+# myenv_recreate in each the folders. It *is not* enough to just
 # cd into these folders as part of a command line since then
 # PROMPT_COMMAND will not be activated.
+#
+# Below are APIs to the general public - do not break them.
+# 
+# How to force creation of a virual env:
+# $ myenv_create
+# How to recreate a environment if need be:
+# $ myenv_recreate
 #
 # TODO: (this is a the TODO list for myenv until it becomes
 # a project on it's own)
@@ -96,6 +103,8 @@ function myenv_info() {
 }
 
 function myenv_create() {
+	myenv_info "creating new venv in [$myenv_virtual_env_folder]"
+	rm -rf "$myenv_virtual_env_folder"
 	mkdir -p "$myenv_virtual_env_folder"
 	virtualenv --clear --quiet "--python=$myenv_virtual_env_python" "$myenv_virtual_env_folder" > /dev/null
 	source "$myenv_virtual_env_folder/bin/activate"
@@ -111,14 +120,13 @@ function myenv_create() {
 function myenv_recreate() {
 	if [ ! -d "$myenv_virtual_env_folder" ]
 	then
-		myenv_info "no virtual env found, setting up virtual env"
+		myenv_info "no virtual env found, setting up new virtual env"
 		myenv_create
 		return
 	fi
 	if [ ! -f "$myenv_virtual_env_folder/$myenv_md5_file_name" ]
 	then
 		myenv_info "md5 file is missing, recreating environment"
-		rm -rf "$myenv_virtual_env_folder"
 		myenv_create
 		return
 	fi
@@ -127,7 +135,6 @@ function myenv_recreate() {
 	if [ "$a" != "$b" ]
 	then
 		myenv_info "md5 is out of sync, recreating envrionment"
-		rm -rf "$myenv_virtual_env_folder"
 		myenv_create
 		return
 	fi
