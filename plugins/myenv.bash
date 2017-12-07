@@ -107,14 +107,35 @@ function myenv_create() {
 	rm -rf "$myenv_virtual_env_folder"
 	mkdir -p "$myenv_virtual_env_folder"
 	virtualenv --clear --quiet "--python=$myenv_virtual_env_python" "$myenv_virtual_env_folder" > /dev/null
+	local code=$?
+	if [ $code -ne 0 ]
+	then
+		myenv_error "could not create virtual env"
+		rm -rf "$myenv_virtual_env_folder"
+		return
+	fi
 	source "$myenv_virtual_env_folder/bin/activate"
 	local file
 	for file in "${myenv_virtual_env_requirement_files[@]}"
 	do
 		pip install --quiet -r "$file"
+		local code=$?
+		if [ $code -ne 0 ]
+		then
+			myenv_error "could not install requirements"
+			rm -rf "$myenv_virtual_env_folder"
+			return
+		fi
 	done
 	# no quotes in the next command are a must
 	cat "${myenv_virtual_env_requirement_files[@]}" | egrep -v "^#" | sort | md5sum > "$myenv_virtual_env_folder/$myenv_md5_file_name"
+	local code=$?
+	if [ $code -ne 0 ]
+	then
+		myenv_error "could not create md5 sum"
+		rm -rf "$myenv_virtual_env_folder"
+		return
+	fi
 }
 
 function myenv_recreate() {
