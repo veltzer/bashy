@@ -67,6 +67,7 @@ function myenv_getconf() {
 
 	assoc_get myenv_conf myenv_virtual_env_python "virtual_env_python"
 	assoc_get myenv_conf myenv_virtual_env_name "virtual_env_name"
+	assoc_get myenv_conf myenv_virtual_env_folder "virtual_env_folder"
 	assoc_get myenv_conf myenv_virtual_env_requirement_files "virtual_env_requirement_files"
 
 	assoc_get myenv_conf myenv_virtual_env_auto_create "virtual_env_auto_create"
@@ -79,8 +80,11 @@ function myenv_getconf() {
 	# turn to array
 	myenv_virtual_env_requirement_files=($myenv_virtual_env_requirement_files)
 	# set the folder to the virtual env
-	# export myenv_virtual_env_folder="$HOME/.virtualenvs/$myenv_virtual_env_name"
-	export myenv_virtual_env_folder=".venv/$myenv_virtual_env_name"
+	if [ -z "$myenv_virtual_env_folder" ]
+	then
+		# export myenv_virtual_env_folder="$HOME/.virtualenvs/$myenv_virtual_env_name"
+		export myenv_virtual_env_folder=".venv/$myenv_virtual_env_name"
+	fi
 	# the the python version used (could be used for powerline)
 	export myenv_virtual_env_python_version
 	python_version_short myenv_virtual_env_python_version "$myenv_virtual_env_python"
