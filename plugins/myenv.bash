@@ -30,6 +30,9 @@
 # we just want the python version and the requirements.txt file.
 # - do not read the config again if the data of the myenv config files
 # did not change (performance enhancement).
+# - make a config which controls how myenv decides whether to keep the
+# venv or not. This way we can enable to keep the venv active when we
+# are within the .myenv directory to any depth.
 # 
 # 				Mark Veltzer
 #				<mark.veltzer@gmail.com>
