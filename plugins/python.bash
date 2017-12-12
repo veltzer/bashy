@@ -18,24 +18,12 @@ function prun() {
 	# why do you need this? python -m does not auto complete python modules
 	# while file names are auto completed by the shell...
 	# this is very convenient
-	# get the suffix
-	local suffix=${1:(-3)}
-	if [ "$suffix" = ".py" ]
-	then
-		# remove .py
-		local module=${1:0:-3}
-	else
-		local suffix=${1:(-1)}
-		if [ "$suffix" = "/" ]
-		then
-			# remove /
-			local module=${1:0:-1}
-		else
-			local module=$1
-		fi
-	fi
+	# remove .py
+	module=${1%.py}
 	# replace slashes by dots
 	module=${module//\//.}
+	# trailing slash / dot 
+	module=${module%.}
 	python -m $module ${@:2}
 }
 
