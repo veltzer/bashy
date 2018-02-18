@@ -9,7 +9,13 @@ function configure_python() {
 
 	# add user base to python path
 	# pathutils_add_head PYTHONPATH "`python -c \"import site; print site.USER_SITE;\"`"
+
+	# this sets up python encoding to utf. This is needed for python2.7 only and even
+	# for it I think it is not needed for new versions of 2.7 (need to check).
 	export PYTHONIOENCODING=UTF-8
+
+	# setup where you have pycharm installed (if you have it).
+	export PYCHARM_HOME="${HOME}/install/pycharm"
 	var_set_by_name "$__user_var" 0
 }
 
