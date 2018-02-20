@@ -24,6 +24,10 @@ function prun() {
 	# why do you need this? python -m does not auto complete python modules
 	# while file names are auto completed by the shell...
 	# this is very convenient
+
+	# TODO:
+	# - if the path given is absolute then give an error or deduce where it starts.
+
 	# remove .py
 	module=${1%.py}
 	# replace slashes by dots
