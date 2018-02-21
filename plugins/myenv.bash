@@ -276,6 +276,11 @@ function myenv_prompt() {
 	fi
 }
 
+# stop the plugin from working
+function myenv_unconfigure() {
+	PROMPT_COMMAND=${PROMPT_COMMAND//myenv_prompt;/}
+}
+
 # this is the main function for myenv, it takes care of running the myenv
 # code on every prompt. This is done via the 'PROMPT_COMMAND' feature
 # of bash.
@@ -288,10 +293,6 @@ function configure_myenv() {
 	fi
 	export PROMPT_COMMAND="myenv_prompt; $PROMPT_COMMAND"
 	var_set_by_name "$__user_var" 0
-}
-
-function unconfigure_myenv() {
-	PROMPT_COMMAND=${PROMPT_COMMAND//myenv_prompt;/}
 }
 
 register_interactive configure_myenv
