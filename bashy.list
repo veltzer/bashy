@@ -1,3 +1,4 @@
+# this file supports hash comments
 tmux
 ansible
 bash_completions_aws
