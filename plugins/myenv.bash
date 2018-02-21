@@ -290,4 +290,8 @@ function configure_myenv() {
 	var_set_by_name "$__user_var" 0
 }
 
+function unconfigure_myenv() {
+	PROMPT_COMMAND=${PROMPT_COMMAND//myenv_prompt;/}
+}
+
 register_interactive configure_myenv
