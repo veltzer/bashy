@@ -50,8 +50,9 @@ function bashy_read_plugins() {
 	bashy_list_file filename
 	while read F
 	do
-		if [[ "$F" == "#*" ]]
+		if [[ "$F" =~ ^#.* ]]
 		then
+			touch /tmp/sdsd
 			continue
 		fi
 		bashy_enabled_array+=($F)
