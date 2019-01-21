@@ -13,7 +13,7 @@ fuck
 git
 gzip
 host_aliases
-ls_with_colors
+ls
 manpath
 myenv
 path_dot_local
