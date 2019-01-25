@@ -1,4 +1,4 @@
-# This script managed your google clound environment for you
+# This script manages your google clound environment for you
 #
 # Here is what it does:
 # - Whenever you 'cd' into a directory it will activate the right
