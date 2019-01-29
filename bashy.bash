@@ -8,7 +8,7 @@
 # bashy_load_plugins - loads the plugins you wanted from
 # 	~/.bashy/plugins
 # 	and
-# 	~/.bashy/external
+# 	~/.bashy_extra
 # bashy_run_plugins - runs the plugins
 # 
 # Writing bashy plugin:
@@ -36,7 +36,7 @@ function bashy_load_core() {
 
 function bashy_list_file() {
 	local __user_var=$1
-	local _filename="$HOME/.bashy/external/bashy.list"
+	local _filename="$HOME/.bashy.list"
 	if [ -r $_filename ]
 	then
 		eval "$__user_var=$_filename"
@@ -52,11 +52,22 @@ function bashy_read_plugins() {
 	do
 		if [[ "$F" =~ ^#.* ]]
 		then
-			touch /tmp/sdsd
 			continue
 		fi
 		bashy_enabled_array+=($F)
 	done < $filename
+	filename="$HOME/.bashy_extra/bashy.list"
+	if [ -r $filename ]
+	then
+		while read F
+		do
+			if [[ "$F" =~ ^#.* ]]
+			then
+				continue
+			fi
+			bashy_enabled_array+=($F)
+		done < $filename
+	fi
 }
 
 function bashy_load_plugins() {
@@ -74,7 +85,7 @@ function bashy_load_plugins() {
 			source $current_filename > /dev/null 2> /dev/null || returncode=1
 			bashy_source_array+=("$returncode")
 		else
-			current_filename="$HOME/.bashy/external/$elem.bash"
+			current_filename="$HOME/.bashy_extra/$elem.bash"
 			if [ -r $current_filename ]
 			then
 				bashy_found_array+=(0)
