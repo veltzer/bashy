@@ -272,7 +272,7 @@ function myenv_prompt() {
 	then
 		export myenv_powerline_virtual_env_python_version="$myenv_virtual_env_python_version"
 	else
-		export -n myenv_powerline_virtual_env_python_version=""
+		unset myenv_powerline_virtual_env_python_version
 	fi
 }
 

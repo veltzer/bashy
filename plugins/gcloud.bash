@@ -31,7 +31,7 @@ function gcloud_prompt() {
 	# set the envrionment variable
 	if null_is_null "$gcloud_configuration_name"
 	then
-		export -n CLOUDSDK_ACTIVE_CONFIG_NAME
+		unset CLOUDSDK_ACTIVE_CONFIG_NAME
 	else
 		export CLOUDSDK_ACTIVE_CONFIG_NAME="$gcloud_configuration_name"
 	fi

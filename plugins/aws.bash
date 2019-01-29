@@ -31,7 +31,7 @@ function aws_prompt() {
 	# set the envrionment variable
 	if null_is_null "$aws_configuration_name"
 	then
-		export -n AWS_PROFILE
+		unset AWS_PROFILE
 	else
 		export AWS_PROFILE="$aws_configuration_name"
 	fi
