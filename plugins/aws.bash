@@ -7,7 +7,7 @@
 # 				Mark Veltzer
 #				<mark.veltzer@gmail.com>
 
-aws_conf_file_name=".aws"
+aws_conf_file_name=".aws_select"
 
 function aws_prompt() {
 	assoc_create aws_conf
