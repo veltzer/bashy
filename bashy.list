@@ -5,7 +5,7 @@ bash_completions_aws
 bash_completions_userdir
 bash_completions_system
 bash_config
-bash_it
+# bash_it
 careful_aliases
 development_aliases
 fzf
