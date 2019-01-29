@@ -41,7 +41,7 @@ function bashy_list_file() {
 	then
 		eval "$__user_var=$_filename"
 	else
-		filename="$HOME/.bashy/bashy.list"
+		_filename="$HOME/.bashy/bashy.list"
 		eval "$__user_var=$_filename"
 	fi
 }
