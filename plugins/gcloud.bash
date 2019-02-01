@@ -7,7 +7,7 @@
 # 				Mark Veltzer
 #				<mark.veltzer@gmail.com>
 
-gcloud_conf_file_name=".gcloud"
+gcloud_conf_file_name=".myenv"
 
 function gcloud_prompt() {
 	assoc_create gcloud_conf
@@ -26,7 +26,7 @@ function gcloud_prompt() {
 
 	# get the configuration name
 	export gcloud_configuration_name
-	assoc_get gcloud_conf gcloud_configuration_name "configuration_name"
+	assoc_get gcloud_conf gcloud_configuration_name "gcloud_configuration_name"
 
 	# set the envrionment variable
 	if null_is_null "$gcloud_configuration_name"

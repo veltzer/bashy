@@ -7,7 +7,7 @@
 # 				Mark Veltzer
 #				<mark.veltzer@gmail.com>
 
-aws_conf_file_name=".aws_select"
+aws_conf_file_name=".myenv"
 
 function aws_prompt() {
 	assoc_create aws_conf
@@ -26,7 +26,7 @@ function aws_prompt() {
 
 	# get the configuration name
 	export aws_configuration_name
-	assoc_get aws_conf aws_configuration_name "configuration_name"
+	assoc_get aws_conf aws_configuration_name "aws_configuration_name"
 
 	# set the envrionment variable
 	if null_is_null "$aws_configuration_name"
