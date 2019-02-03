@@ -121,7 +121,7 @@ function myenv_create_virtualenv() {
 	myenv_info "creating new venv in [$myenv_virtual_env_folder]"
 	rm -rf "$myenv_virtual_env_folder"
 	mkdir -p "$myenv_virtual_env_folder"
-	virtualenv --clear --quiet "--python=$myenv_virtual_env_python" "$myenv_virtual_env_folder" > .myenv.virtualenv.errors 2&>1
+	virtualenv --clear --quiet "--python=$myenv_virtual_env_python" "$myenv_virtual_env_folder" > .myenv.virtualenv.errors 2>&1
 	local code=$?
 	if [ $code -ne 0 ]
 	then
@@ -147,7 +147,7 @@ function myenv_create_pip() {
 	local file
 	for file in "${myenv_virtual_env_requirement_files[@]}"
 	do
-		pip install --quiet -r "$file" > .myenv.pip.errors 2&>1
+		pip install --quiet -r "$file" > .myenv.pip.errors 2>&1
 		local code=$?
 		if [ $code -ne 0 ]
 		then
