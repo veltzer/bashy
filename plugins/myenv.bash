@@ -114,7 +114,7 @@ function myenv_create_virtualenv() {
 	if [ -f .myenv.virtualenv.errors ]
 	then
 		myenv_error "not creating virtual env because error file [.myenv.virtualenv.errors] exits"
-		return
+		return 1
 	fi
 
 	# create a virtual env
@@ -127,12 +127,13 @@ function myenv_create_virtualenv() {
 	then
 		myenv_error "could not create virtual env. see errors in .myenv.virtualenv.errors"
 		rm -rf "$myenv_virtual_env_folder"
-		return
+		return $code
 	fi
 	rm -f .myenv.virtualenv.errors
 	myenv_info "created virtualenv"
 	source "$myenv_virtual_env_folder/bin/activate"
 	myenv_info "entered virtualenv"
+	return 0
 }
 
 function myenv_create_pip() {
@@ -140,7 +141,7 @@ function myenv_create_pip() {
 	if [ -f .myenv.pip.errors ]
 	then
 		myenv_error "not creating virtual env because error file [.myenv.pip.errors] exits"
-		return
+		return 1
 	fi
 
 	# install pip requirements
@@ -153,7 +154,7 @@ function myenv_create_pip() {
 		then
 			myenv_error "could not install requirements. see errors in .myenv.pip.errors"
 			# rm -rf "$myenv_virtual_env_folder"
-			return
+			return $code
 		fi
 		rm -f .myenv.pip.errors
 		myenv_info "installed requirements [$file]"
@@ -165,32 +166,41 @@ function myenv_create_pip() {
 	then
 		myenv_error "could not create md5 sum"
 		rm -rf "$myenv_virtual_env_folder"
-		return
+		return $code
 	fi
+	return 0
 }
 
 function myenv_create() {
-	myenv_create_virtualenv
-	myenv_create_pip
+	if myenv_create_virtualenv
+	then
+		myenv_create_pip
+	fi
 }
 
 function myenv_recreate() {
 	if [ ! -d "$myenv_virtual_env_folder" ]
 	then
 		myenv_info "no virtual env found in [$myenv_virtual_env_folder], setting up new virtual env"
-		myenv_create_virtualenv
+		if ! myenv_create_virtualenv
+		then
+			return $?
+		fi
 	fi
 	if [ ! -f "$myenv_virtual_env_folder/$myenv_md5_file_name" ]
 	then
 		myenv_info "md5 file is missing, recreating environment"
-		myenv_create_pip
+		if ! myenv_create_pip
+		then
+			return $?
+		fi
 	fi
 	local a=$(cat "${myenv_virtual_env_requirement_files[@]}" | egrep -v "^#" | sort | md5sum)
 	local b=$(cat "$myenv_virtual_env_folder/$myenv_md5_file_name")
 	if [ "$a" != "$b" ]
 	then
 		myenv_info "md5 is out of sync, installing requirements"
-		myenv_create
+		myenv_create_pip
 	fi
 }
 
