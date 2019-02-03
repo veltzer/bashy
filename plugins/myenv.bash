@@ -121,7 +121,7 @@ function myenv_create_virtualenv() {
 	myenv_info "creating new venv in [$myenv_virtual_env_folder]"
 	rm -rf "$myenv_virtual_env_folder"
 	mkdir -p "$myenv_virtual_env_folder"
-	virtualenv --clear --quiet "--python=$myenv_virtual_env_python" "$myenv_virtual_env_folder" 2> .myenv.virtualenv.errors
+	virtualenv --clear --quiet "--python=$myenv_virtual_env_python" "$myenv_virtual_env_folder" > .myenv.virtualenv.errors 2&>1
 	local code=$?
 	if [ $code -ne 0 ]
 	then
@@ -147,7 +147,7 @@ function myenv_create_pip() {
 	local file
 	for file in "${myenv_virtual_env_requirement_files[@]}"
 	do
-		pip install --quiet -r "$file" 2> .myenv.pip.errors
+		pip install --quiet -r "$file" > .myenv.pip.errors 2&>1
 		local code=$?
 		if [ $code -ne 0 ]
 		then
@@ -179,13 +179,11 @@ function myenv_recreate() {
 	then
 		myenv_info "no virtual env found in [$myenv_virtual_env_folder], setting up new virtual env"
 		myenv_create_virtualenv
-		return
 	fi
 	if [ ! -f "$myenv_virtual_env_folder/$myenv_md5_file_name" ]
 	then
 		myenv_info "md5 file is missing, recreating environment"
 		myenv_create_pip
-		return
 	fi
 	local a=$(cat "${myenv_virtual_env_requirement_files[@]}" | egrep -v "^#" | sort | md5sum)
 	local b=$(cat "$myenv_virtual_env_folder/$myenv_md5_file_name")
@@ -193,7 +191,6 @@ function myenv_recreate() {
 	then
 		myenv_info "md5 is out of sync, installing requirements"
 		myenv_create
-		return
 	fi
 }
 
