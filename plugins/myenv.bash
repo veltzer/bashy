@@ -110,29 +110,50 @@ function myenv_info() {
 }
 
 function myenv_create() {
+	# do not create virtualenv if there are error files
+	if [ -f .myenv.virtualenv.errors ]
+	then
+		myenv_error "not creating virtual env because error file [.myenv.virtualenv.errors] exits"
+		return
+	fi
+
+	# create a virtual env
 	myenv_info "creating new venv in [$myenv_virtual_env_folder]"
 	rm -rf "$myenv_virtual_env_folder"
 	mkdir -p "$myenv_virtual_env_folder"
-	virtualenv --clear --quiet "--python=$myenv_virtual_env_python" "$myenv_virtual_env_folder" > /dev/null
+	virtualenv --clear --quiet "--python=$myenv_virtual_env_python" "$myenv_virtual_env_folder" > .myenv.virtualenv.errors
 	local code=$?
 	if [ $code -ne 0 ]
 	then
-		myenv_error "could not create virtual env"
+		myenv_error "could not create virtual env. see errors in .myenv.virtualenv.errors"
 		rm -rf "$myenv_virtual_env_folder"
 		return
 	fi
+	rm -f .myenv.virtualenv.errors
+	myenv_info "created virtualenv"
 	source "$myenv_virtual_env_folder/bin/activate"
+
+	# do not do pip if there are error files
+	if [ -f .myenv.pip.errors ]
+	then
+		myenv_error "not creating virtual env because error file [.myenv.pip.errors] exits"
+		return
+	fi
+
+	# install pip requirements
 	local file
 	for file in "${myenv_virtual_env_requirement_files[@]}"
 	do
-		pip install --quiet -r "$file"
+		pip install --quiet -r "$file" > .myenv.pip.errors
 		local code=$?
 		if [ $code -ne 0 ]
 		then
-			myenv_error "could not install requirements"
+			myenv_error "could not install requirements. see errors in .myenv.pip.errors"
 			rm -rf "$myenv_virtual_env_folder"
 			return
 		fi
+		rm -f .myenv.pip.errors
+		myenv_info "installed requirements [$file]"
 	done
 	# no quotes in the next command are a must
 	cat "${myenv_virtual_env_requirement_files[@]}" | egrep -v "^#" | sort | md5sum > "$myenv_virtual_env_folder/$myenv_md5_file_name"
