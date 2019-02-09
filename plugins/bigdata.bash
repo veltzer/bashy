@@ -31,7 +31,9 @@ function configure_bigdata() {
 	FOLDER="$HOME/install/apache-hive"
 	if [ -d $FOLDER ]
 	then
-		export HIVE_OPTS='-hiveconf mapred.job.tracker=local -hiveconf fs.default.name=file:///tmp -hiveconf hive.metastore.warehouse.dir=file:///tmp/warehouse'
+		export HIVE_HOME="$FOLDER"
+		#export HIVE_OPTS='-hiveconf mapred.job.tracker=local -hiveconf fs.default.name=file:///tmp -hiveconf hive.metastore.warehouse.dir=file:///tmp/warehouse'
+		pathutils_add_head PATH "$HIVE_HOME/bin"
 	fi
 
 	var_set_by_name "$__user_var" 0
