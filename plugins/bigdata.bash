@@ -36,6 +36,14 @@ function configure_bigdata() {
 		pathutils_add_head PATH "$HIVE_HOME/bin"
 	fi
 
+	# this is for pig
+	FOLDER="$HOME/install/pig"
+	if [ -d $FOLDER ]
+	then
+		export PIG_HOME="$FOLDER"
+		pathutils_add_head PATH "$PIG_HOME/bin"
+	fi
+
 	var_set_by_name "$__user_var" 0
 }
 
