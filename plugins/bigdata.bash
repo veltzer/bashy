@@ -27,6 +27,13 @@ function configure_bigdata() {
 		export PYSPARK_SUBMIT_ARGS="--master local[2] pyspark-shell"
 	fi
 
+	# this is to run hive in local mode
+	FOLDER="$HOME/install/apache-hive"
+	if [ -d $FOLDER ]
+	then
+		export HIVE_OPTS='-hiveconf mapred.job.tracker=local -hiveconf fs.default.name=file:///tmp -hiveconf hive.metastore.warehouse.dir=file:///tmp/warehouse'
+	fi
+
 	var_set_by_name "$__user_var" 0
 }
 
