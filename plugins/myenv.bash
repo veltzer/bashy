@@ -132,6 +132,7 @@ function myenv_create_virtualenv() {
 	rm -f .myenv.virtualenv.errors
 	myenv_info "created virtualenv"
 	source "$myenv_virtual_env_folder/bin/activate"
+	MYENV_ENV="yes"
 	myenv_info "entered virtualenv"
 	return 0
 }
@@ -216,6 +217,7 @@ function myenv_error() {
 function myenv_deactivate_real() {
 	myenv_print_debug "deactivating virtual env"
 	deactivate
+	MYENV_ENV=""
 }
 
 function myenv_deactivate() {
@@ -244,6 +246,7 @@ function myenv_activate_soft() {
 		if [ -r "$myenv_virtual_env_folder/bin/activate" ]
 		then
 			source "$myenv_virtual_env_folder/bin/activate"
+			MYENV_ENV="yes"
 		else
 			myenv_error "cannot activate virtual env at [$myenv_virtual_env_folder]"
 		fi
@@ -260,6 +263,7 @@ function myenv_activate() {
 	if [ -r "$myenv_virtual_env_folder/bin/activate" ]
 	then
 		source "$myenv_virtual_env_folder/bin/activate"
+		MYENV_ENV="yes"
 	else
 		myenv_error "cannot activate virtual env at [$myenv_virtual_env_folder]"
 	fi
@@ -268,12 +272,21 @@ function myenv_activate() {
 function myenv_prompt_inner() {
 	myenv_getconf
 
+	# if we are in a virtual env which is not myenv related
+	if [ -n "${VIRTUAL_ENV}" -a -z "${MYENV_ENV}" ]
+	then
+		myenv_print_debug "in virtual env which is not myenv related. not doing anything."
+		return
+	fi
+
+	# if we don't have a .myenv file
 	if ! [ -r "$myenv_conf_file_name" ]
 	then
 		myenv_deactivate_soft
 		return
 	fi
 
+	# if we don't have requirement files
 	local file
 	for file in "${myenv_virtual_env_requirement_files[@]}"
 	do
