@@ -1,9 +1,11 @@
 # this file supports hash comments
 # the powerline plugin must be before other plugins that customize the shell
 tmux
+# powerline like plugins
 # powerline
-pureline
+# pureline
 ansible
+bash-powerline-shell
 bash_completions_aws
 bash_completions_userdir
 bash_completions_system
