@@ -42,7 +42,7 @@ function aws_prompt() {
 # This is done via the 'PROMPT_COMMAND' feature of bash.
 function configure_aws() {
 	local __user_var=$1
-	if declare -p PROMPT_COMMAND 2> /dev/null
+	if declare -p PROMPT_COMMAND 2> /dev/null > /dev/null
 	then
 		export PROMPT_COMMAND="aws_prompt; $PROMPT_COMMAND"
 	else
