@@ -14,7 +14,7 @@ bash_config
 careful_aliases
 development_aliases
 fzf
-fuck
+# fuck
 git
 gzip
 host_aliases
