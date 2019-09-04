@@ -340,7 +340,7 @@ function configure_myenv() {
 		var_set_by_name "$__user_var" 1
 		return
 	fi
-	if declare -p PROMPT_COMMAND
+	if declare -p PROMPT_COMMAND 2> /dev/null
 	then
 		export PROMPT_COMMAND="myenv_prompt; $PROMPT_COMMAND"
 	else
