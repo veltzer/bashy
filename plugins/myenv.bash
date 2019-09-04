@@ -340,7 +340,12 @@ function configure_myenv() {
 		var_set_by_name "$__user_var" 1
 		return
 	fi
-	export PROMPT_COMMAND="myenv_prompt; $PROMPT_COMMAND"
+	if declare -p PROMPT_COMMAND
+	then
+		export PROMPT_COMMAND="myenv_prompt; $PROMPT_COMMAND"
+	else
+		export PROMPT_COMMAND="myenv_prompt"
+	fi
 	var_set_by_name "$__user_var" 0
 }
 
