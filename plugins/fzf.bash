@@ -1,6 +1,7 @@
 function configure_fzf() {
 	local __user_var=$1
 	# this installs fzf for fuzzy matching
+	# https://github.com/junegunn/fzf
 	# it seems that this collides with bash completion
 	# stuff so this must be after the system_deafult script
 	# which does bash completions.
