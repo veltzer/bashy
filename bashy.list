@@ -30,6 +30,6 @@ bigdata
 system_default_bashrc
 umask
 vi_default_editor
-google_cloud
+google_cloud_sdk
 gcloud
 aws
