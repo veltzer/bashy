@@ -6,14 +6,12 @@ function array_new() {
 }
 
 function array_set() {
-	local -n array=$1
+	local -n __array=$1
 	local pos=$2
 	local value=$3
-	array[$pos]=$value
+	__array[$pos]=$value
 }
 
-# A function that prints an array.
-# This should be usable for sparse array too.
 function array_print() {
 	local -n array=$1
 	echo "length of array is ${#array[@]}"
@@ -35,7 +33,6 @@ function array_push() {
 	array+=("$var")
 }
 
-# lets pop an element
 function array_pop() {
 	local -n array=$1
 	local -n var=$2
@@ -48,6 +45,21 @@ function array_is_array() {
 	[[ "$(declare -p $array_name)" =~ "declare -a" ]]
 }
 
+function array_find() {
+	local -n __array=$1
+	local value=$2
+	local -n __array_location=$3
+	__array_location=0
+	for item in "${__array[@]}"; do
+		if [ "$item" = "$value" ]
+		then
+			return
+		fi
+		((__array_location++))
+	done
+	__array_location=-1
+}
+
 function array_contains() {
 	local -n array=$1
 	local value=$2
@@ -55,4 +67,19 @@ function array_contains() {
 		[ "$item" = "$value" ] && return 0
 	done
 	return 1
+}
+
+function array_remove() {
+	local -n __array=$1
+	local value=$2
+	array_new new_array
+	for elem in "${__array[@]}"
+	do
+		if [[ $elem != $value ]]
+		then
+			array_push new_array "$elem"
+		fi
+	done
+	__array=("${new_array[@]}")
+	unset new_array
 }

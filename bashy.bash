@@ -34,44 +34,49 @@ function bashy_load_core() {
 	done
 }
 
-function bashy_list_file() {
-	local __user_var=$1
-	local _filename="$HOME/.bashy.list"
-	if [ -r $_filename ]
-	then
-		eval "$__user_var=$_filename"
-	else
-		_filename="$HOME/.bashy/bashy.list"
-		eval "$__user_var=$_filename"
-	fi
-}
-
 function bashy_read_plugins() {
-	bashy_list_file filename
-	while read F
+	filename="$HOME/.bashy/bashy.list"
+	while read line
 	do
-		if [[ "$F" =~ ^#.* ]]
+		if [[ "$line" =~ ^#.* ]]
 		then
 			continue
 		fi
-		bashy_enabled_array+=($F)
-	done < $filename
-	filename="$HOME/.bashy_extra/bashy.list"
-	if [ -r $filename ]
+		enabled=1
+		if [[ "$line" =~ ^-.* ]]
+		then
+			plugin="${line:1}"
+			enabled=0
+		else
+			plugin="${line}"
+			enabled=1
+		fi
+		array_find bashy_plugin_array "$plugin" location
+		if [[ $location == -1 ]]
+		then
+			array_push bashy_plugin_array "${line:1}"
+			array_push bashy_enabled_array "${enabled}"
+		else
+			array_set bashy_enabled_array $location $enabled
+		fi
+	done < "$filename"
+	filename="$HOME/.bashy.list.temp"
+	if [ -r "$filename" ]
 	then
-		while read F
+		while read line
 		do
-			if [[ "$F" =~ ^#.* ]]
+			if [[ "$line" =~ ^#.* ]]
 			then
 				continue
 			fi
-			bashy_enabled_array+=($F)
-		done < $filename
+			array_find bashy_plugin_array "$line" location
+			array_set bashy_enabled_array $location 0
+		done < "$filename"
 	fi
 }
 
 function bashy_load_plugins() {
-	for elem in "${bashy_enabled_array[@]}"
+	for elem in "${bashy_plugin_array[@]}"
 	do
 		current_filename="$HOME/.bashy/plugins/$elem.bash"
 		if [ -r $current_filename ]
@@ -148,9 +153,9 @@ function bashy_status_core() {
 # this is differnt than plugin status since one file
 # can supply 0 or more plugins
 function bashy_status_load() {
-	for ((i=0;i<${#bashy_enabled_array[@]};++i))
+	for ((i=0;i<${#bashy_plugin_array[@]};++i))
 	do
-		cecho gr "${bashy_enabled_array[$i]}" 1
+		cecho gr "${bashy_plugin_array[$i]}" 1
 		local found="${bashy_found_array[$i]}"
 		if [ "$found" = 0 ]
 		then
@@ -197,6 +202,7 @@ function bashy_status_plugins() {
 
 declare -a bashy_core_names
 declare -a bashy_core_res
+declare -a bashy_plugin_array
 declare -a bashy_enabled_array
 declare -a bashy_found_array
 declare -a bashy_source_array

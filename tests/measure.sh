@@ -1,6 +1,6 @@
-source_relative ../core/var.bashinc
-source_relative ../core/measure.bashinc
-source_relative ../core/float.bashinc
+source core/var.bashinc
+source core/measure.bashinc
+source core/float.bashinc
 
 function sleep_a_little() {
 	sleep 2
@@ -11,3 +11,5 @@ function testMeasure() {
 	assertLt $diff 2.1
 	assertGt $diff 1.9
 }
+
+source shunit2

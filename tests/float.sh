@@ -1,5 +1,4 @@
-source_relative ../core/assert.bashinc
-source_relative ../core/float.bashinc
+source core/float.bashinc
 
 function testGt() {
 	if floatGt 3.14 3.22
@@ -10,7 +9,7 @@ function testGt() {
 
 function testAdd() {
 	floatAdd d 0.2 1.4
-	assertEqual $d 1.6
+	assertEquals $d 1.6
 }
 
 function testDiv() {
@@ -18,3 +17,5 @@ function testDiv() {
 	assertLt $d 7.1
 	assertGt $d 6.9
 }
+
+source shunit2

@@ -1,20 +1,20 @@
 # this file supports hash comments
-# the powerline plugin must be before other plugins that customize the shell
 tmux
-# powerline like plugins
-# powerline
-# pureline
-ansible
+# the powerline plugin must be before other plugins that customize the shell
+-powerline
+-pureline
 bash-powerline-shell
+# other plugins
+ansible
 bash_completions_aws
 bash_completions_userdir
 bash_completions_system
 bash_config
-# bash_it
+-bash_it
 careful_aliases
 development_aliases
 fzf
-# fuck
+-fuck
 git
 gzip
 host_aliases

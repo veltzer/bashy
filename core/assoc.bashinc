@@ -5,7 +5,7 @@
 # - http://www.artificialworlds.net/blog/2012/10/17/bash-associative-array-examples/
 # - https://stackoverflow.com/questions/23167047/bash-parse-arrays-from-config-file
 
-source_relative null.bashinc
+source core/null.bashinc
 
 # This is a function that returns an associative arrays length
 function assoc_len() {

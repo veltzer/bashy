@@ -1,16 +1,16 @@
-source_relative ../core/assert.bashinc
-source_relative ../core/var.bashinc
+source core/assert.bashinc
+source core/var.bashinc
 
 function testSetByName() {
 	local b=5
 	var_set_by_name b 6
-	assertEqual "$b" 6
+	assertEquals "$b" 6
 }
 
 function in_function() {
 	local c=5
 	var_set_by_name c 6
-	assertEqual "$c" 6
+	assertEquals "$c" 6
 }
 
 function testInFunction() {
@@ -30,3 +30,5 @@ function testNotDefined() {
 		assertFail
 	fi
 }
+
+source shunit2
