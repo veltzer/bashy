@@ -30,5 +30,3 @@ function testNotDefined() {
 		assertFail
 	fi
 }
-
-source shunit2

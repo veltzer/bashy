@@ -56,5 +56,3 @@ function testFind() {
 	array_find arr b location
 	assertEquals "$location" 1
 }
-
-source shunit2

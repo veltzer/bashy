@@ -1,3 +1,11 @@
+source core/color.bashinc
+source core/assert.bashinc
+
+for f in tests/*.sh
+do
+	source "$f"
+done
+
 # find all functions that start with "test*"
 # and run them one by one accumulating results
 IFS=$'\n'
@@ -7,7 +15,7 @@ count_er=0
 for f in $(declare -F)
 do
 	name="${f:11}"
-	if [[ "$name" == test* ]]
+	if [[ $name =~ ^test* ]]
 	then
 		echo -n "running [$name]..."
 		res=0

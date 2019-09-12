@@ -11,5 +11,3 @@ function testMeasure() {
 	assertLt $diff 2.1
 	assertGt $diff 1.9
 }
-
-source shunit2

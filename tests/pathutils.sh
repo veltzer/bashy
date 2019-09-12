@@ -19,5 +19,3 @@ function testPATH() {
 	pathutils_add_head PATH "/opt"
 	assertEquals "/opt:$before_path" "$PATH"
 }
-
-source shunit2

@@ -1,9 +1,9 @@
 #!/bin/bash -eu
 
 # source all tests
-for f in tests/*.bashinc
+for f in tests/*.sh
 do
 	source "$f"
 done
 
-source shunit2
+source core/test.bashinc

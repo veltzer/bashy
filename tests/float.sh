@@ -17,5 +17,3 @@ function testDiv() {
 	assertLt $d 7.1
 	assertGt $d 6.9
 }
-
-source shunit2

@@ -10,5 +10,3 @@ function testAssoc() {
 	assoc_get conf b "b"
 	assertEquals "$b" "b_value"
 }
-
-source shunit2
