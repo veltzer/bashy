@@ -21,15 +21,15 @@
 # is a really bad design descision.
 
 function bashy_load_core() {
-	source $HOME/.bashy/core/source.bashinc
-	for f in $HOME/.bashy/core/*.bashinc
+	source core/source.bashinc
+	for f in core/*.bashinc
 	do
 		# echo "bashy: loading [$f]..."
 		local _name="${f##*/}"
 		_name="${_name%%.*}"
 		bashy_core_names+=("$_name")
 		local _result=0
-		source_absolute "$f" || _result=1
+		source "$f" || _result=1
 		bashy_core_res+=("$_result")
 	done
 }
@@ -212,8 +212,8 @@ declare -a bashy_diff_array
 function bashy_init() {
 	bashy_load_core
 	bashy_read_plugins
-	bashy_load_plugins
-	bashy_run_plugins
+#	bashy_load_plugins
+#	bashy_run_plugins
 }
 
 # now run bashy_init

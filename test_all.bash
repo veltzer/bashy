@@ -6,4 +6,4 @@ do
 	source "$f"
 done
 
-source core/test.bashinc
+source test_harness.bashinc
