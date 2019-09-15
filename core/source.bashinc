@@ -5,7 +5,7 @@
 # - a protection against double inclusion.
 
 # protect against double inclusion
-if [ "${SOURCE-}" ]
+if [ -n "${SOURCE-}" ]
 then
 	return
 fi

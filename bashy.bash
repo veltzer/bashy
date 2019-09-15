@@ -21,15 +21,16 @@
 # is a really bad design descision.
 
 function bashy_load_core() {
-	source core/source.bashinc
-	for f in core/*.bashinc
+	source ${BASH_SOURCE%/*}/core/source.bashinc
+	echo "in here"
+	for f in ${BASH_SOURCE%/*}/core/*.bashinc
 	do
-		# echo "bashy: loading [$f]..."
+		echo "bashy: loading [$f]..."
 		local _name="${f##*/}"
 		_name="${_name%%.*}"
 		bashy_core_names+=("$_name")
 		local _result=0
-		source "$f" || _result=1
+		source_absolute "$f" || _result=1
 		bashy_core_res+=("$_result")
 	done
 }
@@ -42,7 +43,6 @@ function bashy_read_plugins() {
 		then
 			continue
 		fi
-		enabled=1
 		if [[ "$line" =~ ^-.* ]]
 		then
 			plugin="${line:1}"
@@ -157,14 +157,14 @@ function bashy_status_load() {
 	do
 		cecho gr "${bashy_plugin_array[$i]}" 1
 		local found="${bashy_found_array[$i]}"
-		if [ "$found" = 0 ]
+		if [[ $found = 0 ]]
 		then
 			cecho g "\tFOUND_OK" 1
 		else
 			cecho r "\tFOUND_ERROR" 1
 		fi
 		local source="${bashy_source_array[$i]}"
-		if [ "$source" = 0 ]
+		if [[ $source = 0 ]]
 		then
 			cecho g "\tLOAD_OK" 1
 		else
@@ -202,6 +202,7 @@ function bashy_status_plugins() {
 
 declare -a bashy_core_names
 declare -a bashy_core_res
+
 declare -a bashy_plugin_array
 declare -a bashy_enabled_array
 declare -a bashy_found_array

@@ -16,7 +16,7 @@ function cecho() {
 		gray   | gr) color="${code}0;37m";;
 	esac
 	local text="$color${text}${code}0m"
-	if [ $newline = 0 ]
+	if [[ $newline = 0 ]]
 	then
 		echo -e "$text"
 	else

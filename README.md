@@ -10,7 +10,7 @@ First clone the repository into your home directory:
 
 Then edit ~/.bashrc and add:
 
-	source ~/.bashy/bashy.sh
+	source ~/.bashy/bashy.bash
 
 In my own setup this is the only line in my ~/.bashrc
 
@@ -20,17 +20,12 @@ To check the status of the core of bashy use:
 
 	bashy_status_core
 
-To check the status of file loading of bashy use:
-
-	bashy_status_load
-
 To check the status of plugins of bashy use:
 
 	bashy_status_plugins
 
 To disable or enable a plugins or to change the order in which
-they are applied just copy ~/.bashy/bashy.list
-to ~/.bashy.list and edit as you like.
+they are applied just edit ~/.bashy.list
 
 To install prepreqs to bashy enabled plugins use:
 
