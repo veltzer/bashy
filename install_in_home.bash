@@ -1,5 +1,4 @@
 #!/bin/bash -eu
 
 rm -rf ~/.bashy
-mkdir ~/.bashy
-cp -r * ~/.bashy
+rsync -a ./ ~/.bashy --exclude .git --exclude .gitignore
