@@ -2,14 +2,14 @@
 #
 # Here is the general flow here:
 #
-# bashy_load_core - loads core functions under ~/.bashy/core/*.bashinc
-# bashy_read_plugins - reads which plugins you wannt loaded
+# _bashy_load_core - loads core functions under ~/.bashy/core/*.bashinc
+# _bashy_read_plugins - reads which plugins you wannt loaded
 # 	from either ~/.bashy.list or ~/.bashy/bashy.list
-# bashy_load_plugins - loads the plugins you wanted from
+# _bashy_load_plugins - loads the plugins you wanted from
 # 	~/.bashy/plugins
 # 	and
 # 	~/.bashy_extra
-# bashy_run_plugins - runs the plugins
+# _bashy_run_plugins - runs the plugins
 # 
 # Writing bashy plugin:
 # - each plugin should be independent and handle just one issue.
@@ -20,7 +20,7 @@
 # run with 'set +e'. The reason is that forcing 'set -e' on all plugins
 # is a really bad design descision.
 
-function bashy_load_core() {
+function _bashy_load_core() {
 	source ${BASH_SOURCE%/*}/core/source.bashinc
 	for f in ${BASH_SOURCE%/*}/core/*.bashinc
 	do
@@ -33,7 +33,7 @@ function bashy_load_core() {
 	done
 }
 
-function bashy_read_plugins() {
+function _bashy_read_plugins() {
 	filename="$HOME/.bashy/bashy.list"
 	while read line
 	do
@@ -81,22 +81,23 @@ function bashy_read_plugins() {
 				array_push bashy_array_plugin "${plugin}"
 				array_push bashy_array_enabled "${enabled}"
 			else
-				array_set bashy_array_enabled "$location" "$enabled"
+				array_set bashy_array_enabled "${location}" "${enabled}"
 			fi
 		done < "$filename"
 	fi
 }
 
-function bashy_load_plugins() {
+function _bashy_load_plugins() {
 	let "i=0"
 	for plugin in "${bashy_array_plugin[@]}"
 	do
 		enabled="${bashy_array_enabled[$i]}"
-		if [[ $enabled = 1 ]]
+		if [[ $enabled = 0 ]]
 		then
 			bashy_array_found+=(0)
 			bashy_array_filename+=("---not-found---")
 			bashy_array_source+=("-1")
+			let "i++"
 			continue
 		fi
 		current_filename="$HOME/.bashy/plugins/$plugin.bash"
@@ -108,6 +109,7 @@ function bashy_load_plugins() {
 				bashy_array_found+=(0)
 				bashy_array_filename+=("---not-found---")
 				bashy_array_source+=("-1")
+				let "i++"
 				continue
 			fi
 		fi
@@ -123,7 +125,7 @@ function bashy_load_plugins() {
 	done
 }
 
-function bashy_run_plugins() {
+function _bashy_run_plugins() {
 	for function in "${bashy_array_function[@]}"
 	do
 		if is_debug
@@ -226,14 +228,14 @@ declare -a bashy_array_source
 declare -a bashy_array_result
 declare -a bashy_array_diff
 
-function bashy_init() {
-	bashy_load_core
-	bashy_read_plugins
-	bashy_load_plugins
-	bashy_run_plugins
+function _bashy_init() {
+	_bashy_load_core
+	_bashy_read_plugins
+	_bashy_load_plugins
+	_bashy_run_plugins
 }
 
-# now run bashy_init
+# now run _bashy_init
 # we don't want to force the user to do anything more than source ~/.bashy/bashy.bash
 # in his ~/.bashrc
-bashy_init
+_bashy_init

@@ -52,9 +52,9 @@ function configure_bash_it() {
 		# export BASH_IT_AUTOMATIC_RELOAD_AFTER_CONFIG_CHANGE=1
 
 		# Load Bash It
-		bashy_before_thirdparty
+		_bashy_before_thirdparty
 		source "$BASH_IT/bash_it.sh"
-		bashy_after_thirdparty
+		_bashy_after_thirdparty
 		var_set_by_name "$__user_var" 0
 	fi
 }

@@ -21,11 +21,11 @@ function is_interactive() {
 	[[ $- == *i* ]]
 }
 
-function bashy_before_thirdparty() {
+function _bashy_before_thirdparty() {
 	:
 }
 
-function bashy_after_thirdparty() {
+function _bashy_after_thirdparty() {
 	:
 }
 
