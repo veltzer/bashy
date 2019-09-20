@@ -91,36 +91,35 @@ function _bashy_load_plugins() {
 	let "i=0"
 	for plugin in "${bashy_array_plugin[@]}"
 	do
-		enabled="${bashy_array_enabled[$i]}"
-		if [[ $enabled = 0 ]]
-		then
-			bashy_array_found+=(0)
-			bashy_array_filename+=("---not-found---")
-			bashy_array_source+=("-1")
-			let "i++"
-			continue
-		fi
 		current_filename="$HOME/.bashy/plugins/$plugin.bash"
-		if [[ ! -r $current_filename ]]
+		if [[ -r $current_filename ]]
 		then
+			bashy_array_found+=(1)
+			bashy_array_filename+=("$current_filename")
+		else
 			current_filename="$HOME/.bashy_extra/$plugin.bash"
-			if [[ ! -r $current_filename ]]
+			if [[ -r $current_filename ]]
 			then
+				bashy_array_found+=(1)
+				bashy_array_filename+=("$current_filename")
+			else
 				bashy_array_found+=(0)
-				bashy_array_filename+=("---not-found---")
-				bashy_array_source+=("-1")
-				let "i++"
-				continue
+				bashy_array_filename+=("---NOTFOUND---")
 			fi
 		fi
-		bashy_array_found+=(1)
-		bashy_array_filename+=("$current_filename")
-		if is_debug
+		enabled="${bashy_array_enabled[$i]}"
+		if [[ $enabled = 1 ]]
 		then
-			echo "bashy: loading [$plugin]..."
+			if is_debug
+			then
+				echo "bashy: loading [$plugin]..."
+			fi
+			source_absolute $current_filename > /dev/null 2> /dev/null
+			bashy_array_source+=($?)
+		else
+			bashy_array_source+=("---")
+			bashy_array_function+=(0)
 		fi
-		source_absolute $current_filename > /dev/null 2> /dev/null
-		bashy_array_source+=($?)
 		let "i++"
 	done
 }
@@ -128,6 +127,10 @@ function _bashy_load_plugins() {
 function _bashy_run_plugins() {
 	for function in "${bashy_array_function[@]}"
 	do
+		if [[ $function = 0 ]]
+		then
+			continue
+		fi
 		if is_debug
 		then
 			echo $function
@@ -147,7 +150,7 @@ function _bashy_run_plugins() {
 			local result
 			"$function" result
 			bashy_array_result+=("$result")
-			bashy_array_diff+=(0)
+			bashy_array_diff+=("NO_PROFILE")
 		fi
 	done
 }
@@ -181,7 +184,7 @@ function bashy_status_plugins() {
 		then
 			cecho g "\tEN" 1
 		else
-			cecho r "\tDI" 1
+			cecho y "\tDI" 1
 		fi
 		local found="${bashy_array_found[$i]}"
 		if [[ $found = 1 ]]
@@ -192,26 +195,33 @@ function bashy_status_plugins() {
 		fi
 		local filename="${bashy_array_filename[$i]}"
 		cecho gr "\t${filename}" 1
-		local source="${bashy_array_source[$i]}"
-		if [[ $source = 0 ]]
+		if [[ $enabled = 1 ]]
 		then
-			cecho g "\tLOAD_OK" 1
+			local source="${bashy_array_source[$i]}"
+			if [[ $source = 0 ]]
+			then
+				cecho g "\tLOAD_OK" 1
+			else
+				cecho r "\tLOAD_ERROR" 1
+			fi
+			local result="${bashy_array_result[$i]}"
+			if [[ $result = 0 ]]
+			then
+				cecho g "\tRESULT_OK" 1
+			else
+				cecho r "\tRESULT_ERROR" 1
+			fi
+			if is_profile
+			then
+				local diff="${bashy_array_diff[$i]}"
+				printf "\t%.3f\n" $diff
+			else
+				echo
+			fi
 		else
-			cecho r "\tLOAD_ERROR" 1
-		fi
-		local result="${bashy_array_result[$i]}"
-		if [[ $result = 0 ]]
-		then
-		 	cecho g "\tRESULT_OK" 1
-		else
-			cecho r "\tRESULT_ERROR" 1
-		fi
-		if is_profile
-		then
-		 	local diff="${bashy_array_diff[$i]}"
-		 	printf "\t%.3f\n" $diff
-		else
-		 	echo
+			cecho y "\tNOT_LOADED" 1
+			cecho y "\tNO_RESULT" 1
+			cecho y "\tNO_NUMBER" 0
 		fi
 		let "i++"
 	done | column -t
