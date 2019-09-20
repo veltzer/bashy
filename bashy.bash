@@ -104,7 +104,10 @@ function _bashy_load_plugins() {
 				bashy_array_filename+=("$current_filename")
 			else
 				bashy_array_found+=(0)
-				bashy_array_filename+=("---NOTFOUND---")
+				bashy_array_filename+=(0)
+				bashy_array_function+=(0)
+				bashy_array_source+=("---")
+				continue
 			fi
 		fi
 		enabled="${bashy_array_enabled[$i]}"
@@ -117,8 +120,8 @@ function _bashy_load_plugins() {
 			source_absolute $current_filename > /dev/null 2> /dev/null
 			bashy_array_source+=($?)
 		else
-			bashy_array_source+=("---")
 			bashy_array_function+=(0)
+			bashy_array_source+=("---")
 		fi
 		let "i++"
 	done
@@ -129,6 +132,8 @@ function _bashy_run_plugins() {
 	do
 		if [[ $function = 0 ]]
 		then
+			bashy_array_result+=("NO_RESULT")
+			bashy_array_diff+=("NO_TIME")
 			continue
 		fi
 		if is_debug
@@ -194,7 +199,12 @@ function bashy_status_plugins() {
 			cecho r "\tFOUND_ERROR" 1
 		fi
 		local filename="${bashy_array_filename[$i]}"
-		cecho gr "\t${filename}" 1
+		if [[ $filename = 0 ]]
+		then
+			cecho gr "\t${filename}" 1
+		else
+			cecho r "\tNO_FILENAME" 1
+		fi
 		if [[ $enabled = 1 ]]
 		then
 			local source="${bashy_array_source[$i]}"
@@ -221,7 +231,7 @@ function bashy_status_plugins() {
 		else
 			cecho y "\tNOT_LOADED" 1
 			cecho y "\tNO_RESULT" 1
-			cecho y "\tNO_NUMBER" 0
+			cecho y "\tNO_TIME" 0
 		fi
 		let "i++"
 	done | column -t
