@@ -26,6 +26,7 @@ path_remove_games
 postgresql
 pymultigit
 python
+ruby
 bigdata
 system_default_bashrc
 umask
