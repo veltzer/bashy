@@ -4,8 +4,8 @@ function configure_careful_aliases() {
 	alias mv='mv -i'
 	alias cp='cp -i'
 	alias rm='rm -i'
-	alias ln="ln -i"
-	alias cd="cd -P"
+	alias ln='ln -i'
+	alias cd='cd -P'
 	var_set_by_name "$__user_var" 0
 }
 
