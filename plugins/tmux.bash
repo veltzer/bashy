@@ -1,4 +1,12 @@
 # This runs tmux at the start of a session.
+# 
+# currently this code follows the following flow:
+# if a session already exists, attach to it
+# if not - start a new session.
+#
+# idea: if a session or more exists then offer the user
+# to either connect with an existing session or create a new
+# one.
 #
 # References:
 # - https://davidtranscend.com/blog/check-tmux-session-exists-script/
