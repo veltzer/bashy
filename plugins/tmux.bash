@@ -18,7 +18,7 @@ function configure_tmux() {
 		# if not in tmux
 		if [[ -z ${TMUX+x} ]]
 		then
-			session="workspace"
+			session="0"
 			if tmux has-session -t $session 2> /dev/null
 			then
 				exec tmux attach-session -t $session
