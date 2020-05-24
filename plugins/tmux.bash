@@ -1,17 +1,65 @@
 # This runs tmux at the start of a session.
+#
+# This plugin executes tmux which means it turned
+# the current process into tmux.
+# when tmux will run a shell again and will run bashy
+# again we will know that we are in tmux already
+# and will not run it again.
+#
+# This does not mean that this plugin should be run
+# last. On the contrary. It should be run first to enable
+# tmux to run bash which will run all plugins. Since
+# the old bash turned into tmux (that's exec for you)
+# then we don't need to old shell and any of the plugins
+# that came before this one are wasted. That is why this
+# should be the first plugin to run.
 # 
 # currently this code follows the following flow:
 # if a session already exists, attach to it
 # if not - start a new session.
 #
-# idea: if a session or more exists then offer the user
-# to either connect with an existing session or create a new
-# one.
+# the new algorithm
+# check if there are any detached sessions to tmux
+# if there are, offer a dialog to attach to them.
+# if there are not, just start a new session.
 #
 # References:
 # - https://davidtranscend.com/blog/check-tmux-session-exists-script/
 
 function configure_tmux() {
+	local __user_var=$1
+	if pathutils_is_in_path tmux
+	then
+		# if not in tmux, then run tmux
+		# if in tmux, don't do anything
+		if [[ -z ${TMUX+x} ]]
+		then
+			sessions=$(tmux ls | wc -l)
+			if [ $sessions -gt 0 ]
+			then
+				options="new $(tmux ls -F '#{session_name}')"
+				# vim syntax hightlighting is bad at the next line
+				select sel in $options
+				do
+					break
+				done
+				if [ $sel = "new" ]
+				then
+					exec tmux new-session
+				else
+					exec tmux attach-session -t $sel
+				fi
+			else
+				exec tmux new-session
+			fi
+		fi
+		var_set_by_name "$__user_var" 0
+	else
+		var_set_by_name "$__user_var" 1
+	fi
+}
+
+function configure_tmux_old() {
 	local __user_var=$1
 	if pathutils_is_in_path tmux
 	then
