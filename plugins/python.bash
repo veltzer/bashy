@@ -28,11 +28,17 @@ function pyrun() {
 	# TODO:
 	# - if the path given is absolute then give an error or deduce where it starts.
 
+	if [[ $# != 1 ]]
+	then
+		echo "pyrun: error: usage: pyrun [relative_path]"
+		return
+	fi
+
 	# remove .py
 	module=${1%.py}
 	# replace slashes by dots
 	module=${module//\//.}
-	# trailing slash / dot 
+	# trailing slash / dot
 	module=${module%.}
 	python -m $module "${@:2}"
 }
