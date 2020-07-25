@@ -19,7 +19,7 @@ function configure_python() {
 	var_set_by_name "$__user_var" 0
 }
 
-function prun() {
+function pyrun() {
 	# this function run a python module using python -m by its filename
 	# why do you need this? python -m does not auto complete python modules
 	# while file names are auto completed by the shell...
