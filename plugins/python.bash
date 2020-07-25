@@ -28,7 +28,7 @@ function pyrun() {
 	# TODO:
 	# - if the path given is absolute then give an error or deduce where it starts.
 
-	if [[ $# > 0 ]]
+	if [[ $# == 0 ]]
 	then
 		echo "pyrun: error: usage: pyrun [relative_path]"
 		return
