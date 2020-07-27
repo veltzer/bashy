@@ -27,6 +27,7 @@ postgresql
 pymultigit
 python
 ruby
+go
 rust
 bigdata
 system_default_bashrc
