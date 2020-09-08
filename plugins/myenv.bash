@@ -24,6 +24,9 @@
 #
 # TODO: (this is a the TODO list for myenv until it becomes
 # a project on it's own)
+# - when i'm inside a git repos ".git" folder myenv still does git
+# commands and I get an error since you are not supposed to use these
+# git commands when you're in the ".git" folder.
 # - the md5 must be make out of the requirements and the python version.
 # we once had the myenv configuration file added to requirements
 # but this is wrong since there could be many myenv configuration files.
