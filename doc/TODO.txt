@@ -1,3 +1,6 @@
+- clean our path (remove duplicate entries) in bashy.
+- put all the extra paths we have at the end of the path and not in the beginging.
+	(actauly have a config for that).
 - make a script that installs bashy locally without the .git
 	folder.
 - make a script run_tests.bash
