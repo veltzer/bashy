@@ -13,7 +13,7 @@ bash_config
 -bash_it
 careful_aliases
 development_aliases
-fzf
+-fzf
 -fuck
 git
 gzip
