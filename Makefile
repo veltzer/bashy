@@ -19,7 +19,8 @@ Q:=@
 endif # DO_MKDBG
 
 ALL:=
-ALL_SH:=$(shell find . -name "*.sh")
+ALL_SH:=$(shell find . -type f -and -name "*.sh")
+ALL_BASH:=$(shell find . -type f -and -name "*.bash")
 ALL_STAMP:=$(addsuffix .stamp, $(basename $(ALL_SH)))
 
 ifeq ($(DO_CHECK_SYNTAX),1)
@@ -52,12 +53,12 @@ clean:
 
 .PHONY: check_all
 check_all:
-	$(Q)shellcheck --shell=bash */*.sh */*.bashinc
+	$(Q)shellcheck --shell=bash */*.sh */*.bashinc */*.bash
 
 ############
 # patterns #
 ############
 $(ALL_STAMP): %.stamp: %.sh $(ALL_DEP)
 	$(info doing [$@])
-	$(Q)/usr/bin/shellcheck --shell=bash $<
+	$(Q)/usr/bin/shellcheck --shell=bash --external-sources $<
 	$(Q)touch $@

@@ -3,6 +3,7 @@ source core/array.bashinc
 function testSetLen() {
 	array_new my_array
 	array_set my_array 2 4
+	len=
 	array_length my_array len
 	assertEquals "$len" 1
 }

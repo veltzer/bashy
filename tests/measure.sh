@@ -7,7 +7,8 @@ function sleep_a_little() {
 }
 
 function testMeasure() {
+	diff=
 	measure diff sleep_a_little 2
-	assertLt $diff 2.1
-	assertGt $diff 1.9
+	assertLt "$diff" 2.1
+	assertGt "$diff" 1.9
 }
