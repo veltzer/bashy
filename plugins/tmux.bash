@@ -35,7 +35,7 @@ function configure_tmux() {
 		if [[ -z ${TMUX+x} ]]
 		then
 			sessions=$(tmux ls | wc -l)
-			if [ $sessions -gt 0 ]
+			if [ "$sessions" -gt 0 ]
 			then
 				options="new $(tmux ls -F '#{session_name}')"
 				# vim syntax hightlighting is bad at the next line
@@ -43,11 +43,11 @@ function configure_tmux() {
 				do
 					break
 				done
-				if [ $sel = "new" ]
+				if [ "$sel" = "new" ]
 				then
 					exec tmux new-session
 				else
-					exec tmux attach-session -t $sel
+					exec tmux attach-session -t "$sel"
 				fi
 			else
 				exec tmux new-session

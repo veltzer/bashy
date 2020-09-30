@@ -8,6 +8,7 @@ function configure_fzf() {
 	FILE="$HOME/.fzf.bash"
 	if [ -f "$FILE" ]
 	then
+		# shellcheck source=/dev/null
 		source "$FILE"
 		var_set_by_name "$__user_var" 0
 	else

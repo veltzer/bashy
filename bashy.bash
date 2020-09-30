@@ -21,8 +21,9 @@
 # is a really bad design descision.
 
 function _bashy_load_core() {
-	source ${BASH_SOURCE%/*}/core/source.bashinc
-	for f in ${BASH_SOURCE%/*}/core/*.bashinc
+	# shellcheck source=/dev/null
+	source "${BASH_SOURCE%/*}/core/source.bashinc"
+	for f in "${BASH_SOURCE%/*}"/core/*.bashinc
 	do
 		local _name="${f##*/}"
 		_name="${_name%%.*}"
@@ -35,7 +36,7 @@ function _bashy_load_core() {
 
 function _bashy_read_plugins() {
 	filename="$HOME/.bashy/bashy.list"
-	while read line
+	while read -r line
 	do
 		if [[ $line =~ ^#.* ]]
 		then
@@ -49,8 +50,9 @@ function _bashy_read_plugins() {
 			plugin="${line}"
 			enabled=1
 		fi
+		location=
 		array_find bashy_array_plugin "$plugin" location
-		if [[ $location == -1 ]]
+		if [[ "$location" == -1 ]]
 		then
 			array_push bashy_array_plugin "${plugin}"
 			array_push bashy_array_enabled "${enabled}"
@@ -61,7 +63,7 @@ function _bashy_read_plugins() {
 	filename="$HOME/.bashy.list"
 	if [[ -r $filename ]]
 	then
-		while read line
+		while read -r line
 		do
 			if [[ $line =~ ^#.* ]]
 			then
@@ -88,7 +90,7 @@ function _bashy_read_plugins() {
 }
 
 function _bashy_load_plugins() {
-	let "i=0"
+	((i=0))
 	for plugin in "${bashy_array_plugin[@]}"
 	do
 		current_filename="$HOME/.bashy/plugins/$plugin.bash"
@@ -117,13 +119,14 @@ function _bashy_load_plugins() {
 			then
 				echo "bashy: loading [$plugin]..."
 			fi
-			source_absolute $current_filename > /dev/null 2> /dev/null
+			# shellcheck source=/dev/null
+			source_absolute "$current_filename" > /dev/null 2> /dev/null
 			bashy_array_source+=($?)
 		else
 			bashy_array_function+=(0)
 			bashy_array_source+=("---")
 		fi
-		let "i++"
+		((i++))
 	done
 }
 
@@ -138,11 +141,11 @@ function _bashy_run_plugins() {
 		fi
 		if is_debug
 		then
-			echo $function
+			echo "$function"
 		fi
 		if is_step
 		then
-			read -n 1
+			read -rn 1
 		fi
 		if is_profile
 		then
@@ -180,7 +183,7 @@ function bashy_status_core() {
 # handlers which may have succeeded in initializing
 # or not...
 function bashy_status_plugins() {
-	let "i=0"
+	((i=0))
 	for plugin in "${bashy_array_plugin[@]}"
 	do
 		cecho gr "${plugin}" 1
@@ -224,7 +227,7 @@ function bashy_status_plugins() {
 			if is_profile
 			then
 				local diff="${bashy_array_diff[$i]}"
-				printf "\t%.3f\n" $diff
+				printf "\t%.3f\n" "$diff"
 			else
 				echo
 			fi
@@ -233,7 +236,7 @@ function bashy_status_plugins() {
 			cecho y "\tNO_RESULT" 1
 			cecho y "\tNO_TIME" 0
 		fi
-		let "i++"
+		((i++))
 	done | column -t
 }
 

@@ -17,6 +17,7 @@ function configure_screen() {
 		if [[ -z ${SCREEN+x} ]]
 		then
 			export SCREEN=yes
+			# shellcheck disable=SC2093
 			exec screen -q -RR
 			var_set_by_name "$__user_var" 0
 		else

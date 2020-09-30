@@ -84,7 +84,7 @@ function myenv_getconf() {
 	# calculate variables from other variables
 
 	# turn to array
-	myenv_virtual_env_requirement_files=($myenv_virtual_env_requirement_files)
+	myenv_virtual_env_requirement_files="($myenv_virtual_env_requirement_files)"
 	# set the folder to the virtual env
 	if [ -z "$myenv_virtual_env_folder" ]
 	then
@@ -134,6 +134,7 @@ function myenv_create_virtualenv() {
 	fi
 	rm -f .myenv.virtualenv.errors
 	myenv_info "created virtualenv"
+	# shellcheck source=/dev/null
 	source "$myenv_virtual_env_folder/bin/activate"
 	MYENV_ENV="yes"
 	myenv_info "entered virtualenv"
@@ -164,7 +165,7 @@ function myenv_create_pip() {
 		myenv_info "installed requirements [$file]"
 	done
 	# no quotes in the next command are a must
-	cat "${myenv_virtual_env_requirement_files[@]}" | egrep -v "^#" | sort | md5sum > "$myenv_virtual_env_folder/$myenv_md5_file_name"
+	cat "${myenv_virtual_env_requirement_files[@]}" | grep -E -v "^#" | sort | md5sum > "$myenv_virtual_env_folder/$myenv_md5_file_name"
 	local code=$?
 	if [ $code -ne 0 ]
 	then
@@ -199,8 +200,10 @@ function myenv_recreate() {
 			return $?
 		fi
 	fi
-	local a=$(cat "${myenv_virtual_env_requirement_files[@]}" | egrep -v "^#" | sort | md5sum)
-	local b=$(cat "$myenv_virtual_env_folder/$myenv_md5_file_name")
+	local a
+	a=$(cat "${myenv_virtual_env_requirement_files[@]}" | grep -E -v "^#" | sort | md5sum)
+	local b
+	b=$(cat "$myenv_virtual_env_folder/$myenv_md5_file_name")
 	if [ "$a" != "$b" ]
 	then
 		myenv_info "md5 is out of sync, installing requirements"
@@ -224,7 +227,7 @@ function myenv_deactivate_real() {
 }
 
 function myenv_deactivate() {
-	if ! [ -n "${VIRTUAL_ENV}" ]
+	if [ -z "${VIRTUAL_ENV}" ]
 	then
 		myenv_error "not in virtual env"
 		return
@@ -243,11 +246,12 @@ function myenv_deactivate_soft() {
 }
 
 function myenv_activate_soft() {
-	if ! [ -n "${VIRTUAL_ENV}" ]
+	if [ -z "${VIRTUAL_ENV}" ]
 	then
 		myenv_print_debug "activating virtual env"
 		if [ -r "$myenv_virtual_env_folder/bin/activate" ]
 		then
+			# shellcheck source=/dev/null
 			source "$myenv_virtual_env_folder/bin/activate"
 			MYENV_ENV="yes"
 		else
@@ -265,6 +269,7 @@ function myenv_activate() {
 	myenv_print_debug "activating virtual env"
 	if [ -r "$myenv_virtual_env_folder/bin/activate" ]
 	then
+		# shellcheck source=/dev/null
 		source "$myenv_virtual_env_folder/bin/activate"
 		MYENV_ENV="yes"
 	else
@@ -276,7 +281,7 @@ function myenv_prompt_inner() {
 	myenv_getconf
 
 	# if we are in a virtual env which is not myenv related
-	if [ -n "${VIRTUAL_ENV}" -a -z "${MYENV_ENV}" ]
+	if [ -n "${VIRTUAL_ENV}" ] && [ -z "${MYENV_ENV}" ]
 	then
 		myenv_print_debug "in virtual env which is not myenv related. not doing anything."
 		return

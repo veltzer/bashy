@@ -4,7 +4,9 @@ function configure_google_cloud_sdk() {
 	if [ -d "$GOOGLE_CLOUD_HOME" ]
 	then
 		export GOOGLE_CLOUD_HOME
+		# shellcheck source=/dev/null
 		source "$GOOGLE_CLOUD_HOME/path.bash.inc"
+		# shellcheck source=/dev/null
 		source "$GOOGLE_CLOUD_HOME/completion.bash.inc"
 		var_set_by_name "$__user_var" 0
 	else

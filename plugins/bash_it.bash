@@ -53,6 +53,7 @@ function configure_bash_it() {
 
 		# Load Bash It
 		_bashy_before_thirdparty
+		# shellcheck source=/dev/null
 		source "$BASH_IT/bash_it.sh"
 		_bashy_after_thirdparty
 		var_set_by_name "$__user_var" 0

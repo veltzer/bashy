@@ -3,9 +3,10 @@ function configure_powerline() {
 	if [ -x /usr/bin/powerline-daemon ]
 	then
 		/usr/bin/powerline-daemon -q
-		POWERLINE_BASH_CONTINUATION=1
-		POWERLINE_BASH_SELECT=1
+		export POWERLINE_BASH_CONTINUATION=1
+		export POWERLINE_BASH_SELECT=1
 		_bashy_before_thirdparty
+		# shellcheck source=/dev/null
 		source /usr/share/powerline/bindings/bash/powerline.sh
 		_bashy_after_thirdparty
 		var_set_by_name "$__user_var" 0

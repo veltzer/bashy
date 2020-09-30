@@ -14,6 +14,7 @@ function configure_bash_completions_userdir() {
 			do
 				if [ -r "$x" ]
 				then
+					# shellcheck source=/dev/null
 					source "$x"
 				fi
 			done

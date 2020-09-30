@@ -5,9 +5,9 @@ function configure_git() {
 
 function git_root() {
 	cd_arg="$(git rev-parse --show-cdup)"
-	if [ ! -z "$cd_arg" ]
+	if [ -n "$cd_arg" ]
 	then
-		cd "$cd_arg"
+		cd "$cd_arg" || exit
 	fi
 }
 
