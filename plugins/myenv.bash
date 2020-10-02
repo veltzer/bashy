@@ -84,7 +84,7 @@ function myenv_getconf() {
 	# calculate variables from other variables
 
 	# turn to array
-	myenv_virtual_env_requirement_files="($myenv_virtual_env_requirement_files)"
+	IFS=" " read -r -a myenv_virtual_env_requirement_files <<< "$myenv_virtual_env_requirement_files"
 	# set the folder to the virtual env
 	if [ -z "$myenv_virtual_env_folder" ]
 	then
