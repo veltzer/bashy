@@ -1,4 +1,4 @@
-# This is integration of gh
+# This is integration of gh, the github command line tool
 
 function configure_gh() {
 	local __user_var=$1
