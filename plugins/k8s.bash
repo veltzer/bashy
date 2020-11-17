@@ -6,8 +6,9 @@ function configure_k8s() {
 		export K8S_HOME
 		pathutils_add_head PATH "${K8S_HOME}"
 		var_set_by_name "$__user_var" 0
+	else
+		var_set_by_name "$__user_var" 1
 	fi
-	var_set_by_name "$__user_var" 1
 }
 
 register configure_k8s

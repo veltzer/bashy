@@ -201,13 +201,13 @@ function bashy_status_plugins() {
 		else
 			cecho r "\tFOUND_ERROR" 1
 		fi
-		local filename="${bashy_array_filename[$i]}"
-		if [[ $filename = 0 ]]
-		then
-			cecho r "\tNO_FILENAME" 1
-		else
-			cecho gr "\t${filename}" 1
-		fi
+		# local filename="${bashy_array_filename[$i]}"
+		# if [[ $filename = 0 ]]
+		# then
+		# 	cecho r "\tNO_FILENAME" 1
+		# else
+		# 	cecho gr "\t${filename}" 1
+		# fi
 		if [[ $enabled = 1 ]]
 		then
 			local source="${bashy_array_source[$i]}"
