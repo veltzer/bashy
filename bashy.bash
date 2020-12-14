@@ -130,6 +130,10 @@ function _bashy_load_plugins() {
 	done
 }
 
+function _bashy_load_config() {
+	source "$HOME/.bashy.config"
+}
+
 function _bashy_run_plugins() {
 	for function in "${bashy_array_function[@]}"
 	do
@@ -255,6 +259,7 @@ function _bashy_init() {
 	_bashy_load_core
 	_bashy_read_plugins
 	_bashy_load_plugins
+	_bashy_load_config
 	_bashy_run_plugins
 }
 
