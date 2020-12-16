@@ -6,7 +6,7 @@ function configure_bash_config() {
 	# allow globstar globbing on the command line (**)
 	shopt -s globstar
 	# do long completions
-	# shellcheck disable=SC2034  # this variable is use by the shell
+	# shellcheck disable=SC2034 # this variable is use by the shell
 	completeopt=menu,longest
 	var_set_by_name "$__user_var" 0
 }

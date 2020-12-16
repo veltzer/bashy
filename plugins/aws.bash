@@ -3,7 +3,7 @@
 # Here is what it does:
 # - Whenever you 'cd' into a directory it will activate the right
 # aws project for you.
-# 
+#
 # 				Mark Veltzer
 #				<mark.veltzer@gmail.com>
 

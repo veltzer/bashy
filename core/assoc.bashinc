@@ -73,6 +73,6 @@ function assoc_config_read() {
 
 function assoc_key_exists() {
 	local __assoc_name=$1
-        local key=$2
-        eval "[ \${$__assoc_name['$key']+muahaha} ]"
+	local key=$2
+	eval "[ \${$__assoc_name['$key']+muahaha} ]"
 }

@@ -15,7 +15,7 @@ function testAddHead() {
 }
 
 function testPATH() {
-	before_path=$PATH
+	local before_path=$PATH
 	pathutils_add_head PATH "/opt"
 	assertEquals "/opt:$before_path" "$PATH"
 }

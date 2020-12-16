@@ -61,6 +61,8 @@ clean:
 
 .PHONY: check_all
 check_all:
+	pymakehelper no_err git grep "\ \ "
+	pymakehelper no_err git grep " \$$"
 	$(Q)shellcheck --shell=bash */*.sh */*.bashinc */*.bash
 
 ############

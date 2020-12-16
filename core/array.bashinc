@@ -15,9 +15,9 @@ function array_set() {
 function array_print() {
 	local -n array=$1
 	echo "length of array is ${#array[@]}"
-	for index in ${!array[@]}
+	for index in "${!array[@]}"
 	do
-		echo $index/${array[$index]}
+		echo "$index/${array[$index]}"
 	done
 }
 

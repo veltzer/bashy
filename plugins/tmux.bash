@@ -13,7 +13,7 @@
 # then we don't need to old shell and any of the plugins
 # that came before this one are wasted. That is why this
 # should be the first plugin to run.
-# 
+#
 # currently this code follows the following flow:
 # if a session already exists, attach to it
 # if not - start a new session.

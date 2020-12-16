@@ -16,7 +16,7 @@
 # PROMPT_COMMAND will not be activated.
 #
 # Below are APIs to the general public - do not break them.
-# 
+#
 # How to force creation of a virual env:
 # $ myenv_create
 # How to recreate a environment if need be:
@@ -36,7 +36,7 @@
 # - make a config which controls how myenv decides whether to keep the
 # venv or not. This way we can enable to keep the venv active when we
 # are within the .myenv directory to any depth.
-# 
+#
 # 				Mark Veltzer
 #				<mark.veltzer@gmail.com>
 

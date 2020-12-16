@@ -1,5 +1,6 @@
 source core/color.bashinc
 source core/assert.bashinc
+source core/source.bashinc
 
 for f in tests/*.sh
 do

@@ -10,7 +10,7 @@
 # 	and
 # 	~/.bashy_extra
 # _bashy_run_plugins - runs the plugins
-# 
+#
 # Writing bashy plugin:
 # - each plugin should be independent and handle just one issue.
 # - plugins should not really do anything when sourced, just register
