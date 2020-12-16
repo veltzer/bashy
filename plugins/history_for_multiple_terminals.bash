@@ -1,5 +1,5 @@
 function configure_history_for_multiple_terminals() {
-	local __user_var=$1
+	local -n __var=$1
 	# This piece of script takes care of having consistent history
 	# across multiple terminals which is good when working with
 	# multiple x terminals or systems like screen or tmux
@@ -15,7 +15,7 @@ function configure_history_for_multiple_terminals() {
 	# https://superuser.com/questions/117227/a-command-before-every-bash-command
 	# This does not work
 	# bind 'RETURN: "\e[1~history -n \e[4~\n"'
-	var_set_by_name "$__user_var" 0
+	__var=0
 }
 
 register_interactive configure_history_for_multiple_terminals

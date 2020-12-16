@@ -1,12 +1,12 @@
 function configure_fuck() {
-	local __user_var=$1
+	local -n __var=$1
 	if pathutils_is_in_path thefuck
 	then
 		eval "$(thefuck --alias)"
-		var_set_by_name "$__user_var" 0
-	else
-		var_set_by_name "$__user_var" 1
+		__var=0
+		return
 	fi
+	__var=1
 }
 
 function install_fuck() {

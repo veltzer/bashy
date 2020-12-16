@@ -1,5 +1,5 @@
 function configure_bigdata() {
-	local __user_var=$1
+	local -n __var=$1
 
 	# this is for java
 	FOLDER="/usr/lib/jvm/java-8-oracle"
@@ -44,7 +44,7 @@ function configure_bigdata() {
 		pathutils_add_head PATH "$PIG_HOME/bin"
 	fi
 
-	var_set_by_name "$__user_var" 0
+	__var=0
 }
 
 register configure_bigdata

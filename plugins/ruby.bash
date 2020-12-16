@@ -1,9 +1,15 @@
 function configure_ruby() {
-	local __user_var=$1
-	# This configures the ruby gem envrionment
-	export GEM_HOME="$HOME/install/gems"
-	pathutils_add_head PATH "$HOME/install/gems/bin"
-	var_set_by_name "$__user_var" 0
+	local -n __var=$1
+	GEM_HOME="$HOME/install/gems"
+	GEM_HOME_BIN="$HOME/install/gems"
+	if [ -d "$GEM_HOME" ] && [ -d "$GEM_HOME_BIN" ]
+	then
+		pathutils_add_head PATH "$GEM_HOME_BIN"
+		export GEM_HOME
+		__var=0
+		return
+	fi
+	__var=1
 }
 
 register configure_ruby

@@ -1,5 +1,5 @@
 function configure_virtualenvwrapper() {
-	local __user_var=$1
+	local -n __var=$1
 	# you can install virtualenvwrapper with
 	# $ apt install virtualenvwrapper
 	export WORKON_HOME="$HOME/.virtualenvs"
@@ -24,10 +24,10 @@ function configure_virtualenvwrapper() {
 	then
 		# shellcheck source=/dev/null
 		source "$FOUND_IN"
-		var_set_by_name "$__user_var" 0
-	else
-		var_set_by_name "$__user_var" 1
+		__var=0
+		return
 	fi
+	__var=1
 }
 
 register_interactive configure_virtualenvwrapper

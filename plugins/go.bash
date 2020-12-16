@@ -1,5 +1,5 @@
 function configure_go() {
-	local -v __var=$1
+	local -n __var=$1
 	GOPATH="${HOME}/install/go"
 	GOPATHBIN="${GOPATH}/bin"
 	if [ -d "$GOPATH" ] && [ -d "$GOPATHBIN" ]
