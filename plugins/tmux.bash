@@ -27,7 +27,7 @@
 # - https://davidtranscend.com/blog/check-tmux-session-exists-script/
 
 function configure_tmux() {
-	local __user_var=$1
+	local -n __var=$1
 	if pathutils_is_in_path tmux
 	then
 		# if not in tmux, then run tmux
@@ -53,14 +53,14 @@ function configure_tmux() {
 				exec tmux new-session
 			fi
 		fi
-		var_set_by_name "$__user_var" 0
+		__var=0
 	else
-		var_set_by_name "$__user_var" 1
+		__var=1
 	fi
 }
 
 function configure_tmux_old() {
-	local __user_var=$1
+	local -n __var=$1
 	if pathutils_is_in_path tmux
 	then
 		# if not in tmux
@@ -74,10 +74,10 @@ function configure_tmux_old() {
 				exec tmux new-session -s $session
 			fi
 		fi
-		var_set_by_name "$__user_var" 0
-	else
-		var_set_by_name "$__user_var" 1
+		__var=0
+		return
 	fi
+	__var=1
 }
 
 register_interactive configure_tmux

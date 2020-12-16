@@ -1,9 +1,15 @@
 function configure_go() {
-	local __user_var=$1
-	# This configures the ruby gem envrionment
-	export GOPATH="$HOME/install/go"
-	pathutils_add_head PATH "$HOME/install/go/bin"
-	var_set_by_name "$__user_var" 0
+	local -v __var=$1
+	GOPATH="${HOME}/install/go"
+	GOPATHBIN="${GOPATH}/bin"
+	if [ -d "$GOPATH" ] && [ -d "$GOPATHBIN" ]
+	then
+		pathutils_add_head PATH "${GOPATHBIN}"
+		export GOPATH
+		__var=0
+		return
+	fi
+	__var=1
 }
 
 register configure_go

@@ -2,7 +2,7 @@
 
 function array_new() {
 	local __user_var=$1
-	eval "declare -ga $__user_var"
+	declare -ga "$__user_var"
 }
 
 function array_set() {
@@ -13,31 +13,31 @@ function array_set() {
 }
 
 function array_print() {
-	local -n array=$1
-	echo "length of array is ${#array[@]}"
-	for index in "${!array[@]}"
+	local -n __array=$1
+	echo "length of array is ${#__array[@]}"
+	for index in "${!__array[@]}"
 	do
-		echo "$index/${array[$index]}"
+		echo "$index/${__array[$index]}"
 	done
 }
 
 function array_length() {
-	local -n array=$1
+	local -n __array=$1
 	local -n var=$2
-	var=${#array[@]}
+	var=${#__array[@]}
 }
 
 function array_push() {
-	local -n array=$1
+	local -n __array=$1
 	local var=$2
-	array+=("$var")
+	__array+=("$var")
 }
 
 function array_pop() {
-	local -n array=$1
+	local -n __array=$1
 	local -n var=$2
-	var=${array[${#array[@]}-1]}
-	unset 'array[${#array[@]}-1]'
+	var=${__array[${#__array[@]}-1]}
+	unset '__array[${#__array[@]}-1]'
 }
 
 function array_is_array() {
@@ -61,9 +61,9 @@ function array_find() {
 }
 
 function array_contains() {
-	local -n array=$1
+	local -n __array=$1
 	local value=$2
-	for item in "${array[@]}"; do
+	for item in "${__array[@]}"; do
 		[ "$item" = "$value" ] && return 0
 	done
 	return 1

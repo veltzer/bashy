@@ -11,7 +11,7 @@
 # https://pascal.nextrem.ch/2010/04/30/automatically-start-screen-on-ssh-login
 
 function configure_screen() {
-	local __user_var=$1
+	local -n __var=$1
 	if pathutils_is_in_path screen
 	then
 		if [[ -z ${SCREEN+x} ]]
@@ -19,13 +19,12 @@ function configure_screen() {
 			export SCREEN=yes
 			# shellcheck disable=SC2093
 			exec screen -q -RR
-			var_set_by_name "$__user_var" 0
+			__var=0
 		else
-			var_set_by_name "$__user_var" 0
+			__var=0
 		fi
-	else
-		var_set_by_name "$__user_var" 1
 	fi
+	__var=1
 }
 
 register_interactive configure_screen

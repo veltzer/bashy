@@ -342,10 +342,10 @@ function myenv_unconfigure() {
 # code on every prompt. This is done via the 'PROMPT_COMMAND' feature
 # of bash.
 function configure_myenv() {
-	local __user_var=$1
+	local -n __var=$1
 	if ! pathutils_is_in_path virtualenv md5sum
 	then
-		var_set_by_name "$__user_var" 1
+		__var=1
 		return
 	fi
 	if declare -p PROMPT_COMMAND 2> /dev/null > /dev/null
@@ -354,7 +354,7 @@ function configure_myenv() {
 	else
 		export PROMPT_COMMAND="myenv_prompt"
 	fi
-	var_set_by_name "$__user_var" 0
+	__var=0
 }
 
 register_interactive configure_myenv

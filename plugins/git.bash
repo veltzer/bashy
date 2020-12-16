@@ -1,6 +1,6 @@
 function configure_git() {
-	local __user_var=$1
-	var_set_by_name "$__user_var" 0
+	local -n __var=$1
+	__var=0
 }
 
 function git_root() {

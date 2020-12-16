@@ -1,14 +1,14 @@
 function configure_haskell() {
-	local __user_var=$1
+	local -n __var=$1
 	CABAL_HOME="$HOME/.cabal"
 	if [ -d "$CABAL_HOME" ]
 	then
 		export CABAL_HOME
 		pathutils_add_head PATH "$CABAL_HOME/bin"
-		var_set_by_name "$__user_var" 0
-	else
-		var_set_by_name "$__user_var" 1
+		__var=0
+		return
 	fi
+	__var=1
 }
 
 register configure_haskell

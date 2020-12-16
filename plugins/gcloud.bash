@@ -41,14 +41,14 @@ function gcloud_prompt() {
 # the 'gcloud_prompt' function on every prompt.
 # This is done via the 'PROMPT_COMMAND' feature of bash.
 function configure_gcloud() {
-	local __user_var=$1
+	local -n __var=$1
 	if declare -p PROMPT_COMMAND 2> /dev/null > /dev/null
 	then
 		export PROMPT_COMMAND="gcloud_prompt; $PROMPT_COMMAND"
 	else
 		export PROMPT_COMMAND="gcloud_prompt"
 	fi
-	var_set_by_name "$__user_var" 0
+	__var=0
 }
 
 register_interactive configure_gcloud
