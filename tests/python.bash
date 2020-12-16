@@ -1,4 +1,4 @@
-source core/python.bashinc
+source core/python.bash
 
 function testPythonVersion() {
 	a=

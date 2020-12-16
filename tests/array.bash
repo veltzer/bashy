@@ -1,4 +1,4 @@
-source core/array.bashinc
+source core/array.bash
 
 function testSetLen() {
 	array_new my_array

@@ -1,4 +1,4 @@
-source core/pathutils.bashinc
+source core/pathutils.bash
 
 function testRemove() {
 	local P="/usr/games:/usr/bin:/bin"

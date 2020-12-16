@@ -9,15 +9,17 @@ function git_is_inside() {
 
 # returns the top level of a git tree
 function git_top_level() {
-	local __user_var=$1
-	local toplevel=$(git rev-parse --show-toplevel)
-	eval $__user_var=$toplevel
+	local -n __var=$1
+	local toplevel
+	toplevel=$(git rev-parse --show-toplevel)
+	__var="$toplevel"
 }
 
 # returns the name of the current git repo
 function git_repo_name() {
-	local __user_var=$1
-	local toplevel=$(git rev-parse --show-toplevel)
+	local -n __var=$1
+	local toplevel
+	toplevel=$(git rev-parse --show-toplevel)
 	local name=${toplevel##*/}
-	eval $__user_var=$name
+	__var="$name"
 }

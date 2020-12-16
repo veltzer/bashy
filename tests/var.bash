@@ -1,5 +1,5 @@
-source core/assert.bashinc
-source core/var.bashinc
+source core/assert.bash
+source core/var.bash
 
 function testSetByName() {
 	local b=5

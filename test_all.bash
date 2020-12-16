@@ -8,4 +8,4 @@ do
 	:
 done
 
-source test_harness.bashinc
+source test_harness.bash

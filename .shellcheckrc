@@ -12,3 +12,4 @@
 # Allow using `which` since it gives full paths and is common enough
 # disable=SC2230
 disable=SC2034
+disable=SC2178

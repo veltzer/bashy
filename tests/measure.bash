@@ -1,6 +1,6 @@
-source core/var.bashinc
-source core/measure.bashinc
-source core/float.bashinc
+source core/var.bash
+source core/measure.bash
+source core/float.bash
 
 function sleep_a_little() {
 	sleep 2

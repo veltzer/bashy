@@ -1,4 +1,4 @@
-source core/assoc.bashinc
+source core/assoc.bash
 
 function testAssoc() {
 	assoc_create conf

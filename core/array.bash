@@ -42,7 +42,9 @@ function array_pop() {
 
 function array_is_array() {
 	local array_name=$1
-	[[ "$(declare -p $array_name)" =~ "declare -a" ]]
+	local declare_output
+	declare_output=$(declare -p "$array_name")
+	[[ "$declare_output" =~ "declare -a" ]]
 }
 
 function array_find() {
@@ -75,7 +77,7 @@ function array_remove() {
 	array_new new_array
 	for elem in "${__array[@]}"
 	do
-		if [[ $elem != $value ]]
+		if [[ "$elem" != "$value" ]]
 		then
 			array_push new_array "$elem"
 		fi

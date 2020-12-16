@@ -2,7 +2,7 @@
 #
 # Here is the general flow here:
 #
-# _bashy_load_core - loads core functions under ~/.bashy/core/*.bashinc
+# _bashy_load_core - loads core functions under ~/.bashy/core/*.bash
 # _bashy_read_plugins - reads which plugins you wannt loaded
 # 	from either ~/.bashy.list or ~/.bashy/bashy.list
 # _bashy_load_plugins - loads the plugins you wanted from
@@ -22,8 +22,8 @@
 
 function _bashy_load_core() {
 	# shellcheck source=/dev/null
-	source "${BASH_SOURCE%/*}/core/source.bashinc"
-	for f in "${BASH_SOURCE%/*}"/core/*.bashinc
+	source "${BASH_SOURCE%/*}/core/source.bash"
+	for f in "${BASH_SOURCE%/*}"/core/*.bash
 	do
 		local _name="${f##*/}"
 		_name="${_name%%.*}"

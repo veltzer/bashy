@@ -16,5 +16,5 @@ done
 
 
 names of files:
-all bash filea are .sh
-all include files are .bashinc
+all bash files are .bash
+this includes all include file.

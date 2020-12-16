@@ -1,4 +1,4 @@
-source core/float.bashinc
+source core/float.bash
 
 function testGt() {
 	if floatGt 3.14 3.22
