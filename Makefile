@@ -59,6 +59,11 @@ first_line_stats:
 clean:
 	$(Q)rm -f $(ALL)
 
+.PHONY: clean_hard
+clean_hard:
+	$(info doing [$@])
+	$(Q)git clean -qffxd
+
 .PHONY: check_all
 check_all:
 	pymakehelper no_err git grep "\ \ "

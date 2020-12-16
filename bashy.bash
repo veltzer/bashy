@@ -131,6 +131,7 @@ function _bashy_load_plugins() {
 }
 
 function _bashy_load_config() {
+	# shellcheck source=/dev/null
 	source "$HOME/.bashy.config"
 }
 
