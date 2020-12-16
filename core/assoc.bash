@@ -62,7 +62,7 @@ function assoc_config_read() {
 	local __assoc_name=$1
 	local filename=$2
 	file="/etc/passwd"
-	while read line
+	while read -r line
 	do
 		if [[ $line =~ ^([_[:alpha:]][_[:alnum:]]*)"="(.*) ]]
 		then

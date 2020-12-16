@@ -43,7 +43,8 @@ function floatAdd() {
 	local __user_var=$1
 	local a=$2
 	local b=$3
-	local result=$(echo "$a+$b" |bc -l)
+	local result
+	result=$(echo "$a+$b" |bc -l)
 	eval "$__user_var=$result"
 }
 
@@ -51,7 +52,8 @@ function floatSub() {
 	local __user_var=$1
 	local a=$2
 	local b=$3
-	local result=$(echo "$a-$b" |bc -l)
+	local result
+	result=$(echo "$a-$b" |bc -l)
 	eval "$__user_var=$result"
 }
 
@@ -59,7 +61,8 @@ function floatMul() {
 	local __user_var=$1
 	local a=$2
 	local b=$3
-	local result=$(echo "$a*$b" |bc -l)
+	local result
+	result=$(echo "$a*$b" |bc -l)
 	eval "$__user_var=$result"
 }
 
@@ -67,7 +70,8 @@ function floatDiv() {
 	local __user_var=$1
 	local a=$2
 	local b=$3
-	local result=$(echo "$a/$b" |bc -l)
+	local result
+	result=$(echo "$a/$b" |bc -l)
 	eval "$__user_var=$result"
 }
 

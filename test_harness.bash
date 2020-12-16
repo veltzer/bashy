@@ -2,7 +2,7 @@ source core/color.bash
 source core/assert.bash
 source core/source.bash
 
-for f in tests/*.sh
+for f in tests/*.bash
 do
 	source "$f"
 done

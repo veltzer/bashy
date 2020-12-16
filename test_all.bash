@@ -1,7 +1,7 @@
 #!/bin/bash -eu
 
 # source all tests
-for f in tests/*.sh
+for f in tests/*.bash
 do
 	# shellcheck source=/dev/null
 	#source "$f"
