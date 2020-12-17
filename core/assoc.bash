@@ -9,9 +9,9 @@ source_relative null.bash
 
 # This is a function that returns an associative arrays length
 function assoc_len() {
-	local __assoc_name=$1
-	local __var_name=$2
-	eval "$__var_name=\${#$__assoc_name[@]}"
+	local -n __assoc_name=$1
+	local -n __var=$2
+	__var=${#__assoc_name[@]}
 }
 
 # This is a function to print out an associative array.

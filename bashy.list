@@ -28,6 +28,7 @@ pymultigit
 python
 ruby
 go
+phantomjs
 rust
 bigdata
 system_default_bashrc
