@@ -1,5 +1,5 @@
 function configure_path_dot_local() {
-	local __user_var=$1
+	local -n __var=$1
 	# This file deals with ~/.local/[bin|lib|man]
 	# This folder is meant for local installations.
 	# https://askubuntu.com/questions/14535/whats-the-local-folder-for-in-my-home-directory
@@ -7,12 +7,12 @@ function configure_path_dot_local() {
 	FOLDER2="$HOME/.local/lib"
 	if [ -d "$FOLDER1" ] && [ -d "$FOLDER2" ]
 	then
-		pathutils_add_head PATH "$HOME/.local/bin"
-		pathutils_add_head LD_LIBRARY_PATH "$HOME/.local/lib"
-		var_set_by_name "$__user_var" 0
-	else
-		var_set_by_name "$__user_var" 1
+		pathutils_add_head PATH "$FOLDER1"
+		pathutils_add_head LD_LIBRARY_PATH "$FOLDER2"
+		__var=0
+		return
 	fi
+	__var=1
 }
 
 register configure_path_dot_local

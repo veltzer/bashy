@@ -1,16 +1,16 @@
 function configure_host_aliases() {
-	local __user_var=$1
+	local -n __var=$1
 	# setup HOSTALIASES for my own private hosts
 	# References:
 	# - https://www.physics.drexel.edu/~wking/unfolding-disasters-old/posts/HOSTALIASES/
-	HOSTS_FILE="$HOME/.hosts"
-	if [[ -f $HOSTS_FILE ]]
+	HOSTALIASES="$HOME/.hosts"
+	if [ -r "$HOSTALIASES" ]
 	then
-		export HOSTALIASES=$HOSTS_FILE
-		var_set_by_name "$__user_var" 0
-	else
-		var_set_by_name "$__user_var" 1
+		export HOSTALIASES
+		__var=0
+		return
 	fi
+	__var=1
 }
 
 register_interactive configure_host_aliases

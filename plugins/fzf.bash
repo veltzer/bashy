@@ -1,5 +1,5 @@
 function configure_fzf() {
-	local __user_var=$1
+	local -n __var=$1
 	# this installs fzf for fuzzy matching
 	# https://github.com/junegunn/fzf
 	# it seems that this collides with bash completion
@@ -10,16 +10,16 @@ function configure_fzf() {
 	then
 		# shellcheck source=/dev/null
 		source "$FILE"
-		var_set_by_name "$__user_var" 0
-	else
-		var_set_by_name "$__user_var" 1
+		__var=0
+		return
 	fi
+	__var=1
 }
 
 function install_fzf() {
-	rm -rf ~/.bashy/install/fzf > /dev/null 2> /dev/null
-	git clone --depth 1 https://github.com/junegunn/fzf.git ~/.bashy/install/fzf > /dev/null 2> /dev/null
-	~/.bashy/install/fzf/install --no-update-rc --key-bindings --completion > /dev/null 2> /dev/null
+	rm -rf ~/.bashy_install/fzf > /dev/null 2> /dev/null
+	git clone --depth 1 https://github.com/junegunn/fzf.git ~/.bashy_install/fzf > /dev/null 2> /dev/null
+	~/.bashy_install/fzf/install --no-update-rc --key-bindings --completion > /dev/null 2> /dev/null
 }
 
 register_interactive configure_fzf

@@ -1,5 +1,5 @@
 function configure_powerline() {
-	local __user_var=$1
+	local -n __var=$1
 	if [ -x /usr/bin/powerline-daemon ]
 	then
 		/usr/bin/powerline-daemon -q
@@ -9,10 +9,10 @@ function configure_powerline() {
 		# shellcheck source=/dev/null
 		source /usr/share/powerline/bindings/bash/powerline.sh
 		_bashy_after_thirdparty
-		var_set_by_name "$__user_var" 0
-	else
-		var_set_by_name "$__user_var" 1
+		__var=0
+		return
 	fi
+	__var=1
 }
 
 register_interactive configure_powerline

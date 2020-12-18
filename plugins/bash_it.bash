@@ -1,11 +1,8 @@
 function configure_bash_it() {
-	local __user_var=$1
-	# Path to the bash it configuration
-	export BASH_IT="$HOME/.bash_it"
-	if ! [ -d "$BASH_IT" ]
-	then
-		var_set_by_name "$__user_var" 1
-	else
+	local -n __var=$1
+	BASH_IT="$HOME/.bash_it"
+	if [ -d "$BASH_IT" ]
+		export BASH_IT
 		# Lock and Load a custom theme file
 		# location /.bash_it/themes/
 		export BASH_IT_THEME='powerline-multiline'
@@ -56,8 +53,10 @@ function configure_bash_it() {
 		# shellcheck source=/dev/null
 		source "$BASH_IT/bash_it.sh"
 		_bashy_after_thirdparty
-		var_set_by_name "$__user_var" 0
+		__var=0
+		return
 	fi
+	__var=1
 }
 
 register_interactive configure_bash_it

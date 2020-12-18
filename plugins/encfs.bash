@@ -1,5 +1,5 @@
 function configure_encfs() {
-	local -n __user_var=$1
+	local -n __var=$1
 	if pathutils_is_in_path encfs
 	then
 		if "$ENCFS_ENABLED"

@@ -1,15 +1,17 @@
 function configure_pyenv() {
-	local __user_var=$1
-	# this script sets up pyenv
-	export PYENV_ROOT="$HOME/.pyenv"
-	if [ -d "$PYENV_ROOT" ] && pathutils_is_in_path pyenv
+	local -n __var=$1
+	PYENV_ROOT="$HOME/.pyenv"
+	PYENV_BIN="$PYENV_ROOT/bin"
+	if pathutils_is_in_path pyenv && [ -d "$PYENV_ROOT" ] && [ -d "$PYENV_BIN" ]
 	then
-		pathutils_add_head PATH "$PYENV_ROOT/bin"
+		export PYENV_ROOT
+		export PYENV_BIN
+		pathutils_add_head PATH "$PYENV_BIN"
 		eval "$(pyenv init -)"
-		var_set_by_name "$__user_var" 0
-	else
-		var_set_by_name "$__user_var" 1
+		__var=0
+		return
 	fi
+	__var=1
 }
 
 register_interactive configure_pyenv

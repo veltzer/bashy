@@ -1,13 +1,14 @@
 function configure_bash_powerline_shell() {
-	local __user_var=$1
-	if [ -r "$HOME/install/bash-powerline-shell/ps1_prompt" ]
+	local -n __var=$1
+	BASH_POWERLINE="$HOME/install/bash-powerline-shell/ps1_prompt"
+	if [ -r "$BASH_POWERLINE" ]
 	then
 		# shellcheck source=/dev/null
-		source "$HOME/install/bash-powerline-shell/ps1_prompt"
-		var_set_by_name "$__user_var" 0
-	else
-		var_set_by_name "$__user_var" 1
+		source "$BASH_POWERLINE"
+		__var=0
+		return
 	fi
+	__var=1
 }
 
 register_interactive configure_bash_powerline_shell
