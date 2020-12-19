@@ -6,6 +6,7 @@ source core/source.bash
 
 for f in tests/*.bash
 do
+	# shellcheck source=/dev/null
 	source "$f"
 done
 

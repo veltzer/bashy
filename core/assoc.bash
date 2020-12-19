@@ -13,68 +13,62 @@ source_relative null.bash
 # otherwise the associative array which is created will be local.
 function assoc_new() {
 	local __user_var=$1
-	declare -gA "$__user_var"
-	local __assoc_name=$1
-	eval "declare -gA $__assoc_name=()"
+	declare -gA "$__user_var=()"
 }
 
 # This is a function that returns an associative arrays length
 function assoc_len() {
-	local -n __assoc_name=$1
+	local -n __assoc=$1
 	local -n __var=$2
-	__var=${#__assoc_name[@]}
+	__var=${#__assoc[@]}
 }
 
 # This is a function to print out an associative array.
 # It has been checked to handle associative arrays which have spaces
 # in the keys or values correctly.
 function assoc_print() {
-	local __assoc_name=$1
-	eval 'local keys=("${!'$__assoc_name'[@]}")'
-	eval 'local len=${#'$__assoc_name'[@]}'
-	local i
-	for (( i=0; $i < $len; i+=1 ))
+	local -n __assoc=$1
+	local key
+	for key in "${!__assoc[@]}"
 	do
-		local key=${keys[$i]}
-		eval "local val=\${$__assoc_name['$key']}"
+		local val=${__assoc[$key]}
 		echo "$key --> $val"
 	done
 }
 
 function assoc_set() {
-	local __assoc_name=$1
+	local -n __assoc_set=$1
 	local key=$2
 	local value=$3
-	eval "$__assoc_name['$key']='$value'"
+	__assoc_set[$key]=$value
 }
 
 function assoc_get() {
-	local __assoc_name=$1
-	local __var_name=$2
+	local -n __assoc=$1
+	local -n __var=$2
 	local key=$3
-	if assoc_key_exists "$__assoc_name" "$key"
+	if assoc_key_exists __assoc "$key"
 	then
-		eval "$__var_name=\${$__assoc_name['$key']}"
+		__var=${__assoc[$key]}
 	else
-		null_get_value "$__var_name"
+		null_set_value __var
 	fi
 }
 
 function assoc_config_read() {
-	local __assoc_name=$1
+	local -n __assoc=$1
 	local filename=$2
-	file="/etc/passwd"
 	while read -r line
 	do
 		if [[ $line =~ ^([_[:alpha:]][_[:alnum:]]*)"="(.*) ]]
 		then
-			assoc_set "$__assoc_name" "${BASH_REMATCH[1]}" "${BASH_REMATCH[2]}"
+			assoc_set __assoc "${BASH_REMATCH[1]}" "${BASH_REMATCH[2]}"
 		fi
 	done < "$filename"
 }
 
 function assoc_key_exists() {
-	local __assoc_name=$1
+	local -n __assoc_key=$1
 	local key=$2
-	eval "[ \${$__assoc_name['$key']+muahaha} ]"
+	[ ${__assoc_key[$key]+muhaha} ]
 }

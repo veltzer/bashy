@@ -154,13 +154,13 @@ function _bashy_run_plugins() {
 		fi
 		if is_profile
 		then
-			local result
-			local diff
+			local result=
+			local diff=
 			measure diff "$function" result
 			bashy_array_result+=("$result")
 			bashy_array_diff+=("$diff")
 		else
-			local result
+			local result=
 			"$function" result
 			bashy_array_result+=("$result")
 			bashy_array_diff+=("NO_PROFILE")

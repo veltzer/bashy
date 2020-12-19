@@ -20,6 +20,10 @@ function assertNotEqual() {
 	fi
 }
 
+function assertOK() {
+	:
+}
+
 function assertFail() {
 	echo "assertion failed"
 	exit $ASSERT_FAILED_CODE
