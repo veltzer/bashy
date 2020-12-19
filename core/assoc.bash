@@ -7,6 +7,17 @@
 
 source_relative null.bash
 
+# This is a function that creates a new global associative array in a variable
+# name of your choosing.
+# Note the -g flag which makes a global associative array. It is necessary,
+# otherwise the associative array which is created will be local.
+function assoc_new() {
+	local __user_var=$1
+	declare -gA "$__user_var"
+	local __assoc_name=$1
+	eval "declare -gA $__assoc_name=()"
+}
+
 # This is a function that returns an associative arrays length
 function assoc_len() {
 	local -n __assoc_name=$1
@@ -28,15 +39,6 @@ function assoc_print() {
 		eval "local val=\${$__assoc_name['$key']}"
 		echo "$key --> $val"
 	done
-}
-
-# This is a function that creates a new global associative array in a variable
-# name of your choosing.
-# Note the -g flag which makes a global associative array. It is necessary,
-# otherwise the associative array which is created will be local.
-function assoc_create() {
-	local __assoc_name=$1
-	eval "declare -gA $__assoc_name=()"
 }
 
 function assoc_set() {

@@ -44,7 +44,7 @@ myenv_conf_file_name=".myenv"
 myenv_md5_file_name="md5sum"
 
 function myenv_getconf() {
-	assoc_create myenv_conf
+	assoc_new myenv_conf
 	export myenv_conf
 
 	# first read the configuration from the home folder

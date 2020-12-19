@@ -10,7 +10,7 @@
 aws_conf_file_name=".myenv"
 
 function aws_prompt() {
-	assoc_create aws_conf
+	assoc_new aws_conf
 	export aws_conf
 
 	export aws_home_conf_file="$HOME/$aws_conf_file_name"

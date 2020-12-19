@@ -2,7 +2,7 @@
 
 function array_new() {
 	local __user_var=$1
-	declare -ga "$__user_var"
+	declare -ga "$__user_var=()"
 }
 
 function array_set() {

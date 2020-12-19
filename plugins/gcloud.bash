@@ -10,7 +10,7 @@
 gcloud_conf_file_name=".myenv"
 
 function gcloud_prompt() {
-	assoc_create gcloud_conf
+	assoc_new gcloud_conf
 	export gcloud_conf
 
 	export gcloud_home_conf_file="$HOME/$gcloud_conf_file_name"

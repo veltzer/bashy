@@ -1,7 +1,7 @@
 source core/assoc.bash
 
 function testAssoc() {
-	assoc_create conf
+	assoc_new conf
 	assoc_config_read conf "data/test.conf"
 	assoc_len conf len
 	assertEquals "$len" 2
