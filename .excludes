@@ -1,0 +1,16 @@
+.git
+.gitignore
+.venv
+.myenv
+doc
+data
+requirements.txt
+test_all.bash
+tests
+README.md
+out
+Makefile
+LICENSE
+install_in_home.bash
+.excludes
+.shellcheckrc
