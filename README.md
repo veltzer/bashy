@@ -8,7 +8,7 @@ It is plugin based and allows for easy extension.
 First clone the repository into your home directory:
 
 ```bash
-git clone git@github.com:veltzer/bashy.git ~/.bashy
+git clone --depth 1 git@github.com:veltzer/bashy.git ~/.bashy
 ```
 
 Then edit ~/.bashrc and add the following line:
