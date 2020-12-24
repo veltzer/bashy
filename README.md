@@ -8,11 +8,13 @@ First clone the repository into your home directory:
 
 	git clone git@github.com:veltzer/bashy.git ~/.bashy
 
-Then edit ~/.bashrc and add:
+Then edit ~/.bashrc and add the following line:
 
+```bash
 	source ~/.bashy/bashy.bash
+```
 
-In my own setup this is the only line in my ~/.bashrc
+In my own setup this is the only line I have in my ~/.bashrc
 
 ## Working with bashy
 
@@ -27,9 +29,12 @@ To check the status of plugins of bashy use:
 To disable or enable a plugins or to change the order in which
 they are applied just edit ~/.bashy.list
 
-To install prepreqs to bashy enabled plugins use:
-
-	bashy_install
+	# this file supports hash comments
+	by_host
+	meta
+	path_mine
+	-path_pycharm_add
+	pylogconf
 
 To reread the plugins use:
 
