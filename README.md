@@ -3,6 +3,10 @@
 Bashy is bash based system to enable you control of your bash with precision and elegance.
 It is plugin based and allows for easy extension.
 
+## Build status
+
+![build](https://github.com/veltzer/bashy/workflows/build/badge.svg)
+
 ## Installng bashy
 
 First clone the repository into your home directory:
