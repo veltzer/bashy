@@ -18,6 +18,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Install tools
-      run: apt install -y shellcheck
+      run: sudo apt-get install -yq shellcheck
     - name: Build
       run: make
