@@ -1,6 +1,13 @@
 function configure_python() {
 	local -n __var=$1
-	__var=0
+	PYTHON_LOCAL="$HOME/install/python"
+	if [ -d "$PYTHON_LOCAL" ]
+	then
+		pathutils_add_tail PYTHONPATH "$HOME/install/python"
+		__var=0
+		return
+	fi
+	__var=1
 }
 
 function pyrun() {
