@@ -1,4 +1,4 @@
-# bashy
+# Bashy
 
 Bashy is bash based system to enable you control of your bash with precision and elegance.
 It is plugin based and allows for easy extension.
@@ -7,34 +7,34 @@ It is plugin based and allows for easy extension.
 
 ![build](https://github.com/veltzer/bashy/workflows/build/badge.svg)
 
-## Installng bashy
+## Installng Bashy
 
 First clone the repository into your home directory:
 
 ```bash
-git clone --depth 1 git@github.com:veltzer/bashy.git ~/.bashy
+$ git clone --depth 1 git@github.com:veltzer/bashy.git ~/.bashy
 ```
 
 Then edit ~/.bashrc and add the following line:
 
 ```bash
-source ~/.bashy/bashy.bash
+$ source ~/.bashy/bashy.bash
 ```
 
 In my own setup this is the only line I have in my ~/.bashrc
 
-## Working with bashy
+## Working with Bashy
 
-To check the status of the core of bashy use:
+To check the status of the core of Bashy use:
 
 ```bash
-bashy_status_core
+$ bashy_status_core
 ```
 
-To check the status of plugins of bashy use:
+To check the status of plugins of Bashy use:
 
 ```bash
-bashy_status_plugins
+$ bashy_status_plugins
 ```
 
 To disable or enable a plugins or to change the order in which
@@ -52,20 +52,20 @@ pylogconf
 To reread the plugins use:
 
 ```bash
-bashy_load_plugins
+$ bashy_load_plugins
 ```
 
-To reinit bashy when a new version is installed or pulled:
+To reinit Bashy when a new version is installed or pulled:
 
 ```bash
-bashy_init
+$ bashy_init
 ```
 
-## Writing bashy plugins
+## Writing Bashy plugins
 
-bashy plugins may never fail a command (all commands need to return 0)
+Bashy plugins may never fail a command (all commands need to return 0)
 
-bashy plugins need to set a variable passed by reference to either 0 or 1.
+Bashy plugins need to set a variable passed by reference to either 0 or 1.
 
 Here is the most basic plugin:
 
