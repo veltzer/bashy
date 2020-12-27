@@ -26,6 +26,7 @@ path_remove_games
 postgresql
 pymultigit
 python
+pycharm
 ruby
 go
 phantomjs
