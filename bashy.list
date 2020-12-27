@@ -21,6 +21,7 @@ host_aliases
 ls
 manpath
 myenv
+local_install
 path_dot_local
 path_remove_games
 postgresql
