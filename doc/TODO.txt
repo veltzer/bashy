@@ -1,4 +1,6 @@
-- make the basic code use more "local -n" and less eval.
+- make sure that we have no "evals" left in the code.
+- allow plugins to depend on our plugins and deduce right order and plugins
+	to activate automatically.
 - add an option for plugins to report what type of error made them not run.
 	This could be done with another variable passed to the plugin function
 	whose value is the reason for the error in case the plugin returns "1".
@@ -12,21 +14,14 @@
 	that runs all tests and makes sure that everything is fine.
 - bashy should not pollute the users bash namespace with too many functions.
 	this is a work in progress, look at core/misc.sh.
-- bashy should allow the main config file (~/.bashy/external/bashy.list)
-	to add plugins to whatever there is in the default
-	bashy configuration and to remove plugins.
-	maybe:
-	+ [name]
-	- [name]
 - make bashy be reloadable (currently it is not as the array just keep growing).
 - make every bashy plugin have turn on and turn off so that we could turn them
 	on and off.
 	do commands for that.
-- make bash have uninstall for each plugin and install.
+- make bashy have uninstall for each plugin and install.
+- if a plugin needs a configuration option let him declare that and documentation for it.
+	Let it read it from the ~/.bashy.config file (the file already exists)
 - separate myenv from bashy.
 - stop calling all the functions bashy_* and configure_* install_* these pollute the users
 	namespace. Put _bashy in front of any function that is internal to bashy.
 	bashy_+[TAB] should only show functions that users may want to run.
-- there are plugins which should be run after other plugins.
-	enable plugins to express that dependency and load the plugins in the right
-	order.
