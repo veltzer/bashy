@@ -21,4 +21,8 @@ function configure_encfs() {
 	__var=1
 }
 
+function encfs_umount() {
+	fusermount -u "$ENCFS_FOLDER_CLEAR"
+}
+
 register configure_encfs
