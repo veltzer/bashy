@@ -3,6 +3,7 @@ function configure_development_aliases() {
 	# development stuff
 	alias date_mysql="date +'%F %T'"
 	alias date_javascript="date -u"
+	alias dmesg="dmesg --color --nopager --reltime"
 	__var=0
 }
 
