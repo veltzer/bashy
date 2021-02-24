@@ -43,5 +43,6 @@ aws
 gh
 haskell
 -k8s
+gradle
 encfs
 node
