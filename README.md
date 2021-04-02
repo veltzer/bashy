@@ -12,16 +12,16 @@ It is plugin based and allows for easy extension.
 First clone the repository into your home directory:
 
 ```bash
-$ git clone --depth 1 git@github.com:veltzer/bashy.git ~/.bashy
+$ git clone --depth 1 git@github.com:veltzer/bashy.git ~/.bashy && rm -rf ~/.bashy/.git
 ```
 
-Then edit ~/.bashrc and add the following line:
+Then edit `~/.bashrc` and add the following line as the last line:
 
 ```bash
 $ source ~/.bashy/bashy.bash
 ```
 
-In my own setup this is the only line I have in my ~/.bashrc
+In my own setup this is the only line I have in my `~/.bashrc`
 
 ## Working with Bashy
 
@@ -38,7 +38,7 @@ $ bashy_status_plugins
 ```
 
 To disable or enable a plugins or to change the order in which
-they are applied just edit ~/.bashy.list
+they are applied just edit `~/.bashy.list`
 
 ```
 # this file supports hash comments
@@ -70,12 +70,12 @@ Bashy plugins need to set a variable passed by reference to either 0 or 1.
 Here is the most basic plugin:
 
 ```bash
-function configure_hello_bashy() {
+function configure_hello_plugin() {
 	local -n __var=$1
 	# this means everything was ok
 	__var=0
 }
-register configure_hello_bashy
+register configure_hello_plugin
 ```
 
 ## Similar projects
