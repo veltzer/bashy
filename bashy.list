@@ -49,3 +49,4 @@ gradle
 encfs
 node
 helm
+proxy
