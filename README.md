@@ -78,6 +78,30 @@ function configure_hello_plugin() {
 register configure_hello_plugin
 ```
 
+## Config files
+
+You can configure various plgins via the `~/.bashy.config` file.
+
+Here is an example:
+```bash
+ENCFS_ENABLED=true
+ENCFS_FOLDER_CLEAR="$HOME/insync.real"
+ENCFS_FOLDER_ENCRYPTED="$HOME/insync/encrypted"
+ENCFS_PASSWORD=Uf2QJQ48Ui
+PROXY_ENABLED=false
+```
+
+This is a bash file and so you can overwrite values by using bash so:
+```bash
+if [ "$HOSTNAME" = "ion" ]
+then
+	PROXY_ENABLED=true
+	PROXY_HTTP="http://gproxy.corp.amdocs.com:8080"
+	PROXY_HTTPS="http://gproxy.corp.amdocs.com:8080"
+	PROXY_NO="localhost,.corp.amdocs.com"
+fi
+```
+
 ## Similar projects
 
 * https://github.com/Bash-it/bash-it
