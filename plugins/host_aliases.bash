@@ -13,4 +13,4 @@ function configure_host_aliases() {
 	__var=1
 }
 
-register_interactive configure_host_aliases
+register configure_host_aliases
