@@ -26,7 +26,7 @@ path_dot_local
 path_remove_games
 postgresql
 pymultigit
-java
+#java
 #graal
 python
 perl
