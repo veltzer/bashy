@@ -1,7 +1,7 @@
 function configure_pycharm() {
 	local -n __var=$1
 	#PYCHARM_HOME="${HOME}/install/pycharm"
-	PYCHARM_HOME="${HOME}/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-1/203.6682.86"
+	PYCHARM_HOME="${HOME}/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-1/211.7142.13"
 	PYCHARM_BIN="$PYCHARM_HOME/bin"
 	if [ -d "$PYCHARM_HOME" ] && [ -d "$PYCHARM_BIN" ]
 	then
