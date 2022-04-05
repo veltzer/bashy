@@ -5,6 +5,7 @@ function configure_k8s() {
 	then
 		export K8S_HOME
 		pathutils_add_head PATH "${K8S_HOME}"
+		source <(kubectl completion bash)
 		__var=0
 		return
 	fi
