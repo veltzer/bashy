@@ -3,7 +3,7 @@ tmux
 # the powerline plugin must be before other plugins that customize the shell
 -powerline
 -pureline
-bash-powerline-shell
+powerline-shell
 # other plugins
 ansible
 bash_completions_aws
