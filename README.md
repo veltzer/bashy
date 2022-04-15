@@ -12,7 +12,7 @@ It is plugin based and allows for easy extension.
 First clone the repository into your home directory:
 
 ```bash
-$ git clone --branch master --depth 1 git@github.com:veltzer/bashy.git ~/.bashy && rm -rf ~/.bashy/.git
+$ git clone --branch master --depth 1 https://github.com/veltzer/bashy.git ~/.bashy && rm -rf ~/.bashy/.git
 ```
 
 Then edit `~/.bashrc` and add the following line as the last line:
