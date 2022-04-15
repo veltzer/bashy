@@ -1,7 +1,7 @@
 - create distributions on github as a result of bashy workflow with proper versioning
 	and change the instructions about using bashy to get bashy from last version.
 - make sure that we have no "evals" left in the code.
-- allow plugins to depend on our plugins and deduce right order and plugins
+- allow plugins to depend on other plugins and deduce right order and plugins
 	to activate automatically.
 - add an option for plugins to report what type of error made them not run.
 	This could be done with another variable passed to the plugin function
