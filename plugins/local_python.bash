@@ -1,14 +1,21 @@
-function configure_python() {
+function configure_local_python() {
 	local -n __var=$1
+	local -n __error=$2
 	export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
-	PYTHON_LOCAL="$HOME/install/python"
-	if [ -d "$PYTHON_LOCAL" ]
+	if ! var_is_defined PYTHON_LOCAL
 	then
-		pathutils_add_tail PYTHONPATH "$PYTHON_LOCAL"
-		__var=0
+		__error="PYTHON_LOCAL is not defined"
+		__var=1
 		return
 	fi
-	__var=1
+	if [ ! -d "$PYTHON_LOCAL" ]
+	then
+		__error="PYTHON_LOCAL is defined but is not a valid directory"
+		__var=1
+		return
+	fi
+	pathutils_add_tail PYTHONPATH "$PYTHON_LOCAL"
+	__var=0
 }
 
 function pyrun() {
@@ -35,4 +42,4 @@ function pyrun() {
 	python -m "$module" "${@:2}"
 }
 
-register configure_python
+register configure_local_python

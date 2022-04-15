@@ -145,6 +145,7 @@ function _bashy_run_plugins() {
 		if [[ $function = 0 ]]
 		then
 			bashy_array_result+=("NO_RESULT")
+			bashy_array_error+=("")
 			bashy_array_diff+=("NO_TIME")
 			continue
 		fi
@@ -159,14 +160,18 @@ function _bashy_run_plugins() {
 		if is_profile
 		then
 			local result=
+			local error=""
 			local diff=
-			measure diff "$function" result
+			measure diff "$function" result error
 			bashy_array_result+=("$result")
+			bashy_array_error+=("$error")
 			bashy_array_diff+=("$diff")
 		else
 			local result=
-			"$function" result
+			local error=""
+			"$function" result error
 			bashy_array_result+=("$result")
+			bashy_array_error+=("$error")
 			bashy_array_diff+=("NO_PROFILE")
 		fi
 	done
@@ -175,7 +180,7 @@ function _bashy_run_plugins() {
 function bashy_status_core() {
 	for name in "${bashy_core_names[@]}"
 	do
-		cecho gr "$name" 1
+		cecho gr "${name}" 1
 		res="${bashy_core_res[$i]}"
 		if [ "$res" = 0 ]
 		then
@@ -236,7 +241,7 @@ function bashy_status_plugins() {
 			if is_profile
 			then
 				local diff="${bashy_array_diff[$i]}"
-				printf "\t%.3f\n" "$diff"
+				printf "\t%.3f\n" "${diff}"
 			else
 				echo
 			fi
@@ -249,6 +254,25 @@ function bashy_status_plugins() {
 	done | column -t
 }
 
+function bashy_errors() {
+	local i
+	((i=0))
+	for plugin in "${bashy_array_plugin[@]}"
+	do
+		local error="${bashy_array_error[$i]}"
+		if [ "${error}" != "" ]
+		then
+			cecho r "${plugin} - ${error}\n" 1
+		fi
+		((i++))
+	done
+}
+
+function bashy_debug() {
+	array_print bashy_array_error
+	array_print bashy_array_plugin
+}
+
 declare -a bashy_core_names
 declare -a bashy_core_res
 
@@ -258,6 +282,7 @@ declare -a bashy_array_found
 declare -a bashy_array_filename
 declare -a bashy_array_source
 declare -a bashy_array_result
+declare -a bashy_array_error
 declare -a bashy_array_diff
 
 function _bashy_init() {

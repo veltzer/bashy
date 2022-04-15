@@ -28,7 +28,7 @@ postgresql
 pymultigit
 #java
 #graal
-python
+local_python
 perl
 pycharm
 ruby
