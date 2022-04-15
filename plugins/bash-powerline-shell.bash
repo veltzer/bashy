@@ -19,6 +19,7 @@ function configure_bash_powerline_shell() {
 
 function install_powerline_shell() {
 	pip install powerline-shell
+	sudo apt-get install fonts-powerline
 }
 
 register_interactive configure_bash_powerline_shell
