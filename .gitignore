@@ -2,3 +2,5 @@
 /install
 *.stamp
 /.venv
+__pycache__
+/.pydmt

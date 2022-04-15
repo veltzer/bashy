@@ -3,11 +3,11 @@
 Bashy is bash based system to enable you control of your bash with precision and elegance.
 It is plugin based and allows for easy extension.
 
-## Build status
+<%text>## Build status</%text>
 
 ![build](https://github.com/veltzer/bashy/workflows/build/badge.svg)
 
-## Installing Bashy
+<%text>## Installing Bashy</%text>
 
 First clone the repository into your home directory:
 
@@ -23,7 +23,7 @@ source ~/.bashy/bashy.bash
 
 In my own setup this is the only line I have in my `~/.bashrc`
 
-## Working with Bashy
+<%text>## Working with Bashy</%text>
 
 To check the status of the core of Bashy use:
 
@@ -61,7 +61,7 @@ To reinit Bashy when a new version is installed or pulled:
 $ bashy_init
 ```
 
-## Writing Bashy plugins
+<%text>## Writing Bashy plugins</%text>
 
 Bashy plugins may never fail a command (all commands need to return 0)
 
@@ -78,7 +78,7 @@ function configure_hello_plugin() {
 register configure_hello_plugin
 ```
 
-## Config files
+<%text>## Config files</%text>
 
 You can configure various plgins via the `~/.bashy.config` file.
 
@@ -102,7 +102,7 @@ then
 fi
 ```
 
-## Similar projects
+<%text>## Similar projects</%text>
 
 * https://github.com/Bash-it/bash-it
 * https://github.com/ohmyzsh/ohmyzsh
@@ -111,7 +111,7 @@ fi
 * https://github.com/daniruiz/dotfiles
 * https://github.com/Gkiokan/.pimp-my-bash
 
-## Articles
+<%text>## Articles</%text>
 
 * https://www.freecodecamp.org/news/jazz-up-your-bash-terminal-a-step-by-step-guide-with-pictures-80267554cb22/
 * https://medium.com/@mandymadethis/pimp-out-your-command-line-b317cf42e953
