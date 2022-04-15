@@ -132,7 +132,11 @@ function _bashy_load_plugins() {
 
 function _bashy_load_config() {
 	# shellcheck source=/dev/null
-	source "$HOME/.bashy.config"
+	BASHY_CONFIG="$HOME/.bashy.config"
+	if [ -f "$BASHY_CONFIG" ]
+	then	
+		source "$BASHY_CONFIG"
+	fi
 }
 
 function _bashy_run_plugins() {
