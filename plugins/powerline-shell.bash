@@ -1,3 +1,5 @@
+# plugin for https://github.com/b-ryan/powerline-shell
+
 function _update_ps1() {
 	PS1=$(powerline-shell $?)
 }
