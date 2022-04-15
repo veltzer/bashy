@@ -1,10 +1,10 @@
 function configure_python() {
 	local -n __var=$1
-	PYTHON_LOCAL="$HOME/install/python"
 	export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
+	PYTHON_LOCAL="$HOME/install/python"
 	if [ -d "$PYTHON_LOCAL" ]
 	then
-		pathutils_add_tail PYTHONPATH "$HOME/install/python"
+		pathutils_add_tail PYTHONPATH "$PYTHON_LOCAL"
 		__var=0
 		return
 	fi
