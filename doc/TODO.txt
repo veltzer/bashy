@@ -4,6 +4,7 @@
 - make sure that we have no "evals" left in the code.
 - allow plugins to depend on other plugins and deduce right order and plugins
 	to activate automatically.
+- consider using libraries from https://github.com/juan131/bash-libraries
 - consider using https://gitlab.com/bertrand-benoit/scripts-common
 - clean our path (remove duplicate entries) in bashy.
 - put all the extra paths we have at the end of the path and not in the beginging.
