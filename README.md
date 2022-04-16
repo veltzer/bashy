@@ -12,7 +12,7 @@ It is plugin based and allows for easy extension.
 First clone the repository into your home directory:
 
 ```bash
-$ git clone --branch master --depth 1 https://github.com/veltzer/bashy.git ~/.bashy && rm -rf ~/.bashy/.git
+git clone --branch master --depth 1 https://github.com/veltzer/bashy.git ~/.bashy && rm -rf ~/.bashy/.git
 ```
 
 Then edit `~/.bashrc` and add the following line as the last line:
@@ -30,18 +30,23 @@ Just add this line before sourcing bashy:
 set -o xtrace
 ```
 
+To see all errors use:
+```bash
+bashy_errors
+```
+
 ## Working with Bashy
 
 To check the status of the core of Bashy use:
 
 ```bash
-$ bashy_status_core
+bashy_status_core
 ```
 
 To check the status of plugins of Bashy use:
 
 ```bash
-$ bashy_status_plugins
+bashy_status_plugins
 ```
 
 To disable or enable a plugins or to change the order in which
@@ -59,13 +64,13 @@ pylogconf
 To reread the plugins use:
 
 ```bash
-$ bashy_load_plugins
+bashy_load_plugins
 ```
 
 To reinit Bashy when a new version is installed or pulled:
 
 ```bash
-$ bashy_init
+bashy_init
 ```
 
 ## Writing Bashy plugins
