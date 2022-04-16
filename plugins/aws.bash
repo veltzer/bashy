@@ -40,8 +40,10 @@ function aws_prompt() {
 # this is the main function for aws, it takes care of running
 # the 'aws_prompt' function on every prompt.
 # This is done via the 'PROMPT_COMMAND' feature of bash.
+# This one cannot fail since it does not depend on anything
 function configure_aws() {
 	local -n __var=$1
+	local -n __error=$2
 	if declare -p PROMPT_COMMAND 2> /dev/null > /dev/null
 	then
 		export PROMPT_COMMAND="aws_prompt; $PROMPT_COMMAND"

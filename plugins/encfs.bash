@@ -28,8 +28,8 @@ function configure_encfs() {
 	# mountpoint checks if the mount is already there and ensures we only mount once
 	if mountpoint -q "$ENCFS_FOLDER_CLEAR"
 	then
-		__error="folder $ENCFS_FOLDER_CLEAR already mounted"
-		__var=1
+		# __error="folder $ENCFS_FOLDER_CLEAR already mounted"
+		__var=0
 		return
 	fi
 	echo "$ENCFS_PASSWORD" | encfs --stdinpass "$ENCFS_FOLDER_ENCRYPTED" "$ENCFS_FOLDER_CLEAR"
