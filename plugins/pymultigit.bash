@@ -1,6 +1,12 @@
 function configure_pymultigit() {
 	local -n __var=$1
-	# these are aliases for pymultigit
+	local -n __error=$2
+	if ! pathutils_is_in_path pymultigit
+	then
+		__error="pymultigit is not installed or is not in path"
+		__var=1
+		return
+	fi
 	alias mg=pymultigit
 	__var=0
 }
