@@ -9,7 +9,8 @@ function sleep_a_little() {
 function testMeasure() {
 	local diff=
 	local result=
-	measure diff sleep_a_little result
+	local error=
+	measure diff sleep_a_little result error
 	# echo "diff is $diff"
 	# echo "result is $result"
 	assertLt "$diff" 2.1
