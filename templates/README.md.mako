@@ -1,4 +1,8 @@
-# Bashy
+<%!
+    import config.project
+    import user.personal
+%>${config.project.project_name}
+${'=' * len(config.project.project_name)}
 
 Bashy is bash based system to enable you control of your bash with precision and elegance.
 It is plugin based and allows for easy extension.
@@ -130,4 +134,4 @@ fi
 * https://www.maketecheasier.com/customise-bash-prompt-linux/
 * https://www.computerworld.com/article/2833199/3-ways-to-pimp-your-bash-console.html
 
-Mark Veltzer <mark.veltzer@gmail.com>
+	${user.personal.personal_origin}, ${config.project.project_copyright_years}

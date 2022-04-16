@@ -1,4 +1,5 @@
-# Bashy
+bashy
+=====
 
 Bashy is bash based system to enable you control of your bash with precision and elegance.
 It is plugin based and allows for easy extension.
@@ -130,4 +131,4 @@ fi
 * https://www.maketecheasier.com/customise-bash-prompt-linux/
 * https://www.computerworld.com/article/2833199/3-ways-to-pimp-your-bash-console.html
 
-Mark Veltzer <mark.veltzer@gmail.com>
+	Mark Veltzer <mark.veltzer@gmail.com>, 2017-2022
