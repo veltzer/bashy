@@ -1,24 +1,39 @@
 function configure_encfs() {
 	local -n __var=$1
-	if pathutils_is_in_path encfs
+	local -n __error=$2
+	if ! pathutils_is_in_path encfs
 	then
-		if "$ENCFS_ENABLED"
-		then
-			if [ -d "$ENCFS_FOLDER_CLEAR" ] && [ -d "$ENCFS_FOLDER_ENCRYPTED" ]
-			then
-				# mountpoint checks if the mount is already there and ensures we only mount once
-				if mountpoint -q "$ENCFS_FOLDER_CLEAR"
-				then
-					__var=0
-					return
-				fi
-				echo "$ENCFS_PASSWORD" | encfs --stdinpass "$ENCFS_FOLDER_ENCRYPTED" "$ENCFS_FOLDER_CLEAR"
-				__var=$?
-				return
-			fi
-		fi
+		__error="encfs not installed or not in path"
+		__var=1
+		return
 	fi
-	__var=1
+	if ! "$ENCFS_ENABLED"
+	then
+		__error="encfs not enabled"
+		__var=1
+		return
+	fi
+	if [ ! -d "$ENCFS_FOLDER_CLEAR" ]
+	then
+		__error="folder $ENCFS_FOLDER_CLEAR does not exist"
+		__var=1
+		return
+	fi
+	if [ ! -d "$ENCFS_FOLDER_ENCRYPTED" ]
+	then
+		__error="folder $ENCFS_FOLDER_ENCRYPTED does not exist"
+		__var=1
+		return
+	fi
+	# mountpoint checks if the mount is already there and ensures we only mount once
+	if mountpoint -q "$ENCFS_FOLDER_CLEAR"
+	then
+		__error="folder $ENCFS_FOLDER_CLEAR already mounted"
+		__var=1
+		return
+	fi
+	echo "$ENCFS_PASSWORD" | encfs --stdinpass "$ENCFS_FOLDER_ENCRYPTED" "$ENCFS_FOLDER_CLEAR"
+	__var=$?
 }
 
 function encfs_umount() {
@@ -26,3 +41,7 @@ function encfs_umount() {
 }
 
 register configure_encfs
+
+function encfs_install() {
+	sudo apt install encfs
+}

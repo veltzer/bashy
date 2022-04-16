@@ -1,3 +1,4 @@
+- add debug capabilities that will print which plugin is loaded.
 - create distributions on github as a result of bashy workflow with proper versioning
 	and change the instructions about using bashy to get bashy from last version.
 - make sure that we have no "evals" left in the code.

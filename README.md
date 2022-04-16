@@ -23,6 +23,13 @@ source ~/.bashy/bashy.bash
 
 In my own setup this is the only line I have in my `~/.bashrc`
 
+## Debugging Bashy
+
+Just add this line before sourcing bashy:
+```bash
+set -o xtrace
+```
+
 ## Working with Bashy
 
 To check the status of the core of Bashy use:
@@ -84,21 +91,21 @@ You can configure various plgins via the `~/.bashy.config` file.
 
 Here is an example:
 ```bash
-ENCFS_ENABLED=true
-ENCFS_FOLDER_CLEAR="$HOME/insync.real"
-ENCFS_FOLDER_ENCRYPTED="$HOME/insync/encrypted"
-ENCFS_PASSWORD=XXXXXXXX
-PROXY_ENABLED=false
+readonly ENCFS_ENABLED=true
+readonly ENCFS_FOLDER_CLEAR="$HOME/insync.real"
+readonly ENCFS_FOLDER_ENCRYPTED="$HOME/insync/encrypted"
+readonly ENCFS_PASSWORD=XXXXXXXX
+readonly PROXY_ENABLED=false
 ```
 
-This is a bash file and so you can overwrite values by using bash so:
+This is a bash file and so you can overwrite values by using conditionals so:
 ```bash
 if [ "$HOSTNAME" = "ion" ]
 then
-	PROXY_ENABLED=true
-	PROXY_HTTP="http://gproxy.corp.amdocs.com:8080"
-	PROXY_HTTPS="http://gproxy.corp.amdocs.com:8080"
-	PROXY_NO="localhost,.corp.amdocs.com"
+	readonly PROXY_ENABLED=true
+	readonly PROXY_HTTP="http://gproxy.corp.amdocs.com:8080"
+	readonly PROXY_HTTPS="http://gproxy.corp.amdocs.com:8080"
+	readonly PROXY_NO="localhost,.corp.amdocs.com"
 fi
 ```
 
