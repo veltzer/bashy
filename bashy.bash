@@ -1,9 +1,9 @@
-# The is the main entry point of bashy....
+# The is the main entry point of bashy
 #
 # Here is the general flow here:
 #
 # _bashy_load_core - loads core functions under ~/.bashy/core/*.bash
-# _bashy_read_plugins - reads which plugins you wannt loaded
+# _bashy_read_plugins - reads which plugins you want loaded
 # 	from either ~/.bashy.list or ~/.bashy/bashy.list
 # _bashy_load_plugins - loads the plugins you wanted from
 # 	~/.bashy/plugins
@@ -115,10 +115,7 @@ function _bashy_load_plugins() {
 		enabled="${bashy_array_enabled[$i]}"
 		if [[ $enabled = 1 ]]
 		then
-			if is_debug
-			then
-				echo "bashy: loading [$plugin]..."
-			fi
+			debug "loading [$plugin]"
 			# shellcheck source=/dev/null
 			source_absolute "$current_filename" > /dev/null 2> /dev/null
 			bashy_array_source+=($?)
@@ -151,7 +148,7 @@ function _bashy_run_plugins() {
 		fi
 		if is_debug
 		then
-			echo "$function"
+			debug "running function [${function}]"
 		fi
 		if is_step
 		then
@@ -195,7 +192,7 @@ function bashy_status_core() {
 # this is different than file status since if a file
 # failed to load it may not have installed any plugin
 # handlers which may have succeeded in initializing
-# or not...
+# or not
 function bashy_status_plugins() {
 	((i=0))
 	for plugin in "${bashy_array_plugin[@]}"
@@ -286,11 +283,13 @@ declare -a bashy_array_error
 declare -a bashy_array_diff
 
 function _bashy_init() {
+	_bashy_load_config
 	_bashy_load_core
+	debug "bashy_starting"
 	_bashy_read_plugins
 	_bashy_load_plugins
-	_bashy_load_config
 	_bashy_run_plugins
+	debug "bashy_ending"
 }
 
 # now run _bashy_init

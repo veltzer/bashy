@@ -38,6 +38,12 @@ To see all errors use:
 bashy_errors
 ```
 
+To get debug messages you can create a `~/.bashy.config` and put the following content into it:
+
+```
+readonly BASHY_DEBUG=0
+```
+
 ## Working with Bashy
 
 To check the status of the core of Bashy use:
