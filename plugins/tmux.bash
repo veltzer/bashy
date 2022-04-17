@@ -61,23 +61,25 @@ function configure_tmux() {
 
 function configure_tmux_old() {
 	local -n __var=$1
-	if pathutils_is_in_path tmux
+	local -n __error=$2
+	if ! pathutils_is_in_path tmux
 	then
-		# if not in tmux
-		if [[ -z ${TMUX+x} ]]
-		then
-			session="0"
-			if tmux has-session -t $session 2> /dev/null
-			then
-				exec tmux attach-session -t $session
-			else
-				exec tmux new-session -s $session
-			fi
-		fi
-		__var=0
+		__error="[tmux] is not in PATH"
+		__var=1
 		return
 	fi
-	__var=1
+	# if not in tmux
+	if [[ -z ${TMUX+x} ]]
+	then
+		session="0"
+		if tmux has-session -t $session 2> /dev/null
+		then
+			exec tmux attach-session -t $session
+		else
+			exec tmux new-session -s $session
+		fi
+	fi
+	__var=0
 }
 
 register_interactive configure_tmux

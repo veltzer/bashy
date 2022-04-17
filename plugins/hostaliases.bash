@@ -1,13 +1,15 @@
 function configure_hostaliases() {
 	local -n __var=$1
+	local -n __error=$2
 	HOSTALIASES="$HOME/.hostaliases"
-	if [ -r "$HOSTALIASES" ]
+	if [ ! -f "$HOSTALIASES" ] || [ ! -r "$HOSTALIASES" ]
 	then
-		export HOSTALIASES
-		__var=0
+		__error="[$HOSTALIASES] either doesnt exist or is not readable"
+		__var=1
 		return
 	fi
-	__var=1
+	export HOSTALIASES
+	__var=0
 }
 
 register configure_hostaliases

@@ -1,5 +1,6 @@
 function configure_manpath() {
 	local -n __var=$1
+	local -n __error=$2
 	# this causes MANPATH to always have a terminating colon which will
 	# cause man(1) to always consult standard paths (from manpath(1)).
 	export MANPATH=:

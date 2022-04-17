@@ -1,9 +1,9 @@
 function configure_proxy() {
 	local -n __var=$1
+	local -n __error=$2
 	if "$PROXY_ENABLED"
 	then
 		proxy_enable
-		__var=1
 	fi
 	__var=0
 }

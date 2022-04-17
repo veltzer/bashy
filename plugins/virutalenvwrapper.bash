@@ -1,5 +1,6 @@
 function configure_virtualenvwrapper() {
 	local -n __var=$1
+	local -n __error=$2
 	# you can install virtualenvwrapper with
 	# $ apt install virtualenvwrapper
 	export WORKON_HOME="$HOME/.virtualenvs"
@@ -20,14 +21,15 @@ function configure_virtualenvwrapper() {
 		FOUND_IN=/usr/share/virtualenvwrapper/virtualenvwrapper.sh
 		found=true
 	fi
-	if $found
+	if ! "$found"
 	then
-		# shellcheck source=/dev/null
-		source "$FOUND_IN"
-		__var=0
+		__error="could not find virtualenvwrapper.sh"
+		__var=1
 		return
 	fi
-	__var=1
+	# shellcheck source=/dev/null
+	source "$FOUND_IN"
+	__var=0
 }
 
 register_interactive configure_virtualenvwrapper

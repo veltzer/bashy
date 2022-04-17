@@ -6,13 +6,14 @@ function _update_ps1() {
 
 function configure_powerline_shell() {
 	local -n __var=$1
+	local -n __error=$2
 	if ! command -v powerline-shell &> /dev/null
 	then
-		echo "could not find powerline-shell, please install"
+		__error="[powerline-shell] is not in path"
 		__var=1
 		return
 	fi
-	if [[ $TERM != linux && ! $PROMPT_COMMAND =~ _update_ps1 ]]
+	if [[ $TERM != "linux" && ! $PROMPT_COMMAND =~ "_update_ps1" ]]
 	then
 		PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 	fi

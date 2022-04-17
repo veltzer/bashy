@@ -1,5 +1,6 @@
 function configure_history_for_multiple_terminals() {
 	local -n __var=$1
+	local -n __error=$2
 	# This piece of script takes care of having consistent history
 	# across multiple terminals which is good when working with
 	# multiple x terminals or systems like screen or tmux

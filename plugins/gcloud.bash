@@ -42,6 +42,7 @@ function gcloud_prompt() {
 # This is done via the 'PROMPT_COMMAND' feature of bash.
 function configure_gcloud() {
 	local -n __var=$1
+	local -n __error=$2
 	if declare -p PROMPT_COMMAND 2> /dev/null > /dev/null
 	then
 		export PROMPT_COMMAND="gcloud_prompt; $PROMPT_COMMAND"

@@ -1,11 +1,13 @@
 function configure_helm() {
 	local -n __var=$1
-	if pathutils_is_in_path helm
+	local -n __error=$2
+	if ! pathutils_is_in_path helm
 	then
-		__var=0
-	else
+		__error="[helm] is not in PATH"
 		__var=1
+		return
 	fi
+	__var=0
 }
 
 register configure_helm

@@ -12,19 +12,20 @@
 
 function configure_screen() {
 	local -n __var=$1
-	if pathutils_is_in_path screen
+	local -n __error=$2
+	if ! pathutils_is_in_path screen
 	then
-		if [[ -z ${SCREEN+x} ]]
-		then
-			export SCREEN=yes
-			# shellcheck disable=SC2093
-			exec screen -q -RR
-			__var=0
-		else
-			__var=0
-		fi
+		__error="[screen] is not in PATH"
+		__var=1
+		return
 	fi
-	__var=1
+	if [[ -z ${SCREEN+x} ]]
+	then
+		export SCREEN=yes
+		# shellcheck disable=SC2093
+		exec screen -q -RR
+	fi
+	__var=0
 }
 
 register_interactive configure_screen

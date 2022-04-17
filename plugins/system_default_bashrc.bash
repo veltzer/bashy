@@ -1,15 +1,18 @@
 function configure_system_default_bashrc() {
 	local -n __var=$1
+	local -n __error=$2
 	# This script sources the systems default .bashrc.
-	if [ -f /etc/bash.bashrc ]
+	BASHRC="/etc/bash.bashrc"
+	if [ ! -f "$BASHRC" ]
 	then
-		_bashy_before_thirdparty
-		source /etc/bash.bashrc
-		_bashy_after_thirdparty
-		__var=0
+		__error="[$BASHRC] doesnt exist"
+		__var=1
 		return
 	fi
-	__var=1
+	_bashy_before_thirdparty
+	source "$BASHRC"
+	_bashy_after_thirdparty
+	__var=0
 }
 
 register configure_system_default_bashrc

@@ -3,7 +3,7 @@ function configure_pymultigit() {
 	local -n __error=$2
 	if ! pathutils_is_in_path pymultigit
 	then
-		__error="pymultigit is not installed or is not in path"
+		__error="[pymultigit] is not in PATH"
 		__var=1
 		return
 	fi

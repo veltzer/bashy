@@ -1,6 +1,8 @@
 bashy
 =====
 
+version: 0.0.77
+
 Bashy is bash based system to enable you control of your bash with precision and elegance.
 It is plugin based and allows for easy extension.
 

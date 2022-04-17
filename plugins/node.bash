@@ -1,15 +1,17 @@
 function configure_node() {
 	local -n __var=$1
+	local -n __error=$2
 	NODE_HOME="$HOME/install"
 	NODE_HOME_BIN="$NODE_HOME/bin"
-	if [ -d "$NODE_HOME" ] && [ -d "$NODE_HOME_BIN" ]
+	if [ ! -d "$NODE_HOME" ] || [ ! -d "$NODE_HOME_BIN" ]
 	then
-		pathutils_add_head PATH "$NODE_HOME_BIN"
-		export NODE_HOME
-		__var=0
+		__error="[$NODE_HOME] or [$NODE_HOME_BIN] doesnt exist"
+		__var=1
 		return
 	fi
-	__var=1
+	pathutils_add_head PATH "$NODE_HOME_BIN"
+	export NODE_HOME
+	__var=0
 }
 
 register_interactive configure_node

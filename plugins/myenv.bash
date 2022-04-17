@@ -343,8 +343,10 @@ function myenv_unconfigure() {
 # of bash.
 function configure_myenv() {
 	local -n __var=$1
+	local -n __error=$2
 	if ! pathutils_is_in_path virtualenv md5sum
 	then
+		__error="[virtualenv] or [md5sum] is not in PATH"
 		__var=1
 		return
 	fi

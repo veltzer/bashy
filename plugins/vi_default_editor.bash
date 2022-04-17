@@ -1,13 +1,15 @@
 function configure_vi_default_editor() {
 	local -n __var=$1
-	if [[ -x /usr/bin/vim ]]
+	local -n __error=$2
+	if [[ ! -x "/usr/bin/vim" ]]
 	then
-		export EDITOR='vim'
-		export VISUAL='vim'
-		__var=0
+		__error="[/usr/bin/vin] doesnt exist"
+		__var=1
 		return
 	fi
-	__var=1
+	export EDITOR='vim'
+	export VISUAL='vim'
+	__var=0
 }
 
 register_interactive configure_vi_default_editor

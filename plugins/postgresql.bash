@@ -3,7 +3,7 @@ function configure_postgresql() {
 	local -n __error=$2
 	if ! pathutils_is_in_path psql
 	then
-		__error="psql is not in path"
+		__error="[psql] is not in PATH"
 		__var=1
 		return
 	fi

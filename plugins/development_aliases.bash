@@ -1,5 +1,6 @@
 function configure_development_aliases() {
 	local -n __var=$1
+	local -n __error=$2
 	# development stuff
 	alias date_mysql="date +'%F %T'"
 	alias date_javascript="date -u"

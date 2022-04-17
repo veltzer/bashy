@@ -1,5 +1,6 @@
 function configure_bash_config() {
 	local -n __var=$1
+	local -n __error=$2
 	# this script is where I configure bash to myliking
 	# this does not mean aliases, just shopts and sets.
 

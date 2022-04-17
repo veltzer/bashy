@@ -1,19 +1,18 @@
 function configure_fuck() {
 	local -n __var=$1
-	if pathutils_is_in_path thefuck
+	local -n __error=$2
+	if ! pathutils_is_in_path thefuck
 	then
-		eval "$(thefuck --alias)"
-		__var=0
+		__error="[thefuck] is not in PATH"
+		__var=1
 		return
 	fi
-	__var=1
+	eval "$(thefuck --alias)"
+	__var=0
 }
 
 function install_fuck() {
-	if pathutils_is_in_path pip3
-	then
-		sudo pip3 install thefuck
-	fi
+	sudo pip3 install thefuck
 }
 
 register_interactive configure_fuck
