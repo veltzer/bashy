@@ -32,3 +32,17 @@ function checkReadableFile() {
 	__var2=1
 	return 1
 }
+
+function checkInPath() {
+	local app=$1
+	local -n __var2=$2
+	local -n __error2=$3
+	if pathutils_is_in_path "$app"
+        then
+		__var2=0
+		return 0
+	fi
+	__error2="[$app] is not in PATH"
+	__var2=1
+	return 1
+}
