@@ -2,12 +2,7 @@ function configure_perl() {
 	local -n __var=$1
 	local -n __error=$2
 	PERL_LOCAL="$HOME/install/perl"
-	if [ ! -d "$PERL_LOCAL" ]
-	then
-		__error="[$PERL_LOCAL] doesnt exist"
-		__var=1
-		return
-	fi
+	if ! checkDirectoryExists "$PERL_LOCAL" __var __error; then return; fi
 	export PERL5LIB
 	pathutils_add_tail PERL5LIB "$PERL_LOCAL"
 	# local perl installation with perl -MCPAN

@@ -13,18 +13,8 @@ function configure_encfs() {
 		__var=1
 		return
 	fi
-	if [ ! -d "$ENCFS_FOLDER_CLEAR" ]
-	then
-		__error="folder $ENCFS_FOLDER_CLEAR does not exist"
-		__var=1
-		return
-	fi
-	if [ ! -d "$ENCFS_FOLDER_ENCRYPTED" ]
-	then
-		__error="folder $ENCFS_FOLDER_ENCRYPTED does not exist"
-		__var=1
-		return
-	fi
+	if ! checkDirectoryExists "$ENCFS_FOLDER_CLEAR" __var __error; then return; fi
+	if ! checkDirectoryExists "$ENCFS_FOLDER_ENCRYPTED" __var __error; then return; fi
 	# mountpoint checks if the mount is already there and ensures we only mount once
 	if mountpoint -q "$ENCFS_FOLDER_CLEAR"
 	then

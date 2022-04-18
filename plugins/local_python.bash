@@ -8,12 +8,7 @@ function configure_local_python() {
 		__var=1
 		return
 	fi
-	if [ ! -d "$PYTHON_LOCAL" ]
-	then
-		__error="PYTHON_LOCAL is defined but is not a valid directory"
-		__var=1
-		return
-	fi
+	if ! checkDirectoryExists "$PYTHON_LOCAL" __var __error; then return; fi
 	pathutils_add_tail PYTHONPATH "$PYTHON_LOCAL"
 	__var=0
 }

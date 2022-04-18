@@ -5,9 +5,10 @@ function configure_rvm() {
 	# default version of RUBY
 	RVM_BIN="$HOME/.rvm/bin"
 	RVM_SCRIPTS="$HOME/.rvm/scripts/rvm"
-	if [ ! -d "$RVM_BIN" ] || [ ! -f "RVM_SCRIPTS" ]
+	if ! checkDirectoryExists "$RVM_BIN" __var __error; then return; fi
+	if [ ! -f "RVM_SCRIPTS" ]
 	then
-		__error="[$RVM_BIN] or [$RVM_SCRIPTS] dont exist"
+		__error="[$RVM_SCRIPTS] doesnt exist"
 		__var=1
 		return
 	fi

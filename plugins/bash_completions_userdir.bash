@@ -6,12 +6,7 @@ function configure_bash_completions_userdir() {
 	# sources more than one file at a time so we must
 	# use the loop below....
 	local FOLDER="$HOME/.bash_completion.d"
-	if [ ! -d "$FOLDER" ]
-	then
-		__error="no personal bash completions found in [$FOLDER]"
-		__var=1
-		return
-	fi
+	if ! checkDirectoryExists "$FOLDER" __var __error; then return; fi
 	# check if there are files matching the pattern
 	if compgen -G "$HOME/.bash_completion.d/*" > /dev/null
 	then
