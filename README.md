@@ -117,9 +117,9 @@ This is a bash file and so you can overwrite values by using conditionals so:
 if [ "$HOSTNAME" = "ion" ]
 then
 	readonly PROXY_ENABLED=true
-	readonly PROXY_HTTP="http://gproxy.corp.amdocs.com:8080"
-	readonly PROXY_HTTPS="http://gproxy.corp.amdocs.com:8080"
-	readonly PROXY_NO="localhost,.corp.amdocs.com"
+	readonly PROXY_HTTP="http://proxy.corp.com:8080"
+	readonly PROXY_HTTPS="http://proxy.corp.com:8080"
+	readonly PROXY_NO="localhost,.corp.com"
 fi
 ```
 
