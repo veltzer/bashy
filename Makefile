@@ -5,6 +5,10 @@
 DO_MKDBG:=0
 # do you want to check python syntax?
 DO_CHECK_SYNTAX:=1
+# do you want to run shell tests?
+DO_TEST:=1
+# use the ALL_DEP features (to depend on the Makefile itself)
+DO_ALL_DEP:=1
 
 ########
 # CODE #
@@ -18,15 +22,23 @@ Q:=@
 #.SILENT:
 endif # DO_MKDBG
 
+ifeq ($(DO_ALL_DEP),1)
+	ALL_DEP=Makefile
+endif # DO_ALL_DEP
+
 OUT_DIR:=out
 ALL:=
 ALL_BASH:=$(shell find -type f -and -name "*.bash" -printf "%P\n")
 ALL_BASH_BASE:=$(basename $(ALL_BASH))
 ALL_BASH_STAMP:=$(addsuffix .stamp,$(addprefix $(OUT_DIR)/,$(ALL_BASH_BASE)))
+ALL_TEST_STAMP=out/test_all.test
 
 ifeq ($(DO_CHECK_SYNTAX),1)
 	ALL+=$(ALL_BASH_STAMP)
 endif # DO_CHECK_SYNTAX
+ifeq ($(DO_TEST),1)
+	ALL+=$(ALL_TEST_STAMP)
+endif # DO_TEST
 
 #########
 # RULES #
@@ -69,3 +81,6 @@ $(ALL_BASH_STAMP): out/%.stamp: %.bash $(ALL_DEP)
 	$(info doing [$@])
 	$(Q)shellcheck --shell=bash --external-sources $<
 	$(Q)pymakehelper touch_mkdir $@
+$(ALL_TEST_STAMP): $(ALL_BASH) $(ALL_DEP)
+	$(info doing [$@])
+	$(Q)./test_all.bash
