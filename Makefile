@@ -31,7 +31,6 @@ endif # DO_CHECK_SYNTAX
 #########
 # RULES #
 #########
-.DEFAULT_GOAL=all
 .PHONY: all
 all: $(ALL)
 
@@ -68,5 +67,5 @@ check_all:
 ############
 $(ALL_BASH_STAMP): out/%.stamp: %.bash $(ALL_DEP)
 	$(info doing [$@])
-	$(Q)/usr/bin/shellcheck --shell=bash --external-sources $<
+	$(Q)shellcheck --shell=bash --external-sources $<
 	$(Q)pymakehelper touch_mkdir $@
