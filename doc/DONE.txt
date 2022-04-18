@@ -2,3 +2,4 @@
 	This could be done with another variable passed to the plugin function
 	whose value is the reason for the error in case the plugin returns "1".
 	This value could be shown when doing "bashy_status_plugins".
+- add debug capabilities that will print which plugin is loaded.
