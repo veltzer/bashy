@@ -21,8 +21,8 @@ function testReduce() {
 }
 
 function testPATH() {
-	local before_path=$PATH
 	pathutils_reduce PATH
+	local before_path=$PATH
 	pathutils_add_head PATH "/fubar"
 	assertEquals "/fubar:$before_path" "$PATH"
 }
