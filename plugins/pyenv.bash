@@ -9,12 +9,8 @@ function configure_pyenv() {
 		__var=1
 		return
 	fi
-	if [ ! -d "$PYENV_ROOT" ] || [ ! -d "$PYENV_BIN" ]
-	then
-		__error="[$PYENV_ROOT] or [$PYENV_BIN] dont exist"
-		__var=1
-		return
-	fi
+	if ! checkDirectoryExists "$PYENV_ROOT" __var __error; then return; fi
+	if ! checkDirectoryExists "$PYENV_BIN" __var __error; then return; fi
 	export PYENV_ROOT
 	export PYENV_BIN
 	pathutils_add_head PATH "$PYENV_BIN"

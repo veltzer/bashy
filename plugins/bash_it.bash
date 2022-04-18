@@ -2,12 +2,7 @@ function configure_bash_it() {
 	local -n __var=$1
 	local -n __error=$2
 	BASH_IT="$HOME/.bash_it"
-	if [ ! -d "$BASH_IT" ]
-	then
-		__error="[$BASH_IT] doesnt exist"
-		__var=1
-		return
-	fi
+	if ! checkDirectoryExists "$BASH_IT" __var __error; then return; fi
 	export BASH_IT
 	# Lock and Load a custom theme file
 	# location /.bash_it/themes/
