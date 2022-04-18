@@ -61,3 +61,20 @@ function pathutils_is_in_path() {
 	done
 	return $result
 }
+
+# reduce stuff that repeats
+function pathutils_reduce() {
+	local -n __var=$1
+	local IFS=':'
+	local -a path=()
+	local -A map=()
+	for DIR in $__var
+	do
+		if [ ! "${map[$DIR]+muhaha}" ]
+		then
+			path+=("$DIR")
+			map[$DIR]="yes"
+		fi
+	done
+	__var=${path[*]}
+}

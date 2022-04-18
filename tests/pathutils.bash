@@ -14,8 +14,15 @@ function testAddHead() {
 	assertEquals "$R" "/bin:/usr/games"
 }
 
+function testReduce() {
+	local P="/usr/bin/games:/usr/bin:/bin:/usr/bin/games"
+	pathutils_reduce P
+	assertEquals "$P" "/usr/bin/games:/usr/bin:/bin"
+}
+
 function testPATH() {
 	local before_path=$PATH
+	pathutils_reduce PATH
 	pathutils_add_head PATH "/fubar"
 	assertEquals "/fubar:$before_path" "$PATH"
 }
