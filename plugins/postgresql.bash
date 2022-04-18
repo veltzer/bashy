@@ -1,12 +1,7 @@
 function configure_postgresql() {
 	local -n __var=$1
 	local -n __error=$2
-	if ! pathutils_is_in_path psql
-	then
-		__error="[psql] is not in PATH"
-		__var=1
-		return
-	fi
+	if ! checkInPath psql __var __error; then return; fi
 	export PGDATABASE=postgres
 	__var=0
 }

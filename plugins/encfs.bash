@@ -1,12 +1,7 @@
 function configure_encfs() {
 	local -n __var=$1
 	local -n __error=$2
-	if ! pathutils_is_in_path encfs
-	then
-		__error="encfs not installed or not in path"
-		__var=1
-		return
-	fi
+	if ! checkInPath encfs __var __error; then return; fi
 	if ! "$ENCFS_ENABLED"
 	then
 		__error="encfs not enabled"

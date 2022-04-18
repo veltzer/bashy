@@ -28,46 +28,38 @@
 
 function configure_tmux() {
 	local -n __var=$1
-	if pathutils_is_in_path tmux
+	local -n __error=$2
+	if ! checkInPath tmux __var __error; then return; fi
+	# if not in tmux, then run tmux
+	# if in tmux, don't do anything
+	if [[ -z ${TMUX+x} ]]
 	then
-		# if not in tmux, then run tmux
-		# if in tmux, don't do anything
-		if [[ -z ${TMUX+x} ]]
+		sessions=$(tmux ls | wc -l)
+		if [ "$sessions" -gt 0 ]
 		then
-			sessions=$(tmux ls | wc -l)
-			if [ "$sessions" -gt 0 ]
+			options="new $(tmux ls -F '#{session_name}')"
+			# vim syntax hightlighting is bad at the next line
+			select sel in $options
+			do
+				break
+			done
+			if [ "$sel" = "new" ]
 			then
-				options="new $(tmux ls -F '#{session_name}')"
-				# vim syntax hightlighting is bad at the next line
-				select sel in $options
-				do
-					break
-				done
-				if [ "$sel" = "new" ]
-				then
-					exec tmux new-session
-				else
-					exec tmux attach-session -t "$sel"
-				fi
-			else
 				exec tmux new-session
+			else
+				exec tmux attach-session -t "$sel"
 			fi
+		else
+			exec tmux new-session
 		fi
-		__var=0
-	else
-		__var=1
 	fi
+	__var=0
 }
 
 function configure_tmux_old() {
 	local -n __var=$1
 	local -n __error=$2
-	if ! pathutils_is_in_path tmux
-	then
-		__error="[tmux] is not in PATH"
-		__var=1
-		return
-	fi
+	if ! checkInPath tmux __var __error; then return; fi
 	# if not in tmux
 	if [[ -z ${TMUX+x} ]]
 	then

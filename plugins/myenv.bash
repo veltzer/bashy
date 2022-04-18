@@ -344,12 +344,7 @@ function myenv_unconfigure() {
 function configure_myenv() {
 	local -n __var=$1
 	local -n __error=$2
-	if ! pathutils_is_in_path virtualenv md5sum
-	then
-		__error="[virtualenv] or [md5sum] is not in PATH"
-		__var=1
-		return
-	fi
+	if ! checkInPath md5sum __var __error; then return; fi
 	if declare -p PROMPT_COMMAND 2> /dev/null > /dev/null
 	then
 		export PROMPT_COMMAND="myenv_prompt; $PROMPT_COMMAND"

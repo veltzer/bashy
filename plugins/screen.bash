@@ -13,12 +13,7 @@
 function configure_screen() {
 	local -n __var=$1
 	local -n __error=$2
-	if ! pathutils_is_in_path screen
-	then
-		__error="[screen] is not in PATH"
-		__var=1
-		return
-	fi
+	if ! checkInPath screen __var __error; then return; fi
 	if [[ -z ${SCREEN+x} ]]
 	then
 		export SCREEN=yes
