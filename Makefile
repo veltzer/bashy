@@ -84,3 +84,4 @@ $(ALL_BASH_STAMP): out/%.stamp: %.bash $(ALL_DEP)
 $(ALL_TEST_STAMP): $(ALL_BASH) $(ALL_DEP)
 	$(info doing [$@])
 	$(Q)./test_all.bash
+	$(Q)pymakehelper touch_mkdir $@
