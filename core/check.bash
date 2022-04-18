@@ -18,3 +18,17 @@ function checkDirectoryExists() {
 		return 0
 	fi
 }
+
+function checkReadableFile() {
+	local filename=$1
+	local -n __var2=$2
+	local -n __error2=$3
+	if [ -f "${filename}" ] && [ -r "${filename}" ]
+	then
+		__var2=0
+		return 0
+	fi
+	__error2="file [${filename}] either doesnt exist or is not readable"
+	__var2=1
+	return 1
+}

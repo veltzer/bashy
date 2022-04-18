@@ -6,12 +6,7 @@ function configure_rvm() {
 	RVM_BIN="$HOME/.rvm/bin"
 	RVM_SCRIPTS="$HOME/.rvm/scripts/rvm"
 	if ! checkDirectoryExists "$RVM_BIN" __var __error; then return; fi
-	if [ ! -f "RVM_SCRIPTS" ]
-	then
-		__error="[$RVM_SCRIPTS] doesnt exist"
-		__var=1
-		return
-	fi
+	if ! checkReadableFile "$RVM_SCRIPTS" __var __error; then return; fi
 	export RUBY_VERSION=2.3.3
 	pathutils_add_tail PATH "$RVM_BIN"
 	# shellcheck source=/dev/null
