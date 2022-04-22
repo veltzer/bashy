@@ -7,8 +7,8 @@ DO_MKDBG:=0
 DO_CHECK_SYNTAX:=1
 # do you want to run shell tests?
 DO_TEST:=1
-# use the ALL_DEP features (to depend on the Makefile itself)
-DO_ALL_DEP:=1
+# use the ALLDEP features (to depend on the Makefile itself)
+DO_ALLDEP:=1
 
 ########
 # CODE #
@@ -22,9 +22,9 @@ Q:=@
 #.SILENT:
 endif # DO_MKDBG
 
-ifeq ($(DO_ALL_DEP),1)
-	ALL_DEP=Makefile
-endif # DO_ALL_DEP
+ifeq ($(DO_ALLDEP),1)
+.EXTRA_PREREQS+=$(foreach mk, ${MAKEFILE_LIST},$(abspath ${mk}))
+endif # DO_ALLDEP
 
 OUT_DIR:=out
 ALL:=
@@ -77,11 +77,11 @@ check_all:
 ############
 # patterns #
 ############
-$(ALL_BASH_STAMP): out/%.stamp: %.bash $(ALL_DEP)
+$(ALL_BASH_STAMP): out/%.stamp: %.bash
 	$(info doing [$@])
 	$(Q)shellcheck --shell=bash --external-sources $<
 	$(Q)pymakehelper touch_mkdir $@
-$(ALL_TEST_STAMP): $(ALL_BASH) $(ALL_DEP)
+$(ALL_TEST_STAMP): $(ALL_BASH)
 	$(info doing [$@])
 	$(Q)./test_all.bash
 	$(Q)pymakehelper touch_mkdir $@
