@@ -6,3 +6,5 @@
 - check that when I switch to root I can see it on the powerline-shell
 	no need for this since when I switch to root I can plainly see
 	it since root does not have powerline.
+- add icons of python and git.
+	submit pull request to powerline-shell authors.
