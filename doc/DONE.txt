@@ -3,3 +3,6 @@
 	whose value is the reason for the error in case the plugin returns "1".
 	This value could be shown when doing "bashy_status_plugins".
 - add debug capabilities that will print which plugin is loaded.
+- check that when I switch to root I can see it on the powerline-shell
+	no need for this since when I switch to root I can plainly see
+	it since root does not have powerline.

@@ -1,6 +1,6 @@
 - pimp up my powerline-shell
 	add icons of python and git.
-	check that when I switch to root I can see it.
+		submit pull request to powerline-shell authors.
 	add powerline line feel to tmux.
 - create more check functions in core/check.bash and use them all over my plugins.
 - create distributions on github as a result of bashy workflow with proper versioning
