@@ -45,6 +45,7 @@ endif # DO_TEST
 #########
 .PHONY: all
 all: $(ALL)
+	@true
 
 .PHONY: install
 install:
