@@ -5,8 +5,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-20.04]
-        python-version: [3.8]
+        os: [ ubuntu-18.04, ubuntu-20.04 ]
+        python-version: [ 3.7, 3.8, 3.9 ]
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
@@ -14,10 +14,6 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install python dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-    - name: Install tools
-      run: sudo apt-get install -yq shellcheck
+      run: python -m pip install -r requirements.txt
     - name: Build
-      run: make
+      run: pymakehelper make

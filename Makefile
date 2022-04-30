@@ -9,10 +9,14 @@ DO_CHECK_SYNTAX:=1
 DO_TEST:=1
 # use the ALLDEP features (to depend on the Makefile itself)
 DO_ALLDEP:=1
+# Do you want to do tools?
+DO_TOOLS:=1
 
 ########
 # CODE #
 ########
+ALL:=
+
 # silent stuff
 ifeq ($(DO_MKDBG),1)
 Q:=
@@ -26,8 +30,13 @@ ifeq ($(DO_ALLDEP),1)
 .EXTRA_PREREQS+=$(foreach mk, ${MAKEFILE_LIST},$(abspath ${mk}))
 endif # DO_ALLDEP
 
+TOOLS:=out/tools.stamp
+ifeq ($(DO_TOOLS),1)
+.EXTRA_PREREQS+=$(TOOLS)
+ALL+=$(TOOLS)
+endif # DO_TOOLS
+
 OUT_DIR:=out
-ALL:=
 ALL_BASH:=$(shell find -type f -and -name "*.bash" -printf "%P\n")
 ALL_BASH_BASE:=$(basename $(ALL_BASH))
 ALL_BASH_STAMP:=$(addsuffix .stamp,$(addprefix $(OUT_DIR)/,$(ALL_BASH_BASE)))
@@ -46,6 +55,11 @@ endif # DO_TEST
 .PHONY: all
 all: $(ALL)
 	@true
+
+$(TOOLS): packages.txt config/deps.py
+	$(info doing [$@])
+	$(Q)xargs -a packages.txt sudo apt-get -y install > /dev/null
+	$(Q)pymakehelper touch_mkdir $@
 
 .PHONY: install
 install:
