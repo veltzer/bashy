@@ -7,7 +7,7 @@
 # 				Mark Veltzer
 #				<mark.veltzer@gmail.com>
 
-gcloud_conf_file_name=".myenv"
+gcloud_conf_file_name=".gcloud"
 
 function gcloud_prompt() {
 	assoc_new gcloud_conf
