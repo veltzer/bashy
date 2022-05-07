@@ -8,4 +8,8 @@ function configure_haskell() {
 	__var=0
 }
 
+function haskell_cabal_init() {
+	cabal init
+}
+
 register configure_haskell
