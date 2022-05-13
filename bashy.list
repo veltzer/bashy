@@ -1,8 +1,7 @@
 # this file supports hash comments
+# tmux needs to be the first
 tmux
 # the powerline plugin must be before other plugins that customize the shell
--powerline
--pureline
 powerline-shell
 # other plugins
 ansible
@@ -11,11 +10,9 @@ bash_completions_userdir
 bash_completions_system
 bash_config
 bash
--bash_it
 careful_aliases
 development_aliases
 fzf
--fuck
 git
 gzip
 hostaliases
@@ -27,8 +24,6 @@ path_dot_local
 path_remove_games
 postgresql
 pymultigit
-#java
-#graal
 local_python
 perl
 pycharm
