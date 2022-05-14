@@ -1,6 +1,8 @@
 dev_requires = [
-    "pymakehelper",
     "pydmt",
+]
+make_requires = [
+    "pymakehelper",
 ]
 
 test_os = [ "ubuntu-22.04" ]
