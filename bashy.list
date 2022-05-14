@@ -9,7 +9,7 @@ bash_completions_aws
 bash_completions_userdir
 bash_completions_system
 bash_config
-bash
+history
 careful_aliases
 development_aliases
 fzf
@@ -18,7 +18,6 @@ gzip
 hostaliases
 ls
 manpath
-myenv
 local_install
 path_dot_local
 path_remove_games
@@ -47,3 +46,4 @@ node
 helm
 proxy
 pip
+pydmt
