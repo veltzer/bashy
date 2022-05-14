@@ -43,6 +43,8 @@ echo -n "number of tests failed --> "
 if [ "$count_er" -eq 0 ]
 then
 	cecho g "$count_er" 0
+	exit 0
 else
 	cecho r "$count_er" 0
+	exit 1
 fi
