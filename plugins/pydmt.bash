@@ -200,7 +200,6 @@ function pydmt_unconfigure() {
 function configure_pydmt() {
 	local -n __var=$1
 	local -n __error=$2
-	if ! checkInPath md5sum __var __error; then return; fi
 	if declare -p PROMPT_COMMAND 2> /dev/null > /dev/null
 	then
 		export PROMPT_COMMAND="pydmt_prompt; $PROMPT_COMMAND"

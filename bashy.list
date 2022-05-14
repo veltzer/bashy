@@ -24,6 +24,7 @@ path_remove_games
 postgresql
 pymultigit
 local_python
+python
 perl
 pycharm
 ruby
