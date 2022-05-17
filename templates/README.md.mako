@@ -143,4 +143,4 @@ fi
 * https://www.maketecheasier.com/customise-bash-prompt-linux/
 * https://www.computerworld.com/article/2833199/3-ways-to-pimp-your-bash-console.html
 
-	${user.personal.personal_origin}, ${config.project.project_copyright_years}
+	${user.personal.personal_origin}, ${config.project.project_copyright_years_long}

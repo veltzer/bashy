@@ -1,4 +1,4 @@
-import config.helpers
+import pydmt.helpers.signature
 
 project_github_username = "veltzer"
 project_name = "bashy"
@@ -8,13 +8,8 @@ project_website_source = f"https://github.com/{project_github_username}/{project
 project_website_git = f"git://github.com/{project_github_username}/{project_name}.git"
 project_website_download_ppa = "https://launchpanet/~mark-veltzer/+archive/ubuntu/ppa"
 project_website_download_src = project_website_source
-# noinspection SpellCheckingInspection
-project_paypal_donate_button_id = "ASPRXR59H2NTQ"
-project_google_analytics_tracking_id = "UA-56436979-1"
 project_short_description = "bashy handles bash configuration for you"
 project_long_description = project_short_description
-# keywords to put on html pages or for search, dont put the name of the project or my details
-# as they will be added automatically...
 project_keywords = [
     "bashy",
     "bash",
@@ -34,10 +29,4 @@ project_classifiers = [
 
 project_data_files = []
 
-codacy_id = None
-project_google_analytics_tracking_id = None
-project_paypal_donate_button_id = None
-
-project_copyright_years = config.helpers.get_copyright_years(project_year_started)
-project_google_analytics_snipplet = config.helpers.get_google_analytics(project_google_analytics_tracking_id)
-project_paypal_donate_button_snipplet = config.helpers.get_paypal(project_paypal_donate_button_id)
+project_copyright_years_long = pydmt.helpers.signature.get_copyright_years_long(project_year_started)
