@@ -2,8 +2,8 @@
     import config.project
     import config.version
     import user.personal
-%>${config.project.project_name}
-${'=' * len(config.project.project_name)}
+%>${config.project.name}
+${'=' * len(config.project.name)}
 
 version: ${config.version.version_str}
 
@@ -143,4 +143,4 @@ fi
 * https://www.maketecheasier.com/customise-bash-prompt-linux/
 * https://www.computerworld.com/article/2833199/3-ways-to-pimp-your-bash-console.html
 
-	${user.personal.personal_origin}, ${config.project.project_copyright_years_long}
+	${user.personal.personal_origin}, ${config.project.copyright_years_long}
