@@ -1,3 +1,5 @@
+- the snipplet/main.md.mako does not show on the main
+	page. make it not so.
 - pimp up my powerline-shell
 	add powerline line feel to tmux.
 - create more check functions in core/check.bash and use them all over my plugins.
