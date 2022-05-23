@@ -126,6 +126,7 @@ fi
 * https://github.com/nojhan/liquidprompt
 * https://github.com/daniruiz/dotfiles
 * https://github.com/Gkiokan/.pimp-my-bash
+* https://github.com/brujoand/sbp
 
 <%text>## Articles</%text>
 
