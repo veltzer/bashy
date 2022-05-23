@@ -1,12 +1,3 @@
-<%!
-    import config.project
-    import config.version
-    import user.personal
-%>${config.project.name}
-${'=' * len(config.project.name)}
-
-version: ${config.version.version_str}
-
 Bashy is bash based system to enable you control of your bash with precision and elegance.
 It is plugin based and allows for easy extension.
 
@@ -142,5 +133,3 @@ fi
 * https://medium.com/@mandymadethis/pimp-out-your-command-line-b317cf42e953
 * https://www.maketecheasier.com/customise-bash-prompt-linux/
 * https://www.computerworld.com/article/2833199/3-ways-to-pimp-your-bash-console.html
-
-	${user.personal.personal_origin}, ${config.project.copyright_years_long}
