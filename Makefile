@@ -79,7 +79,7 @@ check_all:
 ############
 # patterns #
 ############
-$(ALL_BASH_STAMP): out/%.stamp: %.bash
+$(ALL_BASH_STAMP): out/%.stamp: %.bash .shellcheckrc
 	$(info doing [$@])
 	$(Q)shellcheck --shell=bash --external-sources $<
 	$(Q)pymakehelper touch_mkdir $@
