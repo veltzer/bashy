@@ -13,6 +13,7 @@ function testAssoc() {
 	b=
 	assoc_get conf b "b"
 	assertEquals "$b" "b_value"
+	# shellcheck disable=2034
 	c=
 	assoc_get conf c "c"
 	if ! null_var_is_null c

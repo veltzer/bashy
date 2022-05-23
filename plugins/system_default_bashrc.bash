@@ -5,6 +5,7 @@ function configure_system_default_bashrc() {
 	BASHRC="/etc/bash.bashrc"
 	if ! checkReadableFile "$BASHRC" __var __error; then return; fi
 	_bashy_before_thirdparty
+	# shellcheck disable=1090
 	source "$BASHRC"
 	_bashy_after_thirdparty
 	__var=0

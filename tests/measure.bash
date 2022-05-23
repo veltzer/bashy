@@ -9,6 +9,7 @@ function sleep_a_little() {
 function testMeasure() {
 	local diff=
 	local result=
+	# shellcheck disable=2034
 	local error=
 	measure diff sleep_a_little result error
 	# echo "diff is $diff"

@@ -5,6 +5,7 @@ function configure_k8s() {
 	if ! checkDirectoryExists "$K8S_HOME" __var __error; then return; fi
 	export K8S_HOME
 	pathutils_add_head PATH "${K8S_HOME}"
+	# shellcheck disable=1090
 	source <(kubectl completion bash)
 	__var=0
 }

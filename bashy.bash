@@ -131,7 +131,8 @@ function _bashy_load_config() {
 	# shellcheck source=/dev/null
 	BASHY_CONFIG="$HOME/.bashy.config"
 	if [ -f "$BASHY_CONFIG" ]
-	then	
+	then
+		# shellcheck disable=1090
 		source "$BASHY_CONFIG"
 	fi
 }

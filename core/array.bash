@@ -13,6 +13,7 @@ function array_set() {
 }
 
 function array_print() {
+	# shellcheck disable=2178
 	local -n __array=$1
 	echo "length of array is ${#__array[@]}"
 	for index in "${!__array[@]}"
@@ -22,18 +23,21 @@ function array_print() {
 }
 
 function array_length() {
+	# shellcheck disable=2178
 	local -n __array=$1
 	local -n var=$2
 	var=${#__array[@]}
 }
 
 function array_push() {
+	# shellcheck disable=2178
 	local -n __array=$1
 	local var=$2
 	__array+=("$var")
 }
 
 function array_pop() {
+	# shellcheck disable=2178
 	local -n __array=$1
 	local -n var=$2
 	var=${__array[${#__array[@]}-1]}
@@ -48,6 +52,7 @@ function array_is_array() {
 }
 
 function array_find() {
+	# shellcheck disable=2178
 	local -n __array=$1
 	local value=$2
 	local -n __array_location=$3
@@ -63,6 +68,7 @@ function array_find() {
 }
 
 function array_contains() {
+	# shellcheck disable=2178
 	local -n __array=$1
 	local value=$2
 	for item in "${__array[@]}"; do
@@ -72,6 +78,7 @@ function array_contains() {
 }
 
 function array_remove() {
+	# shellcheck disable=2178
 	local -n __array=$1
 	local value=$2
 	array_new new_array
