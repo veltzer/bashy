@@ -10,6 +10,9 @@ website: https://veltzer.github.io/bashy
 
 ![build](https://github.com/veltzer/bashy/workflows/build/badge.svg)
 
+
+## contact 
+
 chat with me at [![gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/veltzer/mark.veltzer)
 
 Bashy is bash based system to enable you control of your bash with precision and elegance.
@@ -140,6 +143,7 @@ fi
 * https://github.com/nojhan/liquidprompt
 * https://github.com/daniruiz/dotfiles
 * https://github.com/Gkiokan/.pimp-my-bash
+* https://github.com/brujoand/sbp
 
 ## Articles
 
