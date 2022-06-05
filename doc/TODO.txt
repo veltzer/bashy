@@ -1,5 +1,22 @@
-- the snipplet/main.md.mako does not show on the main
-	page. make it not so.
+- bashy should source all plugins and so we would need to list just the ones
+	we want to activate in the bashy.list file.
+	This way we could also activate plugins that we did not want activate
+	right when we login.
+- allow plugins to turn themsevles on and off.
+	$ bashy activate [pluginname]
+	$ bashy deactivate [pluginname]
+	write deactivate methods for all my default plugins and make it easy to write
+	them.
+- allow to see the status of plugins which are activateed
+- do everything with one command: "bashy":
+	$ bashy errors
+	$ bashy debug
+	$ bashy status_core
+	$ bashy status_plugins
+	$ bashy activate [pluginname]
+	$ bashy deactivate [pluginname]
+- add bash completion for bashy and install it in:
+	/home/mark/.bash_completion.d/bashy
 - pimp up my powerline-shell
 	add powerline line feel to tmux.
 - create more check functions in core/check.bash and use them all over my plugins.
