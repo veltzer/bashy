@@ -1,4 +1,4 @@
-function configure_ls() {
+function _activate_ls() {
 	local -n __var=$1
 	local -n __error=$2
 	# ls with colors
@@ -7,4 +7,9 @@ function configure_ls() {
 	__var=0
 }
 
-register_interactive configure_ls
+function _deactivate_ls() {
+	export -n LS_COLORS
+	unalias ls
+}
+
+register_interactive activate_ls
