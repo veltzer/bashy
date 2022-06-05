@@ -1,3 +1,5 @@
+- use associate array for bashys internal structures.
+	this will allow us to do more for other TODO items.
 - bashy should source all plugins and so we would need to list just the ones
 	we want to activate in the bashy.list file.
 	This way we could also activate plugins that we did not want activate
