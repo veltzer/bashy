@@ -1,4 +1,4 @@
-function configure_graal() {
+function _activate_graal() {
 	local -n __var=$1
 	local -n __error=$2
 	JAVA_HOME="$HOME/install/graalvm"
@@ -9,4 +9,4 @@ function configure_graal() {
 	__var=0
 }
 
-register configure_graal
+register _activate_graal

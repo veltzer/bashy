@@ -1,4 +1,4 @@
-function configure_k8s() {
+function _activate_k8s() {
 	local -n __var=$1
 	local -n __error=$2
 	K8S_HOME="${HOME}/install/k8s"
@@ -10,4 +10,4 @@ function configure_k8s() {
 	__var=0
 }
 
-register configure_k8s
+register _activate_k8s

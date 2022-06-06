@@ -1,4 +1,4 @@
-function configure_pyenv() {
+function _activate_pyenv() {
 	local -n __var=$1
 	local -n __error=$2
 	PYENV_ROOT="$HOME/.pyenv"
@@ -13,4 +13,4 @@ function configure_pyenv() {
 	__var=0
 }
 
-register_interactive configure_pyenv
+register_interactive _activate_pyenv

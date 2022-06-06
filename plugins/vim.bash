@@ -1,4 +1,4 @@
-function configure_vim() {
+function _activate_vim() {
 	local -n __var=$1
 	local -n __error=$2
 	if ! checkInPath vim __var __error; then return; fi
@@ -7,4 +7,4 @@ function configure_vim() {
 	__var=0
 }
 
-register_interactive configure_vim
+register_interactive _activate_vim

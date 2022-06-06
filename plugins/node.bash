@@ -1,4 +1,4 @@
-function configure_node() {
+function _activate_node() {
 	local -n __var=$1
 	local -n __error=$2
 	NODE_HOME="$HOME/install"
@@ -10,7 +10,7 @@ function configure_node() {
 	__var=0
 }
 
-register_interactive configure_node
+register_interactive _activate_node
 
 function node_install() {
 	sudo apt-get install npm

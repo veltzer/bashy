@@ -1,4 +1,4 @@
-function configure_history_for_multiple_terminals() {
+function _activate_history_for_multiple_terminals() {
 	local -n __var=$1
 	local -n __error=$2
 	# This piece of script takes care of having consistent history
@@ -19,4 +19,4 @@ function configure_history_for_multiple_terminals() {
 	__var=0
 }
 
-register_interactive configure_history_for_multiple_terminals
+register_interactive _activate_history_for_multiple_terminals

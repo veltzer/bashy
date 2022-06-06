@@ -1,4 +1,4 @@
-function configure_umask() {
+function _activate_umask() {
 	local -n __var=$1
 	local -n __error=$2
 	# the default umask is set in /etc/profile; for setting the umask
@@ -9,4 +9,4 @@ function configure_umask() {
 	__var=0
 }
 
-register configure_umask
+register _activate_umask

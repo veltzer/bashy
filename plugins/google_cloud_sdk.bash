@@ -1,4 +1,4 @@
-function configure_google_cloud_sdk() {
+function _activate_google_cloud_sdk() {
 	local -n __var=$1
 	local -n __error=$2
 	GOOGLE_CLOUD_HOME="$HOME/install/google-cloud-sdk"
@@ -17,4 +17,4 @@ function install_google_cloud_sdk() {
 	gcloud components update
 }
 
-register_interactive configure_google_cloud_sdk
+register_interactive _activate_google_cloud_sdk

@@ -1,4 +1,4 @@
-function configure_gradle() {
+function _activate_gradle() {
 	local -n __var=$1
 	local -n __error=$2
 	GRADLE_HOME="${HOME}/install/gradle"
@@ -8,4 +8,4 @@ function configure_gradle() {
 	__var=0
 }
 
-register configure_gradle
+register _activate_gradle

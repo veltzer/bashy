@@ -1,4 +1,4 @@
-function configure_bash() {
+function _activate_bash() {
 	local -n __var=$1
 	local -n __error=$2
 	# history stuff. See https://linuxhint.com/bash_command_history_usage
@@ -8,4 +8,4 @@ function configure_bash() {
 	__var=0
 }
 
-register_interactive configure_bash
+register_interactive _activate_bash

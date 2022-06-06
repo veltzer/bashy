@@ -1,4 +1,4 @@
-function configure_proxy() {
+function _activate_proxy() {
 	local -n __var=$1
 	local -n __error=$2
 	if "$PROXY_ENABLED"
@@ -20,4 +20,4 @@ function proxy_enable() {
 	export no_proxy="$PROXY_NO"
 }
 
-register configure_proxy
+register _activate_proxy

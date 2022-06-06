@@ -1,4 +1,4 @@
-function activate_fzf() {
+function _activate_fzf() {
 	local -n __var=$1
 	local -n __error=$2
 	# this installs fzf for fuzzy matching
@@ -13,11 +13,11 @@ function activate_fzf() {
 	__var=0
 }
 
-function install_fzf() {
+function _install_fzf() {
 	rm -rf ~/.bashy_install/fzf > /dev/null 2> /dev/null
 	git clone --depth 1 https://github.com/junegunn/fzf.git ~/.bashy_install/fzf > /dev/null 2> /dev/null
 	~/.bashy_install/fzf/install --no-update-rc --key-bindings --completion > /dev/null 2> /dev/null
 }
 
-register_interactive activate_fzf
-register_install install_fzf
+register_interactive _activate_fzf
+register_install _install_fzf

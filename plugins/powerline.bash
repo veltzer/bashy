@@ -1,4 +1,4 @@
-function configure_powerline() {
+function _activate_powerline() {
 	local -n __var=$1
 	local -n __error=$2
 	EXECUTABLE="/usr/bin/powerline-daemon"
@@ -18,4 +18,4 @@ function configure_powerline() {
 	__var=0
 }
 
-register_interactive configure_powerline
+register_interactive _activate_powerline

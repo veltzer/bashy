@@ -1,4 +1,4 @@
-function configure_path_remove_games() {
+function _activate_path_remove_games() {
 	local -n __var=$1
 	local -n __error=$2
 	pathutils_remove PATH "/usr/games"
@@ -6,4 +6,4 @@ function configure_path_remove_games() {
 	__var=0
 }
 
-register configure_path_remove_games
+register _activate_path_remove_games

@@ -1,4 +1,4 @@
-function configure_pycharm() {
+function _activate_pycharm() {
 	local -n __var=$1
 	local -n __error=$2
 	#PYCHARM_HOME="${HOME}/install/pycharm"
@@ -13,4 +13,4 @@ function configure_pycharm() {
 	__var=0
 }
 
-register configure_pycharm
+register _activate_pycharm

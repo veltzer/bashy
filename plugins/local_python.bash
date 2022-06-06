@@ -5,7 +5,7 @@
 # need this module since you can install your modules regularly either
 # at the system level or at the user level.
 
-function configure_local_python() {
+function _activate_local_python() {
 	local -n __var=$1
 	local -n __error=$2
 	if ! var_is_defined PYTHON_LOCAL
@@ -19,4 +19,4 @@ function configure_local_python() {
 	__var=0
 }
 
-register configure_local_python
+register _activate_local_python

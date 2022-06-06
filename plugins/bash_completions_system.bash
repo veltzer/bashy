@@ -1,4 +1,4 @@
-function activate_bash_completions_system() {
+function _activate_bash_completions_system() {
 	local -n __var=$1
 	local -n __error=$2
 	FILE="/usr/share/bash-completion/bash_completion"
@@ -9,4 +9,4 @@ function activate_bash_completions_system() {
 	__var=0
 }
 
-register_interactive activate_bash_completions_system
+register_interactive _activate_bash_completions_system

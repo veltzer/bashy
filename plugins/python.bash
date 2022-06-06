@@ -4,7 +4,7 @@
 # - configuring the python keyring so it would work.
 # - the pyrun command to run python code with good auto-comletion.
 
-function configure_python() {
+function _activate_python() {
 	local -n __var=$1
 	local -n __error=$2
 	export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
@@ -35,4 +35,4 @@ function pyrun() {
 	python -m "$module" "${@:2}"
 }
 
-register configure_python
+register _activate_python

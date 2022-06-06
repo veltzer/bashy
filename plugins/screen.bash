@@ -10,7 +10,7 @@
 # http://askubuntu.com/questions/675139/how-can-i-start-linux-screen-automatically-when-i-open-a-new-terminal-window
 # https://pascal.nextrem.ch/2010/04/30/automatically-start-screen-on-ssh-login
 
-function configure_screen() {
+function _activate_screen() {
 	local -n __var=$1
 	local -n __error=$2
 	if ! checkInPath screen __var __error; then return; fi
@@ -23,4 +23,4 @@ function configure_screen() {
 	__var=0
 }
 
-register_interactive configure_screen
+register_interactive _activate_screen

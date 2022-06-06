@@ -1,4 +1,4 @@
-function configure_development_aliases() {
+function _activate_development_aliases() {
 	local -n __var=$1
 	local -n __error=$2
 	# development stuff
@@ -8,4 +8,4 @@ function configure_development_aliases() {
 	__var=0
 }
 
-register_interactive configure_development_aliases
+register_interactive _activate_development_aliases

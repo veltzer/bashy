@@ -1,4 +1,4 @@
-function configure_path_dot_local() {
+function _activate_path_dot_local() {
 	local -n __var=$1
 	local -n __error=$2
 	# This file deals with ~/.local/[bin|lib|man]
@@ -13,4 +13,4 @@ function configure_path_dot_local() {
 	__var=0
 }
 
-register configure_path_dot_local
+register _activate_path_dot_local

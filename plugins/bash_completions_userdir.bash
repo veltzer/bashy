@@ -1,4 +1,4 @@
-function configure_bash_completions_userdir() {
+function _activate_bash_completions_userdir() {
 	local -n __var=$1
 	local -n __error=$2
 	# my own bash completions
@@ -23,4 +23,4 @@ function configure_bash_completions_userdir() {
 	__var=0
 }
 
-register_interactive configure_bash_completions_userdir
+register_interactive _activate_bash_completions_userdir

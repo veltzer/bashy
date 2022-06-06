@@ -1,4 +1,4 @@
-function configure_perl() {
+function _activate_perl() {
 	local -n __var=$1
 	local -n __error=$2
 	PERL_LOCAL="$HOME/install/perl"
@@ -16,4 +16,4 @@ function configure_perl() {
 	__var=0
 }
 
-register configure_perl
+register _activate_perl

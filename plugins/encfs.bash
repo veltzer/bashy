@@ -1,4 +1,4 @@
-function configure_encfs() {
+function _activate_encfs() {
 	local -n __var=$1
 	local -n __error=$2
 	if ! checkInPath encfs __var __error; then return; fi
@@ -25,7 +25,7 @@ function encfs_umount() {
 	fusermount -u "$ENCFS_FOLDER_CLEAR"
 }
 
-register configure_encfs
+register _activate_encfs
 
 function encfs_install() {
 	sudo apt install encfs

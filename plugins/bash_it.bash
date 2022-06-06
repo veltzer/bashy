@@ -1,4 +1,4 @@
-function configure_bash_it() {
+function _activate_bash_it() {
 	local -n __var=$1
 	local -n __error=$2
 	BASH_IT="$HOME/.bash_it"
@@ -57,4 +57,4 @@ function configure_bash_it() {
 	__var=0
 }
 
-register_interactive configure_bash_it
+register_interactive _activate_bash_it

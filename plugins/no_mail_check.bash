@@ -1,4 +1,4 @@
-function configure_nomailcheck() {
+function _activate_nomailcheck() {
 	local -n __var=$1
 	local -n __error=$2
 	# stop bash from checking mail
@@ -16,4 +16,4 @@ function configure_nomailcheck() {
 	__var=0
 }
 
-register_interactive configure_no_mail_check
+register_interactive _activate_no_mail_check

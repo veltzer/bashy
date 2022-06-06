@@ -1,4 +1,4 @@
-function configure_gzip() {
+function _activate_gzip() {
 	local -n __var=$1
 	local -n __error=$2
 	# this means that gzip will not save timestamp and name of
@@ -8,4 +8,4 @@ function configure_gzip() {
 	__var=0
 }
 
-register configure_gzip
+register _activate_gzip

@@ -1,4 +1,4 @@
-function configure_rust() {
+function _activate_rust() {
 	local -n __var=$1
 	local -n __error=$2
 	CARGO_HOME="$HOME/.cargo"
@@ -10,4 +10,4 @@ function configure_rust() {
 	__var=0
 }
 
-register configure_rust
+register _activate_rust

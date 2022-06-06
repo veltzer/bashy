@@ -26,7 +26,7 @@
 # References:
 # - https://davidtranscend.com/blog/check-tmux-session-exists-script/
 
-function configure_tmux() {
+function _activate_tmux() {
 	local -n __var=$1
 	local -n __error=$2
 	if ! checkInPath tmux __var __error; then return; fi
@@ -56,7 +56,7 @@ function configure_tmux() {
 	__var=0
 }
 
-function configure_tmux_old() {
+function _activate_tmux_old() {
 	local -n __var=$1
 	local -n __error=$2
 	if ! checkInPath tmux __var __error; then return; fi
@@ -74,4 +74,4 @@ function configure_tmux_old() {
 	__var=0
 }
 
-register_interactive configure_tmux
+register_interactive _activate_tmux

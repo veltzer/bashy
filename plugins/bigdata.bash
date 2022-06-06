@@ -1,4 +1,4 @@
-function configure_bigdata() {
+function _activate_bigdata() {
 	local -n __var=$1
 	local -n __error=$2
 
@@ -37,4 +37,4 @@ function configure_bigdata() {
 	__var=0
 }
 
-register configure_bigdata
+register _activate_bigdata

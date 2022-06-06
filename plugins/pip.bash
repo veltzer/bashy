@@ -1,4 +1,4 @@
-function activate_pip() {
+function _activate_pip() {
 	local -n __var=$1
 	local -n __error=$2
 	if ! checkInPath pip __var __error; then return; fi
@@ -7,4 +7,4 @@ function activate_pip() {
 	__var=0
 }
 
-register activate_pip
+register _activate_pip

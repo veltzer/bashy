@@ -1,4 +1,4 @@
-function configure_bash_config() {
+function _activate_bash_config() {
 	local -n __var=$1
 	local -n __error=$2
 	# this script is where I configure bash to myliking
@@ -12,4 +12,4 @@ function configure_bash_config() {
 	__var=0
 }
 
-register_interactive configure_bash_config
+register_interactive _activate_bash_config

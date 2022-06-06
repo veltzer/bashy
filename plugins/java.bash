@@ -1,4 +1,4 @@
-function configure_java() {
+function _activate_java() {
 	local -n __var=$1
 	local -n __error=$2
 	JAVA_HOME="$HOME/install/jdk"
@@ -9,4 +9,4 @@ function configure_java() {
 	__var=0
 }
 
-register configure_java
+register _activate_java

@@ -1,4 +1,4 @@
-function configure_hostaliases() {
+function _activate_hostaliases() {
 	local -n __var=$1
 	local -n __error=$2
 	HOSTALIASES="$HOME/.hostaliases"
@@ -7,4 +7,4 @@ function configure_hostaliases() {
 	__var=0
 }
 
-register configure_hostaliases
+register _activate_hostaliases

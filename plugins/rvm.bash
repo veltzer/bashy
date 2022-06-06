@@ -1,4 +1,4 @@
-function configure_rvm() {
+function _activate_rvm() {
 	local -n __var=$1
 	local -n __error=$2
 	# RVM is the ruby version manager
@@ -14,4 +14,4 @@ function configure_rvm() {
 	__var=0
 }
 
-register_interactive configure_rvm
+register_interactive _activate_rvm

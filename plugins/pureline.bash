@@ -1,4 +1,4 @@
-function configure_pureline() {
+function _activate_pureline() {
 	local -n __var=$1
 	local -n __error=$2
 	PURELINE="$HOME/install/pureline/pureline"
@@ -13,4 +13,4 @@ function configure_pureline() {
 	__var=0
 }
 
-register_interactive configure_pureline
+register_interactive _activate_pureline

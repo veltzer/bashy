@@ -1,4 +1,4 @@
-function configure_system_default_bashrc() {
+function _activate_system_default_bashrc() {
 	local -n __var=$1
 	local -n __error=$2
 	# This script sources the systems default .bashrc.
@@ -11,4 +11,4 @@ function configure_system_default_bashrc() {
 	__var=0
 }
 
-register configure_system_default_bashrc
+register _activate_system_default_bashrc

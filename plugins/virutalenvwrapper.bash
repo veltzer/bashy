@@ -1,4 +1,4 @@
-function configure_virtualenvwrapper() {
+function _activate_virtualenvwrapper() {
 	local -n __var=$1
 	local -n __error=$2
 	# you can install virtualenvwrapper with
@@ -32,4 +32,4 @@ function configure_virtualenvwrapper() {
 	__var=0
 }
 
-register_interactive configure_virtualenvwrapper
+register_interactive _activate_virtualenvwrapper

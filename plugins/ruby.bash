@@ -1,4 +1,4 @@
-function configure_ruby() {
+function _activate_ruby() {
 	local -n __var=$1
 	local -n __error=$2
 	GEM_HOME="$HOME/install/gems"
@@ -10,4 +10,4 @@ function configure_ruby() {
 	__var=0
 }
 
-register configure_ruby
+register _activate_ruby

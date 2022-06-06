@@ -1,4 +1,4 @@
-function configure_phantomjs() {
+function _activate_phantomjs() {
 	local -n __var=$1
 	local -n __error=$2
 	PHANTOMJSPATH="${HOME}/install/phantomjs"
@@ -10,4 +10,4 @@ function configure_phantomjs() {
 	__var=0
 }
 
-register configure_phantomjs
+register _activate_phantomjs

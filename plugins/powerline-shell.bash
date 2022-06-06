@@ -4,7 +4,7 @@ function _update_ps1() {
 	PS1=$(powerline-shell $?)
 }
 
-function configure_powerline_shell() {
+function _activate_powerline_shell() {
 	local -n __var=$1
 	local -n __error=$2
 	if ! command -v powerline-shell &> /dev/null
@@ -25,5 +25,5 @@ function install_powerline_shell() {
 	sudo apt-get install fonts-powerline
 }
 
-register_interactive configure_powerline_shell
+register_interactive _activate_powerline_shell
 register_install install_powerline_shell

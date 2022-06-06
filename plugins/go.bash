@@ -1,4 +1,4 @@
-function configure_go() {
+function _activate_go() {
 	local -n __var=$1
 	local -n __error=$2
 	local GOPATHBIN="${GOPATH}/bin"
@@ -9,4 +9,4 @@ function configure_go() {
 	__var=0
 }
 
-register configure_go
+register _activate_go

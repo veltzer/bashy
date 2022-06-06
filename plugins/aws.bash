@@ -41,7 +41,7 @@ function aws_prompt() {
 # the 'aws_prompt' function on every prompt.
 # This is done via the 'PROMPT_COMMAND' feature of bash.
 # This one cannot fail since it does not depend on anything
-function activate_aws() {
+function _activate_aws() {
 	local -n __var=$1
 	local -n __error=$2
 	if declare -p PROMPT_COMMAND 2> /dev/null > /dev/null
@@ -53,4 +53,4 @@ function activate_aws() {
 	__var=0
 }
 
-register_interactive activate_aws
+register_interactive _activate_aws

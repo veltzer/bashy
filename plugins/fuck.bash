@@ -1,4 +1,4 @@
-function configure_fuck() {
+function _activate_fuck() {
 	local -n __var=$1
 	local -n __error=$2
 	if ! checkInPath thefuck __var __error; then return; fi
@@ -10,4 +10,4 @@ function install_fuck() {
 	sudo pip3 install thefuck
 }
 
-register_interactive configure_fuck
+register_interactive _activate_fuck

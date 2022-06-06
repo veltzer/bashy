@@ -1,4 +1,4 @@
-function configure_postgresql() {
+function _activate_postgresql() {
 	local -n __var=$1
 	local -n __error=$2
 	if ! checkInPath psql __var __error; then return; fi
@@ -6,4 +6,4 @@ function configure_postgresql() {
 	__var=0
 }
 
-register configure_postgresql
+register _activate_postgresql
