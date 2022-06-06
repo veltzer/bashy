@@ -1,20 +1,24 @@
+terminology
+
+We use "activate" and "deactivate" for the names of the two main hooks of bashy
 
 each plugin will define two functions:
-_activate_[name]
-_deactivate_[name]
+	_activate_[name]
+	_deactivate_[name]
 
 Why are these functions prefixed by underscores?
 Because they need to be called by bashy and not directly from the command line since
 they expect variables by reference to be passed to them and without that passing
 they will not work. This means that they need to be activate by bashy and only bashy.
 
-This way you can activate them:
+This way you can activate/deactivate them:
 	$ bashy activate [name]
-This way you can deactivate them:
 	$ bashy deactivate [name]
+if a module does not have a 'deactivate' function bashy will say so.
 
 the register function can receive these two functions.
 
 Bashy needs to save all plugins in associative arrays and not straight arrays.
 This is because bashy needs to be able to access each plugin without scanning the entire array.
 Currently bashy is using a regular array which makes it hard to hack on it.
+

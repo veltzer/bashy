@@ -7,6 +7,10 @@ function register() {
 	bashy_array_function+=("$function")
 }
 
+function register_install() {
+	:
+}
+
 function register_interactive() {
 	local function=$1
 	if is_interactive
