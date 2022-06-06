@@ -1,4 +1,4 @@
-function configure_ansible() {
+function activate_ansible() {
 	local -n __var=$1
 	local -n __error=$2
 	if ! checkInPath ansible __var __error; then return; fi
@@ -6,4 +6,4 @@ function configure_ansible() {
 	__var=0
 }
 
-register configure_ansible
+register activate_ansible

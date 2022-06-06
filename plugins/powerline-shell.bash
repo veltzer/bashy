@@ -26,3 +26,4 @@ function install_powerline_shell() {
 }
 
 register_interactive configure_powerline_shell
+register_install install_powerline_shell
