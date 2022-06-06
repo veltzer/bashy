@@ -1,5 +1,6 @@
 - use associate array for bashys internal structures.
 	this will allow us to do more for other TODO items.
+- read all plugins at startup and not just those marked in bashy.list
 - do an install hook where each module could hook up an install function and you
 	could install every prereq using:
 	$ bashy install [name]

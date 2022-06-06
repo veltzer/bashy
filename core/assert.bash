@@ -5,7 +5,7 @@ function assertEquals() {
 	local b=$2
 	if ! [ "$a" = "$b" ]
 	then
-		echo "assertion failed [ $a = $b ]"
+		echo "assertion failed ! [ $a = $b ]"
 		exit $ASSERT_FAILED_CODE
 	fi
 }
@@ -13,9 +13,9 @@ function assertEquals() {
 function assertNotEqual() {
 	local a=$1
 	local b=$2
-	if ! [ "$a" != "$b" ]
+	if [ "$a" = "$b" ]
 	then
-		echo "assertion failed [ $a != $b ]"
+		echo "assertion failed [ $a = $b ]"
 		exit $ASSERT_FAILED_CODE
 	fi
 }
