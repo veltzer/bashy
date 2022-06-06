@@ -20,10 +20,10 @@ function _activate_powerline_shell() {
 	__var=0
 }
 
-function install_powerline_shell() {
+function _install_powerline_shell() {
 	pip install powerline-shell
 	sudo apt-get install fonts-powerline
 }
 
 register_interactive _activate_powerline_shell
-register_install install_powerline_shell
+register_install _install_powerline_shell

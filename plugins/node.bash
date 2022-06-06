@@ -10,9 +10,10 @@ function _activate_node() {
 	__var=0
 }
 
-register_interactive _activate_node
-
-function node_install() {
+function _install_node() {
 	sudo apt-get install npm
 	npm completion > "${HOME}/.bash_completion.d/npm"
 }
+
+register_interactive _activate_node
+register_install _install_node

@@ -25,8 +25,9 @@ function encfs_umount() {
 	fusermount -u "$ENCFS_FOLDER_CLEAR"
 }
 
-register _activate_encfs
-
-function encfs_install() {
+function _install_encfs() {
 	sudo apt install encfs
 }
+
+register _activate_encfs
+register_install _install_encfs
