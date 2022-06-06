@@ -8,3 +8,6 @@
 	it since root does not have powerline.
 - add icons of python and git.
 	submit pull request to powerline-shell authors.
+- changed nomenclature:
+	configure -> activate
+	deactivate where appropriate

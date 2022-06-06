@@ -12,4 +12,4 @@ function _deactivate_ls() {
 	unalias ls
 }
 
-register_interactive activate_ls
+register_interactive _activate_ls
