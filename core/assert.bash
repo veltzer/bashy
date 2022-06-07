@@ -3,7 +3,7 @@ ASSERT_FAILED_CODE=128
 function assertEquals() {
 	local a=$1
 	local b=$2
-	if ! [ "$a" = "$b" ]
+	if [ "$a" != "$b" ]
 	then
 		echo "assertion failed ! [ $a = $b ]"
 		exit $ASSERT_FAILED_CODE
