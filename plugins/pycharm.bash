@@ -3,7 +3,7 @@ function _activate_pycharm() {
 	local -n __error=$2
 	#PYCHARM_HOME="${HOME}/install/pycharm"
 	# FIX THIS! The hardcoded version of pycharm is horrible...
-	PYCHARM_HOME="${HOME}/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-1/211.7142.13"
+	PYCHARM_HOME="${HOME}/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-1/221.5921.27"
 	PYCHARM_BIN="$PYCHARM_HOME/bin"
 	if ! checkDirectoryExists "$PYCHARM_HOME" __var __error; then return; fi
 	if ! checkDirectoryExists "$PYCHARM_BIN" __var __error; then return; fi
