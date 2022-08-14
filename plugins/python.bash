@@ -28,6 +28,8 @@ function pyrun() {
 
 	# remove .py
 	module=${1%.py}
+	# remove ./ if exists
+	module=${module#\./}
 	# replace slashes by dots
 	module=${module//\//.}
 	# trailing slash / dot
