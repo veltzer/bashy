@@ -273,8 +273,8 @@ function bashy_debug() {
 
 function _bashy_init() {
 	_bashy_load_config
-	declare -a bashy_core_names
-	declare -a bashy_core_res
+	declare -ga bashy_core_names
+	declare -ga bashy_core_res
 	_bashy_load_core
 	declare -ga bashy_array_plugin
 	declare -ga bashy_array_enabled

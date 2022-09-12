@@ -1,7 +1,11 @@
 .git
 .gitignore
+.github
 .venv
 .myenv
+.pydmt
+.pydmt.config
+config
 doc
 data
 requirements.txt
@@ -10,7 +14,10 @@ tests
 README.md
 out
 Makefile
+LICENSE_GPL
 LICENSE
 install_in_home.bash
 .excludes
 .shellcheckrc
+snipplets
+templates
