@@ -1,3 +1,7 @@
+improve bashy:
+	move to assoc data strcutures.
+	allow to deactivate plugins.
+	do plugin for poetry
 - use associate array for bashys internal structures.
 	this will allow us to do more for other TODO items.
 - read all plugins at startup and not just those marked in bashy.list
