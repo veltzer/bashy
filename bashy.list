@@ -49,3 +49,4 @@ proxy
 pip
 pydmt
 xinput
+bad_symlinks
