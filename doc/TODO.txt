@@ -2,6 +2,9 @@ improve bashy:
 	move to assoc data strcutures.
 	allow to deactivate plugins.
 	do plugin for poetry
+- have a "strict" mode for bashy where it does not accept failures.
+- have a command to bashy to print a list of correctly running plugins (and nothing else)
+	so that I could compare the list between my desktop and my laptop.
 - use associate array for bashys internal structures.
 	this will allow us to do more for other TODO items.
 - read all plugins at startup and not just those marked in bashy.list
