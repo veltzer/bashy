@@ -6,8 +6,7 @@ function _activate_helm() {
 }
 
 function _install_helm() {
-	true
-	# TBD
+	curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 }
 
 register _activate_helm
