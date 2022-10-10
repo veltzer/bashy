@@ -8,4 +8,10 @@ function _activate_gradle() {
 	__var=0
 }
 
+function _install_gradle() {
+	# TBD: add method of installing from the internet in the form
+	# of a zip file
+	sudo apt install gradle
+}
+
 register _activate_gradle

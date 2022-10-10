@@ -7,4 +7,8 @@ function _activate_gh() {
 	__var=0
 }
 
+function _install_gh() {
+	sudo apt install gh
+}
+
 register_interactive _activate_gh

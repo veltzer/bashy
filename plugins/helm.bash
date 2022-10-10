@@ -5,4 +5,9 @@ function _activate_helm() {
 	__var=0
 }
 
+function _install_helm() {
+	true
+	# TBD
+}
+
 register _activate_helm

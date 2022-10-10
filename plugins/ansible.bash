@@ -6,4 +6,8 @@ function _activate_ansible() {
 	__var=0
 }
 
+function _install_ansible() {
+	sudo apt install ansible
+}
+
 register _activate_ansible

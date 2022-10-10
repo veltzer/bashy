@@ -21,7 +21,7 @@ function _activate_powerline_shell() {
 }
 
 function _install_powerline_shell() {
-	pip install powerline-shell
+	pip install --user powerline-shell
 	sudo apt-get install fonts-powerline
 }
 

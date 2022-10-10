@@ -10,4 +10,9 @@ function _activate_k8s() {
 	__var=0
 }
 
+function _install_k8s() {
+	# TBD
+	true
+}
+
 register _activate_k8s

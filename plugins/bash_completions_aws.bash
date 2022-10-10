@@ -9,7 +9,7 @@ function _activate_bash_completions_aws() {
 }
 
 function _install_bash_completions_aws() {
-	pip install --user awscli
+	/usr/bin/pip install --user awscli
 	# sudo apt install awscli
 }
 
