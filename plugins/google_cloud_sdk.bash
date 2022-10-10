@@ -11,8 +11,8 @@ function _activate_google_cloud_sdk() {
 	__var=0
 }
 
-function install_google_cloud_sdk() {
-	curl https://sdk.cloud.google.com | bash
+function _install_google_cloud_sdk() {
+	curl --silent https://sdk.cloud.google.com | bash
 	gcloud auth login
 	gcloud components update
 }
