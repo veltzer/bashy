@@ -12,6 +12,8 @@ function _activate_google_cloud_sdk() {
 }
 
 function _install_google_cloud_sdk() {
+	export CLOUDSDK_CORE_DISABLE_PROMPTS=1
+	export CLOUDSDK_INSTALL_DIR=$HOME/install
 	curl --silent https://sdk.cloud.google.com | bash
 	gcloud auth login
 	gcloud components update
