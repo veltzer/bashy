@@ -11,8 +11,9 @@ function _activate_k8s() {
 }
 
 function _install_k8s() {
-	# TBD
-	true
+	# https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+	mkdir -p ~/install/k8s
+	curl -s -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" -o ~/install/k8s
 }
 
 register _activate_k8s
