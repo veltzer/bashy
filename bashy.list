@@ -37,7 +37,8 @@ umask
 vim
 google_cloud_sdk
 gcloud
-aws
+aws_prompt
+awscli
 gh
 haskell
 k8s

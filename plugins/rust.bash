@@ -10,7 +10,7 @@ function _activate_rust() {
 	__var=0
 }
 
-function _install_cargo() {
+function _install_rust() {
 	sudo apt install cargo
 }
 
