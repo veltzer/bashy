@@ -1,4 +1,4 @@
-function _activate_bash_completions_aws() {
+function _activate_aws_bash_completions() {
 	local -n __var=$1
 	local -n __error=$2
 	# completions for aws (must have 'awscli' package from ubuntu
@@ -8,12 +8,12 @@ function _activate_bash_completions_aws() {
 	__var=0
 }
 
-function _install_bash_completions_aws() {
+function _install_aws_bash_completions() {
 	#/usr/bin/pip install --user awscli
 	# sudo apt install awscli
 	/usr/bin/pip install --user awscliv2
 }
 
 
-register_interactive _activate_bash_completions_aws
+register_interactive _activate_aws_bash_completions
 register_install _install_bash_completion_aws

@@ -36,7 +36,7 @@ vim
 google_cloud_sdk
 gcloud
 awscli
-bash_completions_aws
+aws_bash_completions
 aws_prompt
 gh
 k8s
