@@ -1,3 +1,11 @@
+# this is a configuation for awscli
+# there were several versions of the awscli and so there are several versions in this code.
+# the one which is enabled is the latest v2 cli client of aws and also the one mentioned in
+# the references.
+#
+# References:
+# - https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+
 function _activate_awscli() {
 	local -n __var=$1
 	local -n __error=$2
