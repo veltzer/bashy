@@ -42,11 +42,10 @@ function _install_awscli_old() {
 }
 
 function _install_awscli() {
-	# rm -rf /tmp/awscliv2.zip /tmp/awscliv2
+	rm -rf /tmp/awscliv2.zip /tmp/awscliv2 /tmp/aws ~/install/aws
 	curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
-	unzip awscliv2.zip -d /tmp
-	rm -rf ~/install/aws
-	sudo ./aws/install -i ~/install/aws -b ~/install/aws/bin
+	unzip /tmp/awscliv2.zip -d /tmp
+	sudo /tmp/aws/install -i ~/install/aws -b ~/install/aws/bin
 }
 
 function aws_select_profile() {
