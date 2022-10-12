@@ -50,6 +50,7 @@ function _activate_aws() {
 	else
 		export PROMPT_COMMAND="aws_prompt"
 	fi
+	export AWS_PROMPT=yes
 	__var=0
 }
 
