@@ -7,7 +7,7 @@
 # 				Mark Veltzer
 #				<mark.veltzer@gmail.com>
 
-aws_conf_file_name=".myenv"
+aws_conf_file_name=".aws.conf"
 
 function aws_prompt() {
 	assoc_new aws_conf
