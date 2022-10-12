@@ -5,7 +5,6 @@ tmux
 powerline-shell
 # other plugins
 ansible
-bash_completions_aws
 bash_completions_userdir
 bash_completions_system
 bash_config
@@ -26,7 +25,6 @@ pymultigit
 local_python
 python
 perl
-pycharm
 ruby
 go
 phantomjs
@@ -37,10 +35,10 @@ umask
 vim
 google_cloud_sdk
 gcloud
-aws_prompt
 awscli
+bash_completions_aws
+aws_prompt
 gh
-haskell
 k8s
 gradle
 encfs
