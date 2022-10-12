@@ -13,4 +13,8 @@ function git_root() {
 	fi
 }
 
+function git_clean_hard() {
+	git clean -qffxd
+}
+
 register_interactive _activate_git
