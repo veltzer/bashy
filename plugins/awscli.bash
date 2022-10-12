@@ -49,4 +49,15 @@ function _install_awscli() {
 	sudo ./aws/install -i ~/install/aws -b ~/install/aws/bin
 }
 
+function aws_select_profile() {
+	readarray -t profiles < <(sed -nr 's/^\[(.*)\]$/\1/p' ~/.aws/credentials)
+	echo "Please select a drive:"
+	select profile in "${profiles[@]}"; do
+		[[ -n "$profile" ]] || { echo "Invalid choice. Please try again." >&2; continue; }
+		break
+	done
+	echo "selected [$profile]..."
+	export AWS_PROFILE="$profile"
+}
+
 register _activate_awscli
