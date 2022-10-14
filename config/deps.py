@@ -1,3 +1,3 @@
 packages=[
-    'shellcheck',
+    "shellcheck",
 ]
