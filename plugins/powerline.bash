@@ -18,4 +18,8 @@ function _activate_powerline() {
 	__var=0
 }
 
+function _install_powerline() {
+	sudo apt update && sudo apt install powerline fonts-powerline
+}
+
 register_interactive _activate_powerline

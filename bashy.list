@@ -2,7 +2,7 @@
 # tmux needs to be the first
 tmux
 # the powerline plugin must be before other plugins that customize the shell
-powerline-shell
+powerline
 # other plugins
 ansible
 bash_completions_userdir
