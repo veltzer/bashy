@@ -8,22 +8,31 @@ function _activate_xinput() {
 	local -n __var=$1
 	local -n __error=$2
 	# disable to touchpad but only if we have a touchpad
-	if xinput --list --name-only | grep -q "$XINPUT_DEVICE"
+	# if we don't have an optical mouse just return
+	if xinput --list --name-only | grep -q -e "^$XINPUT_DEVICE_EXISTS$"
 	then
-		xinput --disable "$XINPUT_DEVICE"
+		if xinput --list --name-only | grep -q -e "^$XINPUT_DEVICE$"
+		then
+			xinput --disable "$XINPUT_DEVICE"
+		fi
+	else
+		if xinput --list --name-only | grep -q -e "^$XINPUT_DEVICE$"
+		then
+			xinput --enable "$XINPUT_DEVICE"
+		fi
 	fi
 	__var=0
 }
 
 function xinput_activate() {
-	if xinput --list --name-only | grep -q "$XINPUT_DEVICE"
+	if xinput --list --name-only | grep -q -e "^$XINPUT_DEVICE$"
 	then
 		xinput --enable "$XINPUT_DEVICE"
 	fi
 }
 
 function xinput_deactivate() {
-	if xinput --list --name-only | grep -q "$XINPUT_DEVICE"
+	if xinput --list --name-only | grep -q "$XINPUT_DEVICE$"
 	then
 		xinput --disable "$XINPUT_DEVICE"
 	fi
