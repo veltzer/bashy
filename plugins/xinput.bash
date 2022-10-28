@@ -7,17 +7,18 @@
 function _activate_xinput() {
 	local -n __var=$1
 	local -n __error=$2
-	if xinput --list --name-only | grep -q Touchpad
+	# disable to touchpad but only if we have a touchpad
+	if xinput --list --name-only | grep -q "$XINPUT_DEVICE"
 	then
-		xinput --disable "DELL0A89:00 06CB:CE26 Touchpad"
+		xinput --disable "$XINPUT_DEVICE"
 	fi
 	__var=0
 }
 
 function xinput_activate() {
-	if xinput --list --name-only | grep -q Touchpad
+	if xinput --list --name-only | grep -q "$XINPUT_DEVICE"
 	then
-		xinput --enable "DELL0A89:00 06CB:CE26 Touchpad"
+		xinput --enable "$XINPUT_DEVICE"
 	fi
 }
 
