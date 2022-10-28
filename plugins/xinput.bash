@@ -22,4 +22,11 @@ function xinput_activate() {
 	fi
 }
 
+function xinput_deactivate() {
+	if xinput --list --name-only | grep -q "$XINPUT_DEVICE"
+	then
+		xinput --disable "$XINPUT_DEVICE"
+	fi
+}
+
 register _activate_xinput
