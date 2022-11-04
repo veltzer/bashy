@@ -35,9 +35,7 @@ function env_prompt() {
 			fi
 			ENV_ACTIVE="$GIT_REPO"
 		else
-			if [ "$ENV_ACTIVE" -eq "$GIT_REPO" ]
-				# same repo, don't do anything
-				:
+			if [ "$ENV_ACTIVE" != "$GIT_REPO" ]
 			then
 				# switched repo, exit and then enter
 				GIT_FILE="$ENV_ACTIVE/.env.exit"
@@ -57,15 +55,11 @@ function env_prompt() {
 			fi
 		fi
 	else
-		if [ -z "$ENV_ACTIVE" ]
+		if [ -n "$ENV_ACTIVE" ]
 		then
-			# no need to do anything
-			:
-		else
 			# env active is not empty
 			# need to run .env.exit and then turn ENV_ACTIVE to empty
-			GIT_REPO=$(env_git_repo)
-			GIT_FILE="$GIT_REPO/.env.exit"
+			GIT_FILE="$ENV_ACTIVE/.env.exit"
 			if [ -r "$GIT_FILE" ]
 			then
 				# shellcheck source=/dev/null
