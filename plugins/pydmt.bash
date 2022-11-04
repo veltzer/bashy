@@ -202,9 +202,9 @@ function _activate_pydmt() {
 	local -n __error=$2
 	if declare -p PROMPT_COMMAND 2> /dev/null > /dev/null
 	then
-		export PROMPT_COMMAND="pydmt_prompt; $PROMPT_COMMAND"
+		PROMPT_COMMAND="pydmt_prompt; $PROMPT_COMMAND"
 	else
-		export PROMPT_COMMAND="pydmt_prompt"
+		PROMPT_COMMAND="pydmt_prompt"
 	fi
 	__var=0
 }

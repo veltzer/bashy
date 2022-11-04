@@ -43,6 +43,7 @@ k8s
 gradle
 encfs
 node
+env
 helm
 proxy
 pip

@@ -4,6 +4,10 @@ function _activate_git() {
 	__var=0
 }
 
+function in_git() {
+	git rev-parse > /dev/null 2> /dev/null
+}
+
 function git_root() {
 	# go to the root of the current git repo (if indeed inside a git repo)
 	cd_arg="$(git rev-parse --show-cdup)"

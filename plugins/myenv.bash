@@ -347,9 +347,9 @@ function configure_myenv() {
 	if ! checkInPath md5sum __var __error; then return; fi
 	if declare -p PROMPT_COMMAND 2> /dev/null > /dev/null
 	then
-		export PROMPT_COMMAND="myenv_prompt; $PROMPT_COMMAND"
+		PROMPT_COMMAND="myenv_prompt; $PROMPT_COMMAND"
 	else
-		export PROMPT_COMMAND="myenv_prompt"
+		PROMPT_COMMAND="myenv_prompt"
 	fi
 	__var=0
 }

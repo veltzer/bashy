@@ -8,9 +8,9 @@ function _activate_history_for_multiple_terminals() {
 	# - https://askubuntu.com/questions/80371/bash-history-handling-with-multiple-terminals
 	if declare -p PROMPT_COMMAND 2> /dev/null > /dev/null
 	then
-		export PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND"
+		PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND"
 	else
-		export PROMPT_COMMAND="history -a; history -n"
+		PROMPT_COMMAND="history -a; history -n"
 	fi
 	# read the history before every command by binding to RETURN
 	# https://superuser.com/questions/117227/a-command-before-every-bash-command

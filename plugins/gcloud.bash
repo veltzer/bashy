@@ -45,9 +45,9 @@ function _activate_gcloud() {
 	local -n __error=$2
 	if declare -p PROMPT_COMMAND 2> /dev/null > /dev/null
 	then
-		export PROMPT_COMMAND="gcloud_prompt; $PROMPT_COMMAND"
+		PROMPT_COMMAND="gcloud_prompt; $PROMPT_COMMAND"
 	else
-		export PROMPT_COMMAND="gcloud_prompt"
+		PROMPT_COMMAND="gcloud_prompt"
 	fi
 	__var=0
 }

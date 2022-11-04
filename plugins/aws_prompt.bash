@@ -46,9 +46,9 @@ function _activate_aws() {
 	local -n __error=$2
 	if declare -p PROMPT_COMMAND 2> /dev/null > /dev/null
 	then
-		export PROMPT_COMMAND="aws_prompt; $PROMPT_COMMAND"
+		PROMPT_COMMAND="aws_prompt; $PROMPT_COMMAND"
 	else
-		export PROMPT_COMMAND="aws_prompt"
+		PROMPT_COMMAND="aws_prompt"
 	fi
 	export AWS_PROMPT=yes
 	__var=0
