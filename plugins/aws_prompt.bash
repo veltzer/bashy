@@ -6,6 +6,11 @@
 #
 # 				Mark Veltzer
 #				<mark.veltzer@gmail.com>
+#
+# TODO:
+# - this plugin will only work if you *DIRECTLY* in the folder where the .aws.conf
+# file. I don't want that. I want to have it activate when I'm in that folder or any subfolder
+# where the .aws.conf resides.
 
 aws_conf_file_name=".aws.conf"
 
