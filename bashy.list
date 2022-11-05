@@ -34,11 +34,8 @@ system_default_bashrc
 umask
 vim
 google_cloud_sdk
-gcloud
-env
 awscli
 aws_bash_completions
-aws_prompt
 gh
 k8s
 gradle
@@ -47,5 +44,8 @@ node
 helm
 proxy
 pip
-pydmt
 xinput
+pydmt_prompt
+env_prompt
+aws_prompt
+gcp_prompt
