@@ -35,6 +35,7 @@ umask
 vim
 google_cloud_sdk
 gcloud
+env
 awscli
 aws_bash_completions
 aws_prompt
@@ -43,7 +44,6 @@ k8s
 gradle
 encfs
 node
-env
 helm
 proxy
 pip
