@@ -18,15 +18,23 @@ function aws_prompt() {
 	assoc_new aws_conf
 	export aws_conf
 
+	if ! git rev-parse --is-inside-work-tree 2> /dev/null > /dev/null
+	then
+		unset AWS_PROFILE
+		return
+	fi
+
+	git_root=$(git rev-parse --show-toplevel)
+
 	export aws_home_conf_file="$HOME/$aws_conf_file_name"
 	if [ -r "$aws_home_conf_file" ]
 	then
 		assoc_config_read aws_conf "$aws_home_conf_file"
 	fi
 
-	if [ -r "$aws_conf_file_name" ]
+	if [ -r "$git_root/$aws_conf_file_name" ]
 	then
-		assoc_config_read aws_conf "$aws_conf_file_name"
+		assoc_config_read aws_conf "$git_root/$aws_conf_file_name"
 	fi
 
 	# get the configuration name

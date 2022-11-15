@@ -13,15 +13,23 @@ function gcp_prompt() {
 	assoc_new gcp_conf
 	export gcp_conf
 
+	if ! git rev-parse --is-inside-work-tree 2> /dev/null > /dev/null
+	then
+		unset CLOUDSDK_ACTIVE_CONFIG_NAME
+		return
+	fi
+
+	git_root=$(git rev-parse --show-toplevel)
+
 	export gcp_home_conf_file="$HOME/$gcp_conf_file_name"
 	if [ -r "$gcp_home_conf_file" ]
 	then
 		assoc_config_read gcp_conf "$gcp_home_conf_file"
 	fi
 
-	if [ -r "$gcp_conf_file_name" ]
+	if [ -r "$git_root/$gcp_conf_file_name" ]
 	then
-		assoc_config_read gcp_conf "$gcp_conf_file_name"
+		assoc_config_read gcp_conf "$git_root/$gcp_conf_file_name"
 	fi
 
 	# get the configuration name
