@@ -11,3 +11,9 @@
 - changed nomenclature:
 	configure -> activate
 	deactivate where appropriate
+- an idea for a bashy plugin:
+	you put a .env file in a folder and whenever you enter that folder bashy sets
+	environment variables
+	according to what is written in the file.
+	When you exit the folder the variables are unset.
+	This could be used, for instance, to configure tools like pip using environment variables.

@@ -46,6 +46,8 @@ proxy
 pip
 xinput
 pydmt_prompt
+# order must be aws, gcp, azure first and only then env which needs their configs to authenticate
+# but this order must be in *reverse*
 env_prompt
 aws_prompt
 gcp_prompt
