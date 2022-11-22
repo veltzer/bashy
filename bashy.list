@@ -50,3 +50,4 @@ env_prompt
 aws_prompt
 gcp_prompt
 config_core
+ng
