@@ -8,4 +8,8 @@ function _activate_ng() {
 	__var=0
 }
 
+function _install_ng() {
+	npm install -g @angular/cli
+}
+
 register_interactive _activate_ng
