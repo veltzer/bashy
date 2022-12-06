@@ -3,15 +3,20 @@ function _activate_nvm() {
 	local -n __var=$1
 	local -n __error=$2
 	NVM_DIR="$HOME/.nvm"
-	if [ -s "$NVM_DIR/nvm.sh" ]
+	if [ -r "$NVM_DIR/nvm.sh" ]
 	then
-		"$NVM_DIR/nvm.sh"
+		_bashy_before_thirdparty
+		source "$NVM_DIR/nvm.sh"
+		_bashy_after_thirdparty
 	fi
-	if [ -s "$NVM_DIR/bash_completion" ]
+	if [ -r "$NVM_DIR/bash_completion" ]
 	then
-		"$NVM_DIR/bash_completion"
+		_bashy_before_thirdparty
+		source "$NVM_DIR/bash_completion"
+		_bashy_after_thirdparty
 	fi
 	export NVM_DIR
+	__var=0
 }
 
 function _install_nvm() {
