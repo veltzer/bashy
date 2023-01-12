@@ -1,6 +1,8 @@
 # This plugin configures core features because
 # default ubuntu does not come with a sane configuration for
 # instruction
+# note that since I plug in a non absolute path for cores the kernel will complain
+# on unsecure configuration.
 
 function _activate_core() {
 	local -n __var=$1
