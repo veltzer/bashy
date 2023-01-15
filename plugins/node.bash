@@ -15,5 +15,9 @@ function _install_node() {
 	npm completion > "${HOME}/.bash_completion.d/npm"
 }
 
+function npm_logout() {
+	sed -i '/\($registry=\|_autoToken=\)/d' "${HOME}/.npmrc"
+}
+
 register_interactive _activate_node
 register_install _install_node
