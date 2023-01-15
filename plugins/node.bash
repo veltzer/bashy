@@ -16,7 +16,7 @@ function _install_node() {
 }
 
 function npm_logout() {
-	sed -i '/\(registry=\|_autoToken=\)/d' "${HOME}/.npmrc"
+	sed -i '/\(registry=\|_authToken=\)/d' "${HOME}/.npmrc"
 }
 
 register_interactive _activate_node
