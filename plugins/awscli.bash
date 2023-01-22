@@ -49,12 +49,12 @@ function awscli_install() {
 	/tmp/aws/install -i ~/install/aws -b ~/install/aws/bin > /dev/null
 	rm -rf /tmp/aws
 	# checking that you do not have 'awscli' installed from pypi
-	if pip show awscli > /dev/null
+	if pip show awscli 2> /dev/null
 	then
 		echo "you have the old 'awscli' python module installed. removing it!!!"
 		pip uninstall awscli 2> /dev/null || true
 	else
-		echo "you dont have the old 'awscli' python module. good!"
+		echo "you dont have the old 'awscli' python module. no need to uninstall it. good!"
 	fi
 	echo "following is the version of awscli (aws --version)..."
 	aws --version
