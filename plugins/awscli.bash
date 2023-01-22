@@ -45,7 +45,9 @@ function awscli_install() {
 	rm -rf /tmp/awscliv2.zip /tmp/awscliv2 /tmp/aws ~/install/aws
 	curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
 	unzip /tmp/awscliv2.zip -d /tmp
-	sudo /tmp/aws/install -i ~/install/aws -b ~/install/aws/bin
+	# do we need sudo for the next line?
+	/tmp/aws/install -i ~/install/aws -b ~/install/aws/bin
+	rm -rf /tmp/aws
 }
 
 function awscli_select_profile() {
