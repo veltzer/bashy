@@ -49,11 +49,20 @@ function awscli_install() {
 	rm -rf ~/install/aws
 	/tmp/aws/install -i ~/install/aws -b ~/install/aws/bin
 	rm -rf /tmp/aws
+	# checking that you do not have 'awscli' installed from pypi
+	if ! pip show awscli > /dev/null
+	then
+		echo "you have the old 'awscli' python module installed. removing it!!!"
+		pip uninstall awscli
+	else
+		echo "you dont have the old 'awscli' python module. good!"
+	fi
 	set +ex
 }
 
 function awscli_uninstall() {
 	rm -rf ~/install/aws
+	pip uninstall awscli
 }
 
 function awscli_select_profile() {
