@@ -46,10 +46,10 @@ function awscli_install() {
 	curl --silent "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
 	unzip -qq /tmp/awscliv2.zip -d /tmp
 	rm -rf ~/install/aws
-	/tmp/aws/install -i ~/install/aws -b ~/install/aws/bin
+	/tmp/aws/install -i ~/install/aws -b ~/install/aws/bin > /dev/null
 	rm -rf /tmp/aws
 	# checking that you do not have 'awscli' installed from pypi
-	if ! pip show awscli > /dev/null
+	if pip show awscli > /dev/null
 	then
 		echo "you have the old 'awscli' python module installed. removing it!!!"
 		pip uninstall awscli 2> /dev/null || true
