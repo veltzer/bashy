@@ -57,6 +57,8 @@ function awscli_install() {
 	else
 		echo "you dont have the old 'awscli' python module. good!"
 	fi
+	echo "following is the version of awscli (aws --version)..."
+	aws --version
 	set +ex
 }
 
