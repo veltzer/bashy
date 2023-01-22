@@ -64,7 +64,7 @@ function awscli_install() {
 
 function awscli_uninstall() {
 	rm -rf ~/install/aws || true
-	pip uninstall awscli || true
+	pip uninstall awscli 2> /dev/null || true
 }
 
 function awscli_select_profile() {
