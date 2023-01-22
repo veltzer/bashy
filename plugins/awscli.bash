@@ -43,7 +43,7 @@ function awscli_install_old() {
 
 function awscli_install() {
 	rm -rf /tmp/awscliv2.zip /tmp/awscliv2 /tmp/aws ~/install/aws
-	curl -q "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
+	curl --silent "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
 	unzip -qq /tmp/awscliv2.zip -d /tmp
 	rm -rf ~/install/aws
 	/tmp/aws/install -i ~/install/aws -b ~/install/aws/bin
