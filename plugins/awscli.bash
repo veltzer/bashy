@@ -26,12 +26,12 @@ function _activate_awscli_wrapper() {
 	__var=0
 }
 
-function _install_awscli_wrapper() {
+function awscli_install_wrapper() {
 	# installation using pip of wrapper - this is not official aws
 	/usr/bin/pip install --user awscliv2
 }
 
-function _install_awscli_old() {
+function awscli_install_old() {
 	# installation using a bundle
 	# we use -O [filename] instead of -P /tmp because -P will not overwrite the previous
 	# file (if it exits) and will create a new file named [filename].1
@@ -41,14 +41,14 @@ function _install_awscli_old() {
 	/tmp/awscli-bundle/install -b ~/install/bin/aws
 }
 
-function _install_awscli() {
+function awscli_install() {
 	rm -rf /tmp/awscliv2.zip /tmp/awscliv2 /tmp/aws ~/install/aws
 	curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
 	unzip /tmp/awscliv2.zip -d /tmp
 	sudo /tmp/aws/install -i ~/install/aws -b ~/install/aws/bin
 }
 
-function aws_select_profile() {
+function awscli_select_profile() {
 	readarray -t profiles < <(sed -nr 's/^\[(.*)\]$/\1/p' ~/.aws/credentials)
 	echo "Please select a drive:"
 	select profile in "${profiles[@]}"; do
