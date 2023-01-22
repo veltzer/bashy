@@ -42,9 +42,8 @@ function awscli_install_old() {
 }
 
 function awscli_install() {
-	set -ex
 	rm -rf /tmp/awscliv2.zip /tmp/awscliv2 /tmp/aws ~/install/aws
-	curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
+	curl -q "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
 	unzip -qq /tmp/awscliv2.zip -d /tmp
 	rm -rf ~/install/aws
 	/tmp/aws/install -i ~/install/aws -b ~/install/aws/bin
@@ -53,13 +52,12 @@ function awscli_install() {
 	if ! pip show awscli > /dev/null
 	then
 		echo "you have the old 'awscli' python module installed. removing it!!!"
-		pip uninstall awscli
+		pip uninstall awscli 2> /dev/null || true
 	else
 		echo "you dont have the old 'awscli' python module. good!"
 	fi
 	echo "following is the version of awscli (aws --version)..."
 	aws --version
-	set +ex
 }
 
 function awscli_uninstall() {
