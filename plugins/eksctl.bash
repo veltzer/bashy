@@ -9,6 +9,8 @@ function _activate_eksctl() {
 	EKSCTL_BINARY="$HOME/install/binaries/eksctl"
 	if ! checkExecutableFile "$EKSCTL_BINARY" __var __error; then return; fi
 	export EKSCTL_BINARY
+	# shellcheck source=/dev/null
+	source <(eksctl completion bash)
 	__var=0
 }
 
@@ -23,4 +25,4 @@ function eksctl_uninstall() {
 	rm -f "${EKSCTL_BINARY}"
 }
 
-register _activate_eksctl
+register_interactive _activate_eksctl
