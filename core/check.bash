@@ -19,6 +19,20 @@ function checkDirectoryExists() {
 	fi
 }
 
+function checkExecutableFile() {
+	local filename=$1
+	local -n __var2=$2
+	local -n __error2=$3
+	if [ -f "${filename}" ] && [ -x "${filename}" ]
+	then
+		__var2=0
+		return 0
+	fi
+	__error2="file [${filename}] either doesnt exist or is not executable"
+	__var2=1
+	return 1
+}
+
 function checkReadableFile() {
 	local filename=$1
 	local -n __var2=$2

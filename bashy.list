@@ -38,6 +38,7 @@ awscli
 aws_bash_completions
 gh
 k8s
+eksctl
 minikube
 gradle
 encfs
