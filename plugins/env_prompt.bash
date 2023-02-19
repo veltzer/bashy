@@ -1,11 +1,11 @@
 # This plugin manages envrionment specific scripts for you.
 #
 # Here is what it does:
-# - Whenever you 'cd' into a directory for which there is a .env.enter
+# - Whenever you 'cd' into a directory for which there is a .env.enter.sh
 # file in the directory or in any of it's ancestors it will activate
 # it for you.
 # - Whenyou move out of this directory it will activate the
-# .env.exit script (if exists)
+# .env.exit.sh script (if exists)
 #
 # 				Mark Veltzer
 #				<mark.veltzer@gmail.com>
@@ -24,10 +24,10 @@ function env_prompt() {
 		if [ -z "$ENV_ACTIVE" ]
 		then
 			# in git but no env active, this means
-			# - there is not need to turn run .env.exit
-			# - can now source .env.enter and define ENV_ACTIVE 
+			# - there is not need to turn run .env.exit.sh
+			# - can now source .env.enter.sh and define ENV_ACTIVE 
 			GIT_REPO=$(env_git_repo)
-			GIT_FILE="$GIT_REPO/.env.enter"
+			GIT_FILE="$GIT_REPO/.env.enter.sh"
 			if [ -r "$GIT_FILE" ]
 			then
 				# shellcheck source=/dev/null
@@ -38,14 +38,14 @@ function env_prompt() {
 			if [ "$ENV_ACTIVE" != "$GIT_REPO" ]
 			then
 				# switched repo, exit and then enter
-				GIT_FILE="$ENV_ACTIVE/.env.exit"
+				GIT_FILE="$ENV_ACTIVE/.env.exit.sh"
 				if [ -r "$GIT_FILE" ]
 				then
 					# shellcheck source=/dev/null
 					source "$GIT_FILE"
 				fi
 				GIT_REPO=$(env_git_repo)
-				GIT_FILE="$GIT_REPO/.env.enter"
+				GIT_FILE="$GIT_REPO/.env.enter.sh"
 				if [ -r "$GIT_FILE" ]
 				then
 					# shellcheck source=/dev/null
@@ -58,8 +58,8 @@ function env_prompt() {
 		if [ -n "$ENV_ACTIVE" ]
 		then
 			# env active is not empty
-			# need to run .env.exit and then turn ENV_ACTIVE to empty
-			GIT_FILE="$ENV_ACTIVE/.env.exit"
+			# need to run .env.exit.sh and then turn ENV_ACTIVE to empty
+			GIT_FILE="$ENV_ACTIVE/.env.exit.sh"
 			if [ -r "$GIT_FILE" ]
 			then
 				# shellcheck source=/dev/null
