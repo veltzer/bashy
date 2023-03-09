@@ -152,4 +152,4 @@ fi
 * https://www.maketecheasier.com/customise-bash-prompt-linux/
 * https://www.computerworld.com/article/2833199/3-ways-to-pimp-your-bash-console.html
 
-Mark Veltzer, Copyright © 2017, 2018, 2019, 2020, 2021, 2022
+Mark Veltzer, Copyright © 2017, 2018, 2019, 2020, 2021, 2022, 2023
