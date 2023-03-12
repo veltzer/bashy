@@ -47,12 +47,14 @@ helm
 proxy
 pip
 xinput
-pydmt_prompt
-# order must be aws, gcp, azure first and only then env which needs their configs to authenticate
+# order must be aws, gcp first and only then env
 # but this order must be in *reverse*
+# so the order must be env, gcp, aws
+pydmt_prompt
 env_prompt
-aws_prompt
 gcp_prompt
+aws_prompt
+k8s_prompt
 config_core
 nvm
 ng

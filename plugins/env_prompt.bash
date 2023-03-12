@@ -6,9 +6,6 @@
 # it for you.
 # - Whenyou move out of this directory it will activate the
 # .env.exit.sh script (if exists)
-#
-# 				Mark Veltzer
-#				<mark.veltzer@gmail.com>
 
 function env_in_git() {
 	git rev-parse > /dev/null 2> /dev/null

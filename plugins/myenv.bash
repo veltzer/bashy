@@ -36,9 +36,6 @@
 # - make a config which controls how myenv decides whether to keep the
 # venv or not. This way we can enable to keep the venv active when we
 # are within the .myenv directory to any depth.
-#
-# 				Mark Veltzer
-#				<mark.veltzer@gmail.com>
 
 myenv_conf_file_name=".myenv"
 myenv_md5_file_name="md5sum"

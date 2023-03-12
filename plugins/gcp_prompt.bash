@@ -3,9 +3,6 @@
 # Here is what it does:
 # - Whenever you 'cd' into a directory it will activate the right
 # google cloud project for you.
-#
-# 				Mark Veltzer
-#				<mark.veltzer@gmail.com>
 
 gcp_conf_file_name=".gcp"
 

@@ -36,9 +36,6 @@
 # - make a config which controls how pydmt decides whether to keep the
 # venv or not. This way we can enable to keep the venv active when we
 # are within the .pydmt directory to any depth.
-#
-# 				Mark Veltzer
-#				<mark.veltzer@gmail.com>
 
 pydmt_errors=".pydmt.venv.errors"
 pydmt_virtual_env_folder=".venv/default"
