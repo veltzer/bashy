@@ -13,8 +13,9 @@ function _activate_minikube() {
 
 function _install_minikube() {
 	# https://minikube.sigs.k8s.io/docs/start/
+	rm -rf ~/install/minikube
 	mkdir -p ~/install/minikube
-	curl --location --silent --output ~/install/minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+	curl --location --silent --output ~/install/minikube/minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 	chmod +x ~/install/minikube/minikube
 }
 
