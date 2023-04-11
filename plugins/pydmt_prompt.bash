@@ -39,8 +39,9 @@
 
 pydmt_errors=".pydmt.venv.errors"
 pydmt_virtual_env_folder=".venv/default"
+pydmt_activate="${pydmt_virtual_env_folder}/local/bin/activate"
 pydmt_conf_file_name=".pydmt.config"
-pydmt_debug=1
+pydmt_debug=0
 
 # function to issue a message if we are in debug mode
 function pydmt_print_debug() {
@@ -79,7 +80,7 @@ function pydmt_create_virtualenv() {
 	rm -f "${pydmt_errors}"
 	pydmt_info "created virtualenv [${pydmt_virtual_env_folder}]"
 	# shellcheck source=/dev/null
-	source "${pydmt_virtual_env_folder}/local/bin/activate"
+	source "${pydmt_activate}"
 	PYDMT_ENV="yes"
 	pydmt_info "entered virtualenv"
 	return 0
@@ -119,10 +120,10 @@ function pydmt_activate_soft() {
 	if [ -z "${VIRTUAL_ENV}" ]
 	then
 		pydmt_print_debug "activating virtual env soft"
-		if [ -r "${pydmt_virtual_env_folder}/local/bin/activate" ]
+		if [ -r "${pydmt_activate}" ]
 		then
 			# shellcheck source=/dev/null
-			source "${pydmt_virtual_env_folder}/local/bin/activate"
+			source "${pydmt_activate}"
 			PYDMT_ENV="yes"
 		else
 			pydmt_error "cannot activate soft virtual env at [${pydmt_virtual_env_folder}]"
@@ -137,10 +138,10 @@ function pydmt_activate() {
 		return
 	fi
 	pydmt_print_debug "activating virtual env"
-	if [ -r "${pydmt_virtual_env_folder}/local/bin/activate" ]
+	if [ -r "${pydmt_activate}" ]
 	then
 		# shellcheck source=/dev/null
-		source "${pydmt_virtual_env_folder}/local/bin/activate"
+		source "${pydmt_activate}"
 		PYDMT_ENV="yes"
 	else
 		pydmt_error "cannot activate virtual env at [${pydmt_virtual_env_folder}]"
