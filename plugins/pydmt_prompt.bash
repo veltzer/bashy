@@ -177,13 +177,12 @@ function pydmt_prompt_inner() {
 	fi
 
 	pydmt_print_debug "building env"
-	if pydmt build_venv
+	if ! pydmt build_venv
 	then
-		pydmt_activate_soft
-	else
 		pydmt_print_debug "creating error file"
 		touch .pydmt.build.errors
 	fi
+	pydmt_activate_soft
 }
 
 function pydmt_prompt() {
