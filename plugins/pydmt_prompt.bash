@@ -79,7 +79,7 @@ function pydmt_create_virtualenv() {
 	rm -f "${pydmt_errors}"
 	pydmt_info "created virtualenv [${pydmt_virtual_env_folder}]"
 	# shellcheck source=/dev/null
-	source "${pydmt_virtual_env_folder}/bin/activate"
+	source "${pydmt_virtual_env_folder}/local/bin/activate"
 	PYDMT_ENV="yes"
 	pydmt_info "entered virtualenv"
 	return 0
@@ -90,7 +90,6 @@ function pydmt_in_virtual_env() {
 }
 
 function pydmt_error() {
-	# echo "$1"
 	cecho r "pydmt: error: $1" 0
 }
 
@@ -119,14 +118,14 @@ function pydmt_deactivate_soft() {
 function pydmt_activate_soft() {
 	if [ -z "${VIRTUAL_ENV}" ]
 	then
-		pydmt_print_debug "activating virtual env"
-		if [ -r "${pydmt_virtual_env_folder}/bin/activate" ]
+		pydmt_print_debug "activating virtual env soft"
+		if [ -r "${pydmt_virtual_env_folder}/local/bin/activate" ]
 		then
 			# shellcheck source=/dev/null
-			source "${pydmt_virtual_env_folder}/bin/activate"
+			source "${pydmt_virtual_env_folder}/local/bin/activate"
 			PYDMT_ENV="yes"
 		else
-			pydmt_error "cannot activate virtual env at [${pydmt_virtual_env_folder}]"
+			pydmt_error "cannot activate soft virtual env at [${pydmt_virtual_env_folder}]"
 		fi
 	fi
 }
@@ -138,10 +137,10 @@ function pydmt_activate() {
 		return
 	fi
 	pydmt_print_debug "activating virtual env"
-	if [ -r "${pydmt_virtual_env_folder}/bin/activate" ]
+	if [ -r "${pydmt_virtual_env_folder}/local/bin/activate" ]
 	then
 		# shellcheck source=/dev/null
-		source "${pydmt_virtual_env_folder}/bin/activate"
+		source "${pydmt_virtual_env_folder}/local/bin/activate"
 		PYDMT_ENV="yes"
 	else
 		pydmt_error "cannot activate virtual env at [${pydmt_virtual_env_folder}]"
@@ -171,8 +170,20 @@ function pydmt_prompt_inner() {
 			pydmt_deactivate
 		fi
 	fi
-	pydmt build_venv
-	pydmt_activate_soft
+	if [ -f .pydmt.build.errors ]
+	then
+		pydmt_print_debug "found error file not building"
+		return
+	fi
+
+	pydmt_print_debug "building env"
+	if pydmt build_venv
+	then
+		pydmt_activate_soft
+	else
+		pydmt_print_debug "creating error file"
+		touch .pydmt.build.errors
+	fi
 }
 
 function pydmt_prompt() {
