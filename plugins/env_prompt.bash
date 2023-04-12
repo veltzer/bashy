@@ -8,6 +8,7 @@
 # .env.exit.sh script (if exists)
 
 export _BASHY_ENV_DEBUG=1
+export _BASHY_ENV_ACTIVE=0
 
 # function to issue a message if we are in debug mode
 function env_debug() {
@@ -26,8 +27,16 @@ function env_debug_off() {
 	_BASHY_ENV_DEBUG=1
 }
 
+function env_active_on() {
+	_BASHY_ENV_ACTIVE=0
+}
+
+function env_active_off() {
+	_BASHY_ENV_ACTIVE=1
+}
+
 function env_in_git() {
-	git rev-parse > /dev/null 2> /dev/null
+	git rev-parse --in-inside-work-tree > /dev/null 2> /dev/null
 }
 
 function env_git_repo() {
@@ -35,12 +44,17 @@ function env_git_repo() {
 }
 
 function env_prompt() {
+	if [ "${_BASHY_ENV_ACTIVE}" = 1 ]
+	then
+		env_debug "plugin is deactivated"
+		return
+	fi
 	if env_in_git
 	then
 		if [ -z "$ENV_ACTIVE" ]
 		then
 			# in git but no env active, this means
-			# - there is not need to turn run .env.exit.sh
+			# - there is no need to turn run .env.exit.sh
 			# - can now source .env.enter.sh and define ENV_ACTIVE 
 			GIT_REPO=$(env_git_repo)
 			GIT_FILE="$GIT_REPO/.env.enter.sh"
@@ -51,6 +65,7 @@ function env_prompt() {
 				source "$GIT_FILE"
 			fi
 			ENV_ACTIVE="$GIT_REPO"
+			env_debug "ENV_ACTIVE=${ENV_ACTIVE}"
 		else
 			GIT_REPO=$(env_git_repo)
 			if [ "$ENV_ACTIVE" != "$GIT_REPO" ]
@@ -63,6 +78,8 @@ function env_prompt() {
 					# shellcheck source=/dev/null
 					source "$GIT_FILE"
 				fi
+				ENV_ACTIVE=""
+				env_debug "ENV_ACTIVE=${ENV_ACTIVE}"
 				GIT_REPO=$(env_git_repo)
 				GIT_FILE="$GIT_REPO/.env.enter.sh"
 				if [ -r "$GIT_FILE" ]
@@ -72,6 +89,7 @@ function env_prompt() {
 					source "$GIT_FILE"
 				fi
 				ENV_ACTIVE="$GIT_REPO"
+				env_debug "ENV_ACTIVE=${ENV_ACTIVE}"
 			fi
 		fi
 	else
@@ -86,8 +104,8 @@ function env_prompt() {
 				# shellcheck source=/dev/null
 				source "$GIT_FILE"
 			fi
-			env_debug "turning off env"
 			ENV_ACTIVE=""
+			env_debug "ENV_ACTIVE=${ENV_ACTIVE}"
 		fi
 	fi
 }
@@ -110,6 +128,7 @@ function _activate_env() {
 		PROMPT_COMMAND="env_prompt"
 	fi
 	ENV_ACTIVE=""
+	env_debug "ENV_ACTIVE=${ENV_ACTIVE}"
 	__var=0
 }
 
