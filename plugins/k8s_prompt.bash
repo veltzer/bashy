@@ -10,13 +10,11 @@ function k8s_prompt() {
 	assoc_new k8s_conf
 	export k8s_conf
 
-	if ! git rev-parse --is-inside-work-tree 2> /dev/null > /dev/null
+	if git_is_inside
 	then
 		unset KUBECONFIG
 		return
 	fi
-
-	git_root=$(git rev-parse --show-toplevel)
 
 	export k8s_home_conf_file="$HOME/$k8s_conf_file_name"
 	if [ -r "$k8s_home_conf_file" ]
@@ -24,6 +22,7 @@ function k8s_prompt() {
 		assoc_config_read k8s_conf "$k8s_home_conf_file"
 	fi
 
+	git_root=$(git rev-parse --show-toplevel)
 	if [ -r "$git_root/$k8s_conf_file_name" ]
 	then
 		assoc_config_read k8s_conf "$git_root/$k8s_conf_file_name"

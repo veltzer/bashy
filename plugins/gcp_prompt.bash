@@ -10,7 +10,8 @@ function gcp_prompt() {
 	assoc_new gcp_conf
 	export gcp_conf
 
-	if ! git rev-parse --is-inside-work-tree 2> /dev/null > /dev/null
+	inside="$(git rev-parse --is-inside-work-tree)"
+	if [[ "${inside}" =~ "false" ]]
 	then
 		unset CLOUDSDK_ACTIVE_CONFIG_NAME
 		return

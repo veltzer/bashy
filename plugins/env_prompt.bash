@@ -35,28 +35,20 @@ function env_active_off() {
 	_BASHY_ENV_ACTIVE=1
 }
 
-function env_in_git() {
-	git rev-parse --in-inside-work-tree > /dev/null 2> /dev/null
-}
-
-function env_git_repo() {
-	git rev-parse --show-toplevel
-}
-
 function env_prompt() {
 	if [ "${_BASHY_ENV_ACTIVE}" = 1 ]
 	then
 		env_debug "plugin is deactivated"
 		return
 	fi
-	if env_in_git
+	if git_is_inside
 	then
 		if [ -z "$ENV_ACTIVE" ]
 		then
 			# in git but no env active, this means
 			# - there is no need to turn run .env.exit.sh
 			# - can now source .env.enter.sh and define ENV_ACTIVE 
-			GIT_REPO=$(env_git_repo)
+			GIT_REPO=$(git_top_level)
 			GIT_FILE="$GIT_REPO/.env.enter.sh"
 			if [ -r "$GIT_FILE" ]
 			then
@@ -67,7 +59,7 @@ function env_prompt() {
 			ENV_ACTIVE="$GIT_REPO"
 			env_debug "ENV_ACTIVE=${ENV_ACTIVE}"
 		else
-			GIT_REPO=$(env_git_repo)
+			GIT_REPO=$(git_top_level)
 			if [ "$ENV_ACTIVE" != "$GIT_REPO" ]
 			then
 				# switched repo, exit and then enter
@@ -80,7 +72,7 @@ function env_prompt() {
 				fi
 				ENV_ACTIVE=""
 				env_debug "ENV_ACTIVE=${ENV_ACTIVE}"
-				GIT_REPO=$(env_git_repo)
+				GIT_REPO=$(git_top_level)
 				GIT_FILE="$GIT_REPO/.env.enter.sh"
 				if [ -r "$GIT_FILE" ]
 				then
