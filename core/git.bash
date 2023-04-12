@@ -5,7 +5,7 @@
 function git_is_inside() {
 	if ! git rev-parse 2> /dev/null > /dev/null
 	then
-		return $?
+		return "1"
 	fi
 	result=$(git rev-parse --is-inside-work-tree)
 	[ "$result" = "true" ]
