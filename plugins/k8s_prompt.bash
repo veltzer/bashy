@@ -10,7 +10,7 @@ function k8s_prompt() {
 	assoc_new k8s_conf
 	export k8s_conf
 
-	if git_is_inside
+	if ! git_is_inside
 	then
 		unset KUBECONFIG
 		return
