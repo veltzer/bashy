@@ -41,15 +41,24 @@ pydmt_errors=".pydmt.venv.errors"
 pydmt_virtual_env_folder=".venv/default"
 pydmt_activate="${pydmt_virtual_env_folder}/local/bin/activate"
 pydmt_conf_file_name=".pydmt.config"
-pydmt_debug=1
+
+export _BASHY_PYDMT_DEBUG=1
 
 # function to issue a message if we are in debug mode
 function pydmt_print_debug() {
 	local msg=$1
-	if [ "${pydmt_debug}" = 0 ]
+	if [ "${_BASHY_PYDMT_DEBUG}" = 0 ]
 	then
 		echo "pydmt: debug: $msg"
 	fi
+}
+
+function pydmt_debug_on() {
+	_BASHY_PYDMT_DEBUG=0
+}
+
+function pydmt_debug_off() {
+	_BASHY_PYDMT_DEBUG=1
 }
 
 # function to issue a message even if we are not in debug mode
