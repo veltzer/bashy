@@ -44,10 +44,6 @@ pydmt_activate="${pydmt_virtual_env_folder}/local/bin/activate"
 export _BASHY_PYDMT_DEBUG=1
 export _BASHY_PYDMT_ACTIVE=0
 
-function pydmt_git_repo() {
-	git rev-parse --show-toplevel
-}
-
 function pydmt_debug() {
 	local msg=$1
 	if [ "${_BASHY_PYDMT_DEBUG}" = 0 ]
@@ -189,7 +185,7 @@ function pydmt_prompt() {
 	then
 		if [ -z "$PYDMT_ACTIVE" ]
 		then
-			GIT_REPO=$(git_top_level)
+			git_top_level GIT_REPO
 			GIT_FILE="$GIT_REPO/.pydmt.config"
 			if [ -r "$GIT_FILE" ]
 			then

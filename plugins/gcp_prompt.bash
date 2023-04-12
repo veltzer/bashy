@@ -10,14 +10,14 @@ function gcp_prompt() {
 	assoc_new gcp_conf
 	export gcp_conf
 
-	inside="$(git rev-parse --is-inside-work-tree)"
-	if [[ "${inside}" =~ "false" ]]
+	if ! git_is_inside
 	then
 		unset CLOUDSDK_ACTIVE_CONFIG_NAME
 		return
 	fi
 
-	git_root=$(git rev-parse --show-toplevel)
+	git_root=""
+	git_top_level git_root
 
 	export gcp_home_conf_file="$HOME/$gcp_conf_file_name"
 	if [ -r "$gcp_home_conf_file" ]

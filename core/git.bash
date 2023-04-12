@@ -23,7 +23,17 @@ function git_top_level() {
 function git_repo_name() {
 	local -n __var=$1
 	local toplevel
-	toplevel=$(git rev-parse --show-toplevel)
+	git_top_levl toplevel
 	local name=${toplevel##*/}
 	__var="$name"
+}
+
+# go to the root of the current git repo
+function git_root() {
+	# go to the root of the current git repo (if indeed inside a git repo)
+	cd_arg="$(git rev-parse --show-cdup)"
+	if [ -n "$cd_arg" ]
+	then
+		cd "$cd_arg" || exit
+	fi
 }

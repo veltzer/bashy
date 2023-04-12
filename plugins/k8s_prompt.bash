@@ -22,7 +22,8 @@ function k8s_prompt() {
 		assoc_config_read k8s_conf "$k8s_home_conf_file"
 	fi
 
-	git_root=$(git rev-parse --show-toplevel)
+	git_root=""
+	git_top_level git_root
 	if [ -r "$git_root/$k8s_conf_file_name" ]
 	then
 		assoc_config_read k8s_conf "$git_root/$k8s_conf_file_name"
