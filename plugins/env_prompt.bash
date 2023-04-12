@@ -7,6 +7,25 @@
 # - Whenyou move out of this directory it will activate the
 # .env.exit.sh script (if exists)
 
+export _BASHY_ENV_DEBUG=1
+
+# function to issue a message if we are in debug mode
+function env_debug() {
+	local msg=$1
+	if [ "${_BASHY_ENV_DEBUG}" = 0 ]
+	then
+		echo "env: debug: $msg"
+	fi
+}
+
+function env_debug_on() {
+	_BASHY_ENV_DEBUG=0
+}
+
+function env_debug_off() {
+	_BASHY_ENV_DEBUG=1
+}
+
 function env_in_git() {
 	git rev-parse > /dev/null 2> /dev/null
 }
@@ -27,17 +46,20 @@ function env_prompt() {
 			GIT_FILE="$GIT_REPO/.env.enter.sh"
 			if [ -r "$GIT_FILE" ]
 			then
+				env_debug "sourcing [${GIT_FILE}]"
 				# shellcheck source=/dev/null
 				source "$GIT_FILE"
 			fi
 			ENV_ACTIVE="$GIT_REPO"
 		else
+			GIT_REPO=$(env_git_repo)
 			if [ "$ENV_ACTIVE" != "$GIT_REPO" ]
 			then
 				# switched repo, exit and then enter
 				GIT_FILE="$ENV_ACTIVE/.env.exit.sh"
 				if [ -r "$GIT_FILE" ]
 				then
+					env_debug "sourcing [${GIT_FILE}]"
 					# shellcheck source=/dev/null
 					source "$GIT_FILE"
 				fi
@@ -45,6 +67,7 @@ function env_prompt() {
 				GIT_FILE="$GIT_REPO/.env.enter.sh"
 				if [ -r "$GIT_FILE" ]
 				then
+					env_debug "sourcing [${GIT_FILE}]"
 					# shellcheck source=/dev/null
 					source "$GIT_FILE"
 				fi
@@ -59,9 +82,11 @@ function env_prompt() {
 			GIT_FILE="$ENV_ACTIVE/.env.exit.sh"
 			if [ -r "$GIT_FILE" ]
 			then
+				env_debug "sourcing [${GIT_FILE}]"
 				# shellcheck source=/dev/null
 				source "$GIT_FILE"
 			fi
+			env_debug "turning off env"
 			ENV_ACTIVE=""
 		fi
 	fi
