@@ -46,7 +46,7 @@ function k8s_prompt() {
 # the 'k8s_prompt' function on every prompt.
 # This is done via the 'PROMPT_COMMAND' feature of bash.
 # This one cannot fail since it does not depend on anything
-function _activate_k8s() {
+function _activate_k8s_prompt() {
 	local -n __var=$1
 	local -n __error=$2
 	if declare -p PROMPT_COMMAND 2> /dev/null > /dev/null
@@ -58,4 +58,4 @@ function _activate_k8s() {
 	__var=0
 }
 
-register_interactive _activate_k8s
+register_interactive _activate_k8s_prompt
