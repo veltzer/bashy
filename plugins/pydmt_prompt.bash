@@ -37,10 +37,6 @@
 # venv or not. This way we can enable to keep the venv active when we
 # are within the .pydmt directory to any depth.
 
-pydmt_errors=".pydmt.venv.errors"
-pydmt_virtual_env_folder=".venv/default"
-pydmt_activate="${pydmt_virtual_env_folder}/local/bin/activate"
-
 export _BASHY_PYDMT_DEBUG=1
 export _BASHY_PYDMT_ACTIVE=0
 
@@ -60,107 +56,14 @@ function pydmt_debug_off() {
 	_BASHY_PYDMT_DEBUG=1
 }
 
-# function to issue a message even if we are not in debug mode
 function pydmt_info() {
 	local msg=$1
 	# echo "pydmt: info: $msg"
 	cecho g "pydmt: info: $msg" 0
 }
 
-function pydmt_create_virtualenv() {
-	# do not create virtualenv if there are error files
-	if [ -f "${pydmt_errors}" ]
-	then
-		pydmt_error "not creating virtual env because error file [${pydmt_errors}] exits"
-		return 1
-	fi
-
-	# create a virtual env
-	pydmt_info "creating new..."
-	pydmt build_venv > "${pydmt_errors}"
-	local code=$?
-	if [ $code -ne 0 ]
-	then
-		pydmt_error "could not create virtual env. see errors in [${pydmt_errors}]"
-		rm -rf "${pydmt_virtual_env_folder}"
-		return $code
-	fi
-	rm -f "${pydmt_errors}"
-	pydmt_info "created virtualenv [${pydmt_virtual_env_folder}]"
-	# shellcheck source=/dev/null
-	source "${pydmt_activate}"
-	PYDMT_ACTIVE="yes"
-	pydmt_info "entered virtualenv"
-	return 0
-}
-
-function pydmt_in_virtual_env() {
-	[ -n "${VIRTUAL_ENV}" ]
-}
-
 function pydmt_error() {
 	cecho r "pydmt: error: $1" 0
-}
-
-function pydmt_deactivate() {
-	pydmt_debug "deactivating virtual env"
-	deactivate
-	PYDMT_ACTIVE=""
-}
-
-function pydmt_deactivate_soft() {
-	if pydmt_in_virtual_env
-	then
-		pydmt_deactivate
-	fi
-}
-
-function pydmt_activate_soft() {
-	if [ -z "${VIRTUAL_ENV}" ]
-	then
-		pydmt_debug "activating virtual env soft"
-		if [ -r "${pydmt_activate}" ]
-		then
-			# shellcheck source=/dev/null
-			source "${pydmt_activate}"
-			PYDMT_ACTIVE="yes"
-		else
-			pydmt_error "cannot activate soft virtual env at [${pydmt_virtual_env_folder}]"
-		fi
-	fi
-}
-
-function pydmt_activate() {
-	if [ -n "${VIRTUAL_ENV}" ]
-	then
-		pydmt_error "in virtual env"
-		return
-	fi
-	if [ -r "${pydmt_activate}" ]
-	then
-		pydmt_debug "activating virtual env"
-		# shellcheck source=/dev/null
-		source "${pydmt_activate}"
-		PYDMT_ACTIVE="yes"
-	else
-		pydmt_debug "cannot find activate script"
-	fi
-}
-
-function pydmt_prompt_inner() {
-	if [ -f .pydmt.build.errors ]
-	then
-		pydmt_debug "found error file not building"
-		return
-	fi
-
-	pydmt_debug "building env"
-	if ! pydmt build_venv
-	then
-		pydmt_debug "creating error file"
-		touch .pydmt.build.errors
-	fi
-	pydmt_activate_soft
 }
 
 function pydmt_prompt() {
@@ -174,30 +77,58 @@ function pydmt_prompt() {
 		return
 	fi
 	# if we are in the wrong virtual env, deactivate
-	if pydmt_in_virtual_env
+	if [ -n "${VIRTUAL_ENV}" ]
 	then
-		if [ "$(readlink -f "${pydmt_virtual_env_folder}")" != "$VIRTUAL_ENV" ]
+		if [ "$(readlink -f ".venv/default")" != "${VIRTUAL_ENV}" ]
 		then
-			pydmt_deactivate
+			pydmt_debug "deactivating virtual env at [${VIRTUAL_ENV}]"
+			deactivate
+			PYDMT_ACTIVE=""
 		fi
 	fi
 	if git_is_inside
 	then
+		pydmt_debug "in git env"
+		git_top_level GIT_REPO
+		pydmt_debug "GIT_REPO is ${GIT_REPO}"
 		if [ -z "$PYDMT_ACTIVE" ]
 		then
-			git_top_level GIT_REPO
+			pydmt_debug "no active pydmt environment"
 			GIT_FILE="$GIT_REPO/.pydmt.config"
 			if [ -r "$GIT_FILE" ]
 			then
+				pydmt_debug "have .pydmt.config file"
+				if [ -f .pydmt.build.errors ]
+				then
+					pydmt_debug "found error file not building"
+					return
+				fi
 				pydmt_debug "running pydmt build_venv in [${GIT_REPO}]"
-				(cd "${GIT_REPO}" || exit 1; pydmt build_venv)
+				if (cd "${GIT_REPO}" || exit 1; pydmt build_venv)
+				then
+					pydmt_activate="${GIT_REPO}/.venv/default/local/bin/activate"
+					pydmt_debug "activating virtual env [${pydmt_activate}]"
+					if [ -r "${pydmt_activate}" ]
+					then
+						# shellcheck source=/dev/null
+						source "${pydmt_activate}"
+						PYDMT_ACTIVE="yes"
+					else
+						pydmt_error "cannot activate virtual env at [${pydmt_activate}]"
+					fi
+				else
+					pydmt_debug "creating error file"
+					touch .pydmt.build.errors
+				fi
 			fi
 		fi
+	else
+		pydmt_debug "not in git environment"
 	fi
-	if [ ! "$VIRTUAL_ENV" ]
-	then
-		unset pydmt_powerline_virtual_env_python_version
-	fi
+	# if [ ! "$VIRTUAL_ENV" ]
+	# then
+	# 	unset pydmt_powerline_virtual_env_python_version
+	# fi
 }
 
 # stop the plugin from working
