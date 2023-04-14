@@ -10,29 +10,13 @@
 # This is done by comparing the md5 checksum of the 'requirements.txt'
 # file and a checksum which is stored inside each created virtual
 # environment.
-# - to recreate the venvs for a bunch for folders activate
-# pydmt_recreate in each the folders. It *is not* enough to just
-# cd into these folders as part of a command line since then
-# PROMPT_COMMAND will not be activated.
+# - to recreate the venvs for a bunch for folders activate:
+#	$ pydmt build_venv
+# in each the folders.
+# - It *is not* enough to just cd into these folders as part of a
+# for loop or script since then PROMPT_COMMAND will not be activated.
 #
-# Below are APIs to the general public - do not break them.
-#
-# How to force creation of a virual env:
-# $ pydmt_create
-# How to recreate a environment if need be:
-# $ pydmt_recreate
-#
-# TODO: (this is a the TODO list for pydmt until it becomes
-# a project on it's own)
-# - when i'm inside a git repos ".git" folder pydmt still does git
-# commands and I get an error since you are not supposed to use these
-# git commands when you're in the ".git" folder.
-# - the md5 must be made out of the requirements and the python version.
-# we once had the pydmt configuration file added to requirements
-# but this is wrong since there could be many pydmt configuration files.
-# we just want the python version and the requirements.txt file.
-# - do not read the config again if the data of the pydmt config files
-# did not change (performance enhancement).
+# TODO:
 # - make a config which controls how pydmt decides whether to keep the
 # venv or not. This way we can enable to keep the venv active when we
 # are within the .pydmt directory to any depth.
