@@ -4,7 +4,7 @@
 # - Whenever you 'cd' into a directory it will activate the right
 # google cloud project for you.
 
-gcp_conf_file_name=".gcp"
+gcp_conf_file_name=".gcp.conf"
 
 function gcp_prompt() {
 	assoc_new gcp_conf
@@ -43,9 +43,6 @@ function gcp_prompt() {
 	fi
 }
 
-# this is the main function for gcp, it takes care of running
-# the 'gcp_prompt' function on every prompt.
-# This is done via the 'PROMPT_COMMAND' feature of bash.
 function _activate_gcp() {
 	local -n __var=$1
 	local -n __error=$2

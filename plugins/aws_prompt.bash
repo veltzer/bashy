@@ -1,7 +1,7 @@
 # This script manages your aws environment for you
 #
 # Here is what it does:
-# - Whenever you 'cd' into a directory it will activate the right
+# - Whenever you 'cd' into a git directory it will activate the right
 # aws project for you.
 
 aws_conf_file_name=".aws.conf"
@@ -43,10 +43,6 @@ function aws_prompt() {
 	fi
 }
 
-# this is the main function for aws, it takes care of running
-# the 'aws_prompt' function on every prompt.
-# This is done via the 'PROMPT_COMMAND' feature of bash.
-# This one cannot fail since it does not depend on anything
 function _activate_aws() {
 	local -n __var=$1
 	local -n __error=$2

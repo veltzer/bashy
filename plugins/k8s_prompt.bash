@@ -42,10 +42,6 @@ function k8s_prompt() {
 	fi
 }
 
-# this is the main function for k8s, it takes care of running
-# the 'k8s_prompt' function on every prompt.
-# This is done via the 'PROMPT_COMMAND' feature of bash.
-# This one cannot fail since it does not depend on anything
 function _activate_k8s_prompt() {
 	local -n __var=$1
 	local -n __error=$2
