@@ -14,7 +14,7 @@
 #	$ pydmt build_venv
 # in each the folders.
 # - It *is not* enough to just cd into these folders as part of a
-# for loop or script since then PROMPT_COMMAND will not be activated.
+# for loop or script since then pydmt_prompt will not be activated.
 #
 # TODO:
 # - make a config which controls how pydmt decides whether to keep the
@@ -115,23 +115,10 @@ function pydmt_prompt() {
 	# fi
 }
 
-# stop the plugin from working
-function pydmt_unconfigure() {
-	PROMPT_COMMAND=${PROMPT_COMMAND//pydmt_prompt;/}
-}
-
-# this is the main function for pydmt, it takes care of running them pydmt
-# code on every prompt. This is done via the 'PROMPT_COMMAND' feature
-# of bash.
 function _activate_pydmt() {
 	local -n __var=$1
 	local -n __error=$2
-	if declare -p PROMPT_COMMAND 2> /dev/null > /dev/null
-	then
-		PROMPT_COMMAND="pydmt_prompt; $PROMPT_COMMAND"
-	else
-		PROMPT_COMMAND="pydmt_prompt"
-	fi
+	prompt_register "pydmt_prompt"
 	__var=0
 }
 

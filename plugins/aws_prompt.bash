@@ -46,12 +46,7 @@ function aws_prompt() {
 function _activate_aws() {
 	local -n __var=$1
 	local -n __error=$2
-	if declare -p PROMPT_COMMAND 2> /dev/null > /dev/null
-	then
-		PROMPT_COMMAND="aws_prompt; $PROMPT_COMMAND"
-	else
-		PROMPT_COMMAND="aws_prompt"
-	fi
+	prompt_register aws_prompt
 	__var=0
 }
 

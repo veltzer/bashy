@@ -9,6 +9,7 @@
 
 export _BASHY_ENV_DEBUG=1
 export _BASHY_ENV_ACTIVE=0
+export ENV_ACTIVE=""
 
 # function to issue a message if we are in debug mode
 function env_debug() {
@@ -102,25 +103,10 @@ function env_prompt() {
 	fi
 }
 
-# stop the plugin from working
-function env_unconfigure() {
-	PROMPT_COMMAND=${PROMPT_COMMAND//env_prompt;/}
-}
-
-# this is the main function for env, it takes care of running them env
-# code on every prompt. This is done via the 'PROMPT_COMMAND' feature
-# of bash.
 function _activate_env() {
 	local -n __var=$1
 	local -n __error=$2
-	if declare -p PROMPT_COMMAND 2> /dev/null > /dev/null
-	then
-		PROMPT_COMMAND="env_prompt; $PROMPT_COMMAND"
-	else
-		PROMPT_COMMAND="env_prompt"
-	fi
-	ENV_ACTIVE=""
-	env_debug "ENV_ACTIVE=${ENV_ACTIVE}"
+	prompt_register env_prompt
 	__var=0
 }
 

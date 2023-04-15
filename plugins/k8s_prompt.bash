@@ -45,12 +45,7 @@ function k8s_prompt() {
 function _activate_k8s_prompt() {
 	local -n __var=$1
 	local -n __error=$2
-	if declare -p PROMPT_COMMAND 2> /dev/null > /dev/null
-	then
-		PROMPT_COMMAND="k8s_prompt; $PROMPT_COMMAND"
-	else
-		PROMPT_COMMAND="k8s_prompt"
-	fi
+	prompt_register k8s_prompt
 	__var=0
 }
 

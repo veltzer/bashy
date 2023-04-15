@@ -1,8 +1,6 @@
-# This script manages your google clound environment for you
-#
-# Here is what it does:
-# - Whenever you 'cd' into a directory it will activate the right
-# google cloud project for you.
+# This script manages your google clound environment for you.
+# Whenever you 'cd' into a git folder that has .gcp.conf in it
+# it will activate the right google cloud project for you.
 
 gcp_conf_file_name=".gcp.conf"
 
@@ -46,12 +44,7 @@ function gcp_prompt() {
 function _activate_gcp() {
 	local -n __var=$1
 	local -n __error=$2
-	if declare -p PROMPT_COMMAND 2> /dev/null > /dev/null
-	then
-		PROMPT_COMMAND="gcp_prompt; $PROMPT_COMMAND"
-	else
-		PROMPT_COMMAND="gcp_prompt"
-	fi
+	prompt_register gcp_prompt
 	__var=0
 }
 

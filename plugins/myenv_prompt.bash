@@ -13,7 +13,7 @@
 # - to recreate the venvs for a bunch for folders activate
 # myenv_recreate in each the folders. It *is not* enough to just
 # cd into these folders as part of a command line since then
-# PROMPT_COMMAND will not be activated.
+# myenv_prompt will not be activated.
 #
 # Below are APIs to the general public - do not break them.
 #
@@ -330,24 +330,11 @@ function myenv_prompt() {
 	fi
 }
 
-# stop the plugin from working
-function myenv_unconfigure() {
-	PROMPT_COMMAND=${PROMPT_COMMAND//myenv_prompt;/}
-}
-
-# this is the main function for myenv, it takes care of running the myenv
-# code on every prompt. This is done via the 'PROMPT_COMMAND' feature
-# of bash.
 function configure_myenv() {
 	local -n __var=$1
 	local -n __error=$2
 	if ! checkInPath md5sum __var __error; then return; fi
-	if declare -p PROMPT_COMMAND 2> /dev/null > /dev/null
-	then
-		PROMPT_COMMAND="myenv_prompt; $PROMPT_COMMAND"
-	else
-		PROMPT_COMMAND="myenv_prompt"
-	fi
+	prompt_register myenv_prompt
 	__var=0
 }
 
