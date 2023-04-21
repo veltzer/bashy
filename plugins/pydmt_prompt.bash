@@ -90,7 +90,7 @@ function pydmt_prompt() {
 				pydmt_debug "running pydmt build_venv in [${GIT_REPO}]"
 				if (cd "${GIT_REPO}" || exit 1; pydmt build_venv)
 				then
-					pydmt_activate="${GIT_REPO}/.venv/default/local/bin/activate"
+					pydmt_activate="${GIT_REPO}/.venv/default/bin/activate"
 					pydmt_debug "activating virtual env [${pydmt_activate}]"
 					if [ -r "${pydmt_activate}" ]
 					then
