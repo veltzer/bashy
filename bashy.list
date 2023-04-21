@@ -21,9 +21,9 @@ local_install
 path_dot_local
 path_remove_games
 postgresql
-pymultigit
 local_python
 python
+pymultigit
 perl
 ruby
 go
