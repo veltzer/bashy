@@ -40,7 +40,8 @@ function assoc_set() {
 	local -n __assoc_set=$1
 	local key=$2
 	local value=$3
-	__assoc_set[$key]=$value
+	# shellcheck disable=2004
+	__assoc_set[${key}]=$value
 }
 
 function assoc_get() {

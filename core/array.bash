@@ -9,7 +9,7 @@ function array_set() {
 	local -n __array=$1
 	local pos=$2
 	local value=$3
-	__array[$pos]=$value
+	__array[pos]=$value
 }
 
 function array_print() {
