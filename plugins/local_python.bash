@@ -1,4 +1,4 @@
-# This plugin allows you to use your own folder (say ~/install/python)
+# This plugin allows you to use your own folder (say "${HOME}/install/python")
 # for storing modules which are not well packaged and distributed yet.
 #
 # If you do packages all of your python modules correctly then you don't

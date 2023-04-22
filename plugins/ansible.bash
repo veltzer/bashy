@@ -11,3 +11,4 @@ function _install_ansible() {
 }
 
 register _activate_ansible
+register_install _install_ansible

@@ -6,8 +6,9 @@ function _activate_fuck() {
 	__var=0
 }
 
-function install_fuck() {
-	sudo pip3 install thefuck
+function _install_fuck() {
+	pip3 install --user thefuck
 }
 
 register_interactive _activate_fuck
+register_install _install_fuck

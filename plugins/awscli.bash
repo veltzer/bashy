@@ -26,27 +26,27 @@ function _activate_awscli_wrapper() {
 	__var=0
 }
 
-function awscli_install_wrapper() {
+function _install_awscli_wrapper() {
 	# installation using pip of wrapper - this is not official aws
 	/usr/bin/pip install --user awscliv2
 }
 
-function awscli_install_old() {
+function _install_awscli_old() {
 	# installation using a bundle
 	# we use -O [filename] instead of -P /tmp because -P will not overwrite the previous
 	# file (if it exits) and will create a new file named [filename].1
 	rm -rf /tmp/awscli-bundle.zip /tmp/awscli-bundle
 	wget https://s3.amazonaws.com/aws-cli/awscli-bundle.zip -P /tmp
 	unzip /tmp/awscli-bundle.zip -d /tmp
-	/tmp/awscli-bundle/install -b ~/install/bin/aws
+	/tmp/awscli-bundle/install -b "${HOME}/install/bin/aws"
 }
 
-function awscli_install() {
-	rm -rf /tmp/awscliv2.zip /tmp/awscliv2 /tmp/aws ~/install/aws
+function _install_awscli() {
+	rm -rf /tmp/awscliv2.zip /tmp/awscliv2 /tmp/aws "${HOME}/install/aws"
 	curl --silent "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
 	unzip -qq /tmp/awscliv2.zip -d /tmp
-	rm -rf ~/install/aws
-	/tmp/aws/install -i ~/install/aws -b ~/install/aws/bin > /dev/null
+	rm -rf "${HOME}/install/aws"
+	/tmp/aws/install -i "${HOME}/install/aws" -b "${HOME}/install/aws/bin" > /dev/null
 	rm -rf /tmp/aws
 	# checking that you do not have 'awscli' installed from pypi
 	if pip show awscli 2> /dev/null
@@ -60,13 +60,13 @@ function awscli_install() {
 	aws --version
 }
 
-function awscli_uninstall() {
-	rm -rf ~/install/aws || true
+function _uninstall_awscli() {
+	rm -rf "${HOME}/install/aws" || true
 	pip uninstall awscli 2> /dev/null || true
 }
 
 function awscli_select_profile() {
-	readarray -t profiles < <(sed -nr 's/^\[(.*)\]$/\1/p' ~/.aws/credentials)
+	readarray -t profiles < <(sed -nr 's/^\[(.*)\]$/\1/p' "${HOME}/.aws/credentials")
 	echo "Please select a drive:"
 	select profile in "${profiles[@]}"; do
 		[[ -n "$profile" ]] || { echo "Invalid choice. Please try again." >&2; continue; }
@@ -77,3 +77,4 @@ function awscli_select_profile() {
 }
 
 register _activate_awscli
+register_install _install_awscli

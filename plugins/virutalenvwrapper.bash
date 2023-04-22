@@ -11,9 +11,9 @@ function _activate_virtualenvwrapper() {
 		FOUND_IN=/usr/local/bin/virtualenvwrapper.sh
 		found=true
 	fi
-	if [ -f ~/.local/bin/virtualenvwrapper.sh ] && [ $found = false ]
+	if [ -f "${HOME}/.local/bin/virtualenvwrapper.sh" ] && [ $found = false ]
 	then
-		FOUND_IN=~/.local/bin/virtualenvwrapper.sh
+		FOUND_IN="${HOME}/.local/bin/virtualenvwrapper.sh"
 		found=true
 	fi
 	if [ -f /usr/share/virtualenvwrapper/virtualenvwrapper.sh ] && [ $found = false ]

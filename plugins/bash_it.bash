@@ -43,7 +43,7 @@ function _activate_bash_it() {
 
 	# Set vcprompt executable path for scm advance info in prompt (demula theme)
 	# https://github.com/djl/vcprompt
-	#export VCPROMPT_EXECUTABLE=~/.vcprompt/bin/vcprompt
+	#export VCPROMPT_EXECUTABLE="${HOME}/.vcprompt/bin/vcprompt"
 
 	# (Advanced): Uncomment this to make Bash-it reload itself automatically
 	# after enabling or disabling aliases, plugins, and completions.

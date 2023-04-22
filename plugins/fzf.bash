@@ -14,9 +14,9 @@ function _activate_fzf() {
 }
 
 function _install_fzf() {
-	rm -rf ~/.bashy_install/fzf > /dev/null 2> /dev/null
-	git clone --depth 1 https://github.com/junegunn/fzf.git ~/.bashy_install/fzf > /dev/null 2> /dev/null
-	~/.bashy_install/fzf/install --no-update-rc --key-bindings --completion > /dev/null 2> /dev/null
+	rm -rf "${HOME}/.bashy_install/fzf" > /dev/null 2> /dev/null
+	git clone --depth 1 https://github.com/junegunn/fzf.git "${HOME}/.bashy_install/fzf" > /dev/null 2> /dev/null
+	"${HOME}/.bashy_install/fzf/install" --no-update-rc --key-bindings --completion > /dev/null 2> /dev/null
 }
 
 register_interactive _activate_fzf
