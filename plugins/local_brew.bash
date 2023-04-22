@@ -16,4 +16,8 @@ function _install_brew() {
 	"${HOME}/install/homebrew/bin/brew" update --force --quiet
 }
 
+function _uninstall_brew() {
+	rm -rf "${HOME}/install/homebrew"
+}
+
 register _activate_brew
