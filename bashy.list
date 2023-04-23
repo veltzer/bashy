@@ -21,7 +21,6 @@ local_install
 path_dot_local
 path_remove_games
 postgresql
-local_python
 python
 perl
 ruby
@@ -41,6 +40,7 @@ local_k8s
 local_helm
 local_minikube
 local_brew
+local_python
 gradle
 encfs
 node
