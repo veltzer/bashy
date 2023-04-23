@@ -7,10 +7,6 @@
 function _activate_python() {
 	local -n __var=$1
 	local -n __error=$2
-	PYTHON_HOME="$HOME/.venv"
-	if ! checkDirectoryExists "$PYTHON_HOME" __var __error; then return; fi
-	export PYTHON_HOME
-	pathutils_add_head PATH "${PYTHON_HOME}/bin"
 	export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
 	__var=0
 }
