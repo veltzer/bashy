@@ -40,7 +40,7 @@ local_k8s
 local_helm
 local_minikube
 local_brew
-local_python
+# local_python
 gradle
 encfs
 node

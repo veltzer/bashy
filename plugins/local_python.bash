@@ -14,8 +14,8 @@ function _activate_local_python() {
 		__var=1
 		return
 	fi
-	if ! checkDirectoryExists "$PYTHON_LOCAL" __var __error; then return; fi
-	pathutils_add_head PYTHONPATH "$PYTHON_LOCAL/bin"
+	if ! checkDirectoryExists "${PYTHON_LOCAL}" __var __error; then return; fi
+	pathutils_add_head PYTHONPATH "${PYTHON_LOCAL}/bin"
 	__var=0
 }
 
