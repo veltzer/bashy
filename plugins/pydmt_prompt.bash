@@ -95,6 +95,9 @@ function pydmt_prompt() {
 						pydmt_debug "have external virtual env [${VIRTUAL_ENV}, deactivating]"
 						_BASHY_PYDMT_EVENV="${VIRTUAL_ENV}"
 						deactivate
+					else
+						pydmt_debug "registering no external venv"
+						_BASHY_PYDMT_EVENV=""
 					fi
 					pydmt_activate="${GIT_REPO}/.venv/default/bin/activate"
 					pydmt_debug "activating virtual env [${pydmt_activate}]"
