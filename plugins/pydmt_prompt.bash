@@ -22,7 +22,9 @@
 # are within the .pydmt directory to any depth.
 
 export _BASHY_PYDMT_DEBUG=1
-export _BASHY_PYDMT_ACTIVE=0
+export _BASHY_PYDMT_ON=0
+export _BASHY_PYDMT_ACTIVE=""
+export _BASHY_PYDMT_EVENV=""
 
 function pydmt_debug() {
 	local msg=$1
@@ -51,31 +53,29 @@ function pydmt_error() {
 }
 
 function pydmt_prompt() {
-	if [ "$_BASHY_PYDMT_ACTIVE" = 1 ]
+	if [ "$_BASHY_PYDMT_ON" = 1 ]
 	then
 		pydmt_debug "plugin is deactivated"
-	fi
-	if [ -n "${VIRTUAL_ENV}" ] && [ -z "${PYDMT_ACTIVE}" ]
-	then
-		pydmt_debug "in virtual env which is not pydmt related. not doing anything."
-		return
-	fi
-	# if we are in the wrong virtual env, deactivate
-	if [ -n "${VIRTUAL_ENV}" ]
-	then
-		if [ "$(readlink -f ".venv/default")" != "${VIRTUAL_ENV}" ]
-		then
-			pydmt_debug "deactivating virtual env at [${VIRTUAL_ENV}]"
-			deactivate
-			PYDMT_ACTIVE=""
-		fi
 	fi
 	if git_is_inside
 	then
 		pydmt_debug "in git env"
 		git_top_level GIT_REPO
-		pydmt_debug "GIT_REPO is ${GIT_REPO}"
-		if [ -z "$PYDMT_ACTIVE" ]
+		pydmt_debug "GIT_REPO is [${GIT_REPO}]"
+		if [ -n "$_BASHY_PYDMT_ACTIVE" ]
+		then
+			pydmt_debug "have active pydmt environment"
+			new_virtual_env="${GIT_REPO}/.venv/default"
+			if [ "${new_virtual_env}" != "${VIRTUAL_ENV}" ]
+			then
+				pydmt_debug "wrong pydmt env, deactivating ($new_virtual_env, $VIRTUAL_ENV)"
+				deactivate
+				_BASHY_PYDMT_ACTIVE=""
+			else
+				pydmt_debug "have the right pydmt env ($new_virtual_env)"
+			fi
+		fi
+		if [ -z "$_BASHY_PYDMT_ACTIVE" ]
 		then
 			pydmt_debug "no active pydmt environment"
 			GIT_FILE="$GIT_REPO/.pydmt.config"
@@ -90,13 +90,19 @@ function pydmt_prompt() {
 				pydmt_debug "running pydmt build_venv in [${GIT_REPO}]"
 				if (cd "${GIT_REPO}" || exit 1; pydmt build_venv)
 				then
+					if [ -n "${VIRTUAL_ENV}" ]
+					then
+						pydmt_debug "have external virtual env [${VIRTUAL_ENV}, deactivating]"
+						_BASHY_PYDMT_EVENV="${VIRTUAL_ENV}"
+						deactivate
+					fi
 					pydmt_activate="${GIT_REPO}/.venv/default/bin/activate"
 					pydmt_debug "activating virtual env [${pydmt_activate}]"
 					if [ -r "${pydmt_activate}" ]
 					then
 						# shellcheck source=/dev/null
 						source "${pydmt_activate}"
-						PYDMT_ACTIVE="yes"
+						_BASHY_PYDMT_ACTIVE="yes"
 					else
 						pydmt_error "cannot activate virtual env at [${pydmt_activate}]"
 					fi
@@ -108,11 +114,20 @@ function pydmt_prompt() {
 		fi
 	else
 		pydmt_debug "not in git environment"
+		if [ -n "$_BASHY_PYDMT_ACTIVE" ]
+		then
+			pydmt_debug "PYDMT is active, deactivating"
+			deactivate
+			_BASHY_PYDMT_ACTIVE=""
+			if [ -n "$_BASHY_PYDMT_EVENV" ]
+			then
+				pydmt_debug "activating external venv at [${_BASHY_PYDMT_EVENV}]"
+				activate="${_BASHY_PYDMT_EVENV}/bin/activate"
+				# shellcheck source=/dev/null
+				source "${activate}"
+			fi
+		fi
 	fi
-	# if [ ! "$VIRTUAL_ENV" ]
-	# then
-	# 	unset pydmt_powerline_virtual_env_python_version
-	# fi
 }
 
 function _activate_pydmt() {
