@@ -1,3 +1,4 @@
+name = "bashy"
 description_short = "bashy handles bash configuration for you"
 keywords = [
     "bashy",
