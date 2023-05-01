@@ -45,16 +45,16 @@ function myenv_getconf() {
 	export myenv_conf
 
 	# first read the configuration from the home folder
-	export myenv_home_conf_file="$HOME/$myenv_conf_file_name"
-	if [ -r "$myenv_home_conf_file" ]
+	export myenv_home_conf_file="${HOME}/${myenv_conf_file_name}"
+	if [ -r "${myenv_home_conf_file}" ]
 	then
-		assoc_config_read myenv_conf "$myenv_home_conf_file"
+		assoc_config_read myenv_conf "${myenv_home_conf_file}"
 	fi
 
 	# next step over it with local configuration
-	if [ -r "$myenv_conf_file_name" ]
+	if [ -r "${myenv_conf_file_name}" ]
 	then
-		assoc_config_read myenv_conf "$myenv_conf_file_name"
+		assoc_config_read myenv_conf "${myenv_conf_file_name}"
 	fi
 
 	# get all the other parameters from the config
@@ -81,32 +81,32 @@ function myenv_getconf() {
 	# calculate variables from other variables
 
 	# turn to array
-	read -r -a myenv_virtual_env_requirement_files <<< "$myenv_virtual_env_requirement_files"
+	read -r -a myenv_virtual_env_requirement_files <<< "${myenv_virtual_env_requirement_files}"
 	# set the folder to the virtual env
-	if [ -z "$myenv_virtual_env_folder" ]
+	if [ -z "${myenv_virtual_env_folder}" ]
 	then
-		# export myenv_virtual_env_folder="$HOME/.virtualenvs/$myenv_virtual_env_name"
-		export myenv_virtual_env_folder=".venv/$myenv_virtual_env_name"
+		# export myenv_virtual_env_folder="${HOME}/.virtualenvs/${myenv_virtual_env_name}"
+		export myenv_virtual_env_folder=".venv/${myenv_virtual_env_name}"
 	fi
 	# the the python version used (could be used for powerline)
 	export myenv_virtual_env_python_version
-	python_version_short myenv_virtual_env_python_version "$myenv_virtual_env_python"
+	python_version_short myenv_virtual_env_python_version "${myenv_virtual_env_python}"
 }
 
 # function to issue a message if we are in debug mode
 function myenv_print_debug() {
 	local msg=$1
-	if [ "$myenv_debug" = 0 ]
+	if [ "${myenv_debug}" = 0 ]
 	then
-		echo "myenv: debug: $msg"
+		echo "myenv: debug: ${msg}"
 	fi
 }
 
 # function to issue a message even if we are not in debug mode
 function myenv_info() {
 	local msg=$1
-	# echo "myenv: info: $msg"
-	cecho g "myenv: info: $msg" 0
+	# echo "myenv: info: ${msg}"
+	cecho g "myenv: info: ${msg}" 0
 }
 
 function myenv_create_virtualenv() {

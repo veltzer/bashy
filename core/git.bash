@@ -7,7 +7,7 @@ function git_debug() {
 	local msg=$1
 	if [ "${_BASHY_CODE_GIT_DEBUG}" = 0 ]
 	then
-		echo "env: debug: $msg"
+		echo "env: debug: ${msg}"
 	fi
 }
 
@@ -25,14 +25,14 @@ function git_debug_off() {
 # cache the return value it would be great.
 function git_is_inside() {
 	result=$(git rev-parse --is-inside-work-tree 2> /dev/null)
-	err="$?"
+	err="${?}"
 	git_debug "err is ${err}"
 	if [ "${err}" != 0 ]
 	then
 		return "${err}"
 	fi
-	[ "$result" = "true" ]
-	err2="$?"
+	[ "${result}" = "true" ]
+	err2="${?}"
 	git_debug "err2 is ${err2}"
 	return "${err2}"
 }
@@ -42,7 +42,7 @@ function git_top_level() {
 	local -n __var=$1
 	local toplevel
 	toplevel=$(git rev-parse --show-toplevel)
-	__var="$toplevel"
+	__var="${toplevel}"
 }
 
 # returns the name of the current git repo
@@ -51,15 +51,15 @@ function git_repo_name() {
 	local toplevel
 	git_top_levl toplevel
 	local name=${toplevel##*/}
-	__var="$name"
+	__var="${name}"
 }
 
 # go to the root of the current git repo
 function git_root() {
 	# go to the root of the current git repo (if indeed inside a git repo)
 	cd_arg="$(git rev-parse --show-cdup)"
-	if [ -n "$cd_arg" ]
+	if [ -n "${cd_arg}" ]
 	then
-		cd "$cd_arg" || exit
+		cd "${cd_arg}" || exit
 	fi
 }
