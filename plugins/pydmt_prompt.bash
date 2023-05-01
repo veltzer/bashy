@@ -11,7 +11,7 @@
 # file and a checksum which is stored inside each created virtual
 # environment.
 # - to recreate the venvs for a bunch for folders activate:
-#	$ pydmt build_venv
+#	pydmt build_venv
 # in each the folders.
 # - It *is not* enough to just cd into these folders as part of a
 # for loop or script since then pydmt_prompt will not be activated.

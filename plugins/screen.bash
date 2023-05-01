@@ -4,7 +4,7 @@
 # but rather by exporting a variable of our own.
 #
 # You can install screen using:
-# 	$ sudo apt-get install screen
+# 	sudo apt-get install screen
 #
 # References:
 # http://askubuntu.com/questions/675139/how-can-i-start-linux-screen-automatically-when-i-open-a-new-terminal-window
