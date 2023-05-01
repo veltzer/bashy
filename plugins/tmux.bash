@@ -35,19 +35,19 @@ function _activate_tmux() {
 	if [[ -z ${TMUX+x} ]]
 	then
 		sessions=$(tmux ls | wc -l)
-		if [ "$sessions" -gt 0 ]
+		if [ "${sessions}" -gt 0 ]
 		then
 			options="new $(tmux ls -F '#{session_name}')"
 			# vim syntax hightlighting is bad at the next line
-			select sel in $options
+			select sel in "${options}"
 			do
 				break
 			done
-			if [ "$sel" = "new" ]
+			if [ "${sel}" = "new" ]
 			then
 				exec tmux new-session
 			else
-				exec tmux attach-session -t "$sel"
+				exec tmux attach-session -t "${sel}"
 			fi
 		else
 			exec tmux new-session
@@ -64,11 +64,11 @@ function _activate_tmux_old() {
 	if [[ -z ${TMUX+x} ]]
 	then
 		session="0"
-		if tmux has-session -t $session 2> /dev/null
+		if tmux has-session -t "${session}" 2> /dev/null
 		then
-			exec tmux attach-session -t $session
+			exec tmux attach-session -t "${session}"
 		else
-			exec tmux new-session -s $session
+			exec tmux new-session -s "${session}"
 		fi
 	fi
 	__var=0
