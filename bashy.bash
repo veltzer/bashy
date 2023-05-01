@@ -28,22 +28,22 @@ function _bashy_load_core() {
 	do
 		local _name="${f##*/}"
 		_name="${_name%%.*}"
-		bashy_core_names+=("$_name")
+		bashy_core_names+=("${_name}")
 		local _result=0
-		source_absolute "$f" || _result=1
-		bashy_core_res+=("$_result")
+		source_absolute "${f}" || _result=1
+		bashy_core_res+=("${_result}")
 	done
 }
 
 function _bashy_read_plugins() {
-	filename="$HOME/.bashy/bashy.list"
+	filename="${HOME}/.bashy/bashy.list"
 	while read -r line
 	do
-		if [[ $line =~ ^#.* ]]
+		if [[ "${line}" =~ ^#.* ]]
 		then
 			continue
 		fi
-		if [[ $line =~ ^-.* ]]
+		if [[ "${line}" =~ ^-.* ]]
 		then
 			plugin="${line:1}"
 			enabled=0
@@ -52,25 +52,25 @@ function _bashy_read_plugins() {
 			enabled=1
 		fi
 		location=
-		array_find bashy_array_plugin "$plugin" location
-		if [[ "$location" == -1 ]]
+		array_find bashy_array_plugin "${plugin}" location
+		if [[ "${location}" == -1 ]]
 		then
 			array_push bashy_array_plugin "${plugin}"
 			array_push bashy_array_enabled "${enabled}"
 		else
 			array_set bashy_array_enabled "${location}" "${enabled}"
 		fi
-	done < "$filename"
-	filename="$HOME/.bashy.list"
-	if [[ -r $filename ]]
+	done < "${filename}"
+	filename="${HOME}/.bashy.list"
+	if [[ -r "${filename}" ]]
 	then
 		while read -r line
 		do
-			if [[ $line =~ ^#.* ]]
+			if [[ "${line}" =~ ^#.* ]]
 			then
 				continue
 			fi
-			if [[ $line =~ ^-.* ]]
+			if [[ "${line}" =~ ^-.* ]]
 			then
 				plugin="${line:1}"
 				enabled=0
@@ -78,15 +78,15 @@ function _bashy_read_plugins() {
 				plugin="${line}"
 				enabled=1
 			fi
-			array_find bashy_array_plugin "$plugin" location
-			if [[ $location == -1 ]]
+			array_find bashy_array_plugin "${plugin}" location
+			if [[ "${location}" == -1 ]]
 			then
 				array_push bashy_array_plugin "${plugin}"
 				array_push bashy_array_enabled "${enabled}"
 			else
 				array_set bashy_array_enabled "${location}" "${enabled}"
 			fi
-		done < "$filename"
+		done < "${filename}"
 	fi
 }
 
@@ -94,17 +94,17 @@ function _bashy_load_plugins() {
 	((i=0))
 	for plugin in "${bashy_array_plugin[@]}"
 	do
-		current_filename="$HOME/.bashy/plugins/$plugin.bash"
-		if [[ -r $current_filename ]]
+		current_filename="${HOME}/.bashy/plugins/${plugin}.bash"
+		if [[ -r "${current_filename}" ]]
 		then
 			bashy_array_found+=(1)
-			bashy_array_filename+=("$current_filename")
+			bashy_array_filename+=("${current_filename}")
 		else
-			current_filename="$HOME/.bashy_extra/$plugin.bash"
-			if [[ -r $current_filename ]]
+			current_filename="${HOME}/.bashy_extra/${plugin}.bash"
+			if [[ -r "${current_filename}" ]]
 			then
 				bashy_array_found+=(1)
-				bashy_array_filename+=("$current_filename")
+				bashy_array_filename+=("${current_filename}")
 			else
 				bashy_array_found+=(0)
 				bashy_array_filename+=(0)
@@ -113,11 +113,11 @@ function _bashy_load_plugins() {
 				continue
 			fi
 		fi
-		enabled="${bashy_array_enabled[$i]}"
-		if [[ $enabled = 1 ]]
+		enabled="${bashy_array_enabled[${i}]}"
+		if [[ "${enabled}" = 1 ]]
 		then
-			debug "loading [$plugin]"
-			source_absolute "$current_filename" > /dev/null 2> /dev/null
+			debug "loading [${plugin}]"
+			source_absolute "${current_filename}" > /dev/null 2> /dev/null
 			bashy_array_source+=($?)
 		else
 			bashy_array_function+=(0)
@@ -128,19 +128,19 @@ function _bashy_load_plugins() {
 }
 
 function _bashy_load_config() {
-	BASHY_CONFIG="$HOME/.bashy.config"
-	if [ -f "$BASHY_CONFIG" ]
+	BASHY_CONFIG="${HOME}/.bashy.config"
+	if [ -f "${BASHY_CONFIG}" ]
 	then
 		# cannot use source_absolute function here since it is still not loaded
 		# shellcheck source=/dev/null
-		source "$BASHY_CONFIG"
+		source "${BASHY_CONFIG}"
 	fi
 }
 
 function _bashy_run_plugins() {
 	for function in "${bashy_array_function[@]}"
 	do
-		if [[ $function = 0 ]]
+		if [[ "${function}" = 0 ]]
 		then
 			bashy_array_result+=("NO_RESULT")
 			bashy_array_error+=("")
@@ -160,16 +160,16 @@ function _bashy_run_plugins() {
 			local result=
 			local error=""
 			local diff=
-			measure diff "$function" result error
-			bashy_array_result+=("$result")
-			bashy_array_error+=("$error")
-			bashy_array_diff+=("$diff")
+			measure diff "${function}" result error
+			bashy_array_result+=("${result}")
+			bashy_array_error+=("${error}")
+			bashy_array_diff+=("${diff}")
 		else
 			local result=
 			local error=""
-			"$function" result error
-			bashy_array_result+=("$result")
-			bashy_array_error+=("$error")
+			"${function}" result error
+			bashy_array_result+=("${result}")
+			bashy_array_error+=("${error}")
 			bashy_array_diff+=("NO_PROFILE")
 		fi
 	done
@@ -179,8 +179,8 @@ function bashy_status_core() {
 	for name in "${bashy_core_names[@]}"
 	do
 		cecho gr "${name}" 1
-		res="${bashy_core_res[$i]}"
-		if [ "$res" = 0 ]
+		res="${bashy_core_res[${i}]}"
+		if [ "${res}" = 0 ]
 		then
 			cecho g "\tOK" 0
 		else
@@ -199,38 +199,38 @@ function bashy_status_plugins() {
 	for plugin in "${bashy_array_plugin[@]}"
 	do
 		cecho gr "${plugin}" 1
-		local enabled="${bashy_array_enabled[$i]}"
-		if [[ $enabled = 1 ]]
+		local enabled="${bashy_array_enabled[${i}]}"
+		if [[ "${enabled}" = 1 ]]
 		then
 			cecho g "\tEN" 1
 		else
 			cecho y "\tDI" 1
 		fi
-		local found="${bashy_array_found[$i]}"
-		if [[ $found = 1 ]]
+		local found="${bashy_array_found[${i}]}"
+		if [[ "${found}" = 1 ]]
 		then
 			cecho g "\tFOUND_OK" 1
 		else
 			cecho r "\tFOUND_ERROR" 1
 		fi
-		# local filename="${bashy_array_filename[$i]}"
+		# local filename="${bashy_array_filename[${i}]}"
 		# if [[ $filename = 0 ]]
 		# then
 		# 	cecho r "\tNO_FILENAME" 1
 		# else
 		# 	cecho gr "\t${filename}" 1
 		# fi
-		if [[ $enabled = 1 ]]
+		if [[ "${enabled}" = 1 ]]
 		then
-			local source="${bashy_array_source[$i]}"
-			if [[ $source = 0 ]]
+			local source="${bashy_array_source[${i}]}"
+			if [[ "${source}" = 0 ]]
 			then
 				cecho g "\tLOAD_OK" 1
 			else
 				cecho r "\tLOAD_ERROR" 1
 			fi
-			local result="${bashy_array_result[$i]}"
-			if [[ $result = 0 ]]
+			local result="${bashy_array_result[${i}]}"
+			if [[ "${result}" = 0 ]]
 			then
 				cecho g "\tRESULT_OK" 1
 			else
@@ -238,7 +238,7 @@ function bashy_status_plugins() {
 			fi
 			if is_profile
 			then
-				local diff="${bashy_array_diff[$i]}"
+				local diff="${bashy_array_diff[${i}]}"
 				printf "\t%.3f\n" "${diff}"
 			else
 				echo
@@ -257,7 +257,7 @@ function bashy_errors() {
 	((i=0))
 	for plugin in "${bashy_array_plugin[@]}"
 	do
-		local error="${bashy_array_error[$i]}"
+		local error="${bashy_array_error[${i}]}"
 		if [ "${error}" != "" ]
 		then
 			cecho r "${plugin} - ${error}\n" 1

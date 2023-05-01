@@ -1,8 +1,8 @@
 function _activate_bash_it() {
 	local -n __var=$1
 	local -n __error=$2
-	BASH_IT="$HOME/.bash_it"
-	if ! checkDirectoryExists "$BASH_IT" __var __error; then return; fi
+	BASH_IT="${HOME}/.bash_it"
+	if ! checkDirectoryExists "${BASH_IT}" __var __error; then return; fi
 	export BASH_IT
 	# Lock and Load a custom theme file
 	# location /.bash_it/themes/
@@ -52,7 +52,7 @@ function _activate_bash_it() {
 	# Load Bash It
 	_bashy_before_thirdparty
 	# shellcheck source=/dev/null
-	source "$BASH_IT/bash_it.sh"
+	source "${BASH_IT}/bash_it.sh"
 	_bashy_after_thirdparty
 	__var=0
 }

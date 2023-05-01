@@ -118,21 +118,21 @@ function myenv_create_virtualenv() {
 	fi
 
 	# create a virtual env
-	myenv_info "creating new venv in [$myenv_virtual_env_folder]"
-	rm -rf "$myenv_virtual_env_folder"
-	mkdir -p "$myenv_virtual_env_folder"
-	virtualenv --clear --quiet "--python=$myenv_virtual_env_python" "$myenv_virtual_env_folder" > .myenv.virtualenv.errors 2>&1
+	myenv_info "creating new venv in [${myenv_virtual_env_folder}]"
+	rm -rf "${myenv_virtual_env_folder}"
+	mkdir -p "${myenv_virtual_env_folder}"
+	virtualenv --clear --quiet "--python=${myenv_virtual_env_python}" "${myenv_virtual_env_folder}" > .myenv.virtualenv.errors 2>&1
 	local code=$?
-	if [ $code -ne 0 ]
+	if [ "${code}" -ne 0 ]
 	then
 		myenv_error "could not create virtual env. see errors in .myenv.virtualenv.errors"
-		rm -rf "$myenv_virtual_env_folder"
-		return $code
+		rm -rf "${myenv_virtual_env_folder}"
+		return "${code}"
 	fi
 	rm -f .myenv.virtualenv.errors
 	myenv_info "created virtualenv"
 	# shellcheck source=/dev/null
-	source "$myenv_virtual_env_folder/bin/activate"
+	source "${myenv_virtual_env_folder}/bin/activate"
 	MYENV_ENV="yes"
 	myenv_info "entered virtualenv"
 	return 0
@@ -150,25 +150,25 @@ function myenv_create_pip() {
 	local file
 	for file in "${myenv_virtual_env_requirement_files[@]}"
 	do
-		pip install --quiet -r "$file" > .myenv.pip.errors 2>&1
+		pip install --quiet -r "${file}" > .myenv.pip.errors 2>&1
 		local code=$?
-		if [ $code -ne 0 ]
+		if [ "${code}" -ne 0 ]
 		then
 			myenv_error "could not install requirements. see errors in .myenv.pip.errors"
-			# rm -rf "$myenv_virtual_env_folder"
-			return $code
+			# rm -rf "${myenv_virtual_env_folder}"
+			return "${code}"
 		fi
 		rm -f .myenv.pip.errors
-		myenv_info "installed requirements [$file]"
+		myenv_info "installed requirements [${file}]"
 	done
 	# no quotes in the next command are a must
-	cat "${myenv_virtual_env_requirement_files[@]}" | grep -E -v "^#" | sort | md5sum > "$myenv_virtual_env_folder/$myenv_md5_file_name"
+	cat "${myenv_virtual_env_requirement_files[@]}" | grep -E -v "^#" | sort | md5sum > "${myenv_virtual_env_folder}/${myenv_md5_file_name}"
 	local code=$?
-	if [ $code -ne 0 ]
+	if [ "${code}" -ne 0 ]
 	then
 		myenv_error "could not create md5 sum"
-		rm -rf "$myenv_virtual_env_folder"
-		return $code
+		rm -rf "${myenv_virtual_env_folder}"
+		return "${code}"
 	fi
 	return 0
 }
@@ -181,15 +181,15 @@ function myenv_create() {
 }
 
 function myenv_recreate() {
-	if [ ! -d "$myenv_virtual_env_folder" ]
+	if [ ! -d "${myenv_virtual_env_folder}" ]
 	then
-		myenv_info "no virtual env found in [$myenv_virtual_env_folder], setting up new virtual env"
+		myenv_info "no virtual env found in [${myenv_virtual_env_folder}], setting up new virtual env"
 		if ! myenv_create_virtualenv
 		then
 			return $?
 		fi
 	fi
-	if [ ! -f "$myenv_virtual_env_folder/$myenv_md5_file_name" ]
+	if [ ! -f "${myenv_virtual_env_folder}/${myenv_md5_file_name}" ]
 	then
 		myenv_info "md5 file is missing, recreating environment"
 		if ! myenv_create_pip
@@ -200,8 +200,8 @@ function myenv_recreate() {
 	local a
 	a=$(cat "${myenv_virtual_env_requirement_files[@]}" | grep -E -v "^#" | sort | md5sum)
 	local b
-	b=$(cat "$myenv_virtual_env_folder/$myenv_md5_file_name")
-	if [ "$a" != "$b" ]
+	b=$(cat "${myenv_virtual_env_folder}/${myenv_md5_file_name}")
+	if [ "${a}" != "${b}" ]
 	then
 		myenv_info "md5 is out of sync, installing requirements"
 		myenv_create_pip
@@ -233,7 +233,7 @@ function myenv_deactivate() {
 }
 
 function myenv_deactivate_soft() {
-	if [ "$myenv_virtual_env_auto_deactivate" = 0 ]
+	if [ "${myenv_virtual_env_auto_deactivate}" = 0 ]
 	then
 		if myenv_in_virtual_env
 		then
@@ -246,13 +246,13 @@ function myenv_activate_soft() {
 	if [ -z "${VIRTUAL_ENV}" ]
 	then
 		myenv_print_debug "activating virtual env"
-		if [ -r "$myenv_virtual_env_folder/bin/activate" ]
+		if [ -r "${myenv_virtual_env_folder}/bin/activate" ]
 		then
 			# shellcheck source=/dev/null
-			source "$myenv_virtual_env_folder/bin/activate"
+			source "${myenv_virtual_env_folder}/bin/activate"
 			MYENV_ENV="yes"
 		else
-			myenv_error "cannot activate virtual env at [$myenv_virtual_env_folder]"
+			myenv_error "cannot activate virtual env at [${myenv_virtual_env_folder}]"
 		fi
 	fi
 }
@@ -264,13 +264,13 @@ function myenv_activate() {
 		return
 	fi
 	myenv_print_debug "activating virtual env"
-	if [ -r "$myenv_virtual_env_folder/bin/activate" ]
+	if [ -r "${myenv_virtual_env_folder}/bin/activate" ]
 	then
 		# shellcheck source=/dev/null
-		source "$myenv_virtual_env_folder/bin/activate"
+		source "${myenv_virtual_env_folder}/bin/activate"
 		MYENV_ENV="yes"
 	else
-		myenv_error "cannot activate virtual env at [$myenv_virtual_env_folder]"
+		myenv_error "cannot activate virtual env at [${myenv_virtual_env_folder}]"
 	fi
 }
 
@@ -285,7 +285,7 @@ function myenv_prompt_inner() {
 	fi
 
 	# if we don't have a .myenv file
-	if ! [ -r "$myenv_conf_file_name" ]
+	if ! [ -r "${myenv_conf_file_name}" ]
 	then
 		myenv_deactivate_soft
 		return
@@ -295,7 +295,7 @@ function myenv_prompt_inner() {
 	local file
 	for file in "${myenv_virtual_env_requirement_files[@]}"
 	do
-		if ! [ -r "$file" ]
+		if ! [ -r "${file}" ]
 		then
 			myenv_deactivate_soft
 			return
@@ -305,16 +305,16 @@ function myenv_prompt_inner() {
 	# if we are in the wrong virtual env, deactivate
 	if myenv_in_virtual_env
 	then
-		if [ "$(readlink -f "$myenv_virtual_env_folder")" != "$VIRTUAL_ENV" ]
+		if [ "$(readlink -f "${myenv_virtual_env_folder}")" != "${VIRTUAL_ENV}" ]
 		then
 			myenv_deactivate
 		fi
 	fi
-	if [ "$myenv_virtual_env_auto_create" = 0 ]
+	if [ "${myenv_virtual_env_auto_create}" = 0 ]
 	then
 		myenv_recreate
 	fi
-	if [ "$myenv_virtual_env_auto_activate" = 0 ]
+	if [ "${myenv_virtual_env_auto_activate}" = 0 ]
 	then
 		myenv_activate_soft
 	fi
@@ -322,9 +322,9 @@ function myenv_prompt_inner() {
 
 function myenv_prompt() {
 	myenv_prompt_inner
-	if [ "$VIRTUAL_ENV" ]
+	if [ "${VIRTUAL_ENV}" ]
 	then
-		export myenv_powerline_virtual_env_python_version="$myenv_virtual_env_python_version"
+		export myenv_powerline_virtual_env_python_version="${myenv_virtual_env_python_version}"
 	else
 		unset myenv_powerline_virtual_env_python_version
 	fi

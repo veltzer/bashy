@@ -6,10 +6,10 @@ function _activate_fzf() {
 	# it seems that this collides with bash completion
 	# stuff so this must be after the system_deafult script
 	# which does bash completions.
-	FILE="$HOME/.fzf.bash"
-	if ! checkReadableFile "$FILE" __var __error; then return; fi
+	FILE="${HOME}/.fzf.bash"
+	if ! checkReadableFile "${FILE}" __var __error; then return; fi
 	# shellcheck source=/dev/null
-	source "$FILE"
+	source "${FILE}"
 	__var=0
 }
 

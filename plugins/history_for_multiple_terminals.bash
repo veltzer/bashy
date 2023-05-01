@@ -8,7 +8,7 @@ function _activate_history_for_multiple_terminals() {
 	# - https://askubuntu.com/questions/80371/bash-history-handling-with-multiple-terminals
 	if declare -p PROMPT_COMMAND 2> /dev/null > /dev/null
 	then
-		PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND"
+		PROMPT_COMMAND="history -a; history -n; ${PROMPT_COMMAND}"
 	else
 		PROMPT_COMMAND="history -a; history -n"
 	fi

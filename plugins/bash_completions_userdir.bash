@@ -5,18 +5,18 @@ function _activate_bash_completions_userdir() {
 	# note that the 'source' command in bash cannot
 	# sources more than one file at a time so we must
 	# use the loop below....
-	local FOLDER="$HOME/.bash_completion.d"
-	if ! checkDirectoryExists "$FOLDER" __var __error; then return; fi
+	local FOLDER="${HOME}/.bash_completion.d"
+	if ! checkDirectoryExists "${FOLDER}" __var __error; then return; fi
 	# check if there are files matching the pattern
-	if compgen -G "$HOME/.bash_completion.d/*" > /dev/null
+	if compgen -G "${HOME}/.bash_completion.d/*" > /dev/null
 	then
 		# source the files
 		for x in ~/.bash_completion.d/*
 		do
-			if [ -f "$x" ] && [ -r "$x" ]
+			if [ -f "${x}" ] && [ -r "${x}" ]
 			then
 				# shellcheck source=/dev/null
-				source "$x"
+				source "${x}"
 			fi
 		done
 	fi

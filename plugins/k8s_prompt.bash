@@ -16,17 +16,17 @@ function k8s_prompt() {
 		return
 	fi
 
-	export k8s_home_conf_file="$HOME/$k8s_conf_file_name"
-	if [ -r "$k8s_home_conf_file" ]
+	export k8s_home_conf_file="${HOME}/${k8s_conf_file_name}"
+	if [ -r "${k8s_home_conf_file}" ]
 	then
-		assoc_config_read k8s_conf "$k8s_home_conf_file"
+		assoc_config_read k8s_conf "${k8s_home_conf_file}"
 	fi
 
 	git_root=""
 	git_top_level git_root
-	if [ -r "$git_root/$k8s_conf_file_name" ]
+	if [ -r "${git_root}/${k8s_conf_file_name}" ]
 	then
-		assoc_config_read k8s_conf "$git_root/$k8s_conf_file_name"
+		assoc_config_read k8s_conf "${git_root}/${k8s_conf_file_name}"
 	fi
 
 	# get the configuration name
@@ -34,11 +34,11 @@ function k8s_prompt() {
 	assoc_get k8s_conf k8s_configuration_name "k8s_configuration_name"
 
 	# set the envrionment variable
-	if null_is_null "$k8s_configuration_name"
+	if null_is_null "${k8s_configuration_name}"
 	then
 		unset KUBECONFIG
 	else
-		export KUBECONFIG="$k8s_configuration_name"
+		export KUBECONFIG="${k8s_configuration_name}"
 	fi
 }
 

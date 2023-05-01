@@ -2,7 +2,7 @@ function _activate_minikube() {
 	local -n __var=$1
 	local -n __error=$2
 	MINIKUBE_PATH="${HOME}/install/minikube"
-	if ! checkDirectoryExists "$MINIKUBE_PATH" __var __error; then return; fi
+	if ! checkDirectoryExists "${MINIKUBE_PATH}" __var __error; then return; fi
 	pathutils_add_head PATH "${MINIKUBE_PATH}"
 	if ! checkInPath minikube __var __error; then return; fi
 	# shellcheck disable=1090
