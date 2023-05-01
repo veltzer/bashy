@@ -13,7 +13,7 @@ source_relative null.bash
 # otherwise the associative array which is created will be local.
 function assoc_new() {
 	local __user_var=$1
-	declare -gA "$__user_var=()"
+	declare -gA "${__user_var}=()"
 }
 
 # This is a function that returns an associative arrays length
@@ -31,8 +31,8 @@ function assoc_print() {
 	local key
 	for key in "${!__assoc[@]}"
 	do
-		local val=${__assoc[$key]}
-		echo "$key --> $val"
+		local val=${__assoc[${key}]}
+		echo "${key} --> ${val}"
 	done
 }
 
@@ -41,16 +41,16 @@ function assoc_set() {
 	local key=$2
 	local value=$3
 	# shellcheck disable=2004
-	__assoc_set[${key}]=$value
+	__assoc_set[${key}]="${value}"
 }
 
 function assoc_get() {
 	local -n __assoc=$1
 	local -n __var=$2
 	local key=$3
-	if assoc_key_exists __assoc "$key"
+	if assoc_key_exists __assoc "${key}"
 	then
-		__var=${__assoc[$key]}
+		__var=${__assoc[${key}]}
 	else
 		null_set_value __var
 	fi
@@ -61,15 +61,15 @@ function assoc_config_read() {
 	local filename=$2
 	while read -r line
 	do
-		if [[ $line =~ ^([_[:alpha:]][_[:alnum:]]*)"="(.*) ]]
+		if [[ "${line}" =~ ^([_[:alpha:]][_[:alnum:]]*)"="(.*) ]]
 		then
 			assoc_set __assoc "${BASH_REMATCH[1]}" "${BASH_REMATCH[2]}"
 		fi
-	done < "$filename"
+	done < "${filename}"
 }
 
 function assoc_key_exists() {
 	local -n __assoc_key=$1
 	local key=$2
-	[ ${__assoc_key[$key]+muhaha} ]
+	[ ${__assoc_key[${key}]+muhaha} ]
 }
