@@ -3,32 +3,32 @@ function _activate_virtualenvwrapper() {
 	local -n __error=$2
 	# you can install virtualenvwrapper with
 	# $ apt install virtualenvwrapper
-	export WORKON_HOME="$HOME/.virtualenvs"
-	export PROJECT_HOME="$HOME/git"
+	export WORKON_HOME="${HOME}/.virtualenvs"
+	export PROJECT_HOME="${HOME}/git"
 	found=false
-	if [ -f /usr/local/bin/virtualenvwrapper.sh ] && [ $found = false ]
+	if [ -f "/usr/local/bin/virtualenvwrapper.sh" ] && [ "${found}" = false ]
 	then
-		FOUND_IN=/usr/local/bin/virtualenvwrapper.sh
+		FOUND_IN="/usr/local/bin/virtualenvwrapper.sh"
 		found=true
 	fi
-	if [ -f "${HOME}/.local/bin/virtualenvwrapper.sh" ] && [ $found = false ]
+	if [ -f "${HOME}/.local/bin/virtualenvwrapper.sh" ] && [ "${found}" = false ]
 	then
 		FOUND_IN="${HOME}/.local/bin/virtualenvwrapper.sh"
 		found=true
 	fi
-	if [ -f /usr/share/virtualenvwrapper/virtualenvwrapper.sh ] && [ $found = false ]
+	if [ -f "/usr/share/virtualenvwrapper/virtualenvwrapper.sh" ] && [ "${found}" = false ]
 	then
-		FOUND_IN=/usr/share/virtualenvwrapper/virtualenvwrapper.sh
+		FOUND_IN="/usr/share/virtualenvwrapper/virtualenvwrapper.sh"
 		found=true
 	fi
-	if ! "$found"
+	if ! "${found}"
 	then
 		__error="could not find virtualenvwrapper.sh"
 		__var=1
 		return
 	fi
 	# shellcheck source=/dev/null
-	source "$FOUND_IN"
+	source "${FOUND_IN}"
 	__var=0
 }
 

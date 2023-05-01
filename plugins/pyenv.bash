@@ -3,14 +3,14 @@
 function _activate_pyenv() {
 	local -n __var=$1
 	local -n __error=$2
-	PYENV_ROOT="$HOME/.pyenv"
-	PYENV_BIN="$PYENV_ROOT/bin"
+	PYENV_ROOT="${HOME}/.pyenv"
+	PYENV_BIN="${PYENV_ROOT}/bin"
 	if ! checkInPath pyenv __var __error; then return; fi
-	if ! checkDirectoryExists "$PYENV_ROOT" __var __error; then return; fi
-	if ! checkDirectoryExists "$PYENV_BIN" __var __error; then return; fi
+	if ! checkDirectoryExists "${PYENV_ROOT}" __var __error; then return; fi
+	if ! checkDirectoryExists "${PYENV_BIN}" __var __error; then return; fi
 	export PYENV_ROOT
 	export PYENV_BIN
-	pathutils_add_head PATH "$PYENV_BIN"
+	pathutils_add_head PATH "${PYENV_BIN}"
 	eval "$(pyenv init -)"
 	__var=0
 }

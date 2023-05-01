@@ -75,7 +75,7 @@ check_all:
 	$(Q)pymakehelper no_err git grep "\ \ " -- "*.bash"
 	$(Q)pymakehelper no_err git grep " \$$" -- "*.bash"
 	$(Q)shellcheck --shell=bash $(ALL_BASH)
-	$(Q)git grep "$$[^\"'{(123]" -- "*.bash"
+	$(Q)git grep "$$[^\"'{(123 ]" -- "*.bash"
 
 ############
 # patterns #
