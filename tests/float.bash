@@ -8,14 +8,14 @@ function testGt() {
 }
 
 function testAdd() {
-	d=
-	floatAdd d 0.2 1.4
-	assertEquals "$d" 1.6
+	f=
+	floatAdd f 0.2 1.4
+	assertEquals "${f}" 1.6
 }
 
 function testDiv() {
-	d=
-	floatDiv d 1.4 0.2
-	assertLt "$d" 7.1
-	assertGt "$d" 6.9
+	f=
+	floatDiv f 1.4 0.2
+	assertLt "${f}" 7.1
+	assertGt "${f}" 6.9
 }

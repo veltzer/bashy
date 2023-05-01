@@ -7,7 +7,7 @@ source core/source.bash
 for f in tests/*.bash
 do
 	# shellcheck source=/dev/null
-	source "$f"
+	source "${f}"
 done
 
 # find all functions that start with "test*"
@@ -19,13 +19,13 @@ count_er=0
 for f in $(declare -F)
 do
 	name="${f:11}"
-	if [[ $name =~ ^test* ]]
+	if [[ "${name}" =~ ^test* ]]
 	then
-		echo -n "running [$name]..."
+		echo -n "running [${name}]..."
 		res=0
 		(( count+=1 ))
-		($name) || res=$?
-		if [ "$res" == "0" ]
+		("${name}") || res=${?}
+		if [ "${res}" == "0" ]
 		then
 			cecho g "OK" 0
 			(( count_ok+=1 ))
@@ -36,15 +36,15 @@ do
 	fi
 done
 echo "summary"
-echo "number of tests run --> $count"
+echo "number of tests run --> ${count}"
 echo -n "number of tests ok --> "
-cecho g "$count_ok" 0
+cecho g "${count_ok}" 0
 echo -n "number of tests failed --> "
-if [ "$count_er" -eq 0 ]
+if [ "${count_er}" -eq 0 ]
 then
-	cecho g "$count_er" 0
+	cecho g "${count_er}" 0
 	exit 0
 else
-	cecho r "$count_er" 0
+	cecho r "${count_er}" 0
 	exit 1
 fi
