@@ -1,18 +1,18 @@
 function _activate_perl() {
 	local -n __var=$1
 	local -n __error=$2
-	PERL_LOCAL="$HOME/install/perl"
-	if ! checkDirectoryExists "$PERL_LOCAL" __var __error; then return; fi
+	PERL_LOCAL="${HOME}/install/perl"
+	if ! checkDirectoryExists "${PERL_LOCAL}" __var __error; then return; fi
 	export PERL5LIB
-	pathutils_add_tail PERL5LIB "$PERL_LOCAL"
+	pathutils_add_tail PERL5LIB "${PERL_LOCAL}"
 	# local perl installation with perl -MCPAN
 	# the absense of double quotes in the next line is important
-	export PERL_LOCAL_LIB_ROOT="$HOME/install/perl5"
-	export PERL_MB_OPT="--install_base $PERL_LOCAL_LIB_ROOT"
-	export PERL_MM_OPT="INSTALL_BASE=$PERL_LOCAL_LIB_ROOT"
-	pathutils_add_tail PERL5LIB "$PERL_LOCAL_LIB_ROOT/lib/perl5/i686-linux-gnu-thread-multi-64int"
-	pathutils_add_tail PERL5LIB "$PERL_LOCAL_LIB_ROOT/lib/perl5"
-	pathutils_add_tail PATH "$PERL_LOCAL_LIB_ROOT/bin"
+	export PERL_LOCAL_LIB_ROOT="${HOME}/install/perl5"
+	export PERL_MB_OPT="--install_base ${PERL_LOCAL_LIB_ROOT}"
+	export PERL_MM_OPT="INSTALL_BASE=${PERL_LOCAL_LIB_ROOT}"
+	pathutils_add_tail PERL5LIB "${PERL_LOCAL_LIB_ROOT}/lib/perl5/i686-linux-gnu-thread-multi-64int"
+	pathutils_add_tail PERL5LIB "${PERL_LOCAL_LIB_ROOT}/lib/perl5"
+	pathutils_add_tail PATH "${PERL_LOCAL_LIB_ROOT}/bin"
 	__var=0
 }
 

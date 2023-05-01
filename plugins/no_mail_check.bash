@@ -8,7 +8,7 @@ function _activate_nomailcheck() {
 	# - https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-MAILCHECK
 	if [ -z "${MAILCHECK}" ]
 	then
-		__error="[$MAILCHECK] is not set"
+		__error="[${MAILCHECK}] is not set"
 		__var=1
 		return
 	fi
