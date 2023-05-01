@@ -4,7 +4,7 @@ function prompt_register() {
 	local __function=$1
 	if declare -p PROMPT_COMMAND 2> /dev/null > /dev/null
 	then
-		PROMPT_COMMAND="${__function}; $PROMPT_COMMAND"
+		PROMPT_COMMAND="${__function}; ${PROMPT_COMMAND}"
 	else
 		PROMPT_COMMAND="${__function}"
 	fi

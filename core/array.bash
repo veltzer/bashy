@@ -2,14 +2,14 @@
 
 function array_new() {
 	local __user_var=$1
-	declare -ga "$__user_var=()"
+	declare -ga "${__user_var}=()"
 }
 
 function array_set() {
 	local -n __array=$1
 	local pos=$2
 	local value=$3
-	__array[pos]=$value
+	__array[pos]="${value}"
 }
 
 function array_print() {
@@ -18,7 +18,7 @@ function array_print() {
 	echo "length of array is ${#__array[@]}"
 	for index in "${!__array[@]}"
 	do
-		echo "$index/${__array[$index]}"
+		echo "${index}/${__array[${index}]}"
 	done
 }
 
@@ -33,7 +33,7 @@ function array_push() {
 	# shellcheck disable=2178
 	local -n __array=$1
 	local var=$2
-	__array+=("$var")
+	__array+=("${var}")
 }
 
 function array_pop() {
@@ -47,8 +47,8 @@ function array_pop() {
 function array_is_array() {
 	local array_name=$1
 	local declare_output
-	declare_output=$(declare -p "$array_name")
-	[[ "$declare_output" =~ "declare -a" ]]
+	declare_output=$(declare -p "${array_name}")
+	[[ "${declare_output}" =~ "declare -a" ]]
 }
 
 function array_find() {
@@ -58,7 +58,7 @@ function array_find() {
 	local -n __array_location=$3
 	__array_location=0
 	for item in "${__array[@]}"; do
-		if [ "$item" = "$value" ]
+		if [ "${item}" = "${value}" ]
 		then
 			return
 		fi
@@ -72,7 +72,7 @@ function array_contains() {
 	local -n __array=$1
 	local value=$2
 	for item in "${__array[@]}"; do
-		[ "$item" = "$value" ] && return 0
+		[ "${item}" = "${value}" ] && return 0
 	done
 	return 1
 }
@@ -84,9 +84,9 @@ function array_remove() {
 	array_new new_array
 	for elem in "${__array[@]}"
 	do
-		if [[ "$elem" != "$value" ]]
+		if [[ "${elem}" != "${value}" ]]
 		then
-			array_push new_array "$elem"
+			array_push new_array "${elem}"
 		fi
 	done
 	__array=("${new_array[@]}")
