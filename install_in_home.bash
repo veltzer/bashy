@@ -1,4 +1,4 @@
 #!/bin/bash -eu
 
 rm -rf "${HOME}/.bashy"
-rsync -a ./ ~/.bashy --exclude-from=.excludes
+rsync --archive --itemize-changes ./ ~/.bashy --exclude-from=.excludes
