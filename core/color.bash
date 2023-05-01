@@ -15,11 +15,11 @@ function cecho() {
 		cyan | c) color="${code}1;36m";;
 		gray | gr) color="${code}0;37m";;
 	esac
-	local text="$color${text}${code}0m"
-	if [[ $newline = 0 ]]
+	local text="${color}${text}${code}0m"
+	if [[ "${newline}" = 0 ]]
 	then
-		echo -e "$text"
+		echo -e "${text}"
 	else
-		echo -en "$text"
+		echo -en "${text}"
 	fi
 }
