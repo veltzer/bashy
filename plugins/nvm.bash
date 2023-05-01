@@ -1,4 +1,4 @@
-# This is nvm integration 
+# This is nvm integration
 function _activate_nvm() {
 	local -n __var=$1
 	local -n __error=$2

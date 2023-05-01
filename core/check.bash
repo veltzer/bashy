@@ -52,7 +52,7 @@ function checkInPath() {
 	local -n __var2=$2
 	local -n __error2=$3
 	if pathutils_is_in_path "$app"
-        then
+	then
 		__var2=0
 		return 0
 	fi

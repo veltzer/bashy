@@ -4,6 +4,7 @@ function _activate_bash_completions_system() {
 	FILE="/usr/share/bash-completion/bash_completion"
 	if ! checkReadableFile "$FILE" __var __error; then return; fi
 	_bashy_before_thirdparty
+	# shellcheck source=/dev/null
 	source /usr/share/bash-completion/bash_completion
 	_bashy_after_thirdparty
 	__var=0

@@ -48,7 +48,7 @@ function env_prompt() {
 		then
 			# in git but no env active, this means
 			# - there is no need to turn run .env.exit.sh
-			# - can now source .env.enter.sh and define ENV_ACTIVE 
+			# - can now source .env.enter.sh and define ENV_ACTIVE
 			git_top_level GIT_REPO
 			GIT_FILE="$GIT_REPO/.env.enter.sh"
 			if [ -r "$GIT_FILE" ]
