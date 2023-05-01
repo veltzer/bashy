@@ -6,8 +6,8 @@
 function _activate_eksctl() {
 	local -n __var=$1
 	local -n __error=$2
-	EKSCTL_BINARY="$HOME/install/binaries/eksctl"
-	if ! checkExecutableFile "$EKSCTL_BINARY" __var __error; then return; fi
+	EKSCTL_BINARY="${HOME}/install/binaries/eksctl"
+	if ! checkExecutableFile "${EKSCTL_BINARY}" __var __error; then return; fi
 	export EKSCTL_BINARY
 	# shellcheck source=/dev/null
 	source <(eksctl completion bash)

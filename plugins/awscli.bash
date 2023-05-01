@@ -9,11 +9,11 @@
 function _activate_awscli() {
 	local -n __var=$1
 	local -n __error=$2
-	AWSCLI_HOME="$HOME/install/aws"
-	AWSCLI_HOME_BIN="$AWSCLI_HOME/bin"
-	if ! checkDirectoryExists "$AWSCLI_HOME" __var __error; then return; fi
-	if ! checkDirectoryExists "$AWSCLI_HOME_BIN" __var __error; then return; fi
-	pathutils_add_head PATH "$AWSCLI_HOME_BIN"
+	AWSCLI_HOME="${HOME}/install/aws"
+	AWSCLI_HOME_BIN="${AWSCLI_HOME}/bin"
+	if ! checkDirectoryExists "${AWSCLI_HOME}" __var __error; then return; fi
+	if ! checkDirectoryExists "${AWSCLI_HOME_BIN}" __var __error; then return; fi
+	pathutils_add_head PATH "${AWSCLI_HOME_BIN}"
 	export AWSCLI_HOME
 	__var=0
 }
@@ -69,11 +69,11 @@ function awscli_select_profile() {
 	readarray -t profiles < <(sed -nr 's/^\[(.*)\]$/\1/p' "${HOME}/.aws/credentials")
 	echo "Please select a drive:"
 	select profile in "${profiles[@]}"; do
-		[[ -n "$profile" ]] || { echo "Invalid choice. Please try again." >&2; continue; }
+		[[ -n "${profile}" ]] || { echo "Invalid choice. Please try again." >&2; continue; }
 		break
 	done
-	echo "selected [$profile]..."
-	export AWS_PROFILE="$profile"
+	echo "selected [${profile}]..."
+	export AWS_PROFILE="${profile}"
 }
 
 register _activate_awscli
