@@ -84,7 +84,7 @@ function pydmt_prompt() {
 				pydmt_debug "have .pydmt.config file"
 				if [ -f .pydmt.build.errors ]
 				then
-					pydmt_debug "found error file not building"
+					pydmt_error "found error file not building"
 					return
 				fi
 				pydmt_debug "running pydmt build_venv in [${GIT_REPO}]"
