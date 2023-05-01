@@ -16,7 +16,7 @@ function env_debug() {
 	local msg=$1
 	if [ "${_BASHY_ENV_DEBUG}" = 0 ]
 	then
-		echo "env: debug: $msg"
+		echo "env: debug: ${msg}"
 	fi
 }
 
@@ -44,58 +44,58 @@ function env_prompt() {
 	fi
 	if git_is_inside
 	then
-		if [ -z "$ENV_ACTIVE" ]
+		if [ -z "${ENV_ACTIVE}" ]
 		then
 			# in git but no env active, this means
 			# - there is no need to turn run .env.exit.sh
 			# - can now source .env.enter.sh and define ENV_ACTIVE
 			git_top_level GIT_REPO
-			GIT_FILE="$GIT_REPO/.env.enter.sh"
-			if [ -r "$GIT_FILE" ]
+			GIT_FILE="${GIT_REPO}/.env.enter.sh"
+			if [ -r "${GIT_FILE}" ]
 			then
 				env_debug "sourcing [${GIT_FILE}]"
 				# shellcheck source=/dev/null
-				source "$GIT_FILE"
+				source "${GIT_FILE}"
 			fi
-			ENV_ACTIVE="$GIT_REPO"
+			ENV_ACTIVE="${GIT_REPO}"
 			env_debug "ENV_ACTIVE=${ENV_ACTIVE}"
 		else
 			git_top_level GIT_REPO
-			if [ "$ENV_ACTIVE" != "$GIT_REPO" ]
+			if [ "${ENV_ACTIVE}" != "${GIT_REPO}" ]
 			then
 				# switched repo, exit and then enter
-				GIT_FILE="$ENV_ACTIVE/.env.exit.sh"
-				if [ -r "$GIT_FILE" ]
+				GIT_FILE="${ENV_ACTIVE}/.env.exit.sh"
+				if [ -r "${GIT_FILE}" ]
 				then
 					env_debug "sourcing [${GIT_FILE}]"
 					# shellcheck source=/dev/null
-					source "$GIT_FILE"
+					source "${GIT_FILE}"
 				fi
 				ENV_ACTIVE=""
 				env_debug "ENV_ACTIVE=${ENV_ACTIVE}"
 				git_top_level GIT_REPO
-				GIT_FILE="$GIT_REPO/.env.enter.sh"
-				if [ -r "$GIT_FILE" ]
+				GIT_FILE="${GIT_REPO}/.env.enter.sh"
+				if [ -r "${GIT_FILE}" ]
 				then
 					env_debug "sourcing [${GIT_FILE}]"
 					# shellcheck source=/dev/null
-					source "$GIT_FILE"
+					source "${GIT_FILE}"
 				fi
-				ENV_ACTIVE="$GIT_REPO"
+				ENV_ACTIVE="${GIT_REPO}"
 				env_debug "ENV_ACTIVE=${ENV_ACTIVE}"
 			fi
 		fi
 	else
-		if [ -n "$ENV_ACTIVE" ]
+		if [ -n "${ENV_ACTIVE}" ]
 		then
 			# env active is not empty
 			# need to run .env.exit.sh and then turn ENV_ACTIVE to empty
-			GIT_FILE="$ENV_ACTIVE/.env.exit.sh"
-			if [ -r "$GIT_FILE" ]
+			GIT_FILE="${ENV_ACTIVE}/.env.exit.sh"
+			if [ -r "${GIT_FILE}" ]
 			then
 				env_debug "sourcing [${GIT_FILE}]"
 				# shellcheck source=/dev/null
-				source "$GIT_FILE"
+				source "${GIT_FILE}"
 			fi
 			ENV_ACTIVE=""
 			env_debug "ENV_ACTIVE=${ENV_ACTIVE}"
