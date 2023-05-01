@@ -88,7 +88,7 @@ function pydmt_prompt() {
 					return
 				fi
 				pydmt_debug "running pydmt build_venv in [${GIT_REPO}]"
-				if (cd "${GIT_REPO}" || exit 1; pydmt build_venv)
+				if (cd "${GIT_REPO}" || exit 1; pydmt build_venv 2> /tmp/errors)
 				then
 					pydmt_debug "created virtualenv using pydmt build_venv"
 					if [ -n "${VIRTUAL_ENV}" ]
@@ -111,8 +111,9 @@ function pydmt_prompt() {
 						pydmt_error "cannot activate virtual env at [${pydmt_activate}]"
 					fi
 				else
-					pydmt_error "could not create virtual env"
-					touch .pydmt.build.errors
+					pydmt_error "could not create virtual env, creating errors file"
+					mv /tmp/errors .pydmt.build.errors
+					# touch .pydmt.build.errors
 				fi
 			fi
 		fi
