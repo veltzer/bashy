@@ -62,6 +62,8 @@ function pydmt_prompt() {
 		pydmt_debug "in git env"
 		git_top_level GIT_REPO
 		pydmt_debug "GIT_REPO is [${GIT_REPO}]"
+		deactivated_env=""
+		deactivated_pydmt_active=""
 		if [ -n "${_BASHY_PYDMT_ACTIVE}" ]
 		then
 			pydmt_debug "have active pydmt environment"
@@ -70,6 +72,8 @@ function pydmt_prompt() {
 			then
 				pydmt_debug "wrong pydmt env, deactivating (${new_virtual_env}, ${VIRTUAL_ENV})"
 				deactivate
+				deactivated_env="${VIRTUAL_ENV}"
+				deactivated_pydmt_active="${_BASHY_PYDMT_ACTIVE}"
 				_BASHY_PYDMT_ACTIVE=""
 			else
 				pydmt_debug "have the right pydmt env (${new_virtual_env})"
@@ -113,7 +117,21 @@ function pydmt_prompt() {
 				else
 					pydmt_error "could not create virtual env, creating errors file"
 					mv /tmp/errors .pydmt.build.errors
-					# touch .pydmt.build.errors
+					# TODO: if I deactivate a virtual env before trying to create one here.
+					# now we need to activate it back.
+					if [ -n "${deactivated_env}" ]
+					then
+						pydmt_activate="${deactivated_env}/.venv/default/bin/activate"
+						pydmt_debug "activating virtual env [${pydmt_activate}]"
+						if [ -r "${pydmt_activate}" ]
+						then
+							# shellcheck source=/dev/null
+							source "${pydmt_activate}"
+							_BASHY_PYDMT_ACTIVE="${deactivated_pydmt_active}"
+						else
+							pydmt_error "cannot activate virtual env at [${pydmt_activate}]"
+						fi
+					fi
 				fi
 			fi
 		fi
