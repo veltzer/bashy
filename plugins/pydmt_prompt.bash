@@ -86,7 +86,7 @@ function pydmt_prompt() {
 			if [ -r "${GIT_FILE}" ]
 			then
 				pydmt_debug "have .pydmt.config file"
-				if [ -f .pydmt.build.errors ]
+				if [ -f "${GIT_REPO}/.pydmt.build.errors" ]
 				then
 					pydmt_error "found error file not building"
 					return
@@ -116,7 +116,7 @@ function pydmt_prompt() {
 					fi
 				else
 					pydmt_error "could not create virtual env, creating errors file"
-					mv /tmp/errors .pydmt.build.errors
+					mv "/tmp/errors" "${GIT_REPO}/.pydmt.build.errors"
 					# TODO: if I deactivate a virtual env before trying to create one here.
 					# now we need to activate it back.
 					if [ -n "${deactivated_env}" ]
