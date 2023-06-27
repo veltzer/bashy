@@ -67,7 +67,7 @@ function _uninstall_awscli() {
 
 function awscli_select_profile() {
 	readarray -t profiles < <(sed -nr 's/^\[(.*)\]$/\1/p' "${HOME}/.aws/credentials")
-	echo "Please select a drive:"
+	echo "Please select a profile:"
 	select profile in "${profiles[@]}"; do
 		[[ -n "${profile}" ]] || { echo "Invalid choice. Please try again." >&2; continue; }
 		break

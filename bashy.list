@@ -39,7 +39,7 @@ local_eksctl
 local_k8s
 local_helm
 local_minikube
-local_brew
+# local_brew
 local_venv
 # local_python
 gradle
