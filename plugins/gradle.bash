@@ -13,9 +13,12 @@ function _install_gradle() {
 	version="8.2.1"
 	folder="gradle-${version}"
 	filename="${folder}-bin.zip"
-	rm -rf "/tmp/${filename}" "/tmp/${folder}"
+	rm -rf "/tmp/${filename}"
+	rm -rf "${HOME}/install/${folder}" "${HOME}/install/gradle"
 	wget "https://downloads.gradle.org/distributions/${filename}" -P /tmp
 	unzip -qq "/tmp/${filename}" -d "${HOME}/install"
+	cd "${HOME}/install" || return
+	ln -s "${folder}" "gradle"
 }
 
 function _install_gradle_apt() {
