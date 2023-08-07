@@ -33,8 +33,9 @@ function _install_awscli_wrapper() {
 
 function _install_awscli_old() {
 	# installation using a bundle
-	# we use -O [filename] instead of -P /tmp because -P will not overwrite the previous
-	# file (if it exits) and will create a new file named [filename].1
+	# -O [filename] will overwrite the file if it exists
+	# -P [folder] will not overwrite the file if it exists
+	# and will create a new file named [filename].1
 	rm -rf /tmp/awscli-bundle.zip /tmp/awscli-bundle
 	wget https://s3.amazonaws.com/aws-cli/awscli-bundle.zip -P /tmp
 	unzip /tmp/awscli-bundle.zip -d /tmp

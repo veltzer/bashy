@@ -9,8 +9,16 @@ function _activate_gradle() {
 }
 
 function _install_gradle() {
-	# TBD: add method of installing from the internet in the form
-	# of a zip file
+	# this function installs gradle from a binary zip file distribution
+	version="8.2.1"
+	folder="gradle-${version}"
+	filename="${folder}-bin.zip"
+	rm -rf "/tmp/${filename}" "/tmp/${folder}"
+	wget "https://downloads.gradle.org/distributions/${filename}" -P /tmp
+	unzip -qq "/tmp/${filename}" -d "${HOME}/install"
+}
+
+function _install_gradle_apt() {
 	sudo apt install gradle
 }
 

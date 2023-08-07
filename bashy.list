@@ -22,12 +22,12 @@ path_dot_local
 path_remove_games
 postgresql
 python
-perl
+# perl
 ruby
 go
 phantomjs
 rust
-bigdata
+# bigdata
 system_default_bashrc
 umask
 vim
