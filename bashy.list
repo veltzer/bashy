@@ -57,6 +57,8 @@ env_prompt
 gcp_prompt
 aws_prompt
 k8s_prompt
+error_prompt
+# non prompt command continue
 config_core
 nvm
 ng
