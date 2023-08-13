@@ -35,6 +35,7 @@ google_cloud_sdk
 awscli
 aws_bash_completions
 gh
+terraform
 local_eksctl
 local_k8s
 local_helm
