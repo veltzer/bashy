@@ -7,8 +7,9 @@ function _activate_terraform() {
 }
 
 function _install_terraform() {
-	# TBD
-	:
+	"https://releases.hashicorp.com/terraform/1.5.5/terraform_1.5.5_linux_amd64.zip"
+	version="1.5.5"
+	folder="terraform_${version}_linux_amd64.zip"
 }
 
 register_interactive _activate_terraform
