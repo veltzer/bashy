@@ -40,6 +40,7 @@ function _install_awscli_old() {
 	wget https://s3.amazonaws.com/aws-cli/awscli-bundle.zip -P /tmp
 	unzip /tmp/awscli-bundle.zip -d /tmp
 	/tmp/awscli-bundle/install -b "${HOME}/install/bin/aws"
+	rm -rf /tmp/awscli-bundle.zip /tmp/awscli-bundle
 }
 
 function _install_awscli() {
