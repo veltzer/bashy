@@ -3,7 +3,7 @@ function _activate_node() {
 	local -n __error=$2
 	NODE_PATH="${HOME}/install/node"
 	NODE_MODULES="${NODE_PATH}/node_modules"
-	NODE_BIN="${NODE_MODULES}/bin"
+	NODE_BIN="${NODE_MODULES}/.bin"
 	NODE_MAN="${NODE_MODULES}/share/man"
 	if ! checkDirectoryExists "${NODE_PATH}" __var __error; then return; fi
 	if ! checkDirectoryExists "${NODE_MODULES}" __var __error; then return; fi
