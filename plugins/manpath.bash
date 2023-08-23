@@ -7,7 +7,7 @@ function configure_manpath() {
 	# you don't need to fiddle with MANPATH since man(1) will look for man pages
 	# adjacent to entries you have in your PATH variable.
 	# if you define it then man(1) will not search the regular path
-	# pathutils_add_tail MANPATH "$HOME/install/share/man"
+	# pathutils_add_tail MANPATH "${HOME}/install/share/man"
 	__var=0
 }
 
