@@ -4,16 +4,17 @@ function _activate_node() {
 	NODE_PATH="${HOME}/install/node"
 	NODE_MODULES="${NODE_PATH}/node_modules"
 	NODE_BIN="${NODE_MODULES}/.bin"
-	NODE_MAN="${NODE_MODULES}/share/man"
+	# NODE_MAN="${NODE_MODULES}/share/man"
 	if ! checkDirectoryExists "${NODE_PATH}" __var __error; then return; fi
 	if ! checkDirectoryExists "${NODE_MODULES}" __var __error; then return; fi
 	if ! checkDirectoryExists "${NODE_BIN}" __var __error; then return; fi
-	if ! checkDirectoryExists "${NODE_MAN}" __var __error; then return; fi
+	# if ! checkDirectoryExists "${NODE_MAN}" __var __error; then return; fi
 	pathutils_add_head PATH "${NODE_HOME_BIN}"
 	pathutils_add_head PATH "${NODE_HOME_BIN}"
-	export NODE_PATH NODE_MODULES NODE_BIN NODE_MAN
+	# export NODE_PATH NODE_MODULES NODE_BIN NODE_MAN
+	export NODE_PATH NODE_MODULES NODE_BIN
 	# add manual pages for npm packages
-	pathutils_add_tail MANPATH "${NODE_MAN}"
+	# pathutils_add_tail MANPATH "${NODE_MAN}"
 	__var=0
 }
 
