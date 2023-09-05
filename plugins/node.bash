@@ -4,24 +4,35 @@ function _activate_node() {
 	NODE_PATH="${HOME}/install/node"
 	NODE_MODULES="${NODE_PATH}/node_modules"
 	NODE_BIN="${NODE_MODULES}/.bin"
-	# NODE_MAN="${NODE_MODULES}/share/man"
 	if ! checkDirectoryExists "${NODE_PATH}" __var __error; then return; fi
 	if ! checkDirectoryExists "${NODE_MODULES}" __var __error; then return; fi
 	if ! checkDirectoryExists "${NODE_BIN}" __var __error; then return; fi
-	# if ! checkDirectoryExists "${NODE_MAN}" __var __error; then return; fi
-	# export NODE_PATH NODE_MODULES NODE_BIN NODE_MAN
 	export NODE_PATH NODE_MODULES NODE_BIN
-	# add manual pages for npm packages
-	# pathutils_add_tail MANPATH "${NODE_MAN}"
 	pathutils_add_head PATH "${NODE_BIN}"
 	__var=0
 }
 
 function _install_node() {
-	sudo apt-get install npm
+	if ! dpkg -l npm > /dev/null
+	then
+		sudo apt-get install npm
+		echo "installed the 'npm' package for you"
+	else
+		echo "you already have the 'npm' package"
+	fi
 	if [ ! -f "${HOME}/.bash_completion.d/npm" ]
 	then
 		npm completion > "${HOME}/.bash_completion.d/npm"
+		echo "setup npm completion for you"
+	else
+		echo "you already have npm completions"
+	fi
+	if [ -d "${HOME}/install/node/node_modules/.bin" ]
+	then
+		echo "you already have a node_modules folder"
+	else
+		mkdir -p "${HOME}/install/node/node_modules/.bin"
+		echo "made a 'node_modules' folder for you"
 	fi
 }
 
