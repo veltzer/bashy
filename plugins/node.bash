@@ -19,7 +19,10 @@ function _activate_node() {
 
 function _install_node() {
 	sudo apt-get install npm
-	npm completion > "${HOME}/.bash_completion.d/npm"
+	if [ ! -f "${HOME}/.bash_completion.d/npm" ]
+	then
+		npm completion > "${HOME}/.bash_completion.d/npm"
+	fi
 }
 
 function npm_logout() {
