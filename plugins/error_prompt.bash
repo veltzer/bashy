@@ -2,9 +2,17 @@
 
 function error_prompt() {
 	ret=$?
-	if [ ${ret} -ne 0 ]
+	if [ "${ret}" -ne 0 ]
 	then
-		echo "last command exited with error [${ret}]"
+		if [ "${ret}" -gt 128 ]
+		then
+			sig=$((ret - 128))
+			reason=$(kill -l "${sig}")
+			echo "last command exited with signal [${reason}]"
+		else
+			reason="${ret}"
+			echo "last command exited with error [${reason}]"
+		fi
 	fi
 }
 
