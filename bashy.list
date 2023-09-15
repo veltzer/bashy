@@ -41,7 +41,7 @@ k8s
 helm
 minikube
 # brew
-local_venv
+venv
 # local_python
 gradle
 encfs
