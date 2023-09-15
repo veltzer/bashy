@@ -26,7 +26,13 @@ function _install_k8s() {
 
 function _uninstall_k8s() {
 	folder="${HOME}/install/k8s"
-	rm -rf "${folder}" || true
+	if [ -f "${folder}" ]
+	then
+		echo "removing ${folder}"
+		rm -rf "${folder}"
+	else
+		echo "no k8s detected"
+	fi
 }
 
 register _activate_k8s
