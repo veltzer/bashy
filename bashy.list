@@ -17,7 +17,7 @@ gzip
 hostaliases
 ls
 manpath
-local_install
+homedir_install
 path_dot_local
 path_remove_games
 postgresql
@@ -36,11 +36,11 @@ awscli
 aws_bash_completions
 gh
 terraform
-local_eksctl
-local_k8s
-local_helm
-local_minikube
-# local_brew
+eksctl
+k8s
+helm
+minikube
+# brew
 local_venv
 # local_python
 gradle
