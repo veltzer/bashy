@@ -22,9 +22,9 @@ function _install_minikube() {
 
 function _uninstall_minikube() {
 	folder="${HOME}/install/minikube"
-	if [ -f "${folder}" ]
+	if [ -d "${folder}" ]
 	then
-		echo "remoing minikube folder"
+		echo "removing minikube at ${folder}"
 		rm -rf "${folder}"
 	else
 		echo "no minikube detected"

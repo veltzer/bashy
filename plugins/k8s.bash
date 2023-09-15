@@ -26,7 +26,7 @@ function _install_k8s() {
 
 function _uninstall_k8s() {
 	folder="${HOME}/install/k8s"
-	if [ -f "${folder}" ]
+	if [ -d "${folder}" ]
 	then
 		echo "removing ${folder}"
 		rm -rf "${folder}"
