@@ -1,3 +1,5 @@
+- add a bashy command "bashy_off" which turns all of bashy off and does undo for everything.
+	and bashy_on to turn it back on.
 - add feature to allow to set the name of the current window in tmux to the name of the git
 	repo that you are in.
 	This will save me the trouble of having to do that myself all the time.
