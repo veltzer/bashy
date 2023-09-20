@@ -1,4 +1,6 @@
 # plugin for https://github.com/b-ryan/powerline-shell
+# you install it with pip
+# I found this to be the best of all the powerlines
 
 function _update_ps1() {
 	# PS1=$(powerline-shell $?)
