@@ -2,7 +2,9 @@
 # tmux needs to be the first
 tmux
 # the powerline plugin must be before other plugins that customize the shell
-powerline
+# powerline
+venv
+powerline-shell
 # other plugins
 ansible
 bash_completions_userdir
@@ -41,7 +43,6 @@ k8s
 helm
 minikube
 # brew
-venv
 # local_python
 gradle
 encfs

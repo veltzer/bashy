@@ -16,4 +16,4 @@ function _activate_venv() {
 	__var=0
 }
 
-register _activate_venv
+register_interactive _activate_venv

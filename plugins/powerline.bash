@@ -8,7 +8,8 @@ function _activate_powerline() {
 		__var=1
 		return
 	fi
-	/usr/bin/powerline-daemon -q
+	# it turns out you don't have to run the powerline daemon
+	# "${EXECUTABLE}" -q
 	export POWERLINE_BASH_CONTINUATION=1
 	export POWERLINE_BASH_SELECT=1
 	_bashy_before_thirdparty

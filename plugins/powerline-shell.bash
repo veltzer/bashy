@@ -1,7 +1,8 @@
 # plugin for https://github.com/b-ryan/powerline-shell
 
 function _update_ps1() {
-	PS1=$(powerline-shell $?)
+	# PS1=$(powerline-shell $?)
+	PS1=$("${POWERLINE_SHELL}" $?)
 }
 
 function _activate_powerline_shell() {
@@ -13,6 +14,8 @@ function _activate_powerline_shell() {
 		__var=1
 		return
 	fi
+	POWERLINE_SHELL=$(which powerline-shell)
+	export POWERLINE_SHELL
 	if [[ "${TERM}" != "linux" && ! "${PROMPT_COMMAND}" =~ "_update_ps1" ]]
 	then
 		PROMPT_COMMAND="_update_ps1; ${PROMPT_COMMAND}"
