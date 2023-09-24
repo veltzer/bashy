@@ -13,7 +13,7 @@
 function _activate_screen() {
 	local -n __var=$1
 	local -n __error=$2
-	if ! checkInPath screen __var __error; then return; fi
+	if ! checkInPath "screen" __var __error; then return; fi
 	if [[ -z ${SCREEN+x} ]]
 	then
 		export SCREEN=yes

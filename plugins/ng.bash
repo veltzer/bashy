@@ -2,7 +2,7 @@
 function _activate_ng() {
 	local -n __var=$1
 	local -n __error=$2
-	if ! checkInPath ng __var __error; then return; fi
+	if ! checkInPath "ng" __var __error; then return; fi
 	# shellcheck source=/dev/null
 	source <(ng completion script)
 	__var=0

@@ -59,7 +59,7 @@ function _activate_tmux() {
 function _activate_tmux_old() {
 	local -n __var=$1
 	local -n __error=$2
-	if ! checkInPath tmux __var __error; then return; fi
+	if ! checkInPath "tmux" __var __error; then return; fi
 	# if not in tmux
 	if [[ -z ${TMUX+x} ]]
 	then

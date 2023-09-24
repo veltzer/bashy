@@ -1,7 +1,7 @@
 function _activate_encfs() {
 	local -n __var=$1
 	local -n __error=$2
-	if ! checkInPath encfs __var __error; then return; fi
+	if ! checkInPath "encfs" __var __error; then return; fi
 	if ! "${ENCFS_ENABLED}"
 	then
 		__error="encfs not enabled"

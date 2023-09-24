@@ -4,7 +4,7 @@ function _activate_minikube() {
 	MINIKUBE_PATH="${HOME}/install/minikube"
 	if ! checkDirectoryExists "${MINIKUBE_PATH}" __var __error; then return; fi
 	pathutils_add_head PATH "${MINIKUBE_PATH}"
-	if ! checkInPath minikube __var __error; then return; fi
+	if ! checkInPath "minikube" __var __error; then return; fi
 	# shellcheck disable=1090
 	source <(minikube completion bash)
 	__var=0
