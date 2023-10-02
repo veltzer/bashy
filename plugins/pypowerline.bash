@@ -10,7 +10,9 @@ function _activate_pypowerline() {
 	if ! checkInPath "pypowerline" __var __error; then return; fi
 	PYPOWERLINE=$(which "pypowerline")
 	export PYPOWERLINE
-	PROMPT_COMMAND="_update_ps1; ${PROMPT_COMMAND}"
+	# PROMPT_COMMAND="_update_ps1; ${PROMPT_COMMAND}"
+	PS1=""
+	PROMPT_COMMAND="${PYPOWERLINE} bash; ${PROMPT_COMMAND}"
 	__var=0
 }
 
