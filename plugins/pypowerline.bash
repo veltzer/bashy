@@ -1,8 +1,12 @@
 # plugin for pypowerline
 
 function _prompt_pypowerline() {
-	PS1=""
-	"${PYPOWERLINE}" bash
+	# one version
+	# PS1=""
+	# "${PYPOWERLINE}" bash
+
+	# second version
+	PS1=$(${PYPOWERLINE} bash)
 }
 
 function _activate_pypowerline() {
@@ -11,7 +15,8 @@ function _activate_pypowerline() {
 	if ! checkInPath "pypowerline" __var __error; then return; fi
 	PYPOWERLINE=$(which "pypowerline")
 	export PYPOWERLINE
-	PROMPT_COMMAND="_prompt_pypowerline; ${PROMPT_COMMAND}"
+	# PROMPT_COMMAND="_prompt_pypowerline; ${PROMPT_COMMAND}"
+	PROMPT_COMMAND="${PROMPT_COMMAND} _prompt_pypowerline"
 	__var=0
 }
 
