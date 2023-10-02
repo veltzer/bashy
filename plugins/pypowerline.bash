@@ -2,11 +2,11 @@
 
 function _prompt_pypowerline() {
 	# one version
-	# PS1=""
-	# "${PYPOWERLINE}" bash
+	PS1=""
+	"${PYPOWERLINE}" bash
 
 	# second version
-	PS1=$(${PYPOWERLINE} bash)
+	# PS1="$(${PYPOWERLINE} bash)"
 }
 
 function _activate_pypowerline() {
