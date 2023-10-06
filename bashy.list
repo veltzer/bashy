@@ -4,8 +4,8 @@ tmux
 # the powerline plugin must be before other plugins that customize the shell
 # powerline
 venv
-pypowerline
-# powerline-shell
+# pypowerline
+powerline-shell
 # other plugins
 ansible
 bash_completions_userdir
