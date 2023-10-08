@@ -42,6 +42,7 @@ terraform
 eksctl
 k8s
 helm
+lens
 minikube
 # brew
 # local_python

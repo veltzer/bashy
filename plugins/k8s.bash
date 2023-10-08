@@ -16,12 +16,12 @@ function _install_k8s() {
 	# https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 	version=$(curl --silent --location "https://dl.k8s.io/release/stable.txt")
 	folder="${HOME}/install/k8s"
-	exec="${folder}/kubectl"
+	executable="${folder}/kubectl"
 	echo "installing version ${version}"
 	rm -rf "${folder}" || true
 	mkdir -p "${folder}"
-	curl --location --silent --output "${exec}" "https://dl.k8s.io/release/${version}/bin/linux/amd64/kubectl"
-	chmod +x "${exec}"
+	curl --location --silent --output "${executable}" "https://dl.k8s.io/release/${version}/bin/linux/amd64/kubectl"
+	chmod +x "${executable}"
 }
 
 function _uninstall_k8s() {

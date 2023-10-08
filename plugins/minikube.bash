@@ -13,11 +13,11 @@ function _activate_minikube() {
 function _install_minikube() {
 	# https://minikube.sigs.k8s.io/docs/start/
 	folder="${HOME}/install/minikube"
-	exec="${folder}/minikube"
+	executable="${folder}/minikube"
 	rm -rf "${folder}" || true
 	mkdir -p "${folder}"
-	curl --location --silent --output "${exec}" "https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64"
-	chmod +x "${exec}"
+	curl --location --silent --output "${executable}" "https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64"
+	chmod +x "${executable}"
 }
 
 function _uninstall_minikube() {
