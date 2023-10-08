@@ -7,38 +7,20 @@
 k8s_conf_file_name=".k8s.conf"
 
 function k8s_prompt() {
-	assoc_new k8s_conf
-	export k8s_conf
-
 	if ! git_is_inside
 	then
 		unset KUBECONFIG
 		return
 	fi
 
-	export k8s_home_conf_file="${HOME}/${k8s_conf_file_name}"
-	if [ -r "${k8s_home_conf_file}" ]
-	then
-		assoc_config_read k8s_conf "${k8s_home_conf_file}"
-	fi
-
 	git_root=""
 	git_top_level git_root
-	if [ -r "${git_root}/${k8s_conf_file_name}" ]
+	k8s_configuration_name="${git_root}/${k8s_conf_file_name}"
+	if [ -r "${k8s_configuration_name}" ]
 	then
-		assoc_config_read k8s_conf "${git_root}/${k8s_conf_file_name}"
-	fi
-
-	# get the configuration name
-	export k8s_configuration_name
-	assoc_get k8s_conf k8s_configuration_name "k8s_configuration_name"
-
-	# set the envrionment variable
-	if null_is_null "${k8s_configuration_name}"
-	then
-		unset KUBECONFIG
-	else
 		export KUBECONFIG="${k8s_configuration_name}"
+	else
+		unset KUBECONFIG
 	fi
 }
 
