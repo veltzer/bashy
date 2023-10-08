@@ -60,11 +60,15 @@ function _install_awscli() {
 	fi
 	echo "following is the version of awscli (aws --version)..."
 	aws --version
+	# now download the aws-iam-authenticator
+	download_file=$(curl -sL https://api.github.com/repos/kubernetes-sigs/aws-iam-authenticator/releases/latest | jq -r '.assets[].browser_download_url | select(endswith("_linux_amd64"))')
+	curl -Lo "${HOME}/install/aws/bin/aws-iam-authenticator" "${download_file}"
+
 }
 
 function _uninstall_awscli() {
 	rm -rf "${HOME}/install/aws" || true
-	pip uninstall awscli 2> /dev/null || true
+	# pip uninstall awscli 2> /dev/null || true
 }
 
 function awscli_select_profile() {
