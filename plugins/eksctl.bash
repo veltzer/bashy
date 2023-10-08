@@ -16,7 +16,7 @@ function _activate_eksctl() {
 
 function _install_eksctl() {
 	rm -f "${HOME}/install/binaries/eksctl"
-	curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar vxz -C "${HOME}/install/binaries"
+	curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C "${HOME}/install/binaries"
 }
 
 function eksctl_uninstall() {
