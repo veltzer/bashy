@@ -62,7 +62,9 @@ function _install_awscli() {
 	aws --version
 	# now download the aws-iam-authenticator
 	download_file=$(curl -sL https://api.github.com/repos/kubernetes-sigs/aws-iam-authenticator/releases/latest | jq -r '.assets[].browser_download_url | select(endswith("_linux_amd64"))')
-	curl -Lo "${HOME}/install/aws/bin/aws-iam-authenticator" "${download_file}"
+	executable="${HOME}/install/aws/bin/aws-iam-authenticator"
+	curl -Lo "${executable}" "${download_file}"
+	chmod +x "${executable}" 
 
 }
 
