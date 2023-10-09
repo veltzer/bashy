@@ -5,6 +5,10 @@
 #
 # References:
 # - https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+#
+# aws-iam-authenticator
+# - https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html
+# - https://www.learnaws.org/2023/08/22/aws-iam-authenticator/
 
 function _activate_awscli() {
 	local -n __var=$1
