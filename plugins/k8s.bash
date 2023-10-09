@@ -14,7 +14,8 @@ function _activate_k8s() {
 function _install_k8s() {
 	# instructions for installing k8s are at
 	# https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
-	version=$(curl --silent --location "https://dl.k8s.io/release/stable.txt")
+	# version=$(curl --silent --location "https://dl.k8s.io/release/stable.txt")
+	version="1.26.7"
 	folder="${HOME}/install/k8s"
 	executable="${folder}/kubectl"
 	echo "installing version ${version}"
