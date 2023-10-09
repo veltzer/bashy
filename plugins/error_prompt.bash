@@ -4,7 +4,7 @@ function error_prompt() {
 	ret=$?
 	if [ "${ret}" -ne 0 ]
 	then
-		if [ "${ret}" -gt 128 ] && [ "${ret}" -lt 255 ]
+		if [ "${ret}" -gt 128 ] && [ "${ret}" -lt 193 ]
 		then
 			sig=$((ret - 128))
 			reason=$(kill -l "${sig}")
