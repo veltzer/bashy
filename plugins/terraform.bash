@@ -7,7 +7,7 @@ function _activate_terraform() {
 }
 
 function _install_terraform() {
-	# latest version
+	# latest version: https://github.com/hashicorp/terraform/issues/9803
 	version=$(curl -s "https://checkpoint-api.hashicorp.com/v1/check/terraform" | jq -r -M ".current_version")
 	# version="1.5.5"
 	file="terraform_${version}_linux_amd64.zip"
