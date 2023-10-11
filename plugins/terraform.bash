@@ -2,7 +2,7 @@ function _activate_terraform() {
 	local -n __var=$1
 	local -n __error=$2
 	if ! checkInPath "terraform" __var __error; then return; fi
-	complete -C terraform terraform
+	complete -C "terraform" terraform
 	__var=0
 }
 

@@ -65,3 +65,4 @@ error_prompt
 config_core
 nvm
 ng
+complete
