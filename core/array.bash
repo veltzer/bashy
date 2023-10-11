@@ -41,7 +41,7 @@ function array_pop() {
 	local -n __array=$1
 	local -n var=$2
 	var=${__array[${#__array[@]}-1]}
-	unset '__array[${#__array[@]}-1]'
+	unset "__array[${#__array[@]}-1]"
 }
 
 function array_is_array() {

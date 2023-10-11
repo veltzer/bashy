@@ -3,7 +3,7 @@ function _activate_ls() {
 	local -n __error=$2
 	# ls with colors
 	eval "$(dircolors -b)"
-	alias ls='ls --color=auto --literal'
+	alias ls="ls --color=auto --literal"
 	__var=0
 }
 

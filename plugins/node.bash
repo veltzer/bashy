@@ -16,9 +16,9 @@ function _install_node() {
 	if ! dpkg -l npm > /dev/null
 	then
 		sudo apt-get install npm
-		echo "installed the 'npm' package for you"
+		echo "installed the \"npm\" package for you"
 	else
-		echo "you already have the 'npm' package"
+		echo "you already have the \"npm\" package"
 	fi
 	if [ ! -f "${HOME}/.bash_completion.d/npm" ]
 	then
@@ -32,12 +32,12 @@ function _install_node() {
 		echo "you already have a node_modules folder"
 	else
 		mkdir -p "${HOME}/install/node/node_modules/.bin"
-		echo "made a 'node_modules' folder for you"
+		echo "made a \"node_modules\" folder for you"
 	fi
 }
 
 function npm_logout() {
-	sed -i '/\(registry=\|_authToken=\)/d' "${HOME}/.npmrc"
+	sed -i "/\(registry=\|_authToken=\)/d" "${HOME}/.npmrc"
 }
 
 register_interactive _activate_node

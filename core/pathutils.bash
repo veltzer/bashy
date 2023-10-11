@@ -1,7 +1,7 @@
 function pathutils_add_head() {
 	local -n __var=$1
 	local add=$2
-	local IFS=':'
+	local IFS=":"
 	local -a path=("${add}")
 	local -A map=()
 	for DIR in ${__var}
@@ -18,7 +18,7 @@ function pathutils_add_head() {
 function pathutils_add_tail() {
 	local -n __var=$1
 	local add=$2
-	local IFS=':'
+	local IFS=":"
 	local -a path=()
 	local -A map=()
 	for DIR in ${__var}
@@ -36,7 +36,7 @@ function pathutils_add_tail() {
 function pathutils_remove() {
 	local -n __var=$1
 	local remove=$2
-	local IFS=':'
+	local IFS=":"
 	local -a path=()
 	local -A map=()
 	for DIR in ${__var}
@@ -65,7 +65,7 @@ function pathutils_is_in_path() {
 # reduce stuff that repeats
 function pathutils_reduce() {
 	local -n __var=$1
-	local IFS=':'
+	local IFS=":"
 	local -a path=()
 	local -A map=()
 	for DIR in ${__var}
