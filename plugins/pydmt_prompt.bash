@@ -25,6 +25,7 @@ export _BASHY_PYDMT_DEBUG=1
 export _BASHY_PYDMT_ON=0
 export _BASHY_PYDMT_ACTIVE=""
 export _BASHY_PYDMT_EVENV=""
+export _BASHY_PYDMT_TOOL="${HOME}/.venv/bin/pydmt"
 
 function pydmt_debug() {
 	local msg=$1
@@ -92,7 +93,7 @@ function pydmt_prompt() {
 					return
 				fi
 				pydmt_debug "running pydmt build_venv in [${GIT_REPO}]"
-				if (cd "${GIT_REPO}" || exit 1; pydmt build_venv 2> /tmp/errors)
+				if (cd "${GIT_REPO}" || exit 1; ${_BASHY_PYDMT_TOOL} build_venv 2> /tmp/errors)
 				then
 					pydmt_debug "created virtualenv using pydmt build_venv"
 					if [ -n "${VIRTUAL_ENV}" ]
