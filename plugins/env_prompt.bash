@@ -1,4 +1,4 @@
-# This plugin manages envrionment specific scripts for you.
+# This plugin manages environment specific scripts for you.
 #
 # Here is what it does:
 # - Whenever you 'cd' into a directory for which there is a .env.enter.sh
