@@ -8,6 +8,12 @@ function _activate_complete() {
 	complete -C "pyawskit complete" pyawskit
 	complete -C "pycmdtools complete" pycmdtools
 	complete -C "pypowerline complete" pypowerline
+	complete -C "pygitpub complete" pygitpub
+	complete -C "pytubekit complete" pytubekit
+	complete -C "pytsv complete" pytsv
+	complete -C "pyscrapers complete" pyscrapers
+	complete -C "pyflexebs complete" pyflexebs
+	complete -C "pydatacheck complete" pydatacheck
 	__var=0
 }
 
