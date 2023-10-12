@@ -7,6 +7,7 @@ function _activate_complete() {
 	complete -C "pypitools complete" pypitools
 	complete -C "pyawskit complete" pyawskit
 	complete -C "pycmdtools complete" pycmdtools
+	complete -C "pypowerline complete" pypowerline
 	__var=0
 }
 
