@@ -14,6 +14,8 @@ function _activate_complete() {
 	complete -C "pyscrapers complete" pyscrapers
 	complete -C "pyflexebs complete" pyflexebs
 	complete -C "pydatacheck complete" pydatacheck
+	complete -C "pymultigit complete" pymultigit
+	complete -C "pymultigit complete" mg
 	__var=0
 }
 
