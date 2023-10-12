@@ -24,7 +24,7 @@
 export _BASHY_PYDMT_DEBUG=1
 export _BASHY_PYDMT_ON=0
 export _BASHY_PYDMT_ACTIVE=""
-export _BASHY_PYDMT_EVENV=""
+export _BASHY_PYDMT_EVENV="${HOME}/.venv"
 export _BASHY_PYDMT_TOOL="${HOME}/.venv/bin/pydmt"
 
 function pydmt_debug() {
@@ -99,11 +99,7 @@ function pydmt_prompt() {
 					if [ -n "${VIRTUAL_ENV}" ]
 					then
 						pydmt_debug "have external virtual env [${VIRTUAL_ENV}, deactivating]"
-						_BASHY_PYDMT_EVENV="${VIRTUAL_ENV}"
 						deactivate
-					else
-						pydmt_debug "registering no external venv"
-						_BASHY_PYDMT_EVENV=""
 					fi
 					pydmt_activate="${GIT_REPO}/.venv/default/bin/activate"
 					pydmt_debug "activating virtual env [${pydmt_activate}]"
