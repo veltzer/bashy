@@ -65,4 +65,5 @@ error_prompt
 config_core
 nvm
 ng
+ssh_agent
 complete
