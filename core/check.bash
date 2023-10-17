@@ -1,7 +1,18 @@
 # various common checks that are done in bashy
 
 function checkVariableDefined() {
-	return
+	local variable=$1
+	local -n __var2=$2
+	local -n __error2=$3
+	if ! declare -p "${variable}" 2> /dev/null > /dev/null
+	then
+		__error2="variable [${variable}] doesnt exist"
+		__var2=1
+		return 1
+	else
+		__var=0
+		return 0
+	fi
 }
 
 function checkDirectoryExists() {
