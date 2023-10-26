@@ -15,6 +15,8 @@ function prompt_register() {
 }
 
 function prompt_deregister() {
-	local -n __function=$1
-	PROMPT_COMMAND=${PROMPT_COMMAND//${__function};/}
+	local __function=$1
+	# echo "PROMPT_COMMAND is ${PROMPT_COMMAND}"
+	PROMPT_COMMAND=${PROMPT_COMMAND//${__function}; /}
+	# echo "PROMPT_COMMAND is ${PROMPT_COMMAND}"
 }
