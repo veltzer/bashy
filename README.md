@@ -1,6 +1,6 @@
 ## bashy
 
-version: 0.0.78
+version: 0.0.79
 
 description: bashy handles bash configuration for you
 
@@ -103,12 +103,12 @@ Bashy plugins need to set a variable passed by reference to either 0 or 1.
 Here is the most basic plugin:
 
 ```bash
-function _activate_hello() {
+function _activate_hello_plugin() {
 	local -n __var=$1
 	# this means everything was ok
 	__var=0
 }
-register _activate_hello
+register _activate_hello_plugin
 ```
 
 ## Config files

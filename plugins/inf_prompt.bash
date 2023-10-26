@@ -8,6 +8,10 @@ function bashy_prompt() {
 	done
 }
 
+function bashy_prompt_print() {
+	array_print _BASHY_PROMPT_FUNCTIONS
+}
+
 function _activate_inf_prompt() {
 	local -n __var=$1
 	local -n __error=$1
