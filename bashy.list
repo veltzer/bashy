@@ -10,7 +10,7 @@ powerline-shell
 ansible
 bash_completions_userdir
 bash_completions_system
-bash_config
+bash
 history
 careful_aliases
 development_aliases

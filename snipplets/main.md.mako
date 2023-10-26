@@ -86,17 +86,17 @@ Bashy plugins need to set a variable passed by reference to either 0 or 1.
 Here is the most basic plugin:
 
 ```bash
-function configure_hello_plugin() {
+function _activate_hello_plugin() {
 	local -n __var=$1
 	# this means everything was ok
 	__var=0
 }
-register configure_hello_plugin
+register _activate_hello_plugin
 ```
 
 <%text>## Config files</%text>
 
-You can configure various plgins via the `~/.bashy.config` file.
+You can activate various plgins via the `~/.bashy.config` file.
 
 Here is an example:
 ```bash
