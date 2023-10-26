@@ -23,4 +23,11 @@ function _activate_error() {
 	__var=0
 }
 
-register_interactive _activate_error
+function _deactivate_error() {
+	local -n __var=$1
+	local -n __error=$2
+	prompt_deregister "error_prompt"
+	__var=0
+}
+
+register_interactive _activate_error _deactivate_error

@@ -7,7 +7,7 @@ function _activate_fuck() {
 }
 
 function _install_fuck() {
-	pip3 install --user thefuck
+	pip install thefuck
 }
 
 register_interactive _activate_fuck

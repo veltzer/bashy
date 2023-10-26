@@ -17,3 +17,4 @@
 	according to what is written in the file.
 	When you exit the folder the variables are unset.
 	This could be used, for instance, to configure tools like pip using environment variables.
+- you can no longer register that same functin twice.
