@@ -273,26 +273,29 @@ function bashy_debug() {
 
 function _bashy_init() {
 	_bashy_load_config
-	declare -ga bashy_core_names
-	declare -ga bashy_core_res
-	_bashy_load_core
-	declare -ga bashy_array_plugin
-	declare -ga bashy_array_enabled
-	declare -ga bashy_array_found
-	declare -ga bashy_array_filename
-	declare -ga bashy_array_source
-	declare -ga bashy_array_result
-	declare -ga bashy_array_error
-	declare -ga bashy_array_diff
-	assoc_new bashy_assoc_ac
-	assoc_new bashy_assoc_de
-	assoc_new bashy_assoc_in
-	debug "bashy_starting"
-	_bashy_read_plugins
-	_bashy_load_plugins
-	_bashy_run_plugins
-	debug "bashy_ending"
-	bashy_errors
+	if "${BASHY_ENABLED}"
+	then
+		declare -ga bashy_core_names
+		declare -ga bashy_core_res
+		_bashy_load_core
+		declare -ga bashy_array_plugin
+		declare -ga bashy_array_enabled
+		declare -ga bashy_array_found
+		declare -ga bashy_array_filename
+		declare -ga bashy_array_source
+		declare -ga bashy_array_result
+		declare -ga bashy_array_error
+		declare -ga bashy_array_diff
+		assoc_new bashy_assoc_ac
+		assoc_new bashy_assoc_de
+		assoc_new bashy_assoc_in
+		debug "bashy_starting"
+		_bashy_read_plugins
+		_bashy_load_plugins
+		_bashy_run_plugins
+		debug "bashy_ending"
+		bashy_errors
+	fi
 }
 
 # now run _bashy_init
