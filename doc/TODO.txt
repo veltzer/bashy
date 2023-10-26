@@ -7,7 +7,7 @@
 	register _activate_k8s
 	register _activate_k8s
 from two plugins you get NO ERROR MESSAGE!
-	this had be bogged down for half an hour.
+	this had me bogged down for half an hour.
 	fix this!
 - if you enter an inner folder in a project like so:
 	cd ~/git.litebc/lbc-frontend/node_modules

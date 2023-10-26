@@ -1,6 +1,6 @@
 ASSERT_FAILED_CODE=128
 
-function assertEquals() {
+function assert_equal() {
 	local a=$1
 	local b=$2
 	if [ "${a}" != "${b}" ]
@@ -10,7 +10,7 @@ function assertEquals() {
 	fi
 }
 
-function assertNotEqual() {
+function assert_not_equal() {
 	local a=$1
 	local b=$2
 	if [ "${a}" = "${b}" ]
@@ -20,11 +20,11 @@ function assertNotEqual() {
 	fi
 }
 
-function assertOK() {
+function assert_ok() {
 	:
 }
 
-function assertFail() {
+function assert_fail() {
 	echo "assertion failed"
 	exit "${ASSERT_FAILED_CODE}"
 }

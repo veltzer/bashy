@@ -6,7 +6,7 @@ function sleep_a_little() {
 	sleep 2
 }
 
-function testMeasure() {
+function test_measure() {
 	local diff=
 	local result=
 	# shellcheck disable=2034
@@ -14,6 +14,6 @@ function testMeasure() {
 	measure diff sleep_a_little result error
 	# echo "diff is ${diff}"
 	# echo "result is ${result}"
-	assertLt "${diff}" 2.1
-	assertGt "${diff}" 1.9
+	assert_lt "${diff}" 2.1
+	assert_gt "${diff}" 1.9
 }

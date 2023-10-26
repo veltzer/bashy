@@ -3,43 +3,43 @@
 
 ASSERT_FAILED_CODE=128
 
-function floatGt() {
+function float_gt() {
 	local a=$1
 	local b=$2
 	(( $(echo "${a} > ${b}" |bc -l) ))
 }
 
-function floatGe() {
+function float_ge() {
 	local a=$1
 	local b=$2
 	(( $(echo "${a} >= ${b}" |bc -l) ))
 }
 
-function floatEq() {
+function float_eq() {
 	local a=$1
 	local b=$2
 	(( $(echo "${a} == ${b}" |bc -l) ))
 }
 
-function floatNe() {
+function float_ne() {
 	local a=$1
 	local b=$2
 	(( $(echo "${a} != ${b}" |bc -l) ))
 }
 
-function floatLt() {
+function float_lt() {
 	local a=$1
 	local b=$2
 	(( $(echo "${a} < ${b}" |bc -l) ))
 }
 
-function floatLe() {
+function float_le() {
 	local a=$1
 	local b=$2
 	(( $(echo "${a} <= ${b}" |bc -l) ))
 }
 
-function floatAdd() {
+function float_add() {
 	local __user_var=$1
 	local a=$2
 	local b=$3
@@ -48,7 +48,7 @@ function floatAdd() {
 	eval "${__user_var}=${result}"
 }
 
-function floatSub() {
+function float_sub() {
 	local __user_var=$1
 	local a=$2
 	local b=$3
@@ -57,7 +57,7 @@ function floatSub() {
 	eval "${__user_var}=${result}"
 }
 
-function floatMul() {
+function float_mul() {
 	local __user_var=$1
 	local a=$2
 	local b=$3
@@ -66,7 +66,7 @@ function floatMul() {
 	eval "${__user_var}=${result}"
 }
 
-function floatDiv() {
+function float_div() {
 	local __user_var=$1
 	local a=$2
 	local b=$3
@@ -75,22 +75,22 @@ function floatDiv() {
 	eval "${__user_var}=${result}"
 }
 
-function assertLt() {
+function assert_lt() {
 	local a=$1
 	local b=$2
-	if ! floatLt "${a}" "${b}"
+	if ! float_lt "${a}" "${b}"
 	then
-		echo "assertion failed ! floatLt ${a} ${b}"
+		echo "assertion failed ! float_lt ${a} ${b}"
 		exit "${ASSERT_FAILED_CODE}"
 	fi
 }
 
-function assertGt() {
+function assert_gt() {
 	local a=$1
 	local b=$2
-	if ! floatGt "${a}" "${b}"
+	if ! float_gt "${a}" "${b}"
 	then
-		echo "assertion failed ! floatGt ${a} ${b}"
+		echo "assertion failed ! float_gt ${a} ${b}"
 		exit "${ASSERT_FAILED_CODE}"
 	fi
 }

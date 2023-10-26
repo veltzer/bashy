@@ -18,20 +18,20 @@ function assoc_new() {
 
 # This is a function that returns an associative arrays length
 function assoc_len() {
-	local -n __assoc=$1
+	local -n __assoc_len=$1
 	local -n __var=$2
-	__var=${#__assoc[@]}
+	__var=${#__assoc_len[@]}
 }
 
 # This is a function to print out an associative array.
 # It has been checked to handle associative arrays which have spaces
 # in the keys or values correctly.
 function assoc_print() {
-	local -n __assoc=$1
+	local -n __assoc_print=$1
 	local key
-	for key in "${!__assoc[@]}"
+	for key in "${!__assoc_print[@]}"
 	do
-		local val=${__assoc[${key}]}
+		local val=${__assoc_print[${key}]}
 		echo "${key} --> ${val}"
 	done
 }
@@ -45,31 +45,49 @@ function assoc_set() {
 }
 
 function assoc_get() {
-	local -n __assoc=$1
+	local -n __assoc_get=$1
 	local -n __var=$2
 	local key=$3
-	if assoc_key_exists __assoc "${key}"
+	if assoc_key_exists __assoc_get "${key}"
 	then
-		__var=${__assoc[${key}]}
+		__var=${__assoc_get[${key}]}
 	else
 		null_set_value __var
 	fi
 }
 
 function assoc_config_read() {
-	local -n __assoc=$1
+	local -n __assoc_config_read=$1
 	local filename=$2
 	while read -r line
 	do
 		if [[ "${line}" =~ ^([_[:alpha:]][_[:alnum:]]*)"="(.*) ]]
 		then
-			assoc_set __assoc "${BASH_REMATCH[1]}" "${BASH_REMATCH[2]}"
+			assoc_set __assoc_config_read "${BASH_REMATCH[1]}" "${BASH_REMATCH[2]}"
 		fi
 	done < "${filename}"
 }
 
 function assoc_key_exists() {
-	local -n __assoc_key=$1
+	local -n __assoc_key_exists=$1
 	local key=$2
-	[ ${__assoc_key[${key}]+muhaha} ]
+	[ ${__assoc_key_exists[${key}]+muhaha} ]
+}
+
+function assoc_assert_key_exists() {
+	local -n __assoc_assert_key_exists=$1
+	local key=$2
+	if ! assoc_key_exists __assoc_assert_key_exists "${key}"
+	then
+		assert_fail
+	fi
+}
+
+function assoc_assert_key_not_exists() {
+	local -n __assoc_assert_key_not_exists=$1
+	local key=$2
+	if assoc_key_exists __assoc_assert_key_not_exists "${key}"
+	then
+		assert_fail
+	fi
 }

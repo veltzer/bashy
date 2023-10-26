@@ -5,7 +5,7 @@ function testSetLen() {
 	array_set my_array 2 4
 	len=
 	array_length my_array len
-	assertEquals "${len}" 1
+	assert_equal "${len}" 1
 }
 
 function testSetPop() {
@@ -15,11 +15,11 @@ function testSetPop() {
 	array_set arr2 2 c
 	d=5
 	array_pop arr2 d
-	assertEquals "${d}" c
+	assert_equal "${d}" c
 	array_pop arr2 d
-	assertEquals "${d}" b
+	assert_equal "${d}" b
 	array_pop arr2 d
-	assertEquals "${d}" a
+	assert_equal "${d}" a
 }
 
 function testPushPop() {
@@ -29,11 +29,11 @@ function testPushPop() {
 	array_push arr c
 	elem=5
 	array_pop arr elem
-	assertEquals "${elem}" c
+	assert_equal "${elem}" c
 	array_pop arr elem
-	assertEquals "${elem}" b
+	assert_equal "${elem}" b
 	array_pop arr elem
-	assertEquals "${elem}" a
+	assert_equal "${elem}" a
 }
 
 function testRemove() {
@@ -43,9 +43,9 @@ function testRemove() {
 	array_push arr c
 	array_remove arr b
 	array_pop arr elem
-	assertEquals "${elem}" c
+	assert_equal "${elem}" c
 	array_pop arr elem
-	assertEquals "${elem}" a
+	assert_equal "${elem}" a
 }
 
 function testFind() {
@@ -55,5 +55,5 @@ function testFind() {
 	array_push arr c
 	location=0
 	array_find arr b location
-	assertEquals "${location}" 1
+	assert_equal "${location}" 1
 }
