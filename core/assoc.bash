@@ -79,7 +79,7 @@ function assoc_assert_key_exists() {
 	local key=$2
 	if ! assoc_key_exists __assoc_assert_key_exists "${key}"
 	then
-		assert_fail
+		_bashy_assert_fail
 	fi
 }
 
@@ -88,6 +88,6 @@ function assoc_assert_key_not_exists() {
 	local key=$2
 	if assoc_key_exists __assoc_assert_key_not_exists "${key}"
 	then
-		assert_fail
+		_bashy_assert_fail
 	fi
 }

@@ -4,13 +4,13 @@ source core/var.bash
 function testSetByName() {
 	local b=5
 	var_set_by_name b 6
-	assert_equal "${b}" 6
+	_bashy_assert_equal "${b}" 6
 }
 
 function in_function() {
 	local c=5
 	var_set_by_name c 6
-	assert_equal "${c}" 6
+	_bashy_assert_equal "${c}" 6
 }
 
 function testInFunction() {

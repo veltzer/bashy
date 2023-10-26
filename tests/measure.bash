@@ -14,6 +14,6 @@ function test_measure() {
 	measure diff sleep_a_little result error
 	# echo "diff is ${diff}"
 	# echo "result is ${result}"
-	assert_lt "${diff}" 2.1
-	assert_gt "${diff}" 1.9
+	_bashy_assert_lt "${diff}" 2.1
+	_bashy_assert_gt "${diff}" 1.9
 }

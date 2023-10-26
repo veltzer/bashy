@@ -6,13 +6,13 @@ function testAssoc() {
 	# assoc_print conf
 	local len=
 	assoc_len conf len
-	assert_equal "${len}" 2
+	_bashy_assert_equal "${len}" 2
 	a=
 	assoc_get conf a "a"
-	assert_equal "${a}" "a_value"
+	_bashy_assert_equal "${a}" "a_value"
 	b=
 	assoc_get conf b "b"
-	assert_equal "${b}" "b_value"
+	_bashy_assert_equal "${b}" "b_value"
 	# shellcheck disable=2034
 	c=
 	assoc_get conf c "c"

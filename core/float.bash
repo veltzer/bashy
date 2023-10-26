@@ -75,7 +75,7 @@ function float_div() {
 	eval "${__user_var}=${result}"
 }
 
-function assert_lt() {
+function _bashy_assert_lt() {
 	local a=$1
 	local b=$2
 	if ! float_lt "${a}" "${b}"
@@ -85,7 +85,7 @@ function assert_lt() {
 	fi
 }
 
-function assert_gt() {
+function _bashy_assert_gt() {
 	local a=$1
 	local b=$2
 	if ! float_gt "${a}" "${b}"
