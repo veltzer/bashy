@@ -44,7 +44,7 @@ function gcp_prompt() {
 function _activate_gcp() {
 	local -n __var=$1
 	local -n __error=$2
-	prompt_register gcp_prompt
+	_bashy_prompt_register gcp_prompt
 	__var=0
 }
 

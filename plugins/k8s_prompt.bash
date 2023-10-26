@@ -27,7 +27,7 @@ function k8s_prompt() {
 function _activate_k8s_prompt() {
 	local -n __var=$1
 	local -n __error=$2
-	prompt_register k8s_prompt
+	_bashy_prompt_register k8s_prompt
 	__var=0
 }
 

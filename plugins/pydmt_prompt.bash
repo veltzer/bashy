@@ -153,7 +153,7 @@ function pydmt_prompt() {
 function _activate_pydmt() {
 	local -n __var=$1
 	local -n __error=$2
-	prompt_register "pydmt_prompt"
+	_bashy_prompt_register pydmt_prompt
 	__var=0
 }
 

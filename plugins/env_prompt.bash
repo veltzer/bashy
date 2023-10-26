@@ -106,7 +106,7 @@ function env_prompt() {
 function _activate_env() {
 	local -n __var=$1
 	local -n __error=$2
-	prompt_register env_prompt
+	_bashy_prompt_register env_prompt
 	__var=0
 }
 

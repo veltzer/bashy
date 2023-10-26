@@ -1,6 +1,9 @@
 # this file supports hash comments
+
 # tmux needs to be the first
 tmux
+# infrastructure plugins
+inf_prompt
 # the powerline plugin must be before other plugins that customize the shell
 # powerline
 venv

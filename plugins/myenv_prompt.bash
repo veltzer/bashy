@@ -334,7 +334,7 @@ function _activate_myenv() {
 	local -n __var=$1
 	local -n __error=$2
 	if ! checkInPath "md5sum" __var __error; then return; fi
-	prompt_register myenv_prompt
+	_bashy_prompt_register myenv_prompt
 	__var=0
 }
 

@@ -57,7 +57,8 @@ function array_find() {
 	local value=$2
 	local -n __array_location=$3
 	__array_location=0
-	for item in "${__array_find[@]}"; do
+	for item in "${__array_find[@]}"
+	do
 		if [ "${item}" = "${value}" ]
 		then
 			return
@@ -71,7 +72,8 @@ function array_contains() {
 	# shellcheck disable=2178
 	local -n __array_contains=$1
 	local value=$2
-	for item in "${__array_contains[@]}"; do
+	for item in "${__array_contains[@]}"
+	do
 		[ "${item}" = "${value}" ] && return 0
 	done
 	return 1

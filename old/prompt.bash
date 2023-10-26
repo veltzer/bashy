@@ -1,8 +1,6 @@
 # These are functions to register and unregister prompt functions
-#
-# TOOD: have prompt just register a single function and that function
-# would hold a list of functions to call during every prompt instead of
-# just manipulating the PROMPT_COMMAND variable.
+# This is an old modules and is not used anymore.
+# look at plugins/prompt.bash for a new implementation.
 
 function prompt_register() {
 	local __function=$1

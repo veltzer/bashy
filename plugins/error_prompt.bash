@@ -19,12 +19,12 @@ function error_prompt() {
 function _activate_error() {
 	local -n __var=$1
 	local -n __error=$2
-	prompt_register "error_prompt"
+	_bashy_prompt_register error_prompt
 	__var=0
 }
 
 function _deactivate_error() {
-	prompt_deregister "error_prompt"
+	_bashy_prompt_deregister error_prompt
 }
 
 register_interactive _activate_error _deactivate_error

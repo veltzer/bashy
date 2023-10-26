@@ -46,7 +46,7 @@ function aws_prompt() {
 function _activate_aws() {
 	local -n __var=$1
 	local -n __error=$2
-	prompt_register aws_prompt
+	_bashy_prompt_register aws_prompt
 	__var=0
 }
 
