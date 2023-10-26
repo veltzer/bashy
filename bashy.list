@@ -1,4 +1,5 @@
 # this file supports hash comments
+# this file supports empty lines
 
 # tmux needs to be the first
 tmux

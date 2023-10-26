@@ -43,6 +43,10 @@ function _bashy_read_plugins() {
 		then
 			continue
 		fi
+		if [[ "${line}" =~ ^[[:space:]]*$ ]]
+		then
+			continue
+		fi
 		if [[ "${line}" =~ ^-.* ]]
 		then
 			plugin="${line:1}"
