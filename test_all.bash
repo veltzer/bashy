@@ -27,10 +27,10 @@ do
 		("${name}") || res=${?}
 		if [ "${res}" == "0" ]
 		then
-			cecho g "OK" 0
+			_bashy_cecho g "OK" 0
 			(( count_ok+=1 ))
 		else
-			cecho r "ERROR" 0
+			_bashy_cecho r "ERROR" 0
 			(( count_er+=1 ))
 		fi
 	fi
@@ -38,13 +38,13 @@ done
 echo "summary"
 echo "number of tests run --> ${count}"
 echo -n "number of tests ok --> "
-cecho g "${count_ok}" 0
+_bashy_cecho g "${count_ok}" 0
 echo -n "number of tests failed --> "
 if [ "${count_er}" -eq 0 ]
 then
-	cecho g "${count_er}" 0
+	_bashy_cecho g "${count_er}" 0
 	exit 0
 else
-	cecho r "${count_er}" 0
+	_bashy_cecho r "${count_er}" 0
 	exit 1
 fi

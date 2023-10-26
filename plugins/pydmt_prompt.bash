@@ -46,11 +46,11 @@ function pydmt_debug_off() {
 function pydmt_info() {
 	local msg=$1
 	# echo "pydmt: info: ${msg}"
-	cecho g "pydmt: info: ${msg}" 0
+	_bashy_cecho g "pydmt: info: ${msg}" 0
 }
 
 function pydmt_error() {
-	cecho r "pydmt: error: ${1}" 0
+	_bashy_cecho r "pydmt: error: ${1}" 0
 }
 
 function pydmt_prompt() {

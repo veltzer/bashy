@@ -108,7 +108,7 @@ function _bashy_load_plugins() {
 			else
 				bashy_array_found+=(0)
 				bashy_array_filename+=(0)
-				bashy_array_function+=(0)
+				_bashy_array_function+=(0)
 				bashy_array_source+=("---")
 				continue
 			fi
@@ -120,7 +120,7 @@ function _bashy_load_plugins() {
 			source_absolute "${current_filename}"
 			bashy_array_source+=($?)
 		else
-			bashy_array_function+=(0)
+			_bashy_array_function+=(0)
 			bashy_array_source+=("---")
 		fi
 		((i++))
@@ -138,7 +138,7 @@ function _bashy_load_config() {
 }
 
 function _bashy_run_plugins() {
-	for function in "${bashy_array_function[@]}"
+	for function in "${_bashy_array_function[@]}"
 	do
 		if [[ "${function}" = 0 ]]
 		then
@@ -178,13 +178,13 @@ function _bashy_run_plugins() {
 function bashy_status_core() {
 	for name in "${bashy_core_names[@]}"
 	do
-		cecho gr "${name}" 1
+		_bashy_cecho gr "${name}" 1
 		res="${bashy_core_res[${i}]}"
 		if [ "${res}" = 0 ]
 		then
-			cecho g "\tOK" 0
+			_bashy_cecho g "\tOK" 0
 		else
-			cecho r "\tERROR" 0
+			_bashy_cecho r "\tERROR" 0
 		fi
 	done | column -t
 }
@@ -198,43 +198,43 @@ function bashy_status_plugins() {
 	((i=0))
 	for plugin in "${bashy_array_plugin[@]}"
 	do
-		cecho gr "${plugin}" 1
+		_bashy_cecho gr "${plugin}" 1
 		local enabled="${bashy_array_enabled[${i}]}"
 		if [[ "${enabled}" = 1 ]]
 		then
-			cecho g "\tEN" 1
+			_bashy_cecho g "\tEN" 1
 		else
-			cecho y "\tDI" 1
+			_bashy_cecho y "\tDI" 1
 		fi
 		local found="${bashy_array_found[${i}]}"
 		if [[ "${found}" = 1 ]]
 		then
-			cecho g "\tFOUND_OK" 1
+			_bashy_cecho g "\tFOUND_OK" 1
 		else
-			cecho r "\tFOUND_ERROR" 1
+			_bashy_cecho r "\tFOUND_ERROR" 1
 		fi
 		# local filename="${bashy_array_filename[${i}]}"
 		# if [[ $filename = 0 ]]
 		# then
-		# 	cecho r "\tNO_FILENAME" 1
+		# 	_bashy_cecho r "\tNO_FILENAME" 1
 		# else
-		# 	cecho gr "\t${filename}" 1
+		# 	_bashy_cecho gr "\t${filename}" 1
 		# fi
 		if [[ "${enabled}" = 1 ]]
 		then
 			local source="${bashy_array_source[${i}]}"
 			if [[ "${source}" = 0 ]]
 			then
-				cecho g "\tLOAD_OK" 1
+				_bashy_cecho g "\tLOAD_OK" 1
 			else
-				cecho r "\tLOAD_ERROR" 1
+				_bashy_cecho r "\tLOAD_ERROR" 1
 			fi
 			local result="${bashy_array_result[${i}]}"
 			if [[ "${result}" = 0 ]]
 			then
-				cecho g "\tRESULT_OK" 1
+				_bashy_cecho g "\tRESULT_OK" 1
 			else
-				cecho r "\tRESULT_ERROR" 1
+				_bashy_cecho r "\tRESULT_ERROR" 1
 			fi
 			if is_profile
 			then
@@ -244,9 +244,9 @@ function bashy_status_plugins() {
 				echo
 			fi
 		else
-			cecho y "\tNOT_LOADED" 1
-			cecho y "\tNO_RESULT" 1
-			cecho y "\tNO_TIME" 0
+			_bashy_cecho y "\tNOT_LOADED" 1
+			_bashy_cecho y "\tNO_RESULT" 1
+			_bashy_cecho y "\tNO_TIME" 0
 		fi
 		((i++))
 	done | column -t
@@ -260,7 +260,7 @@ function bashy_errors() {
 		local error="${bashy_array_error[${i}]}"
 		if [ "${error}" != "" ]
 		then
-			cecho r "${plugin} - ${error}\n" 1
+			_bashy_cecho r "${plugin} - ${error}\n" 1
 		fi
 		((i++))
 	done

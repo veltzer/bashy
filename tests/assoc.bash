@@ -16,7 +16,7 @@ function testAssoc() {
 	# shellcheck disable=2034
 	c=
 	assoc_get conf c "c"
-	if ! null_var_is_null c
+	if ! _bashy_null_var_is_null c
 	then
 		assertFail
 	fi

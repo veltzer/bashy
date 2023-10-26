@@ -1,6 +1,6 @@
 # a set of bash functions to help with color printing
 
-function cecho() {
+function _bashy_cecho() {
 	local color=$1
 	local text=$2
 	local newline=$3

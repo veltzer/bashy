@@ -106,7 +106,7 @@ function myenv_print_debug() {
 function myenv_info() {
 	local msg=$1
 	# echo "myenv: info: ${msg}"
-	cecho g "myenv: info: ${msg}" 0
+	_bashy_cecho g "myenv: info: ${msg}" 0
 }
 
 function myenv_create_virtualenv() {
@@ -214,7 +214,7 @@ function myenv_in_virtual_env() {
 
 function myenv_error() {
 	# echo "$1"
-	cecho r "myenv: error: $1" 0
+	_bashy_cecho r "myenv: error: $1" 0
 }
 
 function myenv_deactivate_real() {

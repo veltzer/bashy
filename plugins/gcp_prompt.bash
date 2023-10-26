@@ -33,7 +33,7 @@ function gcp_prompt() {
 	assoc_get gcp_conf gcp_configuration_name "gcp_configuration_name"
 
 	# set the envrionment variable
-	if null_is_null "${gcp_configuration_name}"
+	if _bashy_null_is_null "${gcp_configuration_name}"
 	then
 		unset CLOUDSDK_ACTIVE_CONFIG_NAME
 	else

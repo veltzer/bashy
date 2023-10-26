@@ -52,7 +52,7 @@ function assoc_get() {
 	then
 		__var=${__assoc_get[${key}]}
 	else
-		null_set_value __var
+		_bashy_null_set_value __var
 	fi
 }
 
