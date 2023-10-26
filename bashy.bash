@@ -117,7 +117,7 @@ function _bashy_load_plugins() {
 		if [[ "${enabled}" = 1 ]]
 		then
 			debug "loading [${plugin}]"
-			source_absolute "${current_filename}" > /dev/null 2> /dev/null
+			source_absolute "${current_filename}"
 			bashy_array_source+=($?)
 		else
 			bashy_array_function+=(0)
