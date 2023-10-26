@@ -1,4 +1,4 @@
-function configure_manpath() {
+function _activate_manpath() {
 	local -n __var=$1
 	local -n __error=$2
 	# this causes MANPATH to always have a terminating colon which will
@@ -11,4 +11,4 @@ function configure_manpath() {
 	__var=0
 }
 
-register_interactive configure_manpath
+register_interactive _activate_manpath
