@@ -27,3 +27,22 @@ function _bashy_prompt_deregister() {
 }
 
 register_interactive _activate_inf_prompt
+
+# This is the old prompt implementation
+
+function old_prompt_register() {
+	local __function=$1
+	if declare -p PROMPT_COMMAND 2> /dev/null > /dev/null
+	then
+		PROMPT_COMMAND="${__function}; ${PROMPT_COMMAND}"
+	else
+		PROMPT_COMMAND="${__function}"
+	fi
+}
+
+function old_prompt_deregister() {
+	local __function=$1
+	# echo "PROMPT_COMMAND is ${PROMPT_COMMAND}"
+	PROMPT_COMMAND=${PROMPT_COMMAND//${__function}; /}
+	# echo "PROMPT_COMMAND is ${PROMPT_COMMAND}"
+}
