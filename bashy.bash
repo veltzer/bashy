@@ -112,12 +112,12 @@ function _bashy_load_plugins() {
 }
 
 function _bashy_load_config() {
-	BASHY_CONFIG="${HOME}/.bashy.config"
-	if [ -f "${BASHY_CONFIG}" ]
+	local bashy_config="${HOME}/.bashy.config"
+	if [ -f "${bashy_config}" ]
 	then
 		# cannot use _bashy_source_absolute function here since it is still not loaded
 		# shellcheck source=/dev/null
-		source "${BASHY_CONFIG}"
+		source "${bashy_config}"
 	fi
 }
 
