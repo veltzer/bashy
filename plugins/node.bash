@@ -8,7 +8,7 @@ function _activate_node() {
 	if ! checkDirectoryExists "${NODE_MODULES}" __var __error; then return; fi
 	if ! checkDirectoryExists "${NODE_BIN}" __var __error; then return; fi
 	export NODE_PATH NODE_MODULES NODE_BIN
-	pathutils_add_head PATH "${NODE_BIN}"
+	_bashy_pathutils_add_head PATH "${NODE_BIN}"
 	__var=0
 }
 

@@ -5,7 +5,7 @@ function _activate_ruby() {
 	GEM_HOME_BIN="${GEM_HOME}/bin"
 	if ! checkDirectoryExists "${GEM_HOME}" __var __error; then return; fi
 	if ! checkDirectoryExists "${GEM_HOME_BIN}" __var __error; then return; fi
-	pathutils_add_head PATH "${GEM_HOME_BIN}"
+	_bashy_pathutils_add_head PATH "${GEM_HOME_BIN}"
 	export GEM_HOME
 	__var=0
 }

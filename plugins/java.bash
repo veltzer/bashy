@@ -4,8 +4,8 @@ function _activate_java() {
 	JAVA_HOME="${HOME}/install/jdk"
 	if ! checkDirectoryExists "${JAVA_HOME}" __var __error; then return; fi
 	export JAVA_HOME
-	pathutils_add_head PATH "${JAVA_HOME}/bin"
-	pathutils_add_head LD_LIBRARY_PATH "${JAVA_HOME}/lib"
+	_bashy_pathutils_add_head PATH "${JAVA_HOME}/bin"
+	_bashy_pathutils_add_head LD_LIBRARY_PATH "${JAVA_HOME}/lib"
 	__var=0
 }
 

@@ -21,7 +21,7 @@
 # is a really bad design descision.
 
 function _bashy_load_core() {
-	# cannot use source_absolute function here since it is still not loaded (boostrap problem)
+	# cannot use _bashy_source_absolute function here since it is still not loaded (boostrap problem)
 	# shellcheck source=/dev/null
 	source "${BASH_SOURCE%/*}/core/source.bash"
 	for f in "${BASH_SOURCE%/*}"/core/*.bash
@@ -30,7 +30,7 @@ function _bashy_load_core() {
 		_name="${_name%%.*}"
 		bashy_core_names+=("${_name}")
 		local _result=0
-		source_absolute "${f}" || _result=1
+		_bashy_source_absolute "${f}" || _result=1
 		bashy_core_res+=("${_result}")
 	done
 }
@@ -121,7 +121,7 @@ function _bashy_load_plugins() {
 		if [[ "${enabled}" = 1 ]]
 		then
 			debug "loading [${plugin}]"
-			source_absolute "${current_filename}"
+			_bashy_source_absolute "${current_filename}"
 			bashy_array_source+=($?)
 		else
 			_bashy_array_function+=(0)
@@ -135,7 +135,7 @@ function _bashy_load_config() {
 	BASHY_CONFIG="${HOME}/.bashy.config"
 	if [ -f "${BASHY_CONFIG}" ]
 	then
-		# cannot use source_absolute function here since it is still not loaded
+		# cannot use _bashy_source_absolute function here since it is still not loaded
 		# shellcheck source=/dev/null
 		source "${BASHY_CONFIG}"
 	fi

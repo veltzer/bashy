@@ -1,4 +1,4 @@
-function pathutils_add_head() {
+function _bashy_pathutils_add_head() {
 	local -n __var=$1
 	local add=$2
 	local IFS=":"
@@ -15,7 +15,7 @@ function pathutils_add_head() {
 	__var=${path[*]}
 }
 
-function pathutils_add_tail() {
+function _bashy_pathutils_add_tail() {
 	local -n __var=$1
 	local add=$2
 	local IFS=":"
@@ -33,7 +33,7 @@ function pathutils_add_tail() {
 	__var=${path[*]}
 }
 
-function pathutils_remove() {
+function _bashy_pathutils_remove() {
 	local -n __var=$1
 	local remove=$2
 	local IFS=":"
@@ -50,7 +50,7 @@ function pathutils_remove() {
 	__var=${path[*]}
 }
 
-function pathutils_is_in_path() {
+function _bashy_pathutils_is_in_path() {
 	local result=0
 	for x in "$@"
 	do
@@ -63,7 +63,7 @@ function pathutils_is_in_path() {
 }
 
 # reduce stuff that repeats
-function pathutils_reduce() {
+function _bashy_pathutils_reduce() {
 	local -n __var=$1
 	local IFS=":"
 	local -a path=()

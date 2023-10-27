@@ -10,7 +10,7 @@ function _activate_pyenv() {
 	if ! checkDirectoryExists "${PYENV_BIN}" __var __error; then return; fi
 	export PYENV_ROOT
 	export PYENV_BIN
-	pathutils_add_head PATH "${PYENV_BIN}"
+	_bashy_pathutils_add_head PATH "${PYENV_BIN}"
 	eval "$(pyenv init -)"
 	__var=0
 }

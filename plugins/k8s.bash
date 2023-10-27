@@ -4,7 +4,7 @@ function _activate_k8s() {
 	K8S_HOME="${HOME}/install/k8s"
 	if ! checkDirectoryExists "${K8S_HOME}" __var __error; then return; fi
 	export K8S_HOME
-	pathutils_add_head PATH "${K8S_HOME}"
+	_bashy_pathutils_add_head PATH "${K8S_HOME}"
 	if ! checkInPath "kubectl" __var __error; then return; fi
 	# shellcheck disable=1090
 	source <(kubectl completion bash)

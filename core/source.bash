@@ -1,7 +1,7 @@
 # A set of functions that help you to source other sources
 #
 # Features:
-# - a single place where all sources are located.
+# - a single place that centralizes sourcing code.
 # - a protection against double inclusion.
 
 # protect against double inclusion
@@ -14,7 +14,7 @@ SOURCE=1
 
 declare -gA sourced=()
 
-function source_relative() {
+function _bashy_source_relative() {
 	local file=$1
 	local path="${BASH_SOURCE%/*}/${file}"
 	if ! [ "${sourced[${path}]+muahaha}" ]
@@ -25,7 +25,7 @@ function source_relative() {
 	fi
 }
 
-function source_absolute() {
+function _bashy_source_absolute() {
 	local file=$1
 	local path
 	path=$(realpath "${file}")

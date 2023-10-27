@@ -9,7 +9,7 @@ function _activate_pycharm() {
 	if ! checkDirectoryExists "${PYCHARM_BIN}" __var __error; then return; fi
 	export PYCHARM_HOME
 	export PYCHARM_BIN
-	pathutils_add_tail PATH "${PYCHARM_BIN}"
+	_bashy_pathutils_add_tail PATH "${PYCHARM_BIN}"
 	__var=0
 }
 

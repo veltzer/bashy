@@ -4,7 +4,7 @@ function _activate_haskell() {
 	CABAL_HOME="${HOME}/.cabal"
 	if ! checkDirectoryExists "${CABAL_HOME}" __var __error; then return; fi
 	export CABAL_HOME
-	pathutils_add_head PATH "${CABAL_HOME}/bin"
+	_bashy_pathutils_add_head PATH "${CABAL_HOME}/bin"
 	__var=0
 }
 

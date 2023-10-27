@@ -7,9 +7,9 @@ function _activate_local_install() {
 	if ! checkDirectoryExists "${LOCAL_INSTALL_BIN}" __var __error; then return; fi
 	if ! checkDirectoryExists "${LOCAL_INSTALL_LIB}" __var __error; then return; fi
 	if ! checkDirectoryExists "${LOCAL_INSTALL_BINARIES}" __var __error; then return; fi
-	pathutils_add_head PATH "${LOCAL_INSTALL_BIN}"
-	pathutils_add_head LD_LIBRARY_PATH "${LOCAL_INSTALL_LIB}"
-	pathutils_add_head PATH "${LOCAL_INSTALL_BINARIES}"
+	_bashy_pathutils_add_head PATH "${LOCAL_INSTALL_BIN}"
+	_bashy_pathutils_add_head LD_LIBRARY_PATH "${LOCAL_INSTALL_LIB}"
+	_bashy_pathutils_add_head PATH "${LOCAL_INSTALL_BINARIES}"
 	__var=0
 }
 

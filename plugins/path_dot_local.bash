@@ -8,8 +8,8 @@ function _activate_path_dot_local() {
 	FOLDER2="${HOME}/.local/lib"
 	if ! checkDirectoryExists "${FOLDER1}" __var __error; then return; fi
 	if ! checkDirectoryExists "${FOLDER2}" __var __error; then return; fi
-	pathutils_add_head PATH "${FOLDER1}"
-	pathutils_add_head LD_LIBRARY_PATH "${FOLDER2}"
+	_bashy_pathutils_add_head PATH "${FOLDER1}"
+	_bashy_pathutils_add_head LD_LIBRARY_PATH "${FOLDER2}"
 	__var=0
 }
 

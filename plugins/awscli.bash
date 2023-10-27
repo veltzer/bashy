@@ -17,7 +17,7 @@ function _activate_awscli() {
 	AWSCLI_HOME_BIN="${AWSCLI_HOME}/bin"
 	if ! checkDirectoryExists "${AWSCLI_HOME}" __var __error; then return; fi
 	if ! checkDirectoryExists "${AWSCLI_HOME_BIN}" __var __error; then return; fi
-	pathutils_add_head PATH "${AWSCLI_HOME_BIN}"
+	_bashy_pathutils_add_head PATH "${AWSCLI_HOME_BIN}"
 	export AWSCLI_HOME
 	__var=0
 }

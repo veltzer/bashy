@@ -5,7 +5,7 @@ function _activate_brew() {
 	local -n __error=$2
 	BREW_HOME="${HOME}/install/homebrew"
 	if ! checkDirectoryExists "${BREW_HOME}" __var __error; then return; fi
-	pathutils_add_head PATH "${BREW_HOME}/bin"
+	_bashy_pathutils_add_head PATH "${BREW_HOME}/bin"
 	if ! checkInPath "brew" __var __error; then return; fi
 	__var=0
 }

@@ -5,7 +5,7 @@ function _activate_phantomjs() {
 	PHANTOMJSPATHBIN="${PHANTOMJSPATH}/bin"
 	if ! checkDirectoryExists "${PHANTOMJSPATH}" __var __error; then return; fi
 	if ! checkDirectoryExists "${PHANTOMJSPATHBIN}" __var __error; then return; fi
-	pathutils_add_head PATH "${PHANTOMJSPATHBIN}"
+	_bashy_pathutils_add_head PATH "${PHANTOMJSPATHBIN}"
 	export PHANTOMJSPATH
 	__var=0
 }

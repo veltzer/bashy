@@ -4,7 +4,7 @@ function _activate_go() {
 	local GOPATHBIN="${GOPATH}/bin"
 	if ! checkDirectoryExists "${GOPATH}" __var __error; then return; fi
 	if ! checkDirectoryExists "${GOPATHBIN}" __var __error; then return; fi
-	pathutils_add_head PATH "${GOPATHBIN}"
+	_bashy_pathutils_add_head PATH "${GOPATHBIN}"
 	export GOPATH
 	__var=0
 }

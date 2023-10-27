@@ -27,13 +27,13 @@ function _activate_bigdata() {
 	if ! checkDirectoryExists "${FOLDER}" __var __error; then return; fi
 	export HIVE_HOME="${FOLDER}"
 	#export HIVE_OPTS='-hiveconf mapred.job.tracker=local -hiveconf fs.default.name=file:///tmp -hiveconf hive.metastore.warehouse.dir=file:///tmp/warehouse'
-	pathutils_add_head PATH "${HIVE_HOME}/bin"
+	_bashy_pathutils_add_head PATH "${HIVE_HOME}/bin"
 
 	# this is for pig
 	FOLDER="${HOME}/install/pig"
 	if ! checkDirectoryExists "${FOLDER}" __var __error; then return; fi
 	export PIG_HOME="${FOLDER}"
-	pathutils_add_head PATH "${PIG_HOME}/bin"
+	_bashy_pathutils_add_head PATH "${PIG_HOME}/bin"
 	__var=0
 }
 

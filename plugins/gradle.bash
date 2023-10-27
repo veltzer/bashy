@@ -4,7 +4,7 @@ function _activate_gradle() {
 	GRADLE_HOME="${HOME}/install/gradle"
 	if ! checkDirectoryExists "${GRADLE_HOME}" __var __error; then return; fi
 	export GRADLE_HOME
-	pathutils_add_head PATH "${GRADLE_HOME}/bin"
+	_bashy_pathutils_add_head PATH "${GRADLE_HOME}/bin"
 	__var=0
 }
 
