@@ -1,4 +1,4 @@
-# This is a set of git bash functions for support for bashy.
+# This is a set of git bash functions
 
 export _BASHY_CORE_GIT_DEBUG=1
 
@@ -57,6 +57,7 @@ function git_repo_name() {
 # go to the root of the current git repo
 function git_root() {
 	# go to the root of the current git repo (if indeed inside a git repo)
+	# the "git rev-parse" will also print an error if not inside a git repo
 	cd_arg="$(git rev-parse --show-cdup)"
 	if [ -n "${cd_arg}" ]
 	then
