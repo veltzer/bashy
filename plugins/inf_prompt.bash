@@ -22,7 +22,8 @@ function _activate_inf_prompt() {
 
 function _bashy_prompt_register() {
 	local __function=$1
-	_bashy_array_push _BASHY_PROMPT_FUNCTIONS "${__function}"
+	# _bashy_array_push _BASHY_PROMPT_FUNCTIONS "${__function}"
+	_BASHY_PROMPT_FUNCTIONS=("${__function}" "${_BASHY_PROMPT_FUNCTIONS[@]}")
 }
 
 function _bashy_prompt_deregister() {
