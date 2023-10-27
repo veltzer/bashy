@@ -22,12 +22,11 @@ function _bashy_array_print() {
 }
 
 function _bashy_array_print_2() {
-	local -n __array_print=$1
+	local __array_print=$1
 	declare -p "${__array_print}"
 }
 
 function _bashy_array_length() {
-	# shellcheck disable=2178
 	local -n __array_length=$1
 	local -n var=$2
 	var=${#__array_length[@]}
@@ -54,7 +53,6 @@ function _bashy_array_is_array() {
 }
 
 function _bashy_array_find() {
-	# shellcheck disable=2178
 	local -n __array_find=$1
 	local value=$2
 	local -n __array_location=$3
@@ -71,7 +69,6 @@ function _bashy_array_find() {
 }
 
 function _bashy_array_contains() {
-	# shellcheck disable=2178
 	local -n __array_contains=$1
 	local value=$2
 	for item in "${__array_contains[@]}"
@@ -82,7 +79,6 @@ function _bashy_array_contains() {
 }
 
 function _bashy_array_remove() {
-	# shellcheck disable=2178
 	local -n __array_remove=$1
 	local value=$2
 	_bashy_array_new new_array
