@@ -21,7 +21,7 @@
 # is a really bad design descision.
 
 function _bashy_load_core() {
-	# cannot use _bashy_source_absolute function here since it is still not loaded (boostrap problem)
+	# cannot use _bashy_source_absolute function here since it is still not loaded (bootstrap problem)
 	# shellcheck source=/dev/null
 	source "${BASH_SOURCE%/*}/core/source.bash"
 	for f in "${BASH_SOURCE%/*}"/core/*.bash
@@ -35,8 +35,8 @@ function _bashy_load_core() {
 	done
 }
 
-function _bashy_read_plugins() {
-	filename="${HOME}/.bashy/bashy.list"
+function _bashy_read_plugins_filename() {
+	local filename=$1
 	while read -r line
 	do
 		if [[ "${line}" =~ ^#.* ]]
@@ -65,33 +65,13 @@ function _bashy_read_plugins() {
 			_bashy_array_set bashy_array_enabled "${location}" "${enabled}"
 		fi
 	done < "${filename}"
+}
+
+function _bashy_read_plugins() {
+	filename="${HOME}/.bashy/bashy.list"
+	_bashy_read_plugins_filename "${filename}"
 	filename="${HOME}/.bashy.list"
-	if [[ -r "${filename}" ]]
-	then
-		while read -r line
-		do
-			if [[ "${line}" =~ ^#.* ]]
-			then
-				continue
-			fi
-			if [[ "${line}" =~ ^-.* ]]
-			then
-				plugin="${line:1}"
-				enabled=0
-			else
-				plugin="${line}"
-				enabled=1
-			fi
-			_bashy_array_find bashy_array_plugin "${plugin}" location
-			if [[ "${location}" == -1 ]]
-			then
-				_bashy_array_push bashy_array_plugin "${plugin}"
-				_bashy_array_push bashy_array_enabled "${enabled}"
-			else
-				_bashy_array_set bashy_array_enabled "${location}" "${enabled}"
-			fi
-		done < "${filename}"
-	fi
+	_bashy_read_plugins_filename "${filename}"
 }
 
 function _bashy_load_plugins() {
