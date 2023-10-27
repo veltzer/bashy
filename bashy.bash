@@ -56,13 +56,13 @@ function _bashy_read_plugins() {
 			enabled=1
 		fi
 		location=
-		array_find bashy_array_plugin "${plugin}" location
+		_bashy_array_find bashy_array_plugin "${plugin}" location
 		if [[ "${location}" == -1 ]]
 		then
-			array_push bashy_array_plugin "${plugin}"
-			array_push bashy_array_enabled "${enabled}"
+			_bashy_array_push bashy_array_plugin "${plugin}"
+			_bashy_array_push bashy_array_enabled "${enabled}"
 		else
-			array_set bashy_array_enabled "${location}" "${enabled}"
+			_bashy_array_set bashy_array_enabled "${location}" "${enabled}"
 		fi
 	done < "${filename}"
 	filename="${HOME}/.bashy.list"
@@ -82,13 +82,13 @@ function _bashy_read_plugins() {
 				plugin="${line}"
 				enabled=1
 			fi
-			array_find bashy_array_plugin "${plugin}" location
+			_bashy_array_find bashy_array_plugin "${plugin}" location
 			if [[ "${location}" == -1 ]]
 			then
-				array_push bashy_array_plugin "${plugin}"
-				array_push bashy_array_enabled "${enabled}"
+				_bashy_array_push bashy_array_plugin "${plugin}"
+				_bashy_array_push bashy_array_enabled "${enabled}"
 			else
-				array_set bashy_array_enabled "${location}" "${enabled}"
+				_bashy_array_set bashy_array_enabled "${location}" "${enabled}"
 			fi
 		done < "${filename}"
 	fi
@@ -271,8 +271,8 @@ function bashy_errors() {
 }
 
 function bashy_debug() {
-	array_print bashy_array_error
-	array_print bashy_array_plugin
+	_bashy_array_print bashy_array_error
+	_bashy_array_print bashy_array_plugin
 }
 
 function bashy_off() {

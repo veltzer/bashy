@@ -1,18 +1,18 @@
 # A set of functions to help with dealing with arrays
 
-function array_new() {
+function _bashy_array_new() {
 	local __user_var=$1
 	declare -ga "${__user_var}=()"
 }
 
-function array_set() {
+function _bashy_array_set() {
 	local -n __array_set=$1
 	local pos=$2
 	local value=$3
 	__array_set[pos]="${value}"
 }
 
-function array_print() {
+function _bashy_array_print() {
 	# shellcheck disable=2178
 	local -n __array_print=$1
 	echo "length of array is ${#__array_print[@]}"
@@ -22,21 +22,21 @@ function array_print() {
 	done
 }
 
-function array_length() {
+function _bashy_array_length() {
 	# shellcheck disable=2178
 	local -n __array_length=$1
 	local -n var=$2
 	var=${#__array_length[@]}
 }
 
-function array_push() {
+function _bashy_array_push() {
 	# shellcheck disable=2178
 	local -n __array_push=$1
 	local var=$2
 	__array_push+=("${var}")
 }
 
-function array_pop() {
+function _bashy_array_pop() {
 	# shellcheck disable=2178
 	local -n __array_pop=$1
 	local -n var=$2
@@ -44,14 +44,14 @@ function array_pop() {
 	unset "__array_pop[${#__array_pop[@]}-1]"
 }
 
-function array_is_array() {
-	local array_name=$1
+function _bashy_array_is_array() {
+	local __array_name=$1
 	local declare_output
-	declare_output=$(declare -p "${array_name}")
+	declare_output=$(declare -p "${__array_name}")
 	[[ "${declare_output}" =~ "declare -a" ]]
 }
 
-function array_find() {
+function _bashy_array_find() {
 	# shellcheck disable=2178
 	local -n __array_find=$1
 	local value=$2
@@ -68,7 +68,7 @@ function array_find() {
 	__array_location=-1
 }
 
-function array_contains() {
+function _bashy_array_contains() {
 	# shellcheck disable=2178
 	local -n __array_contains=$1
 	local value=$2
@@ -79,16 +79,16 @@ function array_contains() {
 	return 1
 }
 
-function array_remove() {
+function _bashy_array_remove() {
 	# shellcheck disable=2178
 	local -n __array_remove=$1
 	local value=$2
-	array_new new_array
+	_bashy_array_new new_array
 	for elem in "${__array_remove[@]}"
 	do
 		if [[ "${elem}" != "${value}" ]]
 		then
-			array_push new_array "${elem}"
+			_bashy_array_push new_array "${elem}"
 		fi
 	done
 	__array=("${new_array[@]}")

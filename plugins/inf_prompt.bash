@@ -9,25 +9,25 @@ function bashy_prompt() {
 }
 
 function bashy_prompt_print() {
-	array_print _BASHY_PROMPT_FUNCTIONS
+	_bashy_array_print _BASHY_PROMPT_FUNCTIONS
 }
 
 function _activate_inf_prompt() {
 	local -n __var=$1
 	local -n __error=$1
-	array_new _BASHY_PROMPT_FUNCTIONS
+	_bashy_array_new _BASHY_PROMPT_FUNCTIONS
 	PROMPT_COMMAND="bashy_prompt"
 	__var=0
 }
 
 function _bashy_prompt_register() {
 	local __function=$1
-	array_push _BASHY_PROMPT_FUNCTIONS "${__function}"
+	_bashy_array_push _BASHY_PROMPT_FUNCTIONS "${__function}"
 }
 
 function _bashy_prompt_deregister() {
 	local __function=$1
-	array_remove _BASHY_PROMPT_FUNCTIONS "${__function}"
+	_bashy_array_remove _BASHY_PROMPT_FUNCTIONS "${__function}"
 }
 
 register_interactive _activate_inf_prompt

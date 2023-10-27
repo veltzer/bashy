@@ -1,13 +1,13 @@
 # hook subsystem of bashy
 
-array_new _bashy_array_function
+_bashy_array_new _bashy_array_function
 assoc_new _bashy_assoc_function
 
 function register_core() {
 	local _function=$1
 	local _name=$2
 	assoc_assert_key_not_exists _bashy_assoc_function "${_function}"
-	array_push _bashy_array_function "${_function}"
+	_bashy_array_push _bashy_array_function "${_function}"
 	assoc_set _bashy_assoc_function "${_function}" "${_name}"
 }
 
