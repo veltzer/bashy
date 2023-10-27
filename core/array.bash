@@ -13,13 +13,17 @@ function _bashy_array_set() {
 }
 
 function _bashy_array_print() {
-	# shellcheck disable=2178
 	local -n __array_print=$1
 	echo "length of array is ${#__array_print[@]}"
 	for index in "${!__array_print[@]}"
 	do
 		echo "${index}/${__array_print[${index}]}"
 	done
+}
+
+function _bashy_array_print_2() {
+	local -n __array_print=$1
+	declare -p "${__array_print}"
 }
 
 function _bashy_array_length() {
@@ -30,14 +34,12 @@ function _bashy_array_length() {
 }
 
 function _bashy_array_push() {
-	# shellcheck disable=2178
 	local -n __array_push=$1
 	local var=$2
 	__array_push+=("${var}")
 }
 
 function _bashy_array_pop() {
-	# shellcheck disable=2178
 	local -n __array_pop=$1
 	local -n var=$2
 	var=${__array_pop[${#__array_pop[@]}-1]}
