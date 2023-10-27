@@ -275,6 +275,10 @@ function bashy_on() {
 	fi
 }
 
+function bashy_version() {
+	echo "${BASHY_VERSION_STR}"
+}
+
 function _bashy_init() {
 	_bashy_load_config
 	if [ -f "${HOME}/.bashy.disable" ]

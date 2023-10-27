@@ -20,3 +20,4 @@
 - you can no longer register that same functin twice.
 - add a bashy command "bashy_off" which turns all of bashy off and does undo for everything.
 	and bashy_on to turn it back on.
+- added a vesion so that bashy could report it's version
