@@ -60,6 +60,7 @@ xinput
 # order must be aws, gcp first and only then env
 # but this order must be in *reverse*
 # so the order must be env, gcp, aws
+node_prompt
 pydmt_prompt
 env_prompt
 gcp_prompt

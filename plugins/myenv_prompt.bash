@@ -330,7 +330,7 @@ function myenv_prompt() {
 	fi
 }
 
-function _activate_myenv() {
+function _activate_myenv_prompt() {
 	local -n __var=$1
 	local -n __error=$2
 	if ! checkInPath "md5sum" __var __error; then return; fi
@@ -338,4 +338,4 @@ function _activate_myenv() {
 	__var=0
 }
 
-register_interactive _activate_myenv
+register_interactive _activate_myenv_prompt

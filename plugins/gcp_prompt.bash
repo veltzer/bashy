@@ -41,11 +41,11 @@ function gcp_prompt() {
 	fi
 }
 
-function _activate_gcp() {
+function _activate_gcp_prompt() {
 	local -n __var=$1
 	local -n __error=$2
 	_bashy_prompt_register gcp_prompt
 	__var=0
 }
 
-register_interactive _activate_gcp
+register_interactive _activate_gcp_prompt

@@ -16,15 +16,15 @@ function error_prompt() {
 	fi
 }
 
-function _activate_error() {
+function _activate_error_prompt() {
 	local -n __var=$1
 	local -n __error=$2
 	_bashy_prompt_register error_prompt
 	__var=0
 }
 
-function _deactivate_error() {
+function _deactivate_error_prompt() {
 	_bashy_prompt_deregister error_prompt
 }
 
-register_interactive _activate_error _deactivate_error
+register_interactive _activate_error_prompt _deactivate_error_prompt
