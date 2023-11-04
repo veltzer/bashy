@@ -4,25 +4,6 @@
 - add feature to allow to set the name of the current window in tmux to the name of the git
 	repo that you are in.
 	This will save me the trouble of having to do that myself all the time.
-- if you enter an inner folder in a project like so:
-	cd ~/git.litebc/lbc-frontend/node_modules
-	then setting of the security token does not work
-	like in:
-	===================8<=============
-export ICHOR_API_ENDPOINT="https://api.litebc.tech/v1"
-export ENV_DOMAIN_OWNER="289503028521"
-export ENV_DOMAIN="litebc"
-export ENV_REPOSITORY="litebc"
-export ENV_NPM_REPOSITORY="development-ang"
-export ENV_REGION="eu-central-1"
-export ENV_ACCOUNT_ID="289503028521"
-export ENV_JOBS_ECR_REPOSITORY="jobs"
-export ENV_EFS_ID="fs-06ee761e95feed755"
-export ENV_SUBNET="subnet-2d418751"
-export ENV_SECURITY_GROUP="sg-fc3a4187"
-aws codeartifact login --tool npm --repository "$ENV_NPM_REPOSITORY" --domain "$ENV_DOMAIN" --domain-owner "$ENV_DOMAIN_OWNER"
-	===================8<=============
-	fix this!
 - improve bashy:
 	move to assoc data strcutures.
 	allow to deactivate plugins.
