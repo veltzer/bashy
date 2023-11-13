@@ -10,4 +10,9 @@ function _activate_ruby() {
 	__var=0
 }
 
+function _install_bundler() {
+	sudo apt install ruby ruby-dev ruby-bundler
+	# sudo gem install bundler
+}
+
 register _activate_ruby
