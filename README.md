@@ -6,12 +6,12 @@ description: bashy handles bash configuration for you
 
 website: https://veltzer.github.io/bashy
 
-## build
+## Build
 
 ![build](https://github.com/veltzer/bashy/workflows/build/badge.svg)
 
 
-## contact
+## Contact
 
 chat with me at [![gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/veltzer/mark.veltzer)
 
