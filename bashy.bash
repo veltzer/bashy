@@ -116,6 +116,9 @@ function _bashy_run_plugins() {
 		if [[ "${enabled}" = 0 ]]
 		then
 			debug "${plugin} disabled"
+			bashy_array_result+=(0)
+			bashy_array_error+=("")
+			bashy_array_diff+=("NONE")
 			continue
 		fi
 		if is_debug
