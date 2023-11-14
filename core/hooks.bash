@@ -14,7 +14,7 @@ function register_core() {
 function register() {
 	local _function=$1
 	local _name="${BASH_SOURCE[1]##*/}"
-	register_core "${_function}" "${_name}"
+	register_core "${_function}" "${_name%.*}"
 }
 
 function register_install() {
@@ -26,6 +26,6 @@ function register_interactive() {
 	local _name="${BASH_SOURCE[1]##*/}"
 	if is_interactive
 	then
-		register_core "${_function}" "${_name}"
+		register_core "${_function}" "${_name%.*}"
 	fi
 }

@@ -9,8 +9,8 @@ inf_prompt
 # powerline
 venv
 # pypowerline
-# powerline-shell
-starship
+powerline-shell
+-starship
 # other plugins
 ansible
 bash_completions_userdir

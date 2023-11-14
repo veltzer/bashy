@@ -55,15 +55,8 @@ function _bashy_read_plugins_filename() {
 			plugin="${line}"
 			enabled=1
 		fi
-		location=
-		_bashy_array_find bashy_array_plugin "${plugin}" location
-		if [[ "${location}" == -1 ]]
-		then
-			_bashy_array_push bashy_array_plugin "${plugin}"
-			_bashy_array_push bashy_array_enabled "${enabled}"
-		else
-			_bashy_array_set bashy_array_enabled "${location}" "${enabled}"
-		fi
+		_bashy_array_push bashy_array_plugin "${plugin}"
+		assoc_set bashy_assoc_enabled "${plugin}" "${enabled}"
 	done < "${filename}"
 }
 
@@ -97,16 +90,9 @@ function _bashy_load_plugins() {
 				continue
 			fi
 		fi
-		enabled="${bashy_array_enabled[${i}]}"
-		if [[ "${enabled}" = 1 ]]
-		then
-			debug "loading [${plugin}]"
-			_bashy_source_absolute "${current_filename}"
-			bashy_array_source+=($?)
-		else
-			_bashy_array_function+=(0)
-			bashy_array_source+=("---")
-		fi
+		debug "loading [${plugin}]"
+		_bashy_source_absolute "${current_filename}"
+		bashy_array_source+=($?)
 		((i++))
 	done
 }
@@ -124,11 +110,12 @@ function _bashy_load_config() {
 function _bashy_run_plugins() {
 	for function in "${_bashy_array_function[@]}"
 	do
-		if [[ "${function}" = 0 ]]
+		local plugin
+		assoc_get _bashy_assoc_function plugin "${function}"
+		assoc_get bashy_assoc_enabled enabled "${plugin}"
+		if [[ "${enabled}" = 0 ]]
 		then
-			bashy_array_result+=("NO_RESULT")
-			bashy_array_error+=("")
-			bashy_array_diff+=("NO_TIME")
+			debug "${plugin} disabled"
 			continue
 		fi
 		if is_debug
@@ -183,7 +170,8 @@ function bashy_status_plugins() {
 	for plugin in "${bashy_array_plugin[@]}"
 	do
 		_bashy_cecho gr "${plugin}" 1
-		local enabled="${bashy_array_enabled[${i}]}"
+		local enabled
+		assoc_get bashy_assoc_enabled enabled "${plugin}"
 		if [[ "${enabled}" = 1 ]]
 		then
 			_bashy_cecho g "\tEN" 1
@@ -289,16 +277,13 @@ function _bashy_init() {
 	declare -ga bashy_core_res
 	_bashy_load_core
 	declare -ga bashy_array_plugin
-	declare -ga bashy_array_enabled
 	declare -ga bashy_array_found
 	declare -ga bashy_array_filename
 	declare -ga bashy_array_source
 	declare -ga bashy_array_result
 	declare -ga bashy_array_error
 	declare -ga bashy_array_diff
-	assoc_new bashy_assoc_ac
-	assoc_new bashy_assoc_de
-	assoc_new bashy_assoc_in
+	assoc_new bashy_assoc_enabled
 	debug "bashy_starting"
 	_bashy_read_plugins
 	_bashy_load_plugins
@@ -309,5 +294,5 @@ function _bashy_init() {
 
 # now run _bashy_init
 # we don't want to force the user to do anything more than source ~/.bashy/bashy.bash
-# in his ~/.bashrc
+# in his ~/.bashrc, so we do this automatically
 _bashy_init
