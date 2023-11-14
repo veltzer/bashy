@@ -24,7 +24,7 @@ It is plugin based and allows for easy extension.
 
 ## Demo
 
-![Demo](session.gif)
+![Demo](resources/session.gif)
 
 ## Installing Bashy
 

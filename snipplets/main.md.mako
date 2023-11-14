@@ -7,7 +7,7 @@ It is plugin based and allows for easy extension.
 
 <%text>## Demo</%text>
 
-![Demo](session.gif)
+![Demo](resources/session.gif)
 
 <%text>## Installing Bashy</%text>
 
