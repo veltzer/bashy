@@ -1,8 +1,5 @@
 # hook subsystem of bashy
 
-_bashy_array_new _bashy_array_function
-assoc_new _bashy_assoc_function
-
 function register_core() {
 	local _function=$1
 	local _name=$2

@@ -68,32 +68,27 @@ function _bashy_read_plugins() {
 }
 
 function _bashy_load_plugins() {
-	((i=0))
 	for plugin in "${bashy_array_plugin[@]}"
 	do
 		current_filename="${HOME}/.bashy/plugins/${plugin}.bash"
 		if [[ -r "${current_filename}" ]]
 		then
-			bashy_array_found+=(1)
-			bashy_array_filename+=("${current_filename}")
+			assoc_set bashy_assoc_found "${plugin}" 1
+			assoc_set bashy_assoc_filename "${plugin}" "${current_filename}"
 		else
 			current_filename="${HOME}/.bashy_extra/${plugin}.bash"
 			if [[ -r "${current_filename}" ]]
 			then
-				bashy_array_found+=(1)
-				bashy_array_filename+=("${current_filename}")
+				assoc_set bashy_assoc_found "${plugin}" 1
+				assoc_set bashy_assoc_filename "${plugin}" "${current_filename}"
 			else
-				bashy_array_found+=(0)
-				bashy_array_filename+=(0)
-				_bashy_array_function+=(0)
-				bashy_array_source+=("---")
+				assoc_set bashy_assoc_found "${plugin}" 0
 				continue
 			fi
 		fi
 		debug "loading [${plugin}]"
 		_bashy_source_absolute "${current_filename}"
-		bashy_array_source+=($?)
-		((i++))
+		assoc_set bashy_assoc_source "${plugin}" "$?"
 	done
 }
 
@@ -112,13 +107,11 @@ function _bashy_run_plugins() {
 	do
 		local plugin
 		assoc_get _bashy_assoc_function plugin "${function}"
+		local enabled
 		assoc_get bashy_assoc_enabled enabled "${plugin}"
 		if [[ "${enabled}" = 0 ]]
 		then
 			debug "${plugin} disabled"
-			bashy_array_result+=(0)
-			bashy_array_error+=("")
-			bashy_array_diff+=("NONE")
 			continue
 		fi
 		if is_debug
@@ -135,21 +128,22 @@ function _bashy_run_plugins() {
 			local error=""
 			local diff=
 			measure diff "${function}" result error
-			bashy_array_result+=("${result}")
-			bashy_array_error+=("${error}")
-			bashy_array_diff+=("${diff}")
+			assoc_set bashy_assoc_result "${plugin}" "${result}"
+			assoc_set bashy_assoc_error "${plugin}" "${error}"
+			assoc_set bashy_assoc_diff "${plugin}" "${diff}"
 		else
 			local result=
 			local error=""
 			"${function}" result error
-			bashy_array_result+=("${result}")
-			bashy_array_error+=("${error}")
-			bashy_array_diff+=("NO_PROFILE")
+			assoc_set bashy_assoc_result "${plugin}" "${result}"
+			assoc_set bashy_assoc_error "${plugin}" "${error}"
+			assoc_set bashy_assoc_diff "${plugin}" "NO_PROFILE"
 		fi
 	done
 }
 
 function bashy_status_core() {
+	((i=0))
 	for name in "${bashy_core_names[@]}"
 	do
 		_bashy_cecho gr "${name}" 1
@@ -160,6 +154,7 @@ function bashy_status_core() {
 		else
 			_bashy_cecho r "\tERROR" 0
 		fi
+		((i++))
 	done | column -t
 }
 
@@ -169,7 +164,6 @@ function bashy_status_core() {
 # handlers which may have succeeded in initializing
 # or not
 function bashy_status_plugins() {
-	((i=0))
 	for plugin in "${bashy_array_plugin[@]}"
 	do
 		_bashy_cecho gr "${plugin}" 1
@@ -181,14 +175,17 @@ function bashy_status_plugins() {
 		else
 			_bashy_cecho y "\tDI" 1
 		fi
-		local found="${bashy_array_found[${i}]}"
+		local found
+		assoc_get bashy_assoc_found found "${plugin}"
 		if [[ "${found}" = 1 ]]
 		then
 			_bashy_cecho g "\tFOUND_OK" 1
 		else
 			_bashy_cecho r "\tFOUND_ERROR" 1
+			continue
 		fi
-		# local filename="${bashy_array_filename[${i}]}"
+		# local filename
+		# assoc_get bashy_assoc_filename filename "${plugin}"
 		# if [[ $filename = 0 ]]
 		# then
 		# 	_bashy_cecho r "\tNO_FILENAME" 1
@@ -197,14 +194,16 @@ function bashy_status_plugins() {
 		# fi
 		if [[ "${enabled}" = 1 ]]
 		then
-			local source="${bashy_array_source[${i}]}"
+			local source
+			assoc_get bashy_assoc_source source "${plugin}"
 			if [[ "${source}" = 0 ]]
 			then
 				_bashy_cecho g "\tLOAD_OK" 1
 			else
 				_bashy_cecho r "\tLOAD_ERROR" 1
 			fi
-			local result="${bashy_array_result[${i}]}"
+			local result
+			assoc_get bashy_assoc_result result "${plugin}"
 			if [[ "${result}" = 0 ]]
 			then
 				_bashy_cecho g "\tRESULT_OK" 1
@@ -213,7 +212,8 @@ function bashy_status_plugins() {
 			fi
 			if is_profile
 			then
-				local diff="${bashy_array_diff[${i}]}"
+				local diff
+				assoc_get bashy_assoc_diff diff "${plugin}"
 				printf "\t%.3f\n" "${diff}"
 			else
 				echo
@@ -223,7 +223,6 @@ function bashy_status_plugins() {
 			_bashy_cecho y "\tNO_RESULT" 1
 			_bashy_cecho y "\tNO_TIME" 0
 		fi
-		((i++))
 	done | column -t
 }
 
@@ -232,7 +231,15 @@ function bashy_errors() {
 	((i=0))
 	for plugin in "${bashy_array_plugin[@]}"
 	do
-		local error="${bashy_array_error[${i}]}"
+		local enabled
+		assoc_get bashy_assoc_enabled enabled "${plugin}"
+		if [[ "${enabled}" = 0 ]]
+		then
+			debug "${plugin} disabled"
+			continue
+		fi
+		local error
+		assoc_get bashy_assoc_error error "${plugin}"
 		if [ "${error}" != "" ]
 		then
 			_bashy_cecho r "${plugin} - ${error}\n" 1
@@ -242,7 +249,6 @@ function bashy_errors() {
 }
 
 function bashy_debug() {
-	_bashy_array_print bashy_array_error
 	_bashy_array_print bashy_array_plugin
 }
 
@@ -279,13 +285,15 @@ function _bashy_init() {
 	declare -ga bashy_core_names
 	declare -ga bashy_core_res
 	_bashy_load_core
+	declare -ga _bashy_array_function
+	assoc_new _bashy_assoc_function
 	declare -ga bashy_array_plugin
-	declare -ga bashy_array_found
-	declare -ga bashy_array_filename
-	declare -ga bashy_array_source
-	declare -ga bashy_array_result
-	declare -ga bashy_array_error
-	declare -ga bashy_array_diff
+	assoc_new bashy_assoc_found
+	assoc_new bashy_assoc_filename
+	assoc_new bashy_assoc_source
+	assoc_new bashy_assoc_result
+	assoc_new bashy_assoc_error
+	assoc_new bashy_assoc_diff
 	assoc_new bashy_assoc_enabled
 	debug "bashy_starting"
 	_bashy_read_plugins
