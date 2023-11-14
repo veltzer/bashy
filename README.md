@@ -22,6 +22,10 @@ It is plugin based and allows for easy extension.
 
 ![build](https://github.com/veltzer/bashy/workflows/build/badge.svg)
 
+## Demo
+
+![Demo](session.gif)
+
 ## Installing Bashy
 
 First clone the repository into your home directory:

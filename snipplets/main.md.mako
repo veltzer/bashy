@@ -5,6 +5,10 @@ It is plugin based and allows for easy extension.
 
 ![build](https://github.com/veltzer/bashy/workflows/build/badge.svg)
 
+<%text>## Demo</%text>
+
+![Demo](session.gif)
+
 <%text>## Installing Bashy</%text>
 
 First clone the repository into your home directory:
