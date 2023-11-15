@@ -1,4 +1,4 @@
-# This will install brew into your home folder
+# This plugin will make sure you have the brew command at your disposal
 
 function _activate_brew() {
 	local -n __var=$1
@@ -7,9 +7,16 @@ function _activate_brew() {
 	if ! checkDirectoryExists "${BREW_HOME}" __var __error; then return; fi
 	_bashy_pathutils_add_head PATH "${BREW_HOME}/bin"
 	if ! checkInPath "brew" __var __error; then return; fi
+	export BREW_HOME
+	# these are needed for homebrew
+	export HOMEBREW_PREFIX="${HOME}/install/homebrew";
+	export HOMEBREW_CELLAR="${HOME}/install/homebrew/Cellar";
+	export HOMEBREW_REPOSITORY="${HOME}/install/homebrew";
 	__var=0
 }
 
+# https://docs.brew.sh/Installation#untar-anywhere-unsupported
+# https://superuser.com/questions/619498/can-i-install-homebrew-without-sudo-privileges
 function _install_brew() {
 	folder="${HOME}/install/homebrew"
 	rm -rf "${folder}"

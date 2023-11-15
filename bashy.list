@@ -49,7 +49,7 @@ k8s
 helm
 # lens
 minikube
-# brew
+brew
 # local_python
 gradle
 encfs
