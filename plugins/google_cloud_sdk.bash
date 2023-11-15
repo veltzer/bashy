@@ -19,4 +19,8 @@ function _install_google_cloud_sdk() {
 	gcloud components update
 }
 
+function _bashy_gcloud_update() {
+	gcloud components update
+}
+
 register_interactive _activate_google_cloud_sdk

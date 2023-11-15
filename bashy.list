@@ -6,9 +6,9 @@ tmux
 # infrastructure plugins
 inf_prompt
 # the powerline plugin must be before other plugins that customize the shell
-# powerline
+-powerline
 venv
-# pypowerline
+-pypowerline
 powerline-shell
 -starship
 # other plugins
@@ -35,7 +35,7 @@ ruby
 go
 phantomjs
 rust
-# bigdata
+-bigdata
 system_default_bashrc
 umask
 vim
@@ -47,10 +47,10 @@ terraform
 eksctl
 k8s
 helm
-# lens
+-lens
 minikube
 brew
-# local_python
+-local_python
 gradle
 encfs
 node
