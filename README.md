@@ -1,6 +1,6 @@
 ## bashy
 
-version: 0.0.82
+version: 0.0.83
 
 description: bashy handles bash configuration for you
 
