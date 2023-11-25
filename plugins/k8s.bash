@@ -15,11 +15,16 @@ function _install_k8s() {
 	set +e
 	# instructions for installing k8s are at
 	# https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
-	# version=$(curl --silent --location "https://dl.k8s.io/release/stable.txt")
-	version="v1.26.7"
+	if true
+	then
+		version=$(curl --silent --location "https://dl.k8s.io/release/stable.txt")
+		echo "installing latest version ${version}"
+	else
+		version="v1.26.7"
+		echo "installing hardcoded version ${version}"
+	fi
 	folder="${HOME}/install/k8s"
 	executable="${folder}/kubectl"
-	echo "installing version ${version}"
 	rm -rf "${folder}" || true
 	mkdir -p "${folder}"
 	curl --location --silent --output "${executable}" "https://dl.k8s.io/release/${version}/bin/linux/amd64/kubectl"
