@@ -69,7 +69,6 @@ function _install_awscli() {
 	executable="${HOME}/install/aws/bin/aws-iam-authenticator"
 	curl -Lo "${executable}" "${download_file}"
 	chmod +x "${executable}" 
-
 }
 
 function _uninstall_awscli() {
