@@ -1,9 +1,9 @@
+# This is a plugin to help you work with minikube
+# It does NOT define the MINIKUBE_HOME which default is to ~
+
 function _activate_minikube() {
 	local -n __var=$1
 	local -n __error=$2
-	MINIKUBE_PATH="${HOME}/install/minikube"
-	if ! checkDirectoryExists "${MINIKUBE_PATH}" __var __error; then return; fi
-	_bashy_pathutils_add_head PATH "${MINIKUBE_PATH}"
 	if ! checkInPath "minikube" __var __error; then return; fi
 	# shellcheck disable=1090
 	source <(minikube completion bash)
@@ -12,10 +12,8 @@ function _activate_minikube() {
 
 function _install_minikube() {
 	# https://minikube.sigs.k8s.io/docs/start/
-	folder="${HOME}/install/minikube"
+	folder="${HOME}/install/binaries"
 	executable="${folder}/minikube"
-	rm -rf "${folder}" || true
-	mkdir -p "${folder}"
 	curl --location --silent --output "${executable}" "https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64"
 	chmod +x "${executable}"
 }
