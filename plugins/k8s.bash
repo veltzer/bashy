@@ -1,10 +1,10 @@
+# this is a plugin to:
+# provide install for latest kubectl
+# provide bash completions for kubectl(1)
+
 function _activate_k8s() {
 	local -n __var=$1
 	local -n __error=$2
-	K8S_HOME="${HOME}/install/k8s"
-	if ! checkDirectoryExists "${K8S_HOME}" __var __error; then return; fi
-	export K8S_HOME
-	_bashy_pathutils_add_head PATH "${K8S_HOME}"
 	if ! checkInPath "kubectl" __var __error; then return; fi
 	# shellcheck disable=1090
 	source <(kubectl completion bash)
@@ -23,22 +23,21 @@ function _install_k8s() {
 		version="v1.26.7"
 		echo "installing hardcoded version ${version}"
 	fi
-	folder="${HOME}/install/k8s"
+	folder="${HOME}/install/binaries"
 	executable="${folder}/kubectl"
-	rm -rf "${folder}" || true
-	mkdir -p "${folder}"
 	curl --location --silent --output "${executable}" "https://dl.k8s.io/release/${version}/bin/linux/amd64/kubectl"
 	chmod +x "${executable}"
 }
 
 function _uninstall_k8s() {
-	folder="${HOME}/install/k8s"
-	if [ -d "${folder}" ]
+	folder="${HOME}/install/binaries"
+	executable="${folder}/kubectl"
+	if [ -f "${executable}" ]
 	then
-		echo "removing ${folder}"
-		rm -rf "${folder}"
+		echo "removing ${executable}"
+		rm "${executable}"
 	else
-		echo "no k8s detected"
+		echo "no kubectl detected"
 	fi
 }
 
