@@ -17,7 +17,9 @@ function _install_lazygit() {
 }
 
 function _activate_lazygit() {
-	:
+	local -n __var=$1
+	local -n __error=$2
+	__var=0
 }
 
 register _activate_lazygit

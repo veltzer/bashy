@@ -46,6 +46,7 @@ gh
 terraform
 eksctl
 k8s
+oc
 helm
 -lens
 minikube
