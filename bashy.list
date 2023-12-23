@@ -44,6 +44,7 @@ awscli
 aws_bash_completions
 gh
 terraform
+packer
 eksctl
 k8s
 oc
