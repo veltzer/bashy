@@ -22,3 +22,5 @@
 	and bashy_on to turn it back on.
 - added a vesion so that bashy could report it's version
 - move all bashy_array to bashy_assoc
+- add plugin that does bash completion programatically for applications such as pandoc(1):
+	$ eval "$(pandoc --bash-completion)"
