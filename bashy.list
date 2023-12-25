@@ -15,6 +15,7 @@ powerline-shell
 ansible
 bash_completions_userdir
 bash_completions_system
+bash_completions_prog
 bash
 history
 careful_aliases
