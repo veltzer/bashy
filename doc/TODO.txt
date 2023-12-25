@@ -1,3 +1,5 @@
+- add plugin that does bash completion programatically for applications such as pandoc(1):
+	$ eval "$(pandoc --bash-completion)"
 - all bashy functions should start with _bashy_
 	the first underscore is so that their names will not clutter the command line
 	the "bashy" is to distiniguish them from other bash tools/frameworks.
