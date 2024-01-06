@@ -10,7 +10,7 @@ function jrun() {
 
 	if [[ ${#} == 0 ]]
 	then
-		echo "pyrun: error: usage: pyrun [relative_path]"
+		echo "jrun: error: usage: jrun [relative_path]"
 		return
 	fi
 
@@ -18,11 +18,20 @@ function jrun() {
 	module=${1%.java}
 	# remove ./ if exists
 	module=${module#\./}
+	# remove first src/
+	module=${module#src/}
 	# replace slashes by dots
 	module=${module//\//.}
-	# trailing slash / dot
+	# remove trailing slash / dot
 	module=${module%.}
 	java -classpath out "${module}" "${@:2}"
+	# echo "${module}"
 }
 
-register _activate_python
+function _activate_java_jrun() {
+	local -n __var=$1
+	local -n __error=$2
+	__var=0
+}
+
+register _activate_java_jrun
