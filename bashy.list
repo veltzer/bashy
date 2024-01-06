@@ -79,3 +79,5 @@ ssh_agent
 complete
 lazygit
 audacity
+# java
+java_jrun
