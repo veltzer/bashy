@@ -93,7 +93,7 @@ function pydmt_prompt() {
 					return
 				fi
 				pydmt_debug "running pydmt build_venv in [${GIT_REPO}]"
-				if (cd "${GIT_REPO}" || exit 1; ${_BASHY_PYDMT_TOOL} build_venv 2> /tmp/errors)
+				if (cd "${GIT_REPO}" || exit 1; ${_BASHY_PYDMT_TOOL} build_venv --add-dev True 2> /tmp/errors)
 				then
 					pydmt_debug "created virtualenv using pydmt build_venv"
 					if [ -n "${VIRTUAL_ENV}" ]
