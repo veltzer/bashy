@@ -19,6 +19,7 @@ bash_completions_prog
 bash
 history
 careful_aliases
+pager
 development_aliases
 fzf
 git
