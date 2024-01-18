@@ -64,7 +64,10 @@ function _bashy_read_plugins() {
 	filename="${HOME}/.bashy/bashy.list"
 	_bashy_read_plugins_filename "${filename}"
 	filename="${HOME}/.bashy.list"
-	_bashy_read_plugins_filename "${filename}"
+	if [ -f "${filename}" ]
+	then
+		_bashy_read_plugins_filename "${filename}"
+	fi
 }
 
 function _bashy_load_plugins() {
