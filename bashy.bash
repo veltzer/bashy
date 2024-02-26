@@ -241,12 +241,16 @@ function bashy_errors() {
 			debug "${plugin} disabled"
 			continue
 		fi
+		local result
+		assoc_get bashy_assoc_result result "${plugin}"
+		if [[ "${result}" = 0 ]]
+		then
+			debug "${plugin} succeeded"
+			continue
+		fi
 		local error
 		assoc_get bashy_assoc_error error "${plugin}"
-		if [ "${error}" != "" ]
-		then
-			_bashy_cecho r "${plugin} - ${error}\n" 1
-		fi
+		_bashy_cecho r "${plugin} - [${error}]\n" 1
 		((i++))
 	done
 }

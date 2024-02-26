@@ -7,7 +7,12 @@ function _activate_k8s() {
 	local -n __error=$2
 	if ! checkInPath "kubectl" __var __error; then return; fi
 	# shellcheck disable=1090
-	source <(kubectl completion bash)
+	if ! source <(kubectl completion bash)
+	then
+		__var=1
+		__error="problem in sourcing kubectl completion"
+		return
+	fi
 	__var=0
 }
 

@@ -8,7 +8,13 @@ function _activate_fzf() {
 	FILE="${HOME}/.fzf.bash"
 	if ! checkReadableFile "${FILE}" __var __error; then return; fi
 	# shellcheck source=/dev/null
-	source "${FILE}"
+	if ! source "${FILE}"
+	then
+		local error=$?
+		__var="${error}"
+		__error="trouble with sourcing fzf config file [${error}]"
+		return
+	fi
 	__var=0
 }
 
