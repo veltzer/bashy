@@ -4,7 +4,7 @@ function _activate_system_default_bashrc() {
 	# This script sources the systems default .bashrc.
 	BASHRC="/etc/bash.bashrc"
 	if ! checkReadableFile "${BASHRC}" __var __error; then return; fi
-	# shellcheck disable=1090
+	# shellcheck source=/dev/null
 	if ! source "${BASHRC}"
 	then
 		__var=$?

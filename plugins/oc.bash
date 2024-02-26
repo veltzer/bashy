@@ -5,7 +5,7 @@ function _activate_oc() {
 	local -n __var=$1
 	local -n __error=$2
 	if ! checkInPath "oc" __var __error; then return; fi
-	# shellcheck disable=1090
+	# shellcheck source=/dev/null
 	if ! source <(oc completion bash)
 	then
 		__var=$?

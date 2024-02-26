@@ -5,7 +5,7 @@ function _activate_starship() {
 	local -n __error=$2
 	if ! checkInPath "starship" __var __error; then return; fi
 	eval "$(starship init bash)"
-	# shellcheck disable=1090
+	# shellcheck source=/dev/null
 	if ! source <(starship completions bash)
 	then
 		__var=$?
