@@ -6,7 +6,12 @@ function _activate_starship() {
 	if ! checkInPath "starship" __var __error; then return; fi
 	eval "$(starship init bash)"
 	# shellcheck disable=1090
-	source <(starship completions bash)
+	if ! source <(starship completions bash)
+	then
+		__var=$?
+		__error="could not source startship completion"
+		return
+	fi
 	__var=0
 }
 

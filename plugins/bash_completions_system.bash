@@ -5,12 +5,20 @@ function _activate_bash_completions_system() {
 	FILE2="/etc/bash_completion"
 	if ! checkReadableFile "${FILE1}" __var __error; then return; fi
 	if ! checkReadableFile "${FILE2}" __var __error; then return; fi
-	_bashy_before_thirdparty
 	# shellcheck source=/dev/null
-	source "${FILE1}"
+	if ! source "${FILE1}"
+	then
+		__var=$?
+		__error="could not source [${FILE1}]"
+		return
+	fi
 	# shellcheck source=/dev/null
-	source "${FILE2}"
-	_bashy_after_thirdparty
+	if ! source "${FILE2}"
+	then
+		__var=$?
+		__error="could not source [${FILE2}]"
+		return
+	fi
 	__var=0
 }
 

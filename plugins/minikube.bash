@@ -6,7 +6,12 @@ function _activate_minikube() {
 	local -n __error=$2
 	if ! checkInPath "minikube" __var __error; then return; fi
 	# shellcheck disable=1090
-	source <(minikube completion bash)
+	if ! source <(minikube completion bash)
+	then
+		__var=$?
+		__error="could not source minikube completion"
+		return
+	fi
 	__var=0
 }
 

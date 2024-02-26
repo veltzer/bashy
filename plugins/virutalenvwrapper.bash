@@ -28,7 +28,12 @@ function _activate_virtualenvwrapper() {
 		return
 	fi
 	# shellcheck source=/dev/null
-	source "${FOUND_IN}"
+	if ! source "${FOUND_IN}"
+	then
+		__var=$?
+		__error="could not source [${FOUND_IN}]"
+		return
+	fi
 	__var=0
 }
 

@@ -6,12 +6,16 @@ function _activate_oc() {
 	local -n __error=$2
 	if ! checkInPath "oc" __var __error; then return; fi
 	# shellcheck disable=1090
-	source <(oc completion bash)
+	if ! source <(oc completion bash)
+	then
+		__var=$?
+		__error="could not source oc completion"
+		return
+	fi
 	__var=0
 }
 
 function _install_oc() {
-	set +e
 	# instructions for installing oc are at
 	# https://access.redhat.com/documentation/en-us/red_hat_build_of_microshift/4.12/html/cli_tools/microshift-oc-cli-install
 	# But I'm using a different download link to account the need to log-in with a redhat account

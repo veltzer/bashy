@@ -5,12 +5,20 @@ function _activate_nvm() {
 	NVM_DIR="${HOME}/.nvm"
 	if ! checkReadableFile "${NVM_DIR}/nvm.sh" __var __error; then return; fi
 	if ! checkReadableFile "${NVM_DIR}/bash_completion" __var __error; then return; fi
-	_bashy_before_thirdparty
 	# shellcheck source=/dev/null
-	source "${NVM_DIR}/nvm.sh"
+	if ! source "${NVM_DIR}/nvm.sh"
+	then
+		__var=$?
+		__error="could not source nvm.sh"
+		return
+	fi
 	# shellcheck source=/dev/null
-	source "${NVM_DIR}/bash_completion"
-	_bashy_after_thirdparty
+	if ! source "${NVM_DIR}/bash_completion"
+	then
+		__var=$?
+		__error="could not source nvm bash_completion"
+		return
+	fi
 	__var=0
 }
 

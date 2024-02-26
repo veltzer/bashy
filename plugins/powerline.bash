@@ -12,10 +12,13 @@ function _activate_powerline() {
 	# "${EXECUTABLE}" -q
 	export POWERLINE_BASH_CONTINUATION=1
 	export POWERLINE_BASH_SELECT=1
-	_bashy_before_thirdparty
 	# shellcheck source=/dev/null
-	source /usr/share/powerline/bindings/bash/powerline.sh
-	_bashy_after_thirdparty
+	if ! source /usr/share/powerline/bindings/bash/powerline.sh
+	then
+		__var=$?
+		__error="could not sourec powerline.sh"
+		return
+	fi
 	__var=0
 }
 

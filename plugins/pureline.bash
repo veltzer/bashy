@@ -9,7 +9,12 @@ function _activate_pureline() {
 		return
 	fi
 	# shellcheck source=/dev/null
-	source "${HOME}/install/pureline/pureline" "${HOME}/.pureline.conf"
+	if ! source "${HOME}/install/pureline/pureline" "${HOME}/.pureline.conf"
+	then
+		__var=$?
+		__error="could not source ${HOME}/install/pureline/pureline or ${HOME}/.pureline.conf"
+		return
+	fi
 	__var=0
 }
 
