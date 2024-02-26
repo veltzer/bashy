@@ -50,10 +50,13 @@ function _activate_bash_it() {
 	# export BASH_IT_AUTOMATIC_RELOAD_AFTER_CONFIG_CHANGE=1
 
 	# Load Bash It
-	_bashy_before_thirdparty
 	# shellcheck source=/dev/null
-	source "${BASH_IT}/bash_it.sh"
-	_bashy_after_thirdparty
+	if ! source "${BASH_IT}/bash_it.sh"
+	then
+		__var=$?
+		__error="could not source bash_it.sh"
+		return
+	fi
 	__var=0
 }
 

@@ -12,7 +12,12 @@ function _activate_venv() {
 	if ! checkDirectoryExists "${VENV}" __var __error; then return; fi
 	# activate the virtual envrionment
 	# shellcheck source=/dev/null
-	source "${VENV}/bin/activate"
+	if ! source "${VENV}/bin/activate"
+	then
+		__var=$?
+		__error="could not activate virtual env"
+		return
+	fi
 	__var=0
 }
 

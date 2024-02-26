@@ -5,9 +5,19 @@ function _activate_google_cloud_sdk() {
 	if ! checkDirectoryExists "${GOOGLE_CLOUD_HOME}" __var __error; then return; fi
 	export GOOGLE_CLOUD_HOME
 	# shellcheck source=/dev/null
-	source "${GOOGLE_CLOUD_HOME}/path.bash.inc"
+	if ! source "${GOOGLE_CLOUD_HOME}/path.bash.inc"
+	then
+		__var=$?
+		__error="could not source google cloud path"
+		return
+	fi
 	# shellcheck source=/dev/null
-	source "${GOOGLE_CLOUD_HOME}/completion.bash.inc"
+	if ! source "${GOOGLE_CLOUD_HOME}/completion.bash.inc"
+	then
+		__var=$?
+		__error="could not source google cloud bash completion"
+		return
+	fi
 	__var=0
 }
 

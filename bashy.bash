@@ -307,7 +307,7 @@ function _bashy_init() {
 	_bashy_load_plugins
 	_bashy_run_plugins
 	debug "bashy_ending"
-	bashy_errors
+	# bashy_errors
 }
 
 # now run _bashy_init

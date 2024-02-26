@@ -4,7 +4,11 @@ function _activate_ng() {
 	local -n __error=$2
 	if ! checkInPath "ng" __var __error; then return; fi
 	# shellcheck source=/dev/null
-	source <(ng completion script)
+	if ! source <(ng completion script)
+	then
+		__var=$?
+		__error="could not source ng completion script"
+	fi
 	__var=0
 }
 

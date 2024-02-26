@@ -10,7 +10,12 @@ function _activate_rvm() {
 	export RUBY_VERSION="2.3.3"
 	_bashy_pathutils_add_tail PATH "${RVM_BIN}"
 	# shellcheck source=/dev/null
-	source "${RVM_SCRIPTS}"
+	if ! source "${RVM_SCRIPTS}"
+	then
+		__var=$?
+		_error="could not source rvm scripts"
+		return
+	fi
 	__var=0
 }
 

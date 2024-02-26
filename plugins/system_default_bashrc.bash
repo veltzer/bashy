@@ -6,7 +6,12 @@ function _activate_system_default_bashrc() {
 	if ! checkReadableFile "${BASHRC}" __var __error; then return; fi
 	_bashy_before_thirdparty
 	# shellcheck disable=1090
-	source "${BASHRC}"
+	if ! source "${BASHRC}"
+	then
+		__var=$?
+		__error="could not source [${BASHRC}]"
+		return
+	fi
 	_bashy_after_thirdparty
 	__var=0
 }
