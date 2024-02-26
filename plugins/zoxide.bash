@@ -1,3 +1,6 @@
+# this is a plugin for zoxide
+# take a look at https://github.com/ajeetdsouza/zoxide
+
 function _activate_zoxide() {
 	local -n __var=$1
 	local -n __error=$2

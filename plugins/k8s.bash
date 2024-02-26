@@ -1,4 +1,4 @@
-# this is a plugin to:
+# this is a plugin for kubectl and the like
 # provide install for latest kubectl
 # provide bash completions for kubectl(1)
 
