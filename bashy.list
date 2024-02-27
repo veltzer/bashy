@@ -20,13 +20,13 @@ bash
 history
 careful_aliases
 pager
-development_aliases
 fzf
 zoxide
 git
 gzip
 hostaliases
-ls
+-ls
+lsd
 manpath
 homedir_install
 path_dot_local
