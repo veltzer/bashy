@@ -12,7 +12,7 @@ function _install_nvim() {
 	# verison="latest"
 	folder="${HOME}/install/binaries"
 	executable="${folder}/nvim"
-	curl --location --silent --output "${executable}" "https://github.com/neovim/neovim/releases/${version}/download/nvim.appimage"
+	curl --location --silent --output "${executable}" "https://github.com/neovim/neovim/releases/download/${version}/nvim.appimage"
 	chmod +x "${executable}"
 }
 
