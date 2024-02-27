@@ -14,4 +14,9 @@ function _install_nvim() {
 	chmod +x "${executable}"
 }
 
+function _config_nvim() {
+  rm -rf "${HOME}/.config/nvim"
+  git clone "https://github.com/LunarVim/Neovim-from-scratch.git" "${HOME}/.config/nvim" > /dev/null 2> /dev/null
+}
+
 register_interactive _activate_nvim
