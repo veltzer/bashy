@@ -18,7 +18,8 @@ function _install_nvim() {
 
 function _config_nvim() {
   rm -rf "${HOME}/.config/nvim"
-  git clone "https://github.com/LunarVim/Neovim-from-scratch.git" "${HOME}/.config/nvim" > /dev/null 2> /dev/null
+  # git clone "https://github.com/LunarVim/Neovim-from-scratch.git" "${HOME}/.config/nvim" > /dev/null 2> /dev/null
+  git clone "https://github.com/veltzer/config-nvim.git" "${HOME}/.config/nvim" > /dev/null 2> /dev/null
 }
 
 register_interactive _activate_nvim
