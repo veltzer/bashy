@@ -1,0 +1,17 @@
+function _activate_nvim() {
+	local -n __var=$1
+	local -n __error=$2
+	if ! checkInPath "nvim" __var __error; then return; fi
+	alias vi="nvim"
+	__var=0
+}
+
+function _install_nvim() {
+	# https://github.com/neovim/neovim/blob/master/INSTALL.md
+	folder="${HOME}/install/binaries"
+	executable="${folder}/nvim"
+	curl --location --silent --output "${executable}" "https://github.com/neovim/neovim/releases/latest/download/nvim.appimage"
+	chmod +x "${executable}"
+}
+
+register_interactive _activate_nvim
