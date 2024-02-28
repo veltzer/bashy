@@ -8,11 +8,13 @@ function _activate_nvim() {
 
 function _install_nvim() {
 	# https://github.com/neovim/neovim/blob/master/INSTALL.md
-	version="v0.8.3"
-	# verison="latest"
+	# version="v0.8.3"
+	version="latest"
 	folder="${HOME}/install/binaries"
 	executable="${folder}/nvim"
-	curl --location --silent --output "${executable}" "https://github.com/neovim/neovim/releases/download/${version}/nvim.appimage"
+  rm -f "${executable}"
+	# curl --location --silent --output "${executable}" "https://github.com/neovim/neovim/releases/download/${version}/nvim.appimage"
+	curl --location --silent --output "${executable}" "https://github.com/neovim/neovim/releases/${version}/download/nvim.appimage"
 	chmod +x "${executable}"
 }
 
