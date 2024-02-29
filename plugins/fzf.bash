@@ -1,4 +1,4 @@
-function _activate_fzf() {
+function _activate_fzf_ubuntu() {
 	local -n __var=$1
 	local -n __error=$2
 	# it seems that this collides with bash completion
@@ -15,6 +15,18 @@ function _activate_fzf() {
 		__error="trouble with sourcing fzf config file [${error}]"
 		return
 	fi
+	__var=0
+}
+
+function _activate_fzf() {
+	local -n __var=$1
+	local -n __error=$2
+	FZF_PATH="${HOME}/install/fzf"
+	local FZF_PATHBIN="${FZF_PATH}/bin"
+	if ! checkDirectoryExists "${FZF_PATH}" __var __error; then return; fi
+	if ! checkDirectoryExists "${FZF_PATHBIN}" __var __error; then return; fi
+	_bashy_pathutils_add_head PATH "${FZF_PATHBIN}"
+	export FZF_PATH
 	__var=0
 }
 
