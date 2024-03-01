@@ -37,4 +37,12 @@ function _install_nvim_2() {
 	curl --location --silent "https://github.com/neovim/neovim/releases/${version}/download/nvim-linux64.tar.gz" | tar xz -C "${HOME}/install"
 }
 
+function _clean_nvim() {
+	rm -rf "${HOME}/.cache/nvim" "${HOME}/.local/share/nvim" "${HOME}/.local/state/nvim"
+}
+
+function _config_clean_nvim() {
+	rm -rf "${HOME}/.config/nvim"
+}
+
 register_interactive _activate_nvim
