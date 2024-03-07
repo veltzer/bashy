@@ -14,7 +14,7 @@ function _activate_nvim() {
 	if ! checkDirectoryExists "${NVIM_PATHBIN}" __var __error; then return; fi
 	_bashy_pathutils_add_head PATH "${NVIM_PATHBIN}"
 	export NVIM_PATH
-	alias vi="nvim"
+	# alias vi="nvim"
 	__var=0
 }
 
@@ -24,7 +24,7 @@ function _install_nvim() {
 	version="latest"
 	folder="${HOME}/install/binaries"
 	executable="${folder}/nvim"
-  rm -f "${executable}"
+	rm -f "${executable}"
 	# curl --location --silent --output "${executable}" "https://github.com/neovim/neovim/releases/download/${version}/nvim.appimage"
 	curl --location --silent --output "${executable}" "https://github.com/neovim/neovim/releases/${version}/download/nvim.appimage"
 	chmod +x "${executable}"
