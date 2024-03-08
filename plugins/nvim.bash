@@ -18,7 +18,7 @@ function _activate_nvim() {
 	__var=0
 }
 
-function _install_nvim() {
+function _install_nvim_latest_appimage() {
 	# https://github.com/neovim/neovim/blob/master/INSTALL.md
 	# version="v0.8.3"
 	version="latest"
@@ -30,11 +30,18 @@ function _install_nvim() {
 	chmod +x "${executable}"
 }
 
-function _install_nvim_2() {
+function _install_nvim_latest_tar() {
 	version="latest"
 	folder="${HOME}/install/nvim-linux64"
 	rm -rf "${folder}"
 	curl --location --silent "https://github.com/neovim/neovim/releases/${version}/download/nvim-linux64.tar.gz" | tar xz -C "${HOME}/install"
+}
+
+function _install_nvim_nightly_tar() {
+	version="nightly"
+	folder="${HOME}/install/nvim-linux64"
+	rm -rf "${folder}"
+	curl --location --silent "https://github.com/neovim/neovim-releases/releases/download/${version}/nvim-linux64.tar.gz" | tar xz -C "${HOME}/install"
 }
 
 function _clean_nvim() {
