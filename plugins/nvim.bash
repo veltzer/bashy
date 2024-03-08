@@ -44,6 +44,10 @@ function _install_nvim_nightly_tar() {
 	curl --location --silent "https://github.com/neovim/neovim-releases/releases/download/${version}/nvim-linux64.tar.gz" | tar xz -C "${HOME}/install"
 }
 
+function _install_nvim_ubuntu() {
+	sudo apt install ubuntu
+}
+
 function _clean_nvim() {
 	rm -rf "${HOME}/.cache/nvim" "${HOME}/.local/share/nvim" "${HOME}/.local/state/nvim"
 }
