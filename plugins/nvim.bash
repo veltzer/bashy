@@ -45,7 +45,7 @@ function _install_nvim_nightly_tar() {
 }
 
 function _install_nvim_ubuntu() {
-	sudo apt install nvim
+	sudo apt install neovim
 }
 
 function _clean_nvim() {
