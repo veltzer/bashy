@@ -35,6 +35,7 @@ postgresql
 python
 perl
 ruby
+guile
 go
 phantomjs
 rust
