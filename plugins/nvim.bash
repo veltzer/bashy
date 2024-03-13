@@ -1,11 +1,11 @@
-function _activate_nvim_ubuntu() {
+function _activate_nvim() {
 	local -n __var=$1
 	local -n __error=$2
 	if ! checkInPath "nvim" __var __error; then return; fi
 	# alias vi="nvim"
 	__var=0
 }
-function _activate_nvim() {
+function _activate_nvim_with_folder() {
 	local -n __var=$1
 	local -n __error=$2
 	NVIM_PATH="${HOME}/install/nvim-linux64"
