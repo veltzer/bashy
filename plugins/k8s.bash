@@ -32,6 +32,7 @@ function _install_k8s() {
 	executable="${folder}/kubectl"
 	curl --location --silent --output "${executable}" "https://dl.k8s.io/release/${version}/bin/linux/amd64/kubectl"
 	chmod +x "${executable}"
+	set -e
 }
 
 function _uninstall_k8s() {

@@ -10,4 +10,16 @@ function _activate_go() {
 	__var=0
 }
 
+function _install_go() {
+	set +e
+	# https://go.dev/dl/
+	version="1.22.1"
+	url="https://go.dev/dl/go${version}.linux-amd64.tar.gz"
+	folder="${HOME}/install/"
+	full_folder="${folder}/go"
+	rm -rf "${full_folder}"
+	curl --location --silent "${url}" | tar xz -C "${folder}"
+	set -e
+}
+
 register _activate_go
