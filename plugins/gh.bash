@@ -18,7 +18,7 @@ function _install_gh() {
 	echo "download_file is ${download_file}"
 	curl --location --silent "${download_file}" --output "${tar}"
 	folder="${HOME}/install/binaries"
-	tar xf "${tar}" -C "${folder}" /bin/gh
+	tar xf "${tar}" -C "${folder}" --wildcards "*/bin/gh" --transform 's/.*\/bin\/gh/gh/g' 
 	rm -f "${tar}"
 	# there is not need to set the "x" bit on the file since tar extracts it with the right bits
 	# executable="${folder}/lazygit"
