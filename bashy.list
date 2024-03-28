@@ -54,6 +54,7 @@ eksctl
 k8s
 oc
 helm
+hugo
 -lens
 minikube
 brew
