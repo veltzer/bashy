@@ -10,6 +10,10 @@ function _activate_rust() {
 	__var=0
 }
 
+function _install_rust_2() {
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+}
+
 function _install_rust() {
 	sudo apt install cargo
 }
