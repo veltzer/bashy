@@ -1,12 +1,14 @@
 # This plugin will register a function to be activated on each prompt
 # to check whether a "node_modules/.bin" folder exists and add it to the path.
 
+NODE_PATH="node_modules/.bin"
+
 function node_prompt() {
-	if [ -d "node_modules/.bin" ]
+	if [ -d "${NODE_PATH}" ]
 	then
-		_bashy_pathutils_add_head PATH "node_modules/.bin"
+		_bashy_pathutils_add_head PATH "${NODE_PATH}"
 	else
-		_bashy_pathutils_remove PATH "node_modules/.bin"
+		_bashy_pathutils_remove PATH "${NODE_PATH}"
 	fi
 }
 
