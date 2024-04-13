@@ -4,11 +4,44 @@
 gems_path="gems/bin"
 
 function prompt_gems() {
-	if [ -d "${gems_path}" ]
+	if ! git_is_inside
 	then
-		_bashy_pathutils_add_head PATH "${gems_path}"
+		if var_is_defined PROMPT_GEMS_ADDED
+		then
+			echo "prompt_gems: down"
+			_bashy_pathutils_remove PATH "${PROMPT_GEMS_ADDED}"
+			unset PROMPT_GEMS_ADDED
+		fi
+		return
+	fi
+
+	git_root=""
+	git_top_level git_root
+	prompt_gems_added="${git_root}/${gems_path}"
+	if [ -d "${prompt_gems_added}" ]
+	then
+		if var_is_defined PROMPT_GEMS_ADDED 
+		then
+			if [ "${PROMPT_GEMS_ADDED}" == "${prompt_gems_added}" ]
+			then
+				return
+			else
+				echo "prompt_gems: down"
+				_bashy_pathutils_remove PATH "${PROMPT_GEMS_ADDED}"
+				unset PROMPT_GEMS_ADDED
+			fi
+		fi
+		# if ! _bashy_pathutils_is_in_path "${prompt_gems_added}"
+		echo "prompt_gems: up"
+		export PROMPT_GEMS_ADDED="${prompt_gems_added}"
+		_bashy_pathutils_add_head PATH "${PROMPT_GEMS_ADDED}"
 	else
-		_bashy_pathutils_remove PATH "${gems_path}"
+		if var_is_defined PROMPT_GEMS_ADDED 
+		then
+			echo "prompt_gems: down"
+			_bashy_pathutils_remove PATH "${PROMPT_GEMS_ADDED}"
+			unset PROMPT_GEMS_ADDED
+		fi
 	fi
 }
 
