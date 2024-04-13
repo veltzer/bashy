@@ -1,15 +1,19 @@
 # This script manages your k8s environment for you
 #
 # Here is what it does:
-# - Whenever you 'cd' into a directory it will activate the right
-# k8s cluster for you.
+# - Whenever you 'cd' into a git repo which has a .k8s.conf file in its root
+# it will set it to be the current KUBECONFIG.
 
 k8s_conf_file_name=".k8s.conf"
 
 function k8s_prompt() {
 	if ! git_is_inside
 	then
-		unset KUBECONFIG
+		if var_is_defined KUBECONFIG
+		then
+			echo "prompt_k8s: down"
+			unset KUBECONFIG
+		fi
 		return
 	fi
 
@@ -18,7 +22,17 @@ function k8s_prompt() {
 	k8s_configuration_name="${git_root}/${k8s_conf_file_name}"
 	if [ -r "${k8s_configuration_name}" ]
 	then
-		export KUBECONFIG="${k8s_configuration_name}"
+		if ! var_is_defined KUBECONFIG
+		then
+			echo "prompt_k8s: up"
+			export KUBECONFIG="${k8s_configuration_name}"
+			return
+		fi
+		if [ "${KUBECONFIG}" != "${k8s_configuration_name}" ]
+		then
+			echo "prompt_k8s: up"
+			export KUBECONFIG="${k8s_configuration_name}"
+		fi
 	else
 		unset KUBECONFIG
 	fi

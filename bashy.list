@@ -3,8 +3,8 @@
 
 # tmux needs to be the first
 tmux
-# infrastructure plugins
-inf_prompt
+# infrastructure plugins (prompt and more)
+prompt
 # the powerline plugin must be before other plugins that customize the shell
 -powerline
 venv
@@ -68,14 +68,14 @@ xinput
 # order must be aws, gcp first and only then env
 # but this order must be in *reverse*
 # so the order must be env, gcp, aws
-gems_prompt
-node_prompt
-pydmt_prompt
-env_prompt
-gcp_prompt
-aws_prompt
-k8s_prompt
-error_prompt
+prompt_gems
+prompt_node
+prompt_pydmt
+prompt_env
+prompt_gcp
+prompt_aws
+prompt_k8s
+prompt_error
 # non prompt command continue
 config_core
 nvm
