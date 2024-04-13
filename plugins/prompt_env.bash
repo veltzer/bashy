@@ -1,15 +1,15 @@
 # This plugin manages environment specific scripts for you.
 #
 # Here is what it does:
-# - Whenever you 'cd' into a directory for which there is a .env.enter.sh
-# file in the directory or in any of it's ancestors it will activate
-# it for you.
+# - Whenever you 'cd' into a directory git for which there is a .env.enter.sh
+# at the root it will activate it for you.
 # - Whenyou move out of this directory it will activate the
 # .env.exit.sh script (if exists)
 
 export _BASHY_ENV_DEBUG=1
-export _BASHY_ENV_ACTIVE=0
 export ENV_ACTIVE=""
+env_file_enter=".env.enter.sh"
+env_file_exit=".env.exit.sh"
 
 # function to issue a message if we are in debug mode
 function env_debug() {
@@ -28,76 +28,61 @@ function env_debug_off() {
 	_BASHY_ENV_DEBUG=1
 }
 
-function env_active_on() {
-	_BASHY_ENV_ACTIVE=0
-}
-
-function env_active_off() {
-	_BASHY_ENV_ACTIVE=1
-}
-
 function prompt_env() {
-	if [ "${_BASHY_ENV_ACTIVE}" = 1 ]
+	if ! git_is_inside
 	then
-		env_debug "plugin is deactivated"
-		return
-	fi
-	if git_is_inside
-	then
-		if [ -z "${ENV_ACTIVE}" ]
+		if var_is_defined ENV_ACTIVE
 		then
-			# in git but no env active, this means
-			# - there is no need to turn run .env.exit.sh
-			# - can now digest .env.enter.sh and define ENV_ACTIVE
-			git_top_level GIT_REPO
-			GIT_FILE="${GIT_REPO}/.env.enter.sh"
-			if [ -r "${GIT_FILE}" ]
+			# we are in an environment
+			# need to run .env.exit.sh if it exists and then turn off ENV_ACTIVE
+			git_file="${ENV_ACTIVE}/${env_file_exit}"
+			if [ -r "${git_file}" ]
 			then
-				env_debug "sourcing [${GIT_FILE}]"
+				env_debug "sourcing [${git_file}]"
 				# shellcheck source=/dev/null
-				source "${GIT_FILE}"
-			fi
-			ENV_ACTIVE="${GIT_REPO}"
-			env_debug "ENV_ACTIVE=${ENV_ACTIVE}"
-		else
-			git_top_level GIT_REPO
-			if [ "${ENV_ACTIVE}" != "${GIT_REPO}" ]
-			then
-				# switched repo, exit and then enter
-				GIT_FILE="${ENV_ACTIVE}/.env.exit.sh"
-				if [ -r "${GIT_FILE}" ]
-				then
-					env_debug "sourcing [${GIT_FILE}]"
-					# shellcheck source=/dev/null
-					source "${GIT_FILE}"
-				fi
-				ENV_ACTIVE=""
-				env_debug "ENV_ACTIVE=${ENV_ACTIVE}"
-				git_top_level GIT_REPO
-				GIT_FILE="${GIT_REPO}/.env.enter.sh"
-				if [ -r "${GIT_FILE}" ]
-				then
-					env_debug "sourcing [${GIT_FILE}]"
-					# shellcheck source=/dev/null
-					source "${GIT_FILE}"
-				fi
-				ENV_ACTIVE="${GIT_REPO}"
-				env_debug "ENV_ACTIVE=${ENV_ACTIVE}"
+				source "${git_file}"
+				unset ENV_ACTIVE
 			fi
 		fi
-	else
-		if [ -n "${ENV_ACTIVE}" ]
+		return
+	fi
+	if ! var_is_defined ENV_ACTIVE
+	then
+		# in git but no env active, this means
+		# - there is no need to turn run .env.exit.sh
+		# - can now digest .env.enter.sh and define ENV_ACTIVE
+		git_root=""
+		git_top_level git_root
+		git_file="${git_root}/${env_file_enter}"
+		if [ -r "${git_file}" ]
 		then
-			# env active is not empty
-			# need to run .env.exit.sh and then turn ENV_ACTIVE to empty
-			GIT_FILE="${ENV_ACTIVE}/.env.exit.sh"
-			if [ -r "${GIT_FILE}" ]
-			then
-				env_debug "sourcing [${GIT_FILE}]"
-				# shellcheck source=/dev/null
-				source "${GIT_FILE}"
-			fi
-			ENV_ACTIVE=""
+			env_debug "sourcing [${git_file}]"
+			# shellcheck source=/dev/null
+			source "${git_file}"
+			export ENV_ACTIVE="${git_root}"
+		fi
+		return
+	fi
+	git_root=""
+	git_top_level git_root
+	if [ "${ENV_ACTIVE}" != "${git_root}" ]
+	then
+		# switched repo, exit and then enter
+		git_file="${ENV_ACTIVE}/${env_file_exit}"
+		if [ -r "${git_file}" ]
+		then
+			env_debug "sourcing [${git_file}]"
+			# shellcheck source=/dev/null
+			source "${git_file}"
+			unset ENV_ACTIVE
+		fi
+		git_file="${git_root}/${env_file_enter}"
+		if [ -r "${git_file}" ]
+		then
+			env_debug "sourcing [${git_file}]"
+			# shellcheck source=/dev/null
+			source "${git_file}"
+			export ENV_ACTIVE="${git_root}"
 			env_debug "ENV_ACTIVE=${ENV_ACTIVE}"
 		fi
 	fi
