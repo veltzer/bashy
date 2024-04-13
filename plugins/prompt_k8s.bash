@@ -6,7 +6,7 @@
 
 k8s_conf_file_name=".k8s.conf"
 
-function k8s_prompt() {
+function prompt_k8s() {
 	if ! git_is_inside
 	then
 		if var_is_defined KUBECONFIG
@@ -38,11 +38,11 @@ function k8s_prompt() {
 	fi
 }
 
-function _activate_k8s_prompt() {
+function _activate_prompt_k8s() {
 	local -n __var=$1
 	local -n __error=$2
-	_bashy_prompt_register k8s_prompt
+	_bashy_prompt_register prompt_k8s
 	__var=0
 }
 
-register_interactive _activate_k8s_prompt
+register_interactive _activate_prompt_k8s

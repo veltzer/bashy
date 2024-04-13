@@ -6,7 +6,7 @@
 
 aws_conf_file_name=".aws.conf"
 
-function aws_prompt() {
+function prompt_aws() {
 	assoc_new aws_conf
 	export aws_conf
 
@@ -58,11 +58,11 @@ function aws_prompt() {
 	export AWS_PROFILE="${aws_configuration_name}"
 }
 
-function _activate_aws_prompt() {
+function _activate_prompt_aws() {
 	local -n __var=$1
 	local -n __error=$2
-	_bashy_prompt_register aws_prompt
+	_bashy_prompt_register prompt_aws
 	__var=0
 }
 
-register_interactive _activate_aws_prompt
+register_interactive _activate_prompt_aws

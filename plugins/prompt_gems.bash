@@ -1,22 +1,22 @@
 # This plugin will register a function to be activated on each prompt
 # to check whether a "gems/bin" folder exists and add it to the path.
 
-GEMS_PATH="gems/bin"
+gems_path="gems/bin"
 
-function gems_prompt() {
-	if [ -d "${GEMS_PATH}" ]
+function prompt_gems() {
+	if [ -d "${gems_path}" ]
 	then
-		_bashy_pathutils_add_head PATH "${GEMS_PATH}"
+		_bashy_pathutils_add_head PATH "${gems_path}"
 	else
-		_bashy_pathutils_remove PATH "${GEMS_PATH}"
+		_bashy_pathutils_remove PATH "${gems_path}"
 	fi
 }
 
-function _activate_gems_prompt() {
+function _activate_prompt_gems() {
 	local -n __var=$1
 	local -n __error=$2
-	_bashy_prompt_register gems_prompt
+	_bashy_prompt_register prompt_gems
 	__var=0
 }
 
-register_interactive _activate_gems_prompt
+register_interactive _activate_prompt_gems

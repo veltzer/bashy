@@ -4,7 +4,7 @@
 
 gcp_conf_file_name=".gcp.conf"
 
-function gcp_prompt() {
+function prompt_gcp() {
 	assoc_new gcp_conf
 	export gcp_conf
 
@@ -41,11 +41,11 @@ function gcp_prompt() {
 	fi
 }
 
-function _activate_gcp_prompt() {
+function _activate_prompt_gcp() {
 	local -n __var=$1
 	local -n __error=$2
-	_bashy_prompt_register gcp_prompt
+	_bashy_prompt_register prompt_gcp
 	__var=0
 }
 
-register_interactive _activate_gcp_prompt
+register_interactive _activate_prompt_gcp

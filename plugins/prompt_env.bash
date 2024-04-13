@@ -36,7 +36,7 @@ function env_active_off() {
 	_BASHY_ENV_ACTIVE=1
 }
 
-function env_prompt() {
+function prompt_env() {
 	if [ "${_BASHY_ENV_ACTIVE}" = 1 ]
 	then
 		env_debug "plugin is deactivated"
@@ -103,11 +103,11 @@ function env_prompt() {
 	fi
 }
 
-function _activate_env_prompt() {
+function _activate_prompt_env() {
 	local -n __var=$1
 	local -n __error=$2
-	_bashy_prompt_register env_prompt
+	_bashy_prompt_register prompt_env
 	__var=0
 }
 
-register_interactive _activate_env_prompt
+register_interactive _activate_prompt_env

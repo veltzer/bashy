@@ -1,6 +1,6 @@
 # This is an error prompt which prints a message if $? is not 0
 
-function error_prompt() {
+function prompt_error() {
 	ret=$?
 	if [ "${ret}" -ne 0 ]
 	then
@@ -16,15 +16,15 @@ function error_prompt() {
 	fi
 }
 
-function _activate_error_prompt() {
+function _activate_prompt_error() {
 	local -n __var=$1
 	local -n __error=$2
-	_bashy_prompt_register error_prompt
+	_bashy_prompt_register prompt_error
 	__var=0
 }
 
-function _deactivate_error_prompt() {
-	_bashy_prompt_deregister error_prompt
+function _deactivate_prompt_error() {
+	_bashy_prompt_deregister prompt_error
 }
 
-register_interactive _activate_error_prompt _deactivate_error_prompt
+register_interactive _activate_prompt_error _deactivate_prompt_error

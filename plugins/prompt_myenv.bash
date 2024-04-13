@@ -13,7 +13,7 @@
 # - to recreate the venvs for a bunch for folders activate
 # myenv_recreate in each the folders. It *is not* enough to just
 # cd into these folders as part of a command line since then
-# myenv_prompt will not be activated.
+# prompt_myenv will not be activated.
 #
 # Below are APIs to the general public - do not break them.
 #
@@ -274,7 +274,7 @@ function myenv_activate() {
 	fi
 }
 
-function myenv_prompt_inner() {
+function prompt_myenv_inner() {
 	myenv_getconf
 
 	# if we are in a virtual env which is not myenv related
@@ -320,8 +320,8 @@ function myenv_prompt_inner() {
 	fi
 }
 
-function myenv_prompt() {
-	myenv_prompt_inner
+function prompt_myenv() {
+	prompt_myenv_inner
 	if [ "${VIRTUAL_ENV}" ]
 	then
 		export myenv_powerline_virtual_env_python_version="${myenv_virtual_env_python_version}"
@@ -330,12 +330,12 @@ function myenv_prompt() {
 	fi
 }
 
-function _activate_myenv_prompt() {
+function _activate_prompt_myenv() {
 	local -n __var=$1
 	local -n __error=$2
 	if ! checkInPath "md5sum" __var __error; then return; fi
-	_bashy_prompt_register myenv_prompt
+	_bashy_prompt_register prompt_myenv
 	__var=0
 }
 
-register_interactive _activate_myenv_prompt
+register_interactive _activate_prompt_myenv

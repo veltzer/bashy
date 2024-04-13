@@ -14,7 +14,7 @@
 #	pydmt build_venv
 # in each the folders.
 # - It *is not* enough to just cd into these folders as part of a
-# for loop or script since then pydmt_prompt will not be activated.
+# for loop or script since then prompt_pydmt will not be activated.
 #
 # TODO:
 # - make a config which controls how pydmt decides whether to keep the
@@ -53,7 +53,7 @@ function pydmt_error() {
 	_bashy_cecho r "pydmt: error: ${1}" 0
 }
 
-function pydmt_prompt() {
+function prompt_pydmt() {
 	if [ "${_BASHY_PYDMT_ON}" = 1 ]
 	then
 		pydmt_debug "plugin is deactivated"
@@ -150,11 +150,11 @@ function pydmt_prompt() {
 	fi
 }
 
-function _activate_pydmt_prompt() {
+function _activate_prompt_pydmt() {
 	local -n __var=$1
 	local -n __error=$2
-	_bashy_prompt_register pydmt_prompt
+	_bashy_prompt_register prompt_pydmt
 	__var=0
 }
 
-register_interactive _activate_pydmt_prompt
+register_interactive _activate_prompt_pydmt
