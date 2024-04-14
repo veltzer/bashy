@@ -76,7 +76,6 @@ function prompt_env() {
 		fi
 		return
 	fi
-	echo "there"
 	if [ "${ENV_ACTIVE}" != "${git_root}" ]
 	then
 		# switched repo, exit and then enter
