@@ -47,9 +47,9 @@ function prompt_env() {
 				env_debug "sourcing [${env_file_exit}]"
 				# shellcheck source=/dev/null
 				source "${env_file_exit}"
-				unset ENV_ACTIVE
 				cd - > /dev/null || true
 			fi
+			unset ENV_ACTIVE
 		fi
 		return
 	fi
