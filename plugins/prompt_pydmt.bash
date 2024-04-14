@@ -21,27 +21,11 @@
 # venv or not. This way we can enable to keep the venv active when we
 # are within the .pydmt directory to any depth.
 
-export _BASHY_PYDMT_DEBUG=1
 export _BASHY_PYDMT_ON=0
 export _BASHY_PYDMT_ACTIVE=""
 export _BASHY_PYDMT_EVENV="${HOME}/.venv"
 export _BASHY_PYDMT_TOOL="${HOME}/.venv/bin/pydmt"
 
-function pydmt_debug() {
-	local msg=$1
-	if [ "${_BASHY_PYDMT_DEBUG}" = 0 ]
-	then
-		echo "pydmt: debug: ${msg}"
-	fi
-}
-
-function pydmt_debug_on() {
-	_BASHY_PYDMT_DEBUG=0
-}
-
-function pydmt_debug_off() {
-	_BASHY_PYDMT_DEBUG=1
-}
 
 function pydmt_info() {
 	local msg=$1
@@ -56,53 +40,53 @@ function pydmt_error() {
 function prompt_pydmt() {
 	if [ "${_BASHY_PYDMT_ON}" = 1 ]
 	then
-		pydmt_debug "plugin is deactivated"
+		debug "prompt_pydmt: plugin is deactivated"
 	fi
 	if git_is_inside
 	then
-		pydmt_debug "in git env"
+		debug "prompt_pydmt: in git env"
 		git_top_level GIT_REPO
-		pydmt_debug "GIT_REPO is [${GIT_REPO}]"
+		debug "prompt_pydmt: GIT_REPO is [${GIT_REPO}]"
 		deactivated_env=""
 		deactivated_pydmt_active=""
 		if [ -n "${_BASHY_PYDMT_ACTIVE}" ]
 		then
-			pydmt_debug "have active pydmt environment"
+			debug "prompt_pydmt: have active pydmt environment"
 			new_virtual_env="${GIT_REPO}/.venv/default"
 			if [ "${new_virtual_env}" != "${VIRTUAL_ENV}" ]
 			then
-				pydmt_debug "wrong pydmt env, deactivating (${new_virtual_env}, ${VIRTUAL_ENV})"
+				debug "prompt_pydmt: wrong pydmt env, deactivating (${new_virtual_env}, ${VIRTUAL_ENV})"
 				deactivate
 				deactivated_env="${VIRTUAL_ENV}"
 				deactivated_pydmt_active="${_BASHY_PYDMT_ACTIVE}"
 				_BASHY_PYDMT_ACTIVE=""
 			else
-				pydmt_debug "have the right pydmt env (${new_virtual_env})"
+				debug "prompt_pydmt: have the right pydmt env (${new_virtual_env})"
 			fi
 		fi
 		if [ -z "${_BASHY_PYDMT_ACTIVE}" ]
 		then
-			pydmt_debug "no active pydmt environment"
+			debug "prompt_pydmt: no active pydmt environment"
 			GIT_FILE="${GIT_REPO}/.pydmt.config"
 			if [ -r "${GIT_FILE}" ]
 			then
-				pydmt_debug "have .pydmt.config file"
+				debug "prompt_pydmt: have .pydmt.config file"
 				if [ -f "${GIT_REPO}/.pydmt.build.errors" ]
 				then
 					pydmt_error "found error file not building"
 					return
 				fi
-				pydmt_debug "running pydmt build_venv in [${GIT_REPO}]"
+				debug "prompt_pydmt: running pydmt build_venv in [${GIT_REPO}]"
 				if (cd "${GIT_REPO}" || exit 1; ${_BASHY_PYDMT_TOOL} build_venv --add_dev True 2> /tmp/errors)
 				then
-					pydmt_debug "created virtualenv using pydmt build_venv"
+					debug "prompt_pydmt: created virtualenv using pydmt build_venv"
 					if [ -n "${VIRTUAL_ENV}" ]
 					then
-						pydmt_debug "have external virtual env [${VIRTUAL_ENV}, deactivating]"
+						debug "prompt_pydmt: have external virtual env [${VIRTUAL_ENV}], deactivating"
 						deactivate
 					fi
 					pydmt_activate="${GIT_REPO}/.venv/default/bin/activate"
-					pydmt_debug "activating virtual env [${pydmt_activate}]"
+					debug "prompt_pydmt: activating virtual env [${pydmt_activate}]"
 					if [ -r "${pydmt_activate}" ]
 					then
 						# shellcheck source=/dev/null
@@ -119,7 +103,7 @@ function prompt_pydmt() {
 					if [ -n "${deactivated_env}" ]
 					then
 						pydmt_activate="${deactivated_env}/.venv/default/bin/activate"
-						pydmt_debug "activating virtual env [${pydmt_activate}]"
+						debug "prompt_pydmt: activating virtual env [${pydmt_activate}]"
 						if [ -r "${pydmt_activate}" ]
 						then
 							# shellcheck source=/dev/null
@@ -133,15 +117,15 @@ function prompt_pydmt() {
 			fi
 		fi
 	else
-		pydmt_debug "not in git environment"
+		debug "prompt_pydmt: not in git environment"
 		if [ -n "${_BASHY_PYDMT_ACTIVE}" ]
 		then
-			pydmt_debug "PYDMT is active, deactivating"
+			debug "prompt_pydmt: PYDMT is active, deactivating"
 			deactivate
 			_BASHY_PYDMT_ACTIVE=""
 			if [ -n "${_BASHY_PYDMT_EVENV}" ]
 			then
-				pydmt_debug "activating external venv at [${_BASHY_PYDMT_EVENV}]"
+				debug "prompt_pydmt: activating external venv at [${_BASHY_PYDMT_EVENV}]"
 				activate="${_BASHY_PYDMT_EVENV}/bin/activate"
 				# shellcheck source=/dev/null
 				source "${activate}"

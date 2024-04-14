@@ -8,10 +8,10 @@ function prompt_error() {
 		then
 			sig=$((ret - 128))
 			reason=$(kill -l "${sig}")
-			echo "last command exited with signal [${reason}]"
+			debug "last command exited with signal [${reason}]"
 		else
 			reason="${ret}"
-			echo "last command exited with code [${reason}]"
+			debug "last command exited with code [${reason}]"
 		fi
 	fi
 }

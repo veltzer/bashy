@@ -1,21 +1,11 @@
 function is_debug() {
-	# 0 means debug is on
-	# 1 means debug is off
-	if ! declare -p "BASHY_DEBUG" > /dev/null 2> /dev/null
-	then
-		return 1
-	else
-		return "${BASHY_DEBUG}"
-	fi
+	declare -p "BASHY_DEBUG" > /dev/null 2> /dev/null
 }
 
 function is_debug_interactive() {
 	if is_debug
 	then
-		if is_interactive
-		then
-			return 0
-		fi
+		is_interactive
 	fi
 	return 1
 }
@@ -43,4 +33,12 @@ function debug() {
 	then
 		echo "bashy: ${_message}"
 	fi
+}
+
+function bashy_debug_on() {
+	export BASHY_DEBUG="true"
+}
+
+function bashy_debug_off() {
+	unset BASHY_DEBUG
 }
