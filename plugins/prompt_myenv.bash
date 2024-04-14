@@ -66,7 +66,6 @@ function myenv_getconf() {
 	export myenv_virtual_env_auto_create
 	export myenv_virtual_env_auto_activate
 	export myenv_virtual_env_auto_deactivate
-	export myenv_debug
 
 	assoc_get myenv_conf myenv_virtual_env_python "virtual_env_python"
 	assoc_get myenv_conf myenv_virtual_env_name "virtual_env_name"
@@ -76,7 +75,6 @@ function myenv_getconf() {
 	assoc_get myenv_conf myenv_virtual_env_auto_create "virtual_env_auto_create"
 	assoc_get myenv_conf myenv_virtual_env_auto_activate "virtual_env_auto_activate"
 	assoc_get myenv_conf myenv_virtual_env_auto_deactivate "virtual_env_auto_deactivate"
-	assoc_get myenv_conf myenv_debug "debug"
 
 	# calculate variables from other variables
 
@@ -93,7 +91,7 @@ function myenv_getconf() {
 	python_version_short myenv_virtual_env_python_version "${myenv_virtual_env_python}"
 }
 
-# function to issue a message even if we are not in debug mode
+# function to always issue a message
 function myenv_info() {
 	local msg=$1
 	# echo "myenv: info: ${msg}"
@@ -209,7 +207,7 @@ function myenv_error() {
 }
 
 function myenv_deactivate_real() {
-	int_debug "deactivating virtual env"
+	bashy_debug "deactivating virtual env"
 	deactivate
 	MYENV_ENV=""
 }
@@ -236,7 +234,7 @@ function myenv_deactivate_soft() {
 function myenv_activate_soft() {
 	if [ -z "${VIRTUAL_ENV}" ]
 	then
-		myenv_print_debug "activating virtual env"
+		bashy_debug "activating virtual env"
 		if [ -r "${myenv_virtual_env_folder}/bin/activate" ]
 		then
 			# shellcheck source=/dev/null
@@ -254,7 +252,7 @@ function myenv_activate() {
 		myenv_error "in virtual env"
 		return
 	fi
-	myenv_print_debug "activating virtual env"
+	bashy_debug "activating virtual env"
 	if [ -r "${myenv_virtual_env_folder}/bin/activate" ]
 	then
 		# shellcheck source=/dev/null
@@ -271,7 +269,7 @@ function prompt_myenv_inner() {
 	# if we are in a virtual env which is not myenv related
 	if [ -n "${VIRTUAL_ENV}" ] && [ -z "${MYENV_ENV}" ]
 	then
-		myenv_print_debug "in virtual env which is not myenv related. not doing anything."
+		bashy_debug "in virtual env which is not myenv related. not doing anything."
 		return
 	fi
 

@@ -1,24 +1,5 @@
 # This is a set of git bash functions
 
-export _BASHY_CORE_GIT_DEBUG=1
-
-# function to issue a message if we are in debug mode
-function git_debug() {
-	local msg=$1
-	if [ "${_BASHY_CODE_GIT_DEBUG}" = 0 ]
-	then
-		echo "env: debug: ${msg}"
-	fi
-}
-
-function git_debug_on() {
-	_BASHY_CODE_GIT_DEBUG=0
-}
-
-function git_debug_off() {
-	_BASHY_CODE_GIT_DEBUG=1
-}
-
 # a function that returns whether or not the current working directory
 # is inside a git tree
 # TODO: I'm calling this from lots of plugins for even cd so if I could
@@ -26,14 +7,14 @@ function git_debug_off() {
 function git_is_inside() {
 	result=$(git rev-parse --is-inside-work-tree 2> /dev/null)
 	err="${?}"
-	git_debug "err is ${err}"
+	# bashy_debug "err is ${err}"
 	if [ "${err}" != 0 ]
 	then
 		return "${err}"
 	fi
 	[ "${result}" = "true" ]
 	err2="${?}"
-	git_debug "err2 is ${err2}"
+	# bashy_debug "err2 is ${err2}"
 	return "${err2}"
 }
 

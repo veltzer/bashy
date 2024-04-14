@@ -26,7 +26,7 @@ function prompt_env() {
 			if [ -r "${git_file_full}" ]
 			then
 				cd "${ENV_ACTIVE}" || true
-				debug "sourcing [${env_file_exit}]"
+				bashy_debug "prompt_env: sourcing [${env_file_exit}]"
 				# shellcheck source=/dev/null
 				source "${env_file_exit}"
 				cd - > /dev/null || true
@@ -51,7 +51,7 @@ function prompt_env() {
 		if [ -r "${git_file_full_enter}" ]
 		then
 			cd "${ENV_ACTIVE}" || true
-			debug "sourcing [${env_file_enter}]"
+			bashy_debug "prompt_env: sourcing [${env_file_enter}]"
 			# shellcheck source=/dev/null
 			source "${env_file_enter}"
 			cd - > /dev/null || true
@@ -65,7 +65,7 @@ function prompt_env() {
 		if [ -r "${git_file_full}" ]
 		then
 			cd "${ENV_ACTIVE}" || true
-			debug "sourcing [${env_file_exit}]"
+			bashy_debug "prompt_env: sourcing [${env_file_exit}]"
 			# shellcheck source=/dev/null
 			source "${env_file_exit}"
 			unset ENV_ACTIVE
@@ -80,7 +80,7 @@ function prompt_env() {
 		if [ -r "${git_file_full_enter}" ]
 		then
 			cd "${ENV_ACTIVE}" || true
-			debug "sourcing [${env_file_enter}]"
+			bashy_debug "prompt_env: sourcing [${env_file_enter}]"
 			# shellcheck source=/dev/null
 			source "${env_file_enter}"
 			cd - > /dev/null || true

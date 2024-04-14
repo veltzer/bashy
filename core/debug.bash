@@ -27,7 +27,7 @@ function is_step() {
 	fi
 }
 
-function debug() {
+function bashy_debug() {
 	local _message=$1
 	if is_debug
 	then
@@ -42,3 +42,9 @@ function bashy_debug_on() {
 function bashy_debug_off() {
 	unset BASHY_DEBUG
 }
+
+export BASHY_LOG_CRITICAL=0
+export BASHY_LOG_ERROR=1
+export BASHY_LOG_INFO=2
+export BASHY_LOG_WARNING=3
+export BASHY_LOG_DEBUG=4

@@ -89,7 +89,7 @@ function _bashy_load_plugins() {
 				continue
 			fi
 		fi
-		debug "loading [${plugin}]"
+		bashy_debug "loading [${plugin}]"
 		_bashy_source_absolute "${current_filename}"
 		assoc_set bashy_assoc_source "${plugin}" "$?"
 	done
@@ -114,12 +114,12 @@ function _bashy_run_plugins() {
 		assoc_get bashy_assoc_enabled enabled "${plugin}"
 		if [[ "${enabled}" = 0 ]]
 		then
-			debug "${plugin} disabled"
+			bashy_debug "${plugin} disabled"
 			continue
 		fi
 		if is_debug
 		then
-			debug "running function [${function}]"
+			bashy_debug "running function [${function}]"
 		fi
 		if is_step
 		then
@@ -238,14 +238,14 @@ function bashy_errors() {
 		assoc_get bashy_assoc_enabled enabled "${plugin}"
 		if [[ "${enabled}" = 0 ]]
 		then
-			debug "${plugin} disabled"
+			bashy_debug "${plugin} disabled"
 			continue
 		fi
 		local result
 		assoc_get bashy_assoc_result result "${plugin}"
 		if [[ "${result}" = 0 ]]
 		then
-			debug "${plugin} succeeded"
+			bashy_debug "${plugin} succeeded"
 			continue
 		fi
 		local error
@@ -302,11 +302,11 @@ function _bashy_init() {
 	assoc_new bashy_assoc_error
 	assoc_new bashy_assoc_diff
 	assoc_new bashy_assoc_enabled
-	debug "bashy_starting"
+	bashy_debug "bashy_starting"
 	_bashy_read_plugins
 	_bashy_load_plugins
 	_bashy_run_plugins
-	debug "bashy_ending"
+	bashy_debug "bashy_ending"
 	# bashy_errors
 }
 
