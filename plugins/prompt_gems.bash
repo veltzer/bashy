@@ -8,7 +8,7 @@ function prompt_gems() {
 	then
 		if var_is_defined PROMPT_GEMS_ADDED
 		then
-			echo "prompt_gems: down"
+			debug "prompt_gems: down"
 			_bashy_pathutils_remove PATH "${PROMPT_GEMS_ADDED}"
 			unset PROMPT_GEMS_ADDED
 		fi
@@ -26,19 +26,19 @@ function prompt_gems() {
 			then
 				return
 			else
-				echo "prompt_gems: down"
+				debug "prompt_gems: down"
 				_bashy_pathutils_remove PATH "${PROMPT_GEMS_ADDED}"
 				unset PROMPT_GEMS_ADDED
 			fi
 		fi
 		# if ! _bashy_pathutils_is_in_path "${prompt_gems_added}"
-		echo "prompt_gems: up"
+		debug "prompt_gems: up"
 		export PROMPT_GEMS_ADDED="${prompt_gems_added}"
 		_bashy_pathutils_add_head PATH "${PROMPT_GEMS_ADDED}"
 	else
 		if var_is_defined PROMPT_GEMS_ADDED 
 		then
-			echo "prompt_gems: down"
+			debug "prompt_gems: down"
 			_bashy_pathutils_remove PATH "${PROMPT_GEMS_ADDED}"
 			unset PROMPT_GEMS_ADDED
 		fi

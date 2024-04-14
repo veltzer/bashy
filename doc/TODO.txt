@@ -1,3 +1,5 @@
+- do debug to bashy.
+
 - all bashy functions should start with _bashy_
 	the first underscore is so that their names will not clutter the command line
 	the "bashy" is to distiniguish them from other bash tools/frameworks.

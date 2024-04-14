@@ -12,26 +12,8 @@
 # - this should work if you only have .env.enter.sh or .env.exit.sh
 # but I have not checked it to work this way (TODO).
 
-export _BASHY_ENV_DEBUG=1
 env_file_enter=".env.enter.sh"
 env_file_exit=".env.exit.sh"
-
-# function to issue a message if we are in debug mode
-function env_debug() {
-	local msg=$1
-	if [ "${_BASHY_ENV_DEBUG}" = 0 ]
-	then
-		echo "env: debug: ${msg}"
-	fi
-}
-
-function env_debug_on() {
-	_BASHY_ENV_DEBUG=0
-}
-
-function env_debug_off() {
-	_BASHY_ENV_DEBUG=1
-}
 
 function prompt_env() {
 	if ! git_is_inside
@@ -44,7 +26,7 @@ function prompt_env() {
 			if [ -r "${git_file_full}" ]
 			then
 				cd "${ENV_ACTIVE}" || true
-				env_debug "sourcing [${env_file_exit}]"
+				debug "sourcing [${env_file_exit}]"
 				# shellcheck source=/dev/null
 				source "${env_file_exit}"
 				cd - > /dev/null || true
@@ -69,7 +51,7 @@ function prompt_env() {
 		if [ -r "${git_file_full_enter}" ]
 		then
 			cd "${ENV_ACTIVE}" || true
-			env_debug "sourcing [${env_file_enter}]"
+			debug "sourcing [${env_file_enter}]"
 			# shellcheck source=/dev/null
 			source "${env_file_enter}"
 			cd - > /dev/null || true
@@ -83,7 +65,7 @@ function prompt_env() {
 		if [ -r "${git_file_full}" ]
 		then
 			cd "${ENV_ACTIVE}" || true
-			env_debug "sourcing [${env_file_exit}]"
+			debug "sourcing [${env_file_exit}]"
 			# shellcheck source=/dev/null
 			source "${env_file_exit}"
 			unset ENV_ACTIVE
@@ -98,7 +80,7 @@ function prompt_env() {
 		if [ -r "${git_file_full_enter}" ]
 		then
 			cd "${ENV_ACTIVE}" || true
-			env_debug "sourcing [${env_file_enter}]"
+			debug "sourcing [${env_file_enter}]"
 			# shellcheck source=/dev/null
 			source "${env_file_enter}"
 			cd - > /dev/null || true

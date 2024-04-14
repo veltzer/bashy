@@ -93,15 +93,6 @@ function myenv_getconf() {
 	python_version_short myenv_virtual_env_python_version "${myenv_virtual_env_python}"
 }
 
-# function to issue a message if we are in debug mode
-function myenv_print_debug() {
-	local msg=$1
-	if [ "${myenv_debug}" = 0 ]
-	then
-		echo "myenv: debug: ${msg}"
-	fi
-}
-
 # function to issue a message even if we are not in debug mode
 function myenv_info() {
 	local msg=$1
@@ -218,7 +209,7 @@ function myenv_error() {
 }
 
 function myenv_deactivate_real() {
-	myenv_print_debug "deactivating virtual env"
+	int_debug "deactivating virtual env"
 	deactivate
 	MYENV_ENV=""
 }

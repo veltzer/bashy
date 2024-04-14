@@ -14,7 +14,7 @@ function prompt_aws() {
 	then
 		if var_is_defined AWS_PROFILE 
 		then
-			echo "prompt_aws: down"
+			debug "prompt_aws: down"
 			unset AWS_PROFILE
 		fi
 		return
@@ -27,7 +27,7 @@ function prompt_aws() {
 	then
 		if var_is_defined AWS_PROFILE 
 		then
-			echo "prompt_aws: down"
+			debug "prompt_aws: down"
 			unset AWS_PROFILE
 		fi
 		return
@@ -49,12 +49,12 @@ function prompt_aws() {
 	then
 		if var_is_defined AWS_PROFILE 
 		then
-			echo "prompt_aws: down"
+			debug "prompt_aws: down"
 			unset AWS_PROFILE
 		fi
 		return
 	fi
-	echo "prompt_aws: up"
+	debug "prompt_aws: up"
 	export AWS_PROFILE="${aws_configuration_name}"
 }
 

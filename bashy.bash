@@ -255,7 +255,7 @@ function bashy_errors() {
 	done
 }
 
-function bashy_debug() {
+function bashy_internal_print() {
 	_bashy_array_print bashy_array_plugin
 }
 
