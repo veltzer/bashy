@@ -91,39 +91,32 @@ function myenv_getconf() {
 	python_version_short myenv_virtual_env_python_version "${myenv_virtual_env_python}"
 }
 
-# function to always issue a message
-function myenv_info() {
-	local msg=$1
-	# echo "myenv: info: ${msg}"
-	_bashy_cecho g "myenv: info: ${msg}" 0
-}
-
 function myenv_create_virtualenv() {
 	# do not create virtualenv if there are error files
 	if [ -f .myenv.virtualenv.errors ]
 	then
-		myenv_error "not creating virtual env because error file [.myenv.virtualenv.errors] exits"
+		bashy_log "prompt_myenv" "${BASHY_LEVEL_ERROR}" "not creating virtual env because error file [.myenv.virtualenv.errors] exits"
 		return 1
 	fi
 
 	# create a virtual env
-	myenv_info "creating new venv in [${myenv_virtual_env_folder}]"
+	bashy_log "prompt_myenv" "${BASHY_LOG_INFO}" "creating new venv in [${myenv_virtual_env_folder}]"
 	rm -rf "${myenv_virtual_env_folder}"
 	mkdir -p "${myenv_virtual_env_folder}"
 	virtualenv --clear --quiet "--python=${myenv_virtual_env_python}" "${myenv_virtual_env_folder}" > .myenv.virtualenv.errors 2>&1
 	local code=$?
 	if [ "${code}" -ne 0 ]
 	then
-		myenv_error "could not create virtual env. see errors in .myenv.virtualenv.errors"
+		bashy_log "prompt_myenv" "${BASHY_LOG_ERROR}" "could not create virtual env. see errors in .myenv.virtualenv.errors"
 		rm -rf "${myenv_virtual_env_folder}"
 		return "${code}"
 	fi
 	rm -f .myenv.virtualenv.errors
-	myenv_info "created virtualenv"
+	bashy_log "prompt_myenv" "${BASHY_LOG_INFO}" "created virtualenv"
 	# shellcheck source=/dev/null
 	source "${myenv_virtual_env_folder}/bin/activate"
 	MYENV_ENV="yes"
-	myenv_info "entered virtualenv"
+	bashy_log "prompt_myenv" "${BASHY_LOG_INFO}" "entered virtualenv"
 	return 0
 }
 
@@ -131,7 +124,7 @@ function myenv_create_pip() {
 	# do not do pip if there are error files
 	if [ -f .myenv.pip.errors ]
 	then
-		myenv_error "not creating virtual env because error file [.myenv.pip.errors] exits"
+		bashy_log "prompt_myenv" "${BASHY_LOG_ERROR}" "not creating virtual env because error file [.myenv.pip.errors] exits"
 		return 1
 	fi
 
@@ -143,19 +136,19 @@ function myenv_create_pip() {
 		local code=$?
 		if [ "${code}" -ne 0 ]
 		then
-			myenv_error "could not install requirements. see errors in .myenv.pip.errors"
+			bashy_log "prompt_myenv" "${BASHY_LOG_ERROR}" "could not install requirements. see errors in .myenv.pip.errors"
 			# rm -rf "${myenv_virtual_env_folder}"
 			return "${code}"
 		fi
 		rm -f .myenv.pip.errors
-		myenv_info "installed requirements [${file}]"
+		bashy_log "prompt_myenv" "${BASHY_LOG_INFO}" "installed requirements [${file}]"
 	done
 	# no quotes in the next command are a must
 	cat "${myenv_virtual_env_requirement_files[@]}" | grep -E -v "^#" | sort | md5sum > "${myenv_virtual_env_folder}/${myenv_md5_file_name}"
 	local code=$?
 	if [ "${code}" -ne 0 ]
 	then
-		myenv_error "could not create md5 sum"
+		bashy_log "prompt_myenv" "${BASHY_LOG_ERROR}" "could not create md5 sum"
 		rm -rf "${myenv_virtual_env_folder}"
 		return "${code}"
 	fi
@@ -172,7 +165,7 @@ function myenv_create() {
 function myenv_recreate() {
 	if [ ! -d "${myenv_virtual_env_folder}" ]
 	then
-		myenv_info "no virtual env found in [${myenv_virtual_env_folder}], setting up new virtual env"
+		bashy_log "prompt_myenv" "${BASHY_LOG_INFO}" "no virtual env found in [${myenv_virtual_env_folder}], setting up new virtual env"
 		if ! myenv_create_virtualenv
 		then
 			return $?
@@ -180,7 +173,7 @@ function myenv_recreate() {
 	fi
 	if [ ! -f "${myenv_virtual_env_folder}/${myenv_md5_file_name}" ]
 	then
-		myenv_info "md5 file is missing, recreating environment"
+		bashy_log "prompt_myenv" "${BASHY_LOG_INFO}" "md5 file is missing, recreating environment"
 		if ! myenv_create_pip
 		then
 			return $?
@@ -192,7 +185,7 @@ function myenv_recreate() {
 	b=$(cat "${myenv_virtual_env_folder}/${myenv_md5_file_name}")
 	if [ "${a}" != "${b}" ]
 	then
-		myenv_info "md5 is out of sync, installing requirements"
+		bashy_log "prompt_myenv" "${BASHY_LOG_INFO}" "md5 is out of sync, installing requirements"
 		myenv_create_pip
 	fi
 }
@@ -201,13 +194,8 @@ function myenv_in_virtual_env() {
 	[ -n "${VIRTUAL_ENV}" ]
 }
 
-function myenv_error() {
-	# echo "$1"
-	_bashy_cecho r "myenv: error: $1" 0
-}
-
 function myenv_deactivate_real() {
-	bashy_debug "deactivating virtual env"
+	bashy_log "prompt_myenv" "${BASHY_LOG_DEBUG}" "deactivating virtual env"
 	deactivate
 	MYENV_ENV=""
 }
@@ -215,7 +203,7 @@ function myenv_deactivate_real() {
 function myenv_deactivate() {
 	if [ -z "${VIRTUAL_ENV}" ]
 	then
-		myenv_error "not in virtual env"
+		bashy_log "prompt_myenv" "${BASHY_LOG_ERROR}" "not in virtual env"
 		return
 	fi
 	myenv_deactivate_real
@@ -234,14 +222,14 @@ function myenv_deactivate_soft() {
 function myenv_activate_soft() {
 	if [ -z "${VIRTUAL_ENV}" ]
 	then
-		bashy_debug "activating virtual env"
+		bashy_log "prompt_myenv" "${BASHY_LOG_INFO}" "activating virtual env"
 		if [ -r "${myenv_virtual_env_folder}/bin/activate" ]
 		then
 			# shellcheck source=/dev/null
 			source "${myenv_virtual_env_folder}/bin/activate"
 			MYENV_ENV="yes"
 		else
-			myenv_error "cannot activate virtual env at [${myenv_virtual_env_folder}]"
+			bashy_log "prompt_myenv" "${BASHY_LOG_ERROR}" "cannot activate virtual env at [${myenv_virtual_env_folder}]"
 		fi
 	fi
 }
@@ -249,17 +237,17 @@ function myenv_activate_soft() {
 function myenv_activate() {
 	if [ -n "${VIRTUAL_ENV}" ]
 	then
-		myenv_error "in virtual env"
+		bashy_log "prompt_myenv" "${BASHY_LOG_DEBUG}" "in virtual env"
 		return
 	fi
-	bashy_debug "activating virtual env"
+	bashy_log "prompt_myenv" "${BASHY_LOG_INFO}" "activating virtual env"
 	if [ -r "${myenv_virtual_env_folder}/bin/activate" ]
 	then
 		# shellcheck source=/dev/null
 		source "${myenv_virtual_env_folder}/bin/activate"
 		MYENV_ENV="yes"
 	else
-		myenv_error "cannot activate virtual env at [${myenv_virtual_env_folder}]"
+		bashy_log "prompt_myenv" "${BASHY_LOG_ERROR}" "cannot activate virtual env at [${myenv_virtual_env_folder}]"
 	fi
 }
 
@@ -269,7 +257,7 @@ function prompt_myenv_inner() {
 	# if we are in a virtual env which is not myenv related
 	if [ -n "${VIRTUAL_ENV}" ] && [ -z "${MYENV_ENV}" ]
 	then
-		bashy_debug "in virtual env which is not myenv related. not doing anything."
+		bashy_log "prompt_myenv" "${BASHY_LOG_DEBUG}" "in virtual env which is not myenv related. not doing anything."
 		return
 	fi
 

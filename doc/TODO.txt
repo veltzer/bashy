@@ -1,4 +1,3 @@
-- add level of debug to debug.bash and called it log.
 - allow to activate only specific plugins when logging.
 
 - all bashy functions should start with _bashy_

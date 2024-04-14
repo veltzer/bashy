@@ -10,7 +10,11 @@ function prompt_gcp() {
 
 	if ! git_is_inside
 	then
-		unset CLOUDSDK_ACTIVE_CONFIG_NAME
+		if var_is_defined CLOUDSDK_ACTIVE_CONFIG_NAME
+		then
+			bashy_log "prompt_gcp" "${BASHY_LOG_INFO}" "down"
+			unset CLOUDSDK_ACTIVE_CONFIG_NAME
+		fi
 		return
 	fi
 
@@ -35,9 +39,17 @@ function prompt_gcp() {
 	# set the envrionment variable
 	if _bashy_null_is_null "${gcp_configuration_name}"
 	then
-		unset CLOUDSDK_ACTIVE_CONFIG_NAME
+		if var_is_defined CLOUDSDK_ACTIVE_CONFIG_NAME
+		then
+			bashy_log "prompt_gcp" "${BASHY_LOG_INFO}" "down"
+			unset CLOUDSDK_ACTIVE_CONFIG_NAME
+		fi
 	else
-		export CLOUDSDK_ACTIVE_CONFIG_NAME="${gcp_configuration_name}"
+		if ! var_is_defined CLOUDSDK_ACTIVE_CONFIG_NAME
+		then
+			bashy_log "prompt_gcp" "${BASHY_LOG_INFO}" "up"
+			export CLOUDSDK_ACTIVE_CONFIG_NAME="${gcp_configuration_name}"
+		fi
 	fi
 }
 

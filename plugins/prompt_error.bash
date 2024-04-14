@@ -2,16 +2,17 @@
 
 function prompt_error() {
 	ret=$?
+	bashy_log "prompt_error" "${BASHY_LOG_DEBUG}" "got ret [${ret}]"
 	if [ "${ret}" -ne 0 ]
 	then
 		if [ "${ret}" -gt 128 ] && [ "${ret}" -lt 193 ]
 		then
 			sig=$((ret - 128))
 			reason=$(kill -l "${sig}")
-			bashy_debug "prompt_error: last command exited with signal [${reason}]"
+			bashy_log "prompt_error" "${BASHY_LOG_INFO}" "last command exited with signal [${reason}]"
 		else
 			reason="${ret}"
-			bashy_debug "prompt_error: last command exited with code [${reason}]"
+			bashy_log "prompt_error" "${BASHY_LOG_INFO}" "last command exited with code [${reason}]"
 		fi
 	fi
 }

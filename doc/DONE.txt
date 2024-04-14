@@ -25,3 +25,4 @@
 - add plugin that does bash completion programatically for applications such as pandoc(1):
 	$ eval "$(pandoc --bash-completion)"
 - added unified debug system for all plugins.
+- add level of debug to debug.bash and called it log.

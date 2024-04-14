@@ -11,7 +11,7 @@ function prompt_k8s() {
 	then
 		if var_is_defined KUBECONFIG
 		then
-			bashy_debug "prompt_k8s: down"
+			bashy_log "prompt_k8s" "${BASHY_LOG_INFO}" "down"
 			unset KUBECONFIG
 		fi
 		return
@@ -24,17 +24,21 @@ function prompt_k8s() {
 	then
 		if ! var_is_defined KUBECONFIG
 		then
-			bashy_debug "prompt_k8s: up"
+			bashy_log "prompt_k8s" "${BASHY_LOG_INFO}" "up"
 			export KUBECONFIG="${k8s_configuration_name}"
 			return
 		fi
 		if [ "${KUBECONFIG}" != "${k8s_configuration_name}" ]
 		then
-			bashy_debug "prompt_k8s: up"
+			bashy_log "prompt_k8s" "${BASHY_LOG_INFO}" "up"
 			export KUBECONFIG="${k8s_configuration_name}"
 		fi
 	else
-		unset KUBECONFIG
+		if var_is_defined KUBECONFIG
+		then
+			bashy_log "prompt_k8s" "${BASHY_LOG_INFO}" "down"
+			unset KUBECONFIG
+		fi
 	fi
 }
 

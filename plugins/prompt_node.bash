@@ -8,7 +8,7 @@ function prompt_node() {
 	then
 		if var_is_defined PROMPT_NODE_ADDED 
 		then
-			bashy_debug "prompt_node: down"
+			bashy_log "prompt_node" "${BASHY_LOG_INFO}" "down"
 			_bashy_pathutils_remove PATH "${PROMPT_NODE_ADDED}"
 			unset PROMPT_NODE_ADDED
 		fi
@@ -26,19 +26,19 @@ function prompt_node() {
 			then
 				return
 			else
-				bashy_debug "prompt_node: down"
+				bashy_log "prompt_node" "${BASHY_LOG_INFO}" "down"
 				_bashy_pathutils_remove PATH "${PROMPT_NODE_ADDED}"
 				unset PROMPT_NODE_ADDED
 			fi
 		fi
 		# if ! _bashy_pathutils_is_in_path "${prompt_node_added}"
-		bashy_debug "prompt_node: up"
+		bashy_log "prompt_node" "${BASHY_LOG_INFO}" "up"
 		export PROMPT_NODE_ADDED="${prompt_node_added}"
 		_bashy_pathutils_add_head PATH "${PROMPT_NODE_ADDED}"
 	else
 		if var_is_defined PROMPT_NODE_ADDED 
 		then
-			bashy_debug "prompt_node: down"
+			bashy_log "prompt_node" "${BASHY_LOG_INFO}" "down"
 			_bashy_pathutils_remove PATH "${PROMPT_NODE_ADDED}"
 			unset PROMPT_NODE_ADDED
 		fi

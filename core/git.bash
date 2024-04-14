@@ -7,14 +7,14 @@
 function git_is_inside() {
 	result=$(git rev-parse --is-inside-work-tree 2> /dev/null)
 	err="${?}"
-	# bashy_debug "err is ${err}"
+	bashy_log "core/git" "${BASHY_LOG_DEBUG}" "err is ${err}"
 	if [ "${err}" != 0 ]
 	then
 		return "${err}"
 	fi
 	[ "${result}" = "true" ]
 	err2="${?}"
-	# bashy_debug "err2 is ${err2}"
+	bashy_log "core/git" "${BASHY_LOG_DEBUG}" "err2 is ${err2}"
 	return "${err2}"
 }
 
