@@ -117,7 +117,7 @@ function prompt_pydmt() {
 			fi
 		fi
 	else
-		bashy_debug "prompt_pydmt: not in git environment"
+		# bashy_debug "prompt_pydmt: not in git environment"
 		if [ -n "${_BASHY_PYDMT_ACTIVE}" ]
 		then
 			bashy_debug "prompt_pydmt: PYDMT is active, deactivating"

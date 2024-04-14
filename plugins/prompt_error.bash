@@ -8,10 +8,10 @@ function prompt_error() {
 		then
 			sig=$((ret - 128))
 			reason=$(kill -l "${sig}")
-			bashy_debug "last command exited with signal [${reason}]"
+			bashy_debug "prompt_error: last command exited with signal [${reason}]"
 		else
 			reason="${ret}"
-			bashy_debug "last command exited with code [${reason}]"
+			bashy_debug "prompt_error: last command exited with code [${reason}]"
 		fi
 	fi
 }
