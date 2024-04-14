@@ -24,3 +24,4 @@
 - move all bashy_array to bashy_assoc
 - add plugin that does bash completion programatically for applications such as pandoc(1):
 	$ eval "$(pandoc --bash-completion)"
+- added unified debug system for all plugins.
