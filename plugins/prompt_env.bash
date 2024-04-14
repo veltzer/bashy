@@ -13,7 +13,6 @@
 # but I have not checked it to work this way (TODO).
 
 export _BASHY_ENV_DEBUG=1
-export ENV_ACTIVE=""
 env_file_enter=".env.enter.sh"
 env_file_exit=".env.exit.sh"
 
@@ -61,10 +60,14 @@ function prompt_env() {
 		# in git but no env active, this means
 		# - there is no need to turn run .env.exit.sh from previous env
 		# - can now digest .env.enter.sh and define ENV_ACTIVE
-		git_file_full="${git_root}/${env_file_enter}"
-		if [ -r "${git_file_full}" ]
+		git_file_full_enter="${git_root}/${env_file_enter}"
+		git_file_full_exit="${git_root}/${env_file_exit}"
+		if [ -r "${git_file_full_enter}" ] || [ -r "${git_file_full_exit}" ]
 		then
 			export ENV_ACTIVE="${git_root}"
+		fi
+		if [ -r "${git_file_full_enter}" ]
+		then
 			cd "${ENV_ACTIVE}" || true
 			env_debug "sourcing [${env_file_enter}]"
 			# shellcheck source=/dev/null
@@ -73,6 +76,7 @@ function prompt_env() {
 		fi
 		return
 	fi
+	echo "there"
 	if [ "${ENV_ACTIVE}" != "${git_root}" ]
 	then
 		# switched repo, exit and then enter
@@ -86,10 +90,14 @@ function prompt_env() {
 			unset ENV_ACTIVE
 			cd - > /dev/null || true
 		fi
-		git_file_full="${git_root}/${env_file_enter}"
-		if [ -r "${git_file_full}" ]
+		git_file_full_enter="${git_root}/${env_file_enter}"
+		git_file_full_exit="${git_root}/${env_file_exit}"
+		if [ -r "${git_file_full_enter}" ] || [ -r "${git_file_full_exit}" ]
 		then
 			export ENV_ACTIVE="${git_root}"
+		fi
+		if [ -r "${git_file_full_enter}" ]
+		then
 			cd "${ENV_ACTIVE}" || true
 			env_debug "sourcing [${env_file_enter}]"
 			# shellcheck source=/dev/null
