@@ -13,7 +13,7 @@ fi
 function bashy_log() {
 	if [ "$#" -ne 3 ]
         then
-                echo "usage: ${FUNCNAME[0]} <arg1> <arg2>"
+                echo "usage: ${FUNCNAME[0]} <plugin> <level> <message>"
                 return
         fi
 	local _plugin=$1
