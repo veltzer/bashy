@@ -14,7 +14,7 @@ function python_version_short() {
 	eval "${__user_var}=\"${version}\""
 }
 
-function python_activate() {
+function old_python_activate() {
 	local folder=$1
 	local activate="${folder}/bin/activate"
 	if [ -r "${activate}" ]
@@ -27,24 +27,30 @@ function python_activate() {
 	fi
 }
 
-function python_deactivate() {
+function old_python_deactivate() {
 	deactivate
 }
 
 # my own version of activation and deactivate of a python virtual env
-function new_python_activate() {
+function python_activate() {
 	local folder=$1
 	# first deactivate an environment
-	python_deactivate
-	bashy_log "core/python" "${BASHY_LOG_DEBUG}" "activating venv"
-	export PYTHON_VENV_ACTIVE="${folder}"
-	_bashy_pathutils_add_head PATH "${folder}/bin"
-	export PYTHONHOME="${folder}"
-	export VIRTUAL_ENV="${folder}"
+	local activate="${folder}/bin/activate"
+	if [ -r "${activate}" ]
+	then
+		python_deactivate
+		bashy_log "core/python" "${BASHY_LOG_DEBUG}" "activating venv"
+		export PYTHON_VENV_ACTIVE="${folder}"
+		_bashy_pathutils_add_head PATH "${folder}/bin"
+		# export PYTHONHOME="${folder}"
+		# export VIRTUAL_ENV="${folder}"
+	else
+		bashy_log "core/python" "${BASHY_LOG_ERROR}" "cannot activate virtual env at [${folder}]"
+	fi
 }
 
 # deactivate a virtual env if we are in one
-function new_python_deactivate() {
+function python_deactivate() {
 	if var_is_defined PYTHON_VENV_ACTIVE
 	then
 		bashy_log "core/python" "${BASHY_LOG_DEBUG}" "deactivating venv"
