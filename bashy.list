@@ -5,9 +5,12 @@
 tmux
 # infrastructure plugins (prompt and more)
 prompt
+# python
+-python_local
+python_venv
+python
 # the powerline plugin must be before other plugins that customize the shell
 -powerline
-venv
 -pypowerline
 powerline-shell
 -starship
@@ -32,7 +35,6 @@ homedir_install
 path_dot_local
 path_remove_games
 postgresql
-python
 perl
 ruby
 guile
@@ -58,7 +60,6 @@ hugo
 -lens
 minikube
 brew
--local_python
 gradle
 encfs
 node
@@ -68,9 +69,9 @@ xinput
 # order must be aws, gcp first and only then env
 # but this order must be in *reverse*
 # so the order must be env, gcp, aws
+prompt_pydmt
 prompt_gems
 prompt_node
-prompt_pydmt
 prompt_env
 prompt_gcp
 prompt_aws

@@ -27,16 +27,6 @@ export _BASHY_PYDMT_EVENV="${HOME}/.venv"
 export _BASHY_PYDMT_TOOL="${HOME}/.venv/bin/pydmt"
 
 
-function pydmt_info() {
-	local msg=$1
-	# echo "pydmt: info: ${msg}"
-	_bashy_cecho g "pydmt: info: ${msg}" 0
-}
-
-function pydmt_error() {
-	_bashy_cecho r "pydmt: error: ${1}" 0
-}
-
 function prompt_pydmt() {
 	if [ "${_BASHY_PYDMT_ON}" = 1 ]
 	then
@@ -48,7 +38,6 @@ function prompt_pydmt() {
 		git_top_level GIT_REPO
 		bashy_log "prompt_pydmt" "${BASHY_LOG_DEBUG}" "GIT_REPO is [${GIT_REPO}]"
 		deactivated_env=""
-		deactivated_pydmt_active=""
 		if [ -n "${_BASHY_PYDMT_ACTIVE}" ]
 		then
 			bashy_log "prompt_pydmt" "${BASHY_LOG_DEBUG}" "have active pydmt environment"
@@ -56,9 +45,8 @@ function prompt_pydmt() {
 			if [ "${new_virtual_env}" != "${VIRTUAL_ENV}" ]
 			then
 				bashy_log "prompt_pydmt" "${BASHY_LOG_INFO}" "wrong pydmt env, deactivating (${new_virtual_env}, ${VIRTUAL_ENV})"
-				deactivate
+				python_deactivate
 				deactivated_env="${VIRTUAL_ENV}"
-				deactivated_pydmt_active="${_BASHY_PYDMT_ACTIVE}"
 				_BASHY_PYDMT_ACTIVE=""
 			else
 				bashy_log "prompt_pydmt" "${BASHY_LOG_DEBUG}" "have the right pydmt env (${new_virtual_env})"
@@ -73,7 +61,7 @@ function prompt_pydmt() {
 				bashy_log "prompt_pydmt" "${BASHY_LOG_DEBUG}" "have .pydmt.config file"
 				if [ -f "${GIT_REPO}/.pydmt.build.errors" ]
 				then
-					pydmt_error "found error file not building"
+					bashy_log "prompt_pydmt" "${BASHY_LOG_ERROR}" "found error file not building"
 					return
 				fi
 				bashy_log "prompt_pydmt" "${BASHY_LOG_INFO}" "running pydmt build_venv in [${GIT_REPO}]"
@@ -83,35 +71,17 @@ function prompt_pydmt() {
 					if [ -n "${VIRTUAL_ENV}" ]
 					then
 						bashy_log "prompt_pydmt" "${BASHY_LOG_INFO}" "have external virtual env [${VIRTUAL_ENV}], deactivating"
-						deactivate
+						python_deactivate
 					fi
-					pydmt_activate="${GIT_REPO}/.venv/default/bin/activate"
-					bashy_log "prompt_pydmt" "${BASHY_LOG_INFO}" "activating virtual env [${pydmt_activate}]"
-					if [ -r "${pydmt_activate}" ]
-					then
-						# shellcheck source=/dev/null
-						source "${pydmt_activate}"
-						_BASHY_PYDMT_ACTIVE="yes"
-					else
-						pydmt_error "cannot activate virtual env at [${pydmt_activate}]"
-					fi
+					python_activate "${GIT_REPO}/.venv/default"
+					_BASHY_PYDMT_ACTIVE="yes"
 				else
-					pydmt_error "could not create virtual env, creating errors file"
+					bashy_log "prompt_pydmt" "${BASHY_LOG_ERROR}" "could not create virtual env, creating errors file"
 					mv "/tmp/errors" "${GIT_REPO}/.pydmt.build.errors"
-					# TODO: if I deactivate a virtual env before trying to create one here.
-					# now we need to activate it back.
+					# now we need to activate back a previous venv if we had one
 					if [ -n "${deactivated_env}" ]
 					then
-						pydmt_activate="${deactivated_env}/.venv/default/bin/activate"
-						bashy_log "prompt_pydmt" "${BASHY_LOG_INFO}" "activating virtual env [${pydmt_activate}]"
-						if [ -r "${pydmt_activate}" ]
-						then
-							# shellcheck source=/dev/null
-							source "${pydmt_activate}"
-							_BASHY_PYDMT_ACTIVE="${deactivated_pydmt_active}"
-						else
-							pydmt_error "cannot activate virtual env at [${pydmt_activate}]"
-						fi
+						python_activate "${deactivated_env}/.venv/default"
 					fi
 				fi
 			fi
@@ -121,14 +91,11 @@ function prompt_pydmt() {
 		if [ -n "${_BASHY_PYDMT_ACTIVE}" ]
 		then
 			bashy_log "prompt_pydmt" "${BASHY_LOG_INFO}" "PYDMT is active, deactivating"
-			deactivate
+			python_deactivate
 			_BASHY_PYDMT_ACTIVE=""
 			if [ -n "${_BASHY_PYDMT_EVENV}" ]
 			then
-				bashy_log "prompt_pydmt" "${BASHY_LOG_INFO}" "activating external venv at [${_BASHY_PYDMT_EVENV}]"
-				activate="${_BASHY_PYDMT_EVENV}/bin/activate"
-				# shellcheck source=/dev/null
-				source "${activate}"
+				python_activate "${_BASHY_PYDMT_EVENV}"
 			fi
 		fi
 	fi
