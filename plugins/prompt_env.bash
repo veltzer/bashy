@@ -9,8 +9,7 @@
 #
 # Technical notes:
 # - the sourcing is always done relative to the root of the git tree. This works this way now.
-# - this should work if you only have .env.enter.sh or .env.exit.sh
-# but I have not checked it to work this way (TODO).
+# - this should work if you only have .env.enter.sh or .env.exit.sh and it works this way.
 
 env_file_enter=".env.enter.sh"
 env_file_exit=".env.exit.sh"
