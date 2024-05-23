@@ -104,6 +104,7 @@ function prompt_pydmt() {
 function _activate_prompt_pydmt() {
 	local -n __var=$1
 	local -n __error=$2
+	if ! checkInPath "pydmt" __var __error; then return; fi
 	_bashy_prompt_register prompt_pydmt
 	__var=0
 }
