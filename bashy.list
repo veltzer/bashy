@@ -29,7 +29,7 @@ git
 gzip
 hostaliases
 -ls
-lsd
+-lsd
 manpath
 homedir_install
 path_dot_local
