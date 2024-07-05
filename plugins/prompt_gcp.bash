@@ -6,7 +6,6 @@ gcp_conf_file_name=".gcp.conf"
 
 function prompt_gcp() {
 	assoc_new gcp_conf
-	export gcp_conf
 
 	if ! git_is_inside
 	then
@@ -21,7 +20,7 @@ function prompt_gcp() {
 	git_root=""
 	git_top_level git_root
 
-	export gcp_home_conf_file="${HOME}/${gcp_conf_file_name}"
+	gcp_home_conf_file="${HOME}/${gcp_conf_file_name}"
 	if [ -r "${gcp_home_conf_file}" ]
 	then
 		assoc_config_read gcp_conf "${gcp_home_conf_file}"
@@ -32,25 +31,22 @@ function prompt_gcp() {
 		assoc_config_read gcp_conf "${git_root}/${gcp_conf_file_name}"
 	fi
 
-	# get the configuration name
-	export gcp_configuration_name
-	assoc_get gcp_conf gcp_configuration_name "gcp_configuration_name"
-
-	# set the envrionment variable
-	if _bashy_null_is_null "${gcp_configuration_name}"
+	CLOUDSDK_ACTIVE_CONFIG_NAME_NEW=""
+	assoc_get gcp_conf CLOUDSDK_ACTIVE_CONFIG_NAME_NEW "gcp_configuration_name"
+	if [ "${CLOUDSDK_ACTIVE_CONFIG_NAME}" != "${CLOUDSDK_ACTIVE_CONFIG_NAME_NEW}" ]
 	then
 		if var_is_defined CLOUDSDK_ACTIVE_CONFIG_NAME
 		then
 			bashy_log "prompt_gcp" "${BASHY_LOG_INFO}" "down"
 			unset CLOUDSDK_ACTIVE_CONFIG_NAME
 		fi
-	else
-		if ! var_is_defined CLOUDSDK_ACTIVE_CONFIG_NAME
+		if ! _bashy_null_is_null "${CLOUDSDK_ACTIVE_CONFIG_NAME_NEW}"
 		then
 			bashy_log "prompt_gcp" "${BASHY_LOG_INFO}" "up"
-			export CLOUDSDK_ACTIVE_CONFIG_NAME="${gcp_configuration_name}"
+			export CLOUDSDK_ACTIVE_CONFIG_NAME="${CLOUDSDK_ACTIVE_CONFIG_NAME_NEW}"
 		fi
 	fi
+	unset CLOUDSDK_ACTIVE_CONFIG_NAME_NEW
 }
 
 function _activate_prompt_gcp() {
