@@ -1,19 +1,21 @@
 # this file supports hash comments
 # this file supports empty lines
+# use - before plugin to disable it
+# use # before plugin to make it disappear altogether
 
 # tmux needs to be the first
 tmux
 # infrastructure plugins (prompt and more)
 prompt
 # python
--python_local
+# python_local
 python_venv
 python
 # the powerline plugin must be before other plugins that customize the shell
--powerline
--pypowerline
+# powerline
+# pypowerline
 powerline-shell
--starship
+# starship
 # other plugins
 ansible
 bash_completions_userdir
@@ -28,8 +30,8 @@ fzf
 git
 gzip
 hostaliases
--ls
--lsd
+# ls
+# lsd
 manpath
 homedir_install
 path_dot_local
@@ -41,7 +43,7 @@ guile
 go
 phantomjs
 rust
--bigdata
+# bigdata
 system_default_bashrc
 umask
 vim
@@ -57,7 +59,7 @@ k8s
 oc
 helm
 hugo
--lens
+# lens
 minikube
 brew
 gradle
