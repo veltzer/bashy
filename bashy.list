@@ -88,6 +88,7 @@ ssh_agent
 complete
 lazygit
 audacity
+dotnet
 # java
 java_jrun
 spark
