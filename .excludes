@@ -5,9 +5,12 @@
 .myenv
 .pydmt
 .pydmt.config
+.veltzer.tag
+.excludes
+.shellcheckrc
 config
-doc
 data
+doc
 requirements.txt
 test_all.bash
 tests
@@ -16,9 +19,7 @@ out
 Makefile
 LICENSE
 install_in_home.bash
-.excludes
-.shellcheckrc
+scripts
 snipplets
 templates
-.veltzer.tag
 resources
