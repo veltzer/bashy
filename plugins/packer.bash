@@ -7,16 +7,18 @@ function _activate_packer() {
 }
 
 function _install_packer() {
+	set +e
 	# latest version: https://github.com/hashicorp/terraform/issues/9803
 	version=$(curl -s "https://checkpoint-api.hashicorp.com/v1/check/packer" | jq -r -M ".current_version")
-	echo "got version [${version}]..."
+	# echo "got version [${version}]..."
 	file="packer_${version}_linux_amd64.zip"
-	download="https://releases.hashicorp.com/packer/${version}/${file}"
+	url="https://releases.hashicorp.com/packer/${version}/${file}"
 	folder="${HOME}/install/binaries"
-	rm -rf "/tmp/${file}" "${folder}/terraform"
-	wget "${download}" -P "/tmp"
-	unzip "/tmp/${file}" -d "${folder}" 
-	rm -rf "/tmp/${file}"
+	rm -rf "/tmp/${file}" "${folder}/packer"
+	wget --quiet "${url}" -P "/tmp"
+	unzip -q "/tmp/${file}" -d "${folder}" packer
+	rm -f "/tmp/${file}"
+	set -e
 }
 
 register_interactive _activate_packer
