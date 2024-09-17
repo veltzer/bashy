@@ -1,5 +1,5 @@
 ##############
-# PARAMETERS #
+# parameters #
 ##############
 # do you want to see the commands executed ?
 DO_MKDBG:=0
@@ -11,7 +11,7 @@ DO_TEST:=1
 DO_ALLDEP:=1
 
 ########
-# CODE #
+# code #
 ########
 ALL:=
 
@@ -42,7 +42,7 @@ ifeq ($(DO_TEST),1)
 endif # DO_TEST
 
 #########
-# RULES #
+# rules #
 #########
 .PHONY: all
 all: $(ALL)
