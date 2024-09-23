@@ -18,7 +18,7 @@ function _activate_complete() {
 	complete -C "pycontacts complete" pycontacts
 	complete -C "pymultigit complete" pymultigit
 	complete -C "pymultigit complete" mg
-	complete -C "pygooglecloud complete" mg
+	complete -C "pygooglecloud complete" pygooglecloud
 	__var=0
 }
 
