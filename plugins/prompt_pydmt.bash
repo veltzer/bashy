@@ -20,6 +20,8 @@
 # - make a config which controls how pydmt decides whether to keep the
 # venv or not. This way we can enable to keep the venv active when we
 # are within the .pydmt directory to any depth.
+# - make this plugin be more close to the other prompt_* plugins in structure.
+# for instance, it should start with "if ! git_is_inside"...
 
 export _BASHY_PYDMT_ACTIVE=""
 export _BASHY_PYDMT_EVENV="${HOME}/.venv"
