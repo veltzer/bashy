@@ -1,8 +1,5 @@
 # This plugin sources .auto.enter.sh whenever it sees it and
 # .auto.exit.sh when it leaves that folder.
-#
-# TODO
-# - this only looks at the current folder and not at the git root
 
 auto_file_enter=".auto.enter.sh"
 auto_file_exit=".auto.exit.sh"
