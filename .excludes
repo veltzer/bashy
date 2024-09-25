@@ -12,6 +12,7 @@ config
 data
 doc
 requirements.txt
+requirements.thawed.txt
 test_all.bash
 tests
 README.md
