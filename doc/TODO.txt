@@ -1,3 +1,12 @@
+- I have way too many plugins/prompt_*.bash plugins and a lot of them do the same thing.
+	It seems like the auto plugin can take care of most of them.
+	prompt_gems and prompt_node do almost the same thing:
+		they add an element to the path if a directtory is there!
+		possibly define an environment variable.
+	same for many others.
+	try to reduce and simplify.
+
+
 - allow to activate only specific plugins when logging.
 
 - all bashy functions should start with _bashy_

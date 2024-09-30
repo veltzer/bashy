@@ -74,7 +74,6 @@ xinput
 prompt_pydmt
 prompt_gems
 prompt_node
-prompt_env
 prompt_auto
 prompt_gcp
 prompt_aws
