@@ -24,10 +24,6 @@ Q:=@
 #.SILENT:
 endif # DO_MKDBG
 
-ifeq ($(DO_ALLDEP),1)
-.EXTRA_PREREQS+=$(foreach mk, ${MAKEFILE_LIST},$(abspath ${mk}))
-endif # DO_ALLDEP
-
 OUT_DIR:=out
 ALL_BASH:=$(shell find -type f -and -name "*.bash" -printf "%P\n")
 ALL_BASH_BASE:=$(basename $(ALL_BASH))
@@ -88,3 +84,10 @@ $(ALL_TEST_STAMP): $(ALL_BASH)
 	$(info doing [$@])
 	$(Q)./test_all.bash
 	$(Q)pymakehelper touch_mkdir $@
+
+##########
+# alldep #
+##########
+ifeq ($(DO_ALLDEP),1)
+.EXTRA_PREREQS+=$(foreach mk, ${MAKEFILE_LIST},$(abspath ${mk}))
+endif # DO_ALLDEP
