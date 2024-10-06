@@ -2,7 +2,8 @@ function _activate_nvim() {
 	local -n __var=$1
 	local -n __error=$2
 	if ! checkInPath "nvim" __var __error; then return; fi
-	# alias vi="nvim"
+	alias vi="nvim"
+	alias vim="nvim"
 	__var=0
 }
 function _activate_nvim_with_folder() {
