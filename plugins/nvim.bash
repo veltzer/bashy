@@ -14,7 +14,8 @@ function _activate_nvim_with_folder() {
 	if ! checkDirectoryExists "${NVIM_PATHBIN}" __var __error; then return; fi
 	_bashy_pathutils_add_head PATH "${NVIM_PATHBIN}"
 	export NVIM_PATH
-	# alias vi="nvim"
+	alias vi="nvim"
+	alias vim="nvim"
 	__var=0
 }
 
