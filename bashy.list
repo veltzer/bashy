@@ -67,7 +67,7 @@ encfs
 node
 proxy
 pip
-xinput
+# xinput - disabled by move to wayland (24.10)
 # order must be aws, gcp first and only then env
 # but this order must be in *reverse*
 # so the order must be env, gcp, aws
