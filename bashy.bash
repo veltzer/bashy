@@ -126,11 +126,11 @@ function _bashy_run_plugins() {
 		then
 			local result=
 			local error=""
-			local diff=
-			measure diff "${function}" result error
+			local _diff=
+			measure _diff "${function}" result error
 			assoc_set bashy_assoc_result "${plugin}" "${result}"
 			assoc_set bashy_assoc_error "${plugin}" "${error}"
-			assoc_set bashy_assoc_diff "${plugin}" "${diff}"
+			assoc_set bashy_assoc_diff "${plugin}" "${_diff}"
 		else
 			local result=
 			local error=""
@@ -212,9 +212,9 @@ function bashy_status_plugins() {
 			fi
 			if is_profile
 			then
-				local diff
-				assoc_get bashy_assoc_diff diff "${plugin}"
-				printf "\t%.3f\n" "${diff}"
+				local _diff
+				assoc_get bashy_assoc_diff _diff "${plugin}"
+				printf "\t%s\n" "${_diff}"
 			else
 				echo
 			fi
