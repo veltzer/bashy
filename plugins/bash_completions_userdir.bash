@@ -6,12 +6,11 @@ function _activate_bash_completions_userdir() {
 	# sources more than one file at a time so we must
 	# use the loop below....
 	local FOLDER="${HOME}/.bash_completion.d"
-	if ! checkDirectoryExists "${FOLDER}" __var __error; then return; fi
 	# check if there are files matching the pattern
-	if compgen -G "${HOME}/.bash_completion.d/*" > /dev/null
+	if compgen -G "${FOLDER}"/* > /dev/null
 	then
 		# source the files
-		for x in ~/.bash_completion.d/*
+		for x in "${FOLDER}"/*
 		do
 			if [ -f "${x}" ] && [ -r "${x}" ]
 			then
