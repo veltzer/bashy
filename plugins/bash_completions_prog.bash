@@ -7,6 +7,8 @@ function _activate_bash_completions_prog() {
 	local -n __error=$2
 	if ! checkInPath "pandoc" __var __error; then return; fi
 	eval "$(pandoc --bash-completion)"
+	if ! checkInPath "podman" __var __error; then return; fi
+	eval "$(podman completion bash)"
 	__var=0
 }
 
