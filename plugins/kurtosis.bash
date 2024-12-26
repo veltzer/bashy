@@ -1,4 +1,5 @@
-# This is integration of akurtosisular.js (kurtosis on the command line)
+# This is integration of akurtosis (kurtosis on the command line)
+# https://docs.kurtosis.com/guides/adding-command-line-completion
 function _activate_kurtosis() {
 	local -n __var=$1
 	local -n __error=$2
