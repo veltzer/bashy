@@ -83,6 +83,7 @@ prompt_error
 config_core
 nvm
 ng
+kurtosis
 ssh_agent
 complete
 lazygit
