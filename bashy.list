@@ -51,16 +51,16 @@ nvim
 google_cloud_sdk
 awscli
 aws_bash_completions
-gh
+# gh - slow
 terraform
 packer
-eksctl
-k8s
+# eksctl - slow
+# k8s - slow
 oc
-helm
-hugo
+# helm - slow
+# hugo - slow
 # lens
-minikube
+# minikube - slow
 brew
 gradle
 encfs
@@ -81,8 +81,8 @@ prompt_k8s
 prompt_error
 # non prompt command continue
 config_core
-nvm
-ng
+# nvm - slow
+# ng - slow
 kurtosis
 ssh_agent
 complete

@@ -16,7 +16,7 @@ function _install_spark() {
 	set +e
 	# instructions for installing spark are at
 	# https://medium.com/@patilmailbox4/install-apache-spark-on-ubuntu-ffa151e12e30
-	version="3.5.2"
+	version="3.5.4"
 	toplevel="spark-${version}-bin-hadoop3"
 	rm -f "${HOME}/install/spark" || true
 	rm -rf "${HOME}/install/${toplevel}" || true
