@@ -55,7 +55,7 @@ aws_bash_completions
 terraform
 packer
 # eksctl - slow
-# k8s - slow
+k8s
 # oc - slow
 # helm - slow
 # hugo - slow
