@@ -14,7 +14,7 @@ function _activate_kurtosis() {
 }
 
 function _install_kurtosis() {
-	# local e=errexit_save_and_start
+	local e=errexit_save_and_start
 	# local version="2.1.0"
 	# local url="https://github.com/kurtosis-tech/kurtosis-cli-release-artifacts/releases/download/${version}/kurtosis-cli_${version}_linux_amd64.tar.gz"
 	local url
@@ -25,7 +25,7 @@ function _install_kurtosis() {
 	curl --silent -L "${url}" -o "${local}"
 	tar zxf "${local}" -C "${install_dir}" kurtosis
 	chmod +x "${kurtosis_path}"
-	# errexit_restore "${e}"
+	errexit_restore "${e}"
 }
 
 register_interactive _activate_kurtosis
