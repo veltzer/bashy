@@ -25,8 +25,8 @@ bash
 history
 careful_aliases
 pager
-fzf
-# zoxide
+# fzf
+zoxide
 git
 gzip
 hostaliases
