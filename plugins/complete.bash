@@ -19,6 +19,7 @@ function _activate_complete() {
 	complete -C "pymultigit complete" pymultigit
 	complete -C "pymultigit complete" mg
 	complete -C "pygooglecloud complete" pygooglecloud
+	complete -C "pymakehelper complete" pymakehelper
 	__var=0
 }
 
