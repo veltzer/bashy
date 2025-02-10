@@ -8,7 +8,7 @@ function _activate_audacity() {
 }
 
 function _install_audacity() {
-	set +e
+	before_strict
 	_uninstall_audacity
 	folder="${HOME}/install/binaries"
 	executable="${folder}/audacity"
@@ -16,11 +16,11 @@ function _install_audacity() {
 	curl --location --silent --output "${executable}" "${url}"
 	chmod +x "${executable}"
 	echo "downloaded ${executable}"
-	set -e
+	after_strict
 }
 
 function _uninstall_audacity() {
-	set +e
+	before_strict
 	folder="${HOME}/install/binaries"
 	executable="${folder}/audacity"
 	if [ -f "${executable}" ]
@@ -30,7 +30,7 @@ function _uninstall_audacity() {
 	else
 		echo "no audacity detected"
 	fi
-	set -e
+	after_strict
 }
 
 register _activate_audacity

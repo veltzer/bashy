@@ -56,6 +56,7 @@ terraform
 packer
 # eksctl - slow
 k8s
+zoom
 # oc - slow
 # helm - slow
 # hugo - slow

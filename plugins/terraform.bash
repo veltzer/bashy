@@ -7,7 +7,7 @@ function _activate_terraform() {
 }
 
 function _install_terraform() {
-	set +e
+	before_strict
 	# latest version: https://github.com/hashicorp/terraform/issues/9803
 	version=$(curl -s "https://checkpoint-api.hashicorp.com/v1/check/terraform" | jq -r -M ".current_version")
 	# echo "got version [${version}]..."
@@ -18,7 +18,7 @@ function _install_terraform() {
 	wget --quiet "${download}" -P "/tmp"
 	unzip -q "/tmp/${file}" -d "${folder}" terraform
 	rm -rf "/tmp/${file}"
-	set -e
+	after_strict
 }
 
 register_interactive _activate_terraform

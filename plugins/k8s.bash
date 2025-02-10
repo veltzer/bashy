@@ -17,7 +17,7 @@ function _activate_k8s() {
 }
 
 function _install_k8s() {
-	set +e
+	before_install
 	# instructions for installing k8s are at
 	# https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 	if true
@@ -32,7 +32,7 @@ function _install_k8s() {
 	executable="${folder}/kubectl"
 	curl --location --silent --output "${executable}" "https://dl.k8s.io/release/${version}/bin/linux/amd64/kubectl"
 	chmod +x "${executable}"
-	set -e
+	after_install
 }
 
 function _uninstall_k8s() {

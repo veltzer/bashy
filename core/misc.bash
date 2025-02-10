@@ -27,3 +27,13 @@ function _bashy_before_thirdparty() {
 function _bashy_after_thirdparty() {
 	:
 }
+
+function before_strict() {
+	:
+	# set -e
+}
+
+function after_strict() {
+	:
+	# set +e
+}

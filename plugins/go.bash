@@ -11,7 +11,7 @@ function _activate_go() {
 }
 
 function _install_go() {
-	set +e
+	before_strict
 	# https://go.dev/dl/
 	version="1.22.1"
 	url="https://go.dev/dl/go${version}.linux-amd64.tar.gz"
@@ -19,7 +19,7 @@ function _install_go() {
 	full_folder="${folder}/go"
 	rm -rf "${full_folder}"
 	curl --location --silent "${url}" | tar xz -C "${folder}"
-	set -e
+	after_strict
 }
 
 register _activate_go

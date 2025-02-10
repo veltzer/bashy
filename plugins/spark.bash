@@ -13,7 +13,7 @@ function _activate_spark() {
 }
 
 function _install_spark() {
-	set +e
+	before_strict
 	# instructions for installing spark are at
 	# https://medium.com/@patilmailbox4/install-apache-spark-on-ubuntu-ffa151e12e30
 	version="3.5.4"
@@ -24,7 +24,7 @@ function _install_spark() {
 	echo "url is [${url}]..."
 	curl --location --silent "${url}" | tar xz -C "${HOME}/install"
 	ln -s "${HOME}/install/${toplevel}" "${HOME}/install/spark"
-	set -e
+	after_strict
 }
 
 function _uninstall_spark() {

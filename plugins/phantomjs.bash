@@ -11,7 +11,7 @@ function _activate_phantomjs() {
 }
 
 function _install_phantomjs() {
-	set +e
+	before_strict
 	base="phantomjs-2.1.1-linux-x86_64"
 	full="${base}.tar.bz2"
 	url="https://bitbucket.org/ariya/phantomjs/downloads/${full}"
@@ -19,7 +19,7 @@ function _install_phantomjs() {
 	tar xf "/tmp/${full}" -C "${HOME}/install"
 	rm -f "${HOME}/install/phantomjs" || true
 	ln -s "${HOME}/install/${base}" "${HOME}/install/phantomjs"
-	set -e
+	after_strict
 }
 
 register _activate_phantomjs

@@ -7,7 +7,7 @@ function _activate_packer() {
 }
 
 function _install_packer() {
-	set +e
+	before_strict
 	# latest version: https://github.com/hashicorp/terraform/issues/9803
 	version=$(curl -s "https://checkpoint-api.hashicorp.com/v1/check/packer" | jq -r -M ".current_version")
 	# echo "got version [${version}]..."
@@ -18,7 +18,7 @@ function _install_packer() {
 	wget --quiet "${url}" -P "/tmp"
 	unzip -q "/tmp/${file}" -d "${folder}" packer
 	rm -f "/tmp/${file}"
-	set -e
+	after_strict
 }
 
 register_interactive _activate_packer

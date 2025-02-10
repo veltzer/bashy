@@ -20,7 +20,7 @@ function _install_hugo_2() {
 
 function _install_hugo() {
 	# instructions for installing hugo are at https://gohugo.io/installation/linux/
-	set +e
+	before_strict
 	tar="/tmp/hugo.tar.gz"
 	rm -f "${tar}"
 	download_file=$(curl --silent --location https://api.github.com/repos/gohugoio/hugo/releases/latest | jq --raw-output '.assets[].browser_download_url | select(test("hugo_extended.*_linux-amd64.tar.gz$"))')
@@ -29,7 +29,7 @@ function _install_hugo() {
 	folder="${HOME}/install/binaries"
 	tar xf "${tar}" -C "${folder}" hugo
 	rm -f "${tar}"
-	set -e
+	after_strict
 }
 
 function _uninstall_hugo() {
