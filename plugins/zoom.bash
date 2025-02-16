@@ -14,3 +14,11 @@ function _uninstall_zoom() {
 	sudo dpkg --purge zoom
 	set +e
 }
+
+function _activate_zoom() {
+	local -n __var=$1
+	local -n __error=$2
+	__var=0
+}
+
+register_interactive _activate_zoom
