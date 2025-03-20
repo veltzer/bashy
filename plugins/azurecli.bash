@@ -1,5 +1,8 @@
 # azure completion is in /etc/bash_completion.d/azure-cli
 # and comes with the azure tools deb package
+# 
+# Documentation about how to install the azure cli tools:
+# https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-linux?pivots=apt
 
 function _install_azurecli() {
 	curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
