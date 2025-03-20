@@ -1,3 +1,6 @@
+# azure completion is in /etc/bash_completion.d/azure-cli
+# and comes with the azure tools deb package
+
 function _install_azurecli() {
 	curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 }
@@ -10,13 +13,6 @@ function _activate_azurecli() {
 	local -n __var=$1
 	local -n __error=$2
 	if ! checkInPath "az" __var __error; then return; fi
-	# shellcheck source=/dev/null
-	if ! source "$(az completion script)"
-	then
-		__var=$?
-		__error="could not source azure completion"
-		return
-	fi
 	__var=0
 }
 
