@@ -16,7 +16,7 @@ function _activate_powerline() {
 	if ! source /usr/share/powerline/bindings/bash/powerline.sh
 	then
 		__var=$?
-		__error="could not sourec powerline.sh"
+		__error="could not source powerline.sh"
 		return
 	fi
 	__var=0
