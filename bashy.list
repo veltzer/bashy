@@ -50,6 +50,7 @@ vim
 nvim
 google_cloud_sdk
 awscli
+azurecli
 aws_bash_completions
 # gh - slow
 terraform
