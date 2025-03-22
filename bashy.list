@@ -52,7 +52,7 @@ google_cloud_sdk
 awscli
 azurecli
 aws_bash_completions
-# gh - slow
+gh
 terraform
 packer
 # eksctl - slow
@@ -91,6 +91,7 @@ complete
 lazygit
 audacity
 dotnet
+docker
 # java
 java_jrun
 spark
