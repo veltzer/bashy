@@ -85,7 +85,7 @@ prompt_error
 config_core
 # nvm - slow
 # ng - slow
-kurtosis
+# kurtosis - buggy
 ssh_agent
 complete
 lazygit
