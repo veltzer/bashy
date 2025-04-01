@@ -1,5 +1,5 @@
 alabaster==1.0.0
-attrs==25.1.0
+attrs==25.3.0
 babel==2.17.0
 certifi==2025.1.31
 charset-normalizer==3.4.1
@@ -8,7 +8,7 @@ gitdb==4.0.12
 GitPython==3.1.44
 idna==3.10
 imagesize==1.4.1
-Jinja2==3.1.5
+Jinja2==3.1.6
 jsonschema==4.23.0
 jsonschema-specifications==2024.10.1
 logging_tree==1.10
@@ -24,10 +24,11 @@ pytconf==0.1.18
 PyYAML==6.0.2
 referencing==0.36.2
 requests==2.32.3
-rpds-py==0.22.3
+roman-numerals-py==3.1.0
+rpds-py==0.24.0
 smmap==5.0.2
 snowballstemmer==2.2.0
-Sphinx==8.1.3
+Sphinx==8.2.3
 sphinxcontrib-applehelp==2.0.0
 sphinxcontrib-devhelp==2.0.0
 sphinxcontrib-htmlhelp==2.1.0
@@ -35,7 +36,7 @@ sphinxcontrib-jsmath==1.0.1
 sphinxcontrib-qthelp==2.0.0
 sphinxcontrib-serializinghtml==2.0.0
 termcolor==2.5.0
-typing_extensions==4.12.2
+typing_extensions==4.13.0
 urllib3==2.3.0
 venv-run==0.2.0
 yattag==1.16.1
