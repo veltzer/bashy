@@ -1,8 +1,9 @@
 function _activate_rust() {
 	local -n __var=$1
 	local -n __error=$2
-	if ! checkInPath "cargo" __var __error; then return; fi
-	if ! checkInPath "rustc" __var __error; then return; fi
+	# ubuntu package installation
+	# if ! checkInPath "cargo" __var __error; then return; fi
+	# if ! checkInPath "rustc" __var __error; then return; fi
 	# CARGO_HOME="${HOME}/.cargo"
 	CARGO_HOME="${HOME}/install/cargo"
 	CARGO_HOME_BIN="${CARGO_HOME}/bin"
