@@ -13,8 +13,8 @@ function _activate_rust() {
 	# sourcing the cargo env file is just adding ~/.cargo/bin to path at the head.
 	# I'd rather do it with my functions.
 	# shellcheck source=/dev/null
-	# source "${CARGO_ENV}"
-	_bashy_pathutils_add_head PATH "${CARGO_HOME_BIN}"
+	source "${CARGO_ENV}"
+	# _bashy_pathutils_add_head PATH "${CARGO_HOME_BIN}"
 	export CARGO_HOME
 	__var=0
 }
