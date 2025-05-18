@@ -22,7 +22,7 @@ function _activate_rust() {
 function _remove_rust() {
 	export CARGO_HOME="${HOME}/install/cargo"
 	rm -rf "${CARGO_HOME}"
-	sudp apt remove cargo rustc rust-src
+	sudo apt remove cargo rustc rust-src
 }
 
 function _install_rust_rustup() {
