@@ -7,6 +7,7 @@ function _activate_go() {
 	if ! checkDirectoryExists "${GO_BIN}" __var __error; then return; fi
 	_bashy_pathutils_add_head PATH "${GO_BIN}"
 	export GO_HOME
+	export GOPATH="${HOME}/.cache/go"
 	__var=0
 }
 
