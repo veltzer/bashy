@@ -5,9 +5,10 @@ function _activate_go() {
 	local GO_BIN="${GO_HOME}/bin"
 	if ! checkDirectoryExists "${GO_HOME}" __var __error; then return; fi
 	if ! checkDirectoryExists "${GO_BIN}" __var __error; then return; fi
-	_bashy_pathutils_add_head PATH "${GO_BIN}"
 	export GO_HOME
 	export GOPATH="${HOME}/.cache/go"
+	_bashy_pathutils_add_head PATH "${GO_BIN}"
+	_bashy_pathutils_add_head PATH "${GOPATH}/bin"
 	__var=0
 }
 
