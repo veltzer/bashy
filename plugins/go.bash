@@ -1,12 +1,13 @@
 function _activate_go() {
 	local -n __var=$1
 	local -n __error=$2
+	GOPATH="${HOME}/.cache/go"
 	GO_HOME="${HOME}/install/go"
 	local GO_BIN="${GO_HOME}/bin"
 	if ! checkDirectoryExists "${GO_HOME}" __var __error; then return; fi
 	if ! checkDirectoryExists "${GO_BIN}" __var __error; then return; fi
-	export GO_HOME
-	export GOPATH="${HOME}/.cache/go"
+	# export GO_HOME
+	# export GOPATH
 	_bashy_pathutils_add_head PATH "${GO_BIN}"
 	_bashy_pathutils_add_head PATH "${GOPATH}/bin"
 	complete -C gocomplete go
