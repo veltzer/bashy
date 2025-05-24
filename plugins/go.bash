@@ -9,6 +9,7 @@ function _activate_go() {
 	export GOPATH="${HOME}/.cache/go"
 	_bashy_pathutils_add_head PATH "${GO_BIN}"
 	_bashy_pathutils_add_head PATH "${GOPATH}/bin"
+	complete -C gocomplete go
 	__var=0
 }
 
