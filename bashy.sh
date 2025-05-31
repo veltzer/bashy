@@ -23,8 +23,8 @@
 function _bashy_load_core() {
 	# cannot use _bashy_source_absolute function here since it is still not loaded (bootstrap problem)
 	# shellcheck source=/dev/null
-	source "${BASH_SOURCE%/*}/core/source.bash"
-	for f in "${BASH_SOURCE%/*}"/core/*.bash
+	source "${BASH_SOURCE%/*}/core/source.sh"
+	for f in "${BASH_SOURCE%/*}"/core/*.sh
 	do
 		local _name="${f##*/}"
 		_name="${_name%%.*}"
@@ -73,13 +73,13 @@ function _bashy_read_plugins() {
 function _bashy_load_plugins() {
 	for plugin in "${bashy_array_plugin[@]}"
 	do
-		current_filename="${HOME}/.bashy/plugins/${plugin}.bash"
+		current_filename="${HOME}/.bashy/plugins/${plugin}.sh"
 		if [[ -r "${current_filename}" ]]
 		then
 			assoc_set bashy_assoc_found "${plugin}" 1
 			assoc_set bashy_assoc_filename "${plugin}" "${current_filename}"
 		else
-			current_filename="${HOME}/.bashy_extra/${plugin}.bash"
+			current_filename="${HOME}/.bashy_extra/${plugin}.sh"
 			if [[ -r "${current_filename}" ]]
 			then
 				assoc_set bashy_assoc_found "${plugin}" 1
@@ -308,6 +308,6 @@ function _bashy_init() {
 }
 
 # now run _bashy_init
-# we don't want to force the user to do anything more than source ~/.bashy/bashy.bash
+# we don't want to force the user to do anything more than source ~/.bashy/bashy.sh
 # in his ~/.bashrc, so we do this automatically
 _bashy_init
