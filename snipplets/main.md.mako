@@ -20,7 +20,7 @@ git clone --branch master --depth 1 https://github.com/veltzer/bashy.git ~/.bash
 Then edit `~/.bashrc` and add the following line as the last line:
 
 ```bash
-source ~/.bashy/bashy.bash
+source ~/.bashy/bashy.sh
 ```
 
 In my own setup this is the only line I have in my `~/.bashrc`

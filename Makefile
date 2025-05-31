@@ -25,7 +25,7 @@ Q:=@
 endif # DO_MKDBG
 
 OUT_DIR:=out
-ALL_BASH:=$(shell find -type f -and -name "*.bash" -printf "%P\n")
+ALL_BASH:=$(shell find -type f -and -name "*.sh" -printf "%P\n")
 ALL_BASH_BASE:=$(basename $(ALL_BASH))
 ALL_BASH_STAMP:=$(addsuffix .stamp,$(addprefix $(OUT_DIR)/,$(ALL_BASH_BASE)))
 ALL_TEST_STAMP=out/test_all.test
@@ -68,21 +68,21 @@ clean_hard:
 
 .PHONY: check_all
 check_all:
-	$(Q)pymakehelper no_err git grep "\ \ " -- "*.bash"
-	$(Q)pymakehelper no_err git grep " \$$" -- "*.bash"
+	$(Q)pymakehelper no_err git grep "\ \ " -- "*.sh"
+	$(Q)pymakehelper no_err git grep " \$$" -- "*.sh"
 	$(Q)shellcheck --shell=bash $(ALL_BASH)
-	$(Q)git grep "$$[^\"'{(123 ]" -- "*.bash"
+	$(Q)git grep "$$[^\"'{(123 ]" -- "*.sh"
 
 ############
 # patterns #
 ############
-$(ALL_BASH_STAMP): out/%.stamp: %.bash .shellcheckrc
+$(ALL_BASH_STAMP): out/%.stamp: %.sh .shellcheckrc
 	$(info doing [$@])
 	$(Q)shellcheck --shell=bash --external-sources $<
 	$(Q)pymakehelper touch_mkdir $@
 $(ALL_TEST_STAMP): $(ALL_BASH)
 	$(info doing [$@])
-	$(Q)./test_all.bash
+	$(Q)./test_all.sh
 	$(Q)pymakehelper touch_mkdir $@
 
 ##########

@@ -1,4 +1,4 @@
-source core/python.bash
+source core/python.sh
 
 function test_python_version() {
 	a=

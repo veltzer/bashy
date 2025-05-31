@@ -1,4 +1,4 @@
-source core/float.bash
+source core/float.sh
 
 function test_gt() {
 	if float_gt 3.14 3.22

@@ -1,6 +1,6 @@
-source core/var.bash
-source core/measure.bash
-source core/float.bash
+source core/var.sh
+source core/measure.sh
+source core/float.sh
 
 function sleep_a_little() {
 	sleep 2

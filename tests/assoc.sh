@@ -1,4 +1,4 @@
-source core/assoc.bash
+source core/assoc.sh
 
 function testAssoc() {
 	assoc_new conf
