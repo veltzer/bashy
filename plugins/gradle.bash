@@ -10,7 +10,7 @@ function _activate_gradle() {
 
 function _install_gradle() {
 	# this function installs gradle from a binary zip file distribution
-	version="8.2.1"
+	version="8.14.1"
 	folder="gradle-${version}"
 	filename="${folder}-bin.zip"
 	rm -rf "/tmp/${filename}"

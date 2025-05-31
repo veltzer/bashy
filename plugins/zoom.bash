@@ -10,9 +10,9 @@ function _install_zoom() {
 }
 
 function _uninstall_zoom() {
-	set -e
+	before_strict
 	sudo dpkg --purge zoom
-	set +e
+	after_strict
 }
 
 function _activate_zoom() {

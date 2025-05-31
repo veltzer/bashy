@@ -58,6 +58,7 @@ packer
 # eksctl - slow
 k8s
 zoom
+buck2
 # oc - slow
 # helm - slow
 # hugo - slow
@@ -92,6 +93,7 @@ lazygit
 audacity
 dotnet
 docker
+# podman
 # java
 java_jrun
 spark
