@@ -3,8 +3,8 @@
 ##############
 # do you want to see the commands executed ?
 DO_MKDBG:=0
-# do you want to check python syntax?
-DO_CHECK_SYNTAX:=1
+# do you want to check bash syntax?
+DO_SH_SYNTAX:=1
 # do you want to run shell tests?
 DO_TEST:=1
 # use the ALLDEP features (to depend on the Makefile itself)
@@ -25,16 +25,17 @@ Q:=@
 endif # DO_MKDBG
 
 OUT_DIR:=out
-ALL_BASH:=$(shell find -type f -and -name "*.sh" -printf "%P\n")
-ALL_BASH_BASE:=$(basename $(ALL_BASH))
-ALL_BASH_STAMP:=$(addsuffix .stamp,$(addprefix $(OUT_DIR)/,$(ALL_BASH_BASE)))
 ALL_TEST_STAMP=out/test_all.test
 
-ifeq ($(DO_CHECK_SYNTAX),1)
-	ALL+=$(ALL_BASH_STAMP)
-endif # DO_CHECK_SYNTAX
+SH_SRC:=$(shell find . -type f -name "*.sh" -and -not -path "./.venv/*" -and -not -path "./node_modules/*" -printf "%P\n")
+SH_CHECK:=$(addprefix out/, $(addsuffix .check, $(SH_SRC)))
+
+ifeq ($(DO_SH_SYNTAX),1)
+ALL+=$(SH_CHECK)
+endif # DO_SH_SYNTAX
+
 ifeq ($(DO_TEST),1)
-	ALL+=$(ALL_TEST_STAMP)
+ALL+=$(ALL_TEST_STAMP)
 endif # DO_TEST
 
 #########
@@ -50,8 +51,9 @@ install:
 
 .PHONY: debug
 debug:
-	$(info ALL_BASH is $(ALL_BASH))
-	$(info ALL_BASH_STAMP is $(ALL_BASH_STAMP))
+	$(info ALL is $(ALL))
+	$(info SH_SRC is $(SH_SRC))
+	$(info SH_CHECK is $(SH_CHECK))
 
 .PHONY: first_line_stats
 first_line_stats:
@@ -76,9 +78,9 @@ check_all:
 ############
 # patterns #
 ############
-$(ALL_BASH_STAMP): out/%.stamp: %.sh .shellcheckrc
+$(SH_CHECK): out/%.check: % .shellcheckrc
 	$(info doing [$@])
-	$(Q)shellcheck --shell=bash --external-sources $<
+	$(Q)shellcheck --shell=bash --external-sources --source-path="$${HOME}" $<
 	$(Q)pymakehelper touch_mkdir $@
 $(ALL_TEST_STAMP): $(ALL_BASH)
 	$(info doing [$@])
