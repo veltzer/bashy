@@ -59,6 +59,7 @@ packer
 k8s
 zoom
 buck2
+bazel
 # oc - slow
 # helm - slow
 # hugo - slow
