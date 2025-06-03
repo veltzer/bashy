@@ -3,8 +3,8 @@ function _activate_bazel() {
 	local -n __var=$1
 	local -n __error=$2
 	if ! checkInPath "bazel" __var __error; then return; fi
-	# shellcheck source=/dev/null
-	source <(bazel completion bash)
+	export BAZEL_OPTS="--host_jvm_args=-XX:+IgnoreUnrecognizedVMOptions"
+	export BAZEL_JVM_FLAGS="-XX:+IgnoreUnrecognizedVMOptions"
 	__var=0
 }
 
@@ -15,6 +15,9 @@ function _install_bazel() {
 	executable="${HOME}/install/binaries/bazel"
 	curl --location --silent "${download_file}" --output "${executable}"
 	chmod +x "${executable}" 
+	# now for completion
+	# target="${HOME}/.bash_completion.d/bazel"
+	# curl --location --silent --output "${target}" "https://raw.githubusercontent.com/bazelbuild/bazel/master/scripts/bazel-complete.bash"
 	after_strict
 }
 
