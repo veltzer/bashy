@@ -34,7 +34,7 @@ function _install_go() {
 	url="https://go.dev/dl/go${version}.linux-amd64.tar.gz"
 	curl --location --silent "${url}" | tar xz -C "${folder}"
 	rm -rf "${HOME}/.cache/go-build" "${HOME}/install/gopath"
-	mkdir "${HOME}/install/gopath"
+	mkdir -p "${HOME}/install/gopath/bin"
 	after_strict
 }
 
