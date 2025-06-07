@@ -17,7 +17,9 @@ function _activate_go() {
 function _install_go() {
 	before_strict
 	# https://go.dev/dl/
-	version="1.22.1"
+	version=$(curl -s https://go.dev/VERSION?m=text | grep -o "[0-9]\+\.[0-9]\+\.[0-9]\+")
+	# version="1.22.1"
+	echo "installing version ${version}..."
 	url="https://go.dev/dl/go${version}.linux-amd64.tar.gz"
 	folder="${HOME}/install/"
 	full_folder="${folder}/go"
