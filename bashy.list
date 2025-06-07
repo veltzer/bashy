@@ -59,6 +59,7 @@ packer
 k8s
 zoom
 buck2
+gemini
 # bazel - still needs work
 # oc - slow
 # helm - slow
