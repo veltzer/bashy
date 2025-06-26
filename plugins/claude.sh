@@ -4,7 +4,7 @@ function _activate_claude() {
 	if ! pass show "keys/claude.ai" &>/dev/null
 	then
 		__var=$?
-		__error="could not source bash_it.sh"
+		__error="no pass(1) for [keys/claude.ai] to activate claude.ai"
 		return
 	fi
 	ANTHROPIC_API_KEY="$(pass show "keys/claude.ai")"
