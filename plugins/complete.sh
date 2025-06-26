@@ -10,16 +10,18 @@ function _activate_complete() {
 	complete -C "pycmdtools complete" pycmdtools
 	complete -C "pypowerline complete" pypowerline
 	complete -C "pygitpub complete" pygitpub
-	complete -C "pytubekit complete" pytubekit
 	complete -C "pytsv complete" pytsv
 	complete -C "pyscrapers complete" pyscrapers
 	complete -C "pyflexebs complete" pyflexebs
 	complete -C "pydatacheck complete" pydatacheck
-	complete -C "pycontacts complete" pycontacts
 	complete -C "pymultigit complete" pymultigit
 	complete -C "pymultigit complete" mg
 	complete -C "pygooglecloud complete" pygooglecloud
 	complete -C "pymakehelper complete" pymakehelper
+
+	complete -C "pygcal complete" pygcal
+	complete -C "pytubekit complete" pytubekit
+	complete -C "pycontacts complete" pycontacts
 	__var=0
 }
 
