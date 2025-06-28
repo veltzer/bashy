@@ -64,7 +64,7 @@ function pyrun() {
 	then
 		# If 'src' exists, run the command with PYTHONPATH set to 'src'.
 		# This allows Python to find the modules inside the src directory.
-		echo "--> Found 'src' directory. Running with PYTHONPATH=src"
+		# echo "--> Found 'src' directory. Running with PYTHONPATH=src"
 		PYTHONPATH="src" python -m "${module}" "${@:2}"
 	else
 		# If no 'src' directory, run the command normally for a flat layout.
