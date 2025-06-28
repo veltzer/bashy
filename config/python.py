@@ -1,5 +1,4 @@
-""" python dependencies for this project """
-
+""" python deps for this project """
 
 build_requires: list[str] = [
     "pydmt",
