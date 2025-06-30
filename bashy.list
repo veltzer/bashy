@@ -78,7 +78,7 @@ pip
 # order must be aws, gcp first and only then env
 # but this order must be in *reverse*
 # so the order must be env, gcp, aws
-prompt_pydmt
+# prompt_pydmt
 prompt_gems
 prompt_node
 prompt_auto

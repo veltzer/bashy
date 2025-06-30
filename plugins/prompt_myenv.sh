@@ -1,4 +1,4 @@
-# This init script manages your python virtual envrionment for you.
+# This script manages your python virtual envrionment for you.
 #
 # Here is what it does:
 # - Whenever you 'cd' into a directory it will activate the right
