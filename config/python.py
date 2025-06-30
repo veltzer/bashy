@@ -1,7 +1,6 @@
 """ python deps for this project """
 
-build_requires: list[str] = [
-    "pydmt",
-    "pymakehelper",
-]
+import config.shared
+
+build_requires: list[str] = config.shared.BUILD
 requires = build_requires
