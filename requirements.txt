@@ -21,7 +21,7 @@ numpy==2.3.1
 packaging==25.0
 pandas==2.3.0
 pycmdtools==0.0.85
-pydmt==0.3.23
+pydmt==0.3.24
 pyfakeuse==0.0.9
 Pygments==2.19.2
 pylogconf==0.0.38
