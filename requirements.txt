@@ -22,7 +22,7 @@ packaging==25.0
 pandas==2.3.0
 pyclassifiers==0.0.20
 pycmdtools==0.0.85
-pydmt==0.3.25
+pydmt==0.3.26
 pyfakeuse==0.0.9
 Pygments==2.19.2
 pylogconf==0.0.38
