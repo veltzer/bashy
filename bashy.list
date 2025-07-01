@@ -67,6 +67,7 @@ claude
 # helm - slow
 # hugo - slow
 # lens
+uv
 minikube
 brew
 gradle
