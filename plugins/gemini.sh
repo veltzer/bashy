@@ -12,9 +12,15 @@ function _activate_gemini() {
 	__var=0
 }
 
-function _install_gemini() {
+function _install_gemini_go() {
 	before_strict
-	go install github.com/reugn/gemini-cli/cmd/gemini@latest
+	go install "github.com/reugn/gemini-cli/cmd/gemini@latest"
+	after_strict
+}
+
+function _install_gemini_npm() {
+	before_strict
+	npm install -g "@google/gemini-cli"
 	after_strict
 }
 
