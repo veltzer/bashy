@@ -1,3 +1,5 @@
+- add saving a stack of all previous commands
+
 - I have way too many plugins/prompt_*.bash plugins and a lot of them do the same thing.
 	It seems like the auto plugin can take care of most of them.
 	prompt_gems and prompt_node do almost the same thing:
