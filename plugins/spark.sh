@@ -22,7 +22,7 @@ function _install_spark() {
 	rm -rf "${HOME}/install/${toplevel}" || true
 	url="https://dlcdn.apache.org/spark/spark-${version}/spark-${version}-bin-hadoop3.tgz"
 	echo "url is [${url}]..."
-	curl --location --silent "${url}" | tar xz -C "${HOME}/install"
+	curl --fail --location --silent "${url}" | tar xz -C "${HOME}/install"
 	ln -s "${HOME}/install/${toplevel}" "${HOME}/install/spark"
 	after_strict
 }

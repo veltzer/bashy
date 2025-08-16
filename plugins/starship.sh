@@ -19,7 +19,7 @@ function _install_starship() {
 	# cargo way
 	#cargo install starship --locked
 	# install.sh way
-	BIN_DIR="${HOME}/install/binaries" sh <(curl -sS https://starship.rs/install.sh) -y
+	BIN_DIR="${HOME}/install/binaries" sh <(curl --fail --silent https://starship.rs/install.sh) -y
 }
 
 register_interactive _activate_starship

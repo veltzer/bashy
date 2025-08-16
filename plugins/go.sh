@@ -28,11 +28,11 @@ function _install_go() {
 	folder="${HOME}/install/"
 	full_folder="${folder}/go"
 	rm -rf "${full_folder}"
-	version=$(curl -s https://go.dev/VERSION?m=text | grep -o "[0-9]\+\.[0-9]\+\.[0-9]\+")
+	version=$(curl --fail --show-error --silent "https://go.dev/VERSION?m=text" | grep -o "[0-9]\+\.[0-9]\+\.[0-9]\+")
 	# version="1.22.1"
 	echo "installing version ${version}..."
 	url="https://go.dev/dl/go${version}.linux-amd64.tar.gz"
-	curl --location --silent "${url}" | tar xz -C "${folder}"
+	curl --fail --location --silent "${url}" | tar xz -C "${folder}"
 	rm -rf "${HOME}/.cache/go-build" "${HOME}/install/gopath"
 	mkdir -p "${HOME}/install/gopath/bin"
 	after_strict

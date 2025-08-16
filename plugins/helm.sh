@@ -14,7 +14,7 @@ function _activate_helm() {
 
 function _install_helm() {
 	rm -f "${HOME}/install/binaries/helm" /tmp/get_helm.sh
-	curl -fsSL -o /tmp/get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+	curl --fail --silent --location --show-error --output "/tmp/get_helm.sh" "https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3"
 	chmod +x /tmp/get_helm.sh
 	HELM_INSTALL_DIR="${HOME}/install/binaries" /tmp/get_helm.sh --no-sudo
 	rm -f /tmp/get_helm.sh

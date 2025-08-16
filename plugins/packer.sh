@@ -9,7 +9,7 @@ function _activate_packer() {
 function _install_packer() {
 	before_strict
 	# latest version: https://github.com/hashicorp/terraform/issues/9803
-	version=$(curl -s "https://checkpoint-api.hashicorp.com/v1/check/packer" | jq -r -M ".current_version")
+	version=$(curl --fail --show-error --silent "https://checkpoint-api.hashicorp.com/v1/check/packer" | jq -r -M ".current_version")
 	# echo "got version [${version}]..."
 	file="packer_${version}_linux_amd64.zip"
 	url="https://releases.hashicorp.com/packer/${version}/${file}"

@@ -30,7 +30,7 @@ function _install_rust_rustup() {
 	export CARGO_HOME="${HOME}/install/cargo"
 	export RUSTUP_HOME="${HOME}/.rustup"
 	rm -rf "${CARGO_HOME}" "${RUSTUP_HOME}"
-	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+	curl --fail --proto '=https' --tlsv1.2 --silent --show-error "https://sh.rustup.rs" | sh
 }
 
 function _install_rust_ubuntu() {

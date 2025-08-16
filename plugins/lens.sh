@@ -10,7 +10,7 @@ function _install_lens() {
 	# https://docs.k8slens.dev/getting-started/install-lens/#install-lens-desktop-from-the-appimage
 	folder="${HOME}/install/binaries"
 	executable="${folder}/lens"
-	curl --location --silent --output "${executable}" "https://api.k8slens.dev/binaries/latest.x86_64.AppImage"
+	curl --fail --location --silent --output "${executable}" "https://api.k8slens.dev/binaries/latest.x86_64.AppImage"
 	chmod +x "${executable}"
 }
 

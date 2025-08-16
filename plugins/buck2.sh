@@ -5,7 +5,7 @@ function _install_buck2() {
 	url="https://github.com/facebook/buck2/releases/download/latest/buck2-x86_64-unknown-linux-gnu.zst"
 	local_file="/tmp/file.zst"
 	final="${HOME}/install/binaries/buck2"
-	curl --silent --location "${url}" --output "${local_file}"
+	curl --fail --silent --location "${url}" --output "${local_file}"
 	zstd -d "${local_file}" -o "${final}"
 	chmod +x "${final}"
 	after_strict

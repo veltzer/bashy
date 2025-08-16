@@ -49,7 +49,7 @@ function _install_awscli_old() {
 
 function _install_awscli() {
 	rm -rf /tmp/awscliv2.zip /tmp/awscliv2 /tmp/aws "${HOME}/install/aws"
-	curl --silent "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
+	curl --fail --silent "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" --output "/tmp/awscliv2.zip"
 	unzip -qq /tmp/awscliv2.zip -d /tmp
 	rm -rf "${HOME}/install/aws"
 	/tmp/aws/install -i "${HOME}/install/aws" -b "${HOME}/install/aws/bin" > /dev/null
@@ -65,9 +65,9 @@ function _install_awscli() {
 	echo "following is the version of awscli (aws --version)..."
 	aws --version
 	# now download the aws-iam-authenticator
-	download_file=$(curl -sL https://api.github.com/repos/kubernetes-sigs/aws-iam-authenticator/releases/latest | jq -r '.assets[].browser_download_url | select(endswith("_linux_amd64"))')
+	download_file=$(curl --fail --silent --location https://api.github.com/repos/kubernetes-sigs/aws-iam-authenticator/releases/latest | jq -r '.assets[].browser_download_url | select(endswith("_linux_amd64"))')
 	executable="${HOME}/install/aws/bin/aws-iam-authenticator"
-	curl -Lo "${executable}" "${download_file}"
+	curl --fail --location --output "${executable}" "${download_file}"
 	chmod +x "${executable}" 
 }
 

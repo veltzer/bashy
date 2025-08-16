@@ -10,14 +10,14 @@ function _activate_bazel() {
 
 function _install_bazel() {
 	before_strict
-	download_file=$(curl --silent --location https://api.github.com/repos/bazelbuild/bazel/releases/latest | jq --raw-output '.assets[].browser_download_url | select(endswith("-linux-x86_64")) | select(contains("nojdk") | not)')
+	download_file=$(curl --fail --silent --location "https://api.github.com/repos/bazelbuild/bazel/releases/latest" | jq --raw-output '.assets[].browser_download_url | select(endswith("-linux-x86_64")) | select(contains("nojdk") | not)')
 	echo "download_file is ${download_file}"
 	executable="${HOME}/install/binaries/bazel"
-	curl --location --silent "${download_file}" --output "${executable}"
+	curl --fail --location --silent "${download_file}" --output "${executable}"
 	chmod +x "${executable}" 
 	# now for completion
 	# target="${HOME}/.bash_completion.d/bazel"
-	# curl --location --silent --output "${target}" "https://raw.githubusercontent.com/bazelbuild/bazel/master/scripts/bazel-complete.bash"
+	# curl --fail --location --silent --output "${target}" "https://raw.githubusercontent.com/bazelbuild/bazel/master/scripts/bazel-complete.bash"
 	after_strict
 }
 

@@ -13,7 +13,7 @@ function _install_audacity() {
 	folder="${HOME}/install/binaries"
 	executable="${folder}/audacity"
 	url="https://github.com/audacity/audacity/releases/download/Audacity-3.4.2/audacity-linux-3.4.2-x64.AppImage"
-	curl --location --silent --output "${executable}" "${url}"
+	curl --fail --location --silent --output "${executable}" "${url}"
 	chmod +x "${executable}"
 	echo "downloaded ${executable}"
 	after_strict

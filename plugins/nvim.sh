@@ -27,8 +27,7 @@ function _install_nvim_latest_appimage() {
 	folder="${HOME}/install/binaries"
 	executable="${folder}/nvim"
 	rm -f "${executable}"
-	# curl --location --silent --output "${executable}" "https://github.com/neovim/neovim/releases/download/${version}/nvim.appimage"
-	curl --location --silent --output "${executable}" "https://github.com/neovim/neovim/releases/${version}/download/nvim.appimage"
+	curl --fail --location --silent --output "${executable}" "https://github.com/neovim/neovim/releases/${version}/download/nvim.appimage"
 	chmod +x "${executable}"
 }
 
@@ -36,14 +35,14 @@ function _install_nvim_latest_tar() {
 	version="latest"
 	folder="${HOME}/install/nvim-linux64"
 	rm -rf "${folder}"
-	curl --location --silent "https://github.com/neovim/neovim/releases/${version}/download/nvim-linux64.tar.gz" | tar xz -C "${HOME}/install"
+	curl --fail --location --silent "https://github.com/neovim/neovim/releases/${version}/download/nvim-linux64.tar.gz" | tar xz -C "${HOME}/install"
 }
 
 function _install_nvim_nightly_tar() {
 	version="nightly"
 	folder="${HOME}/install/nvim-linux64"
 	rm -rf "${folder}"
-	curl --location --silent "https://github.com/neovim/neovim-releases/releases/download/${version}/nvim-linux64.tar.gz" | tar xz -C "${HOME}/install"
+	curl --fail --location --silent "https://github.com/neovim/neovim-releases/releases/download/${version}/nvim-linux64.tar.gz" | tar xz -C "${HOME}/install"
 }
 
 function _install_nvim_ubuntu() {

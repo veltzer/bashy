@@ -23,9 +23,9 @@ function _install_hugo() {
 	before_strict
 	tar="/tmp/hugo.tar.gz"
 	rm -f "${tar}"
-	download_file=$(curl --silent --location https://api.github.com/repos/gohugoio/hugo/releases/latest | jq --raw-output '.assets[].browser_download_url | select(test("hugo_extended.*_linux-amd64.tar.gz$"))')
+	download_file=$(curl --fail --silent --location "https://api.github.com/repos/gohugoio/hugo/releases/latest" | jq --raw-output '.assets[].browser_download_url | select(test("hugo_extended.*_linux-amd64.tar.gz$"))')
 	echo "download_file is [${download_file}]"
-	curl --location --silent "${download_file}" --output "${tar}"
+	curl --fail --location --silent "${download_file}" --output "${tar}"
 	folder="${HOME}/install/binaries"
 	tar xf "${tar}" -C "${folder}" hugo
 	rm -f "${tar}"

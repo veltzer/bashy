@@ -4,7 +4,7 @@ function _install_zoom() {
 	before_strict
 	url="https://zoom.us/client/latest/zoom_amd64.deb"
 	local_file="/tmp/zoom_amd64.deb"
-	curl --location --silent --output "${local_file}" "${url}"
+	curl --fail --location --silent --output "${local_file}" "${url}"
 	sudo dpkg --install "${local_file}"
 	after_strict
 }

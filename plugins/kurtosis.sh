@@ -18,12 +18,12 @@ function _install_kurtosis() {
 	# local version="2.1.0"
 	# local url="https://github.com/kurtosis-tech/kurtosis-cli-release-artifacts/releases/download/${version}/kurtosis-cli_${version}_linux_amd64.tar.gz"
 	local url
-	url=$(curl --silent --location https://api.github.com/repos/kurtosis-tech/kurtosis-cli-release-artifacts/releases/latest | jq --raw-output '.assets[].browser_download_url | select(endswith("_linux_amd64.tar.gz"))')
+	url=$(curl --fail --silent --location "https://api.github.com/repos/kurtosis-tech/kurtosis-cli-release-artifacts/releases/latest" | jq --raw-output '.assets[].browser_download_url | select(endswith("_linux_amd64.tar.gz"))')
 	echo "url is [${url}]..."
 	local local_file="/tmp/kurtosis.tar.gz"
 	local install_dir="${HOME}/install/binaries"
 	local kurtosis_path="${install_dir}/kurtosis"
-	curl --silent -L "${url}" -o "${local_file}"
+	curl --fail --silent --location "${url}" --output "${local_file}"
 	tar zxf "${local_file}" -C "${install_dir}" kurtosis
 	chmod +x "${kurtosis_path}"
 	errexit_restore "${e}"
