@@ -23,7 +23,7 @@ function _install_azurecli() {
 
 	# Download
 	echo "Downloading Azure CLI..."
-	curl --fail -L "https://azurecliprod.blob.core.windows.net/msi/azure-cli-latest.tar.gz" -o "${tarball}"
+	curl --fail --location --show-error "https://azurecliprod.blob.core.windows.net/msi/azure-cli-latest.tar.gz" --output "${tarball}"
 
 	# Extract
 	echo "Extracting..."
