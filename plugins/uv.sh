@@ -11,7 +11,7 @@ function _activate_uv() {
 		__error="problem in sourcing uv completion"
 		return
 	fi
-	UV_PUBLISH_TOKEN=$(pass show keys/pypi-uv)
+	UV_PUBLISH_TOKEN=$(pass show keys/pypi)
 	export UV_PUBLISH_TOKEN
 	__var=0
 }
