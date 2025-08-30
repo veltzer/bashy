@@ -7,7 +7,15 @@
 function _activate_python() {
 	local -n __var=$1
 	local -n __error=$2
-	export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
+	# export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
+	# shellcheck source=/dev/null
+	# you need to "pip install 'keyring[completion]'" for this to work
+	if ! source <(python -m keyring --print-completion bash)
+	then
+		__var=1
+		__error="problem in sourcing keyring completion"
+		return
+	fi
 	__var=0
 }
 
@@ -21,8 +29,8 @@ function pyrun() {
 	# automatically handling both flat and 'src' project layouts.
 	#
 	# Usage:
-	#   For a flat layout: pyrun my_module/main.py
-	#   For an src layout:  pyrun src/my_module/main.py
+	# For a flat layout: pyrun my_module/main.py
+	# For an src layout: pyrun src/my_module/main.py
 	#
 	# Check if any arguments were provided.
 	if [[ ${#} == 0 ]]
@@ -55,9 +63,9 @@ function pyrun() {
 
 	# Convert the file path to a Python module path.
 	# Example: 'my_package/main.py' becomes 'my_package.main'
-	module=${module%.py};      # Remove .py extension
-	module=${module//\//.};    # Replace all '/' with '.'
-	module=${module%.};        # Remove trailing '.' if any
+	module=${module%.py}; # Remove .py extension
+	module=${module//\//.}; # Replace all '/' with '.'
+	module=${module%.}; # Remove trailing '.' if any
 
 	# Check for the existence of an 'src' directory.
 	if [[ -d "src" ]]
