@@ -1,5 +1,3 @@
-#!/bin/bash
-
 function _install_drawio() {
     local install_dir="${HOME}/install/binaries"
     local temp_dir="/tmp/drawio_install"
@@ -69,5 +67,3 @@ function _install_drawio() {
     
     return 0
 }
-
-# Usage: install_drawio
