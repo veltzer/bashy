@@ -4,8 +4,12 @@
 # Documentation about how to install the azure cli tools:
 # https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-linux?pivots=apt
 
-function _install_azurecli_apt() {
+function _install_azurecli_deb() {
 	curl --fail --silent --location "https://aka.ms/InstallAzureCLIDeb" | sudo bash
+}
+
+function _install_azurecli_standalone() {
+	curl --fail --silent --location "https://aka.ms/InstallAzureCLI" | sudo bash
 }
 
 function _install_azurecli() {
@@ -15,7 +19,7 @@ function _install_azurecli() {
 	local tmp_dir="/tmp/azurecli_install"
 	local tarball="/tmp/azure-cli.tar.gz"
 
-	echo "Installing Azure CLI to ${install_dir}..."
+	echo "Installing Azure CLI to [${install_dir}]..."
 
 	# Clean up previous installations and temporary files
 	rm -rf "${install_dir}" "${tmp_dir}" "${tarball}"
@@ -46,7 +50,7 @@ function _install_azurecli() {
 	echo "Cleaning up..."
 	rm -rf "${tmp_dir}" "${tarball}"
 
-	echo "Azure CLI installation complete. Add ${bin_dir} to your PATH."
+	echo "Azure CLI installation complete. Add [${bin_dir}] to your PATH."
 	# set +e
 }
 
