@@ -44,7 +44,7 @@ function _install_azurecli_doesnt_work() {
 	fi
 
 	# Run the install script non-interactively
-	echo "Running install script from ${extracted_dir}..."
+	echo "Running install script from [${extracted_dir}]..."
 	"${extracted_dir}/install" --install-dir "${install_dir}" --bin-dir "${bin_dir}"
 
 	# Clean up
@@ -64,6 +64,14 @@ function _uninstall_azurecli() {
 }
 
 function _activate_azurecli() {
+	local -n __var=$1
+	local -n __error=$2
+	# bash completion for az(1) works out of the box because the "azure-cli" package
+	# installs bash completion files in /etc/bash_completion.d/azure-cli
+	__var=0
+}
+
+function _activate_azurecli_manual() {
 	local -n __var=$1
 	local -n __error=$2
 	local install_dir="${HOME}/install/azurecli"
