@@ -4,6 +4,7 @@
 # Documentation about how to install the azure cli tools:
 # https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-linux?pivots=apt
 
+# recommended
 function _install_azurecli_deb() {
 	curl --fail --silent --location "https://aka.ms/InstallAzureCLIDeb" | sudo bash
 }
@@ -12,7 +13,7 @@ function _install_azurecli_standalone() {
 	curl --fail --silent --location "https://aka.ms/InstallAzureCLI" | sudo bash
 }
 
-function _install_azurecli() {
+function _install_azurecli_doesnt_work() {
 	# set -e
 	local install_dir="${HOME}/install/azurecli"
 	local bin_dir="${install_dir}/bin"
