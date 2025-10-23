@@ -55,6 +55,10 @@ function _install_azurecli_doesnt_work() {
 	# set +e
 }
 
+function _install_azurecli_extensions() {
+	az extension add --name "azure-devops"
+}
+
 function _uninstall_azurecli() {
 	:
 }
