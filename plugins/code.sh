@@ -23,10 +23,10 @@ EOF
 
 function _uninstall_code() {
 	if sudo gpg --list-keys "${MSKEYID}" &> /dev/null; then
-		echo "Key ${MSKEYID} found in personal keyring. Deleting..."
-		sudo gpg --delete-keys --yes "${MSKEYID}"
+		echo "Key [${MSKEYID}] found in personal keyring. Deleting..."
+		sudo gpg --delete-keys --batch "${MSKEYID}"
 	else
-		echo "Key ${MSKEYID} not found in personal keyring. Nothing to do."
+		echo "Key [${MSKEYID}] not found in personal keyring. Nothing to do."
 	fi
 	if [ -f "${MSAPT}" ]
 	then
@@ -42,12 +42,12 @@ function _uninstall_code() {
 	fi
 	if dpkg-query -W -f='${Status}' "${PACKAGE_NAME}" 2>/dev/null | grep -q "install ok installed"
 	then
-		echo "Package '${PACKAGE_NAME}' is installed. Removing..."
+		echo "Package [${PACKAGE_NAME}] is installed. Removing..."
 		# Run the non-interactive removal
 		# sudo DEBIAN_FRONTEND=noninteractive apt-get remove -y "${PACKAGE_NAME}"
 		sudo dpkg --purge code
 	else
-		echo "Package '${PACKAGE_NAME}' is not installed. Nothing to do."
+		echo "Package [${PACKAGE_NAME}] is not installed. Nothing to do."
 	fi
 	sudo apt update
 }
