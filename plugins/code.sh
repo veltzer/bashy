@@ -24,7 +24,7 @@ EOF
 function _uninstall_code() {
 	if sudo gpg --list-keys "${MSKEYID}" &> /dev/null; then
 		echo "Key [${MSKEYID}] found in personal keyring. Deleting..."
-		sudo gpg --delete-keys --batch "${MSKEYID}"
+		sudo gpg --delete-keys --batch --yes "${MSKEYID}"
 	else
 		echo "Key [${MSKEYID}] not found in personal keyring. Nothing to do."
 	fi
