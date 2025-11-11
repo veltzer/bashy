@@ -67,3 +67,11 @@ function _install_drawio() {
     
     return 0
 }
+
+function _activate_drawio() {
+	local -n __var=$1
+	local -n __error=$2
+	__var=0
+}
+
+register_interactive _activate_drawio

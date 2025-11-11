@@ -52,4 +52,11 @@ function _uninstall_code() {
 	sudo apt update
 }
 
+function _activate_code() {
+	local -n __var=$1
+	local -n __error=$2
+	__var=0
+}
+
 register_install _install_code
+register_interactive _activate_code
