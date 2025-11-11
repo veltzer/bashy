@@ -3,6 +3,7 @@
 MSRING="/etc/apt/keyrings/microsoft.gpg"
 MSKEYID="EB3E94ADBE1229CF"
 MSAPT="/etc/apt/sources.list.d/code.sources"
+PACKAGE_NAME="code"
 
 function _install_code() {
 	sudo gpg --keyserver "keyserver.ubuntu.com" --recv-keys "${MSKEYID}"
@@ -39,7 +40,15 @@ function _uninstall_code() {
 	else
 		echo "file [${MSRING}] is not there, not removing"
 	fi
-	sudo dpkg --purge code
+	if dpkg-query -W -f='${Status}' "${PACKAGE_NAME}" 2>/dev/null | grep -q "install ok installed"
+	then
+		echo "Package '${PACKAGE_NAME}' is installed. Removing..."
+		# Run the non-interactive removal
+		# sudo DEBIAN_FRONTEND=noninteractive apt-get remove -y "${PACKAGE_NAME}"
+		sudo dpkg --purge code
+	else
+		echo "Package '${PACKAGE_NAME}' is not installed. Nothing to do."
+	fi
 	sudo apt update
 }
 
