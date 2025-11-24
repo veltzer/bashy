@@ -2,13 +2,15 @@
 
 MSRING="/etc/apt/keyrings/microsoft.gpg"
 MSKEYID="EB3E94ADBE1229CF"
-MSAPT="/etc/apt/sources.list.d/code.sources"
+MSAPT="/etc/apt/sources.list.d/vscode.sources"
 PACKAGE_NAME="code"
 
 function _install_code() {
-	sudo gpg --keyserver "keyserver.ubuntu.com" --recv-keys "${MSKEYID}"
-	sudo gpg --export --armor "${MSKEYID}" | sudo gpg --dearmor -o "${MSRING}"
-	sudo tee "${MSAPT}" > /dev/null << EOF
+	if [ ! -f "${MSAPT}" ]
+	then
+		sudo gpg --keyserver "keyserver.ubuntu.com" --recv-keys "${MSKEYID}"
+		sudo gpg --export --armor "${MSKEYID}" | sudo gpg --dearmor -o "${MSRING}"
+		sudo tee "${MSAPT}" > /dev/null << EOF
 Types: deb
 URIs: https://packages.microsoft.com/repos/code
 Suites: stable
@@ -16,6 +18,7 @@ Components: main
 Architectures: amd64
 Signed-By: ${MSRING}
 EOF
+	fi
 	sudo apt update
 	sudo DEBIAN_FRONTEND=noninteractive apt-get install -y code
 	# sudo apt install code
