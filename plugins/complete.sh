@@ -18,10 +18,12 @@ function _activate_complete() {
 	complete -C "pymultigit complete" mg
 	complete -C "pygooglecloud complete" pygooglecloud
 	complete -C "pymakehelper complete" pymakehelper
-
 	complete -C "pygcal complete" pygcal
 	complete -C "pytubekit complete" pytubekit
 	complete -C "pycontacts complete" pycontacts
+
+	# shellcheck source=/dev/null
+	source <(rsb complete bash)
 	__var=0
 }
 
