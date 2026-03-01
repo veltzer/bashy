@@ -36,4 +36,4 @@ function _uninstall_minikube() {
 	fi
 }
 
-register _activate_minikube
+register_interactive _activate_minikube
