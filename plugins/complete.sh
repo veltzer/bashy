@@ -24,6 +24,8 @@ function _activate_complete() {
 
 	# shellcheck source=/dev/null
 	source <(rsb complete bash)
+	# shellcheck source=/dev/null
+	source <(rmg complete bash)
 	__var=0
 }
 
