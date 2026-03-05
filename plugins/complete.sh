@@ -23,9 +23,11 @@ function _activate_complete() {
 	complete -C "pycontacts complete" pycontacts
 
 	# shellcheck source=/dev/null
-	source <(rsb complete bash)
+	source <(rsbuild complete bash)
 	# shellcheck source=/dev/null
-	source <(rmg complete bash)
+	source <(rsmultigit complete bash)
+	# shellcheck source=/dev/null
+	source <(rscontacts complete bash)
 	__var=0
 }
 
