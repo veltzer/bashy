@@ -30,7 +30,7 @@ function _install_nvim_latest_appimage() {
 	then
 		rm -f "${executable}"
 	fi
-	curl --fail --location --silent --output "${executable}" "https://github.com/neovim/neovim/releases/${version}/download/nvim.appimage"
+	curl --fail --location --silent --output "${executable}" "https://github.com/neovim/neovim/releases/${version}/download/nvim-linux-x86_64.appimage"
 	chmod +x "${executable}"
 }
 
