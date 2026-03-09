@@ -26,7 +26,10 @@ function _install_nvim_latest_appimage() {
 	version="latest"
 	folder="${HOME}/install/binaries"
 	executable="${folder}/nvim"
-	rm -f "${executable}"
+	if [ -f "${executable}" ]
+	then
+		rm -f "${executable}"
+	fi
 	curl --fail --location --silent --output "${executable}" "https://github.com/neovim/neovim/releases/${version}/download/nvim.appimage"
 	chmod +x "${executable}"
 }
