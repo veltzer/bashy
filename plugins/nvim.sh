@@ -2,8 +2,8 @@ function _activate_nvim() {
 	local -n __var=$1
 	local -n __error=$2
 	if ! checkInPath "nvim" __var __error; then return; fi
-	# alias vi="nvim"
-	# alias vim="nvim"
+	alias vi="nvim"
+	alias vim="nvim"
 	__var=0
 }
 function _activate_nvim_with_folder() {
@@ -47,6 +47,13 @@ function _install_nvim_nightly_tar() {
 
 function _install_nvim_ubuntu() {
 	sudo apt install neovim
+}
+
+function _install_nvim_lazy() {
+	# remove previous config
+	rm -rf "${HOME}/.config/nvim"
+	# Clone starter
+	git clone https://github.com/LazyVim/starter ~/.config/nvim
 }
 
 function _clean_nvim() {
