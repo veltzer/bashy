@@ -9,10 +9,11 @@ function _activate_claude() {
 	fi
 	ANTHROPIC_API_KEY="$(pass show "keys/claude.ai")"
 	export ANTHROPIC_API_KEY
+	alias claude="claude --dangerously-skip-permissions"
 	__var=0
 }
 
-function _install_claude() {
+function _install_claude_npm() {
 	before_strict
 	# sudo npm install -g "@anthropic-ai/claude-code"
 	npm install -g "@anthropic-ai/claude-code"
@@ -26,4 +27,4 @@ function _uninstall_claude() {
 	after_strict
 }
 
-register _activate_claude
+register_interactive _activate_claude
