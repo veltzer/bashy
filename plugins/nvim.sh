@@ -26,8 +26,7 @@ function _install_nvim_latest_appimage() {
 	version="latest"
 	folder="${HOME}/install/binaries"
 	executable="${folder}/nvim"
-	if [ -f "${executable}" ]
-	then
+	if [ -f "${executable}" ]; then
 		rm -f "${executable}"
 	fi
 	curl --fail --location --silent --output "${executable}" "https://github.com/neovim/neovim/releases/${version}/download/nvim-linux-x86_64.appimage"
@@ -57,6 +56,7 @@ function _install_nvim_lazy() {
 	rm -rf "${HOME}/.config/nvim"
 	# Clone starter
 	git clone https://github.com/LazyVim/starter ~/.config/nvim
+	nvim --headless "+Lazy! sync" +qa
 }
 
 function _clean_nvim() {
