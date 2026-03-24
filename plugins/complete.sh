@@ -27,6 +27,8 @@ function _activate_complete() {
 	source <(rsmultigit complete bash)
 	# shellcheck source=/dev/null
 	source <(rscontacts complete bash)
+	# shellcheck source=/dev/null
+	source <(rsdedup complete bash)
 	__var=0
 }
 
