@@ -28,6 +28,8 @@ function _activate_complete() {
 	# shellcheck source=/dev/null
 	source <(rscontacts complete bash)
 	# shellcheck source=/dev/null
+	source <(rscalendar complete bash)
+	# shellcheck source=/dev/null
 	source <(rsdedup complete bash)
 	__var=0
 }
