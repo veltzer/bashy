@@ -63,6 +63,7 @@ buck2
 # AI
 gemini
 claude
+copilot
 # bazel - still needs work
 # oc - slow
 # helm - slow
