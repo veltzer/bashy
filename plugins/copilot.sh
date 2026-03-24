@@ -1,6 +1,7 @@
 function _activate_copilot() {
 	local -n __var=$1
 	local -n __error=$2
+	alias copilot="gh copilot"
 	__var=0
 }
 
