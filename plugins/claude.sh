@@ -12,6 +12,19 @@ function _activate_claude() {
 	__var=0
 }
 
+function _install_claude_native() {
+	before_strict
+	curl -fsSL https://claude.ai/install.sh | bash
+	after_strict
+}
+
+function _uninstall_claude_native() {
+	before_strict
+	rm -f ~/.local/bin/claude
+	rm -rf ~/.local/share/claude
+	after_strict
+}
+
 function _install_claude_npm() {
 	before_strict
 	# sudo npm install -g "@anthropic-ai/claude-code"
@@ -19,16 +32,16 @@ function _install_claude_npm() {
 	after_strict
 }
 
-function _install_claude_brew() {
-	before_strict
-	brew upgrade claude-code
-	after_strict
-}
-
-function _uninstall_claude() {
+function _uninstall_claude_npm() {
 	before_strict
 	# sudo npm uninstall -g "@anthropic-ai/claude-code"
 	npm uninstall -g "@anthropic-ai/claude-code"
+	after_strict
+}
+
+function _install_claude_brew() {
+	before_strict
+	brew upgrade claude-code
 	after_strict
 }
 
