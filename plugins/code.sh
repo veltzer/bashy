@@ -5,7 +5,7 @@ MSKEYID="EB3E94ADBE1229CF"
 MSAPT="/etc/apt/sources.list.d/vscode.sources"
 PACKAGE_NAME="code"
 
-function _install_code() {
+function _install_code_apt() {
 	if [ ! -f "${MSAPT}" ]
 	then
 		sudo gpg --keyserver "keyserver.ubuntu.com" --recv-keys "${MSKEYID}"
@@ -24,8 +24,36 @@ EOF
 	# sudo apt install code
 }
 
+function _install_code_direct() {
+  # Get the latest version available from the VS Code update API
+  LATEST=$(curl -fsSL "https://update.code.visualstudio.com/api/update/linux-deb-x64/stable/latest" | python3 -c "import sys,json; print(json.load(sys.stdin)['productVersion'])")
+
+  if command -v code &>/dev/null; then
+    INSTALLED=$(code --version | head -1)
+    if [ "${INSTALLED}" = "${LATEST}" ]; then
+      echo "VS Code is already up to date: ${INSTALLED}"
+      exit 0
+    fi
+    echo "VS Code ${INSTALLED} is installed, but ${LATEST} is available. Upgrading..."
+  else
+    echo "VS Code is not installed. Installing ${LATEST}..."
+  fi
+
+  echo "Downloading VS Code .deb package..."
+  DEB=$(mktemp --suffix=.deb)
+  wget -qO "${DEB}" "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64"
+
+  echo "Installing..."
+  sudo apt-get install -y "${DEB}"
+
+  rm -f "${DEB}"
+  echo "VS Code installed successfully!"
+  code --version
+}
+
 function _uninstall_code() {
-	if sudo gpg --list-keys "${MSKEYID}" &> /dev/null; then
+	if sudo gpg --list-keys "${MSKEYID}" &> /dev/null
+    then
 		echo "Key [${MSKEYID}] found in personal keyring. Deleting..."
 		sudo gpg --delete-keys --batch --yes "${MSKEYID}"
 	else

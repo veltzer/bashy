@@ -18,7 +18,8 @@ function _install_zoom() {
 	remote_version=$(curl --fail --silent --head --location --output /dev/null --write-out '%{url_effective}' "${url}" | grep -oP '/prod/\K[^/]+')
 	# Get installed version (empty if not installed)
 	installed_version=$(dpkg-query -W -f='${Version}' zoom 2>/dev/null || true)
-	if [ "${installed_version}" = "${remote_version}" ]; then
+	if [ "${installed_version}" = "${remote_version}" ]
+  then
 		echo "zoom is already up to date (${installed_version})"
 		after_strict
 		return
