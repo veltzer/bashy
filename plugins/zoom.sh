@@ -1,7 +1,7 @@
 # this is a plugin for zoom
 
-# old version - always downloads and installs
-function _install_zoom_old() {
+function _install_zoom_latest_force() {
+  # old version - always downloads and installs
 	before_strict
 	url="https://zoom.us/client/latest/zoom_amd64.deb"
 	local_file="/tmp/zoom_amd64.deb"
@@ -10,7 +10,7 @@ function _install_zoom_old() {
 	after_strict
 }
 
-function _install_zoom() {
+function _install_zoom_latest() {
 	before_strict
 	url="https://zoom.us/client/latest/zoom_amd64.deb"
 	local_file="/tmp/zoom_amd64.deb"
@@ -28,6 +28,23 @@ function _install_zoom() {
 	curl --fail --location --silent --output "${local_file}" "${url}"
 	sudo dpkg --install "${local_file}"
 	after_strict
+}
+
+function _activate_zoom_6() {
+  # Install Zoom 6.4.6.1370 (downgrade from 7.x)
+  # This downloads the last available 6.x .deb from Zoom's CDN and installs it.
+
+  ZOOM_VERSION="6.4.6.1370"
+  ZOOM_URL="https://cdn.zoom.us/prod/${ZOOM_VERSION}/zoom_amd64.deb"
+  TMPFILE=$(mktemp /tmp/zoom_XXXXXX.deb)
+
+  echo "Downloading Zoom ${ZOOM_VERSION}..."
+  wget -O "${TMPFILE}" "${ZOOM_URL}"
+
+  echo "Installing Zoom ${ZOOM_VERSION} (will downgrade if newer version is installed)..."
+  sudo dpkg -i "${TMPFILE}" || sudo apt-get install -f -y
+  echo "Installed version:"
+  dpkg -l zoom | tail -1
 }
 
 function _uninstall_zoom() {
