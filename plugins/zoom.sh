@@ -30,7 +30,7 @@ function _install_zoom_latest() {
 	after_strict
 }
 
-function _activate_zoom_6() {
+function _install_zoom_6() {
   # Install Zoom 6.4.6.1370 (downgrade from 7.x)
   # This downloads the last available 6.x .deb from Zoom's CDN and installs it.
 
