@@ -8,7 +8,7 @@
 function _activate_pager() {
 	local -n __var=$1
 	local -n __error=$2
-	export PAGER=less
+	export PAGER="less"
 	alias more="less"
 	export LESS="-R"
 	__var=0
