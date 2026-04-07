@@ -31,6 +31,10 @@ function _activate_complete() {
 	source <(rscalendar complete bash)
 	# shellcheck source=/dev/null
 	source <(rsdedup complete bash)
+	# shellcheck source=/dev/null
+	source <(rsspell complete bash)
+	# shellcheck source=/dev/null
+	source <(rstype complete bash)
 	__var=0
 }
 
