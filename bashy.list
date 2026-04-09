@@ -64,6 +64,7 @@ buck2
 gemini
 claude
 copilot
+chatgpt
 # bazel - still needs work
 # oc - slow
 # helm - slow
