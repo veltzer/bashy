@@ -20,6 +20,7 @@ function _install_gemini_go() {
 }
 
 function _install_gemini_npm() {
+  # this is apparently the best way to install gemini
 	before_strict
 	npm install -g "@google/gemini-cli"
 	after_strict
