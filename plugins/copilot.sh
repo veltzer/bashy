@@ -10,6 +10,12 @@ function _activate_copilot() {
 	__var=0
 }
 
+function _install_copilot_script() {
+	before_strict
+  curl -fsSL https://gh.io/copilot-install | bash
+	after_strict
+}
+
 function _install_copilot_npm() {
 	before_strict
   npm install -g "@github/copilot"
