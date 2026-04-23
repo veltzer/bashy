@@ -27,10 +27,20 @@ function _install_go() {
 	# https://go.dev/dl/
 	folder="${HOME}/install/"
 	full_folder="${folder}/go"
-	rm -rf "${full_folder}"
 	version=$(curl --fail --show-error --silent "https://go.dev/VERSION?m=text" | grep -o "[0-9]\+\.[0-9]\+\.[0-9]\+")
-	# version="1.22.1"
-	echo "installing version ${version}..."
+	executable="${full_folder}/bin/go"
+	if [ -x "${executable}" ]; then
+		installed_version=$("${executable}" version 2>/dev/null | grep -oP 'go\K[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+		if [ "${installed_version}" = "${version}" ]; then
+			echo "go ${version} is already installed (latest)"
+			after_strict
+			return
+		fi
+		echo "go ${installed_version} is installed, upgrading to ${version}"
+	else
+		echo "installing go ${version}..."
+	fi
+	rm -rf "${full_folder}"
 	url="https://go.dev/dl/go${version}.linux-amd64.tar.gz"
 	curl --fail --location --silent "${url}" | tar xz -C "${folder}"
 	rm -rf "${HOME}/.cache/go-build" "${HOME}/install/gopath"

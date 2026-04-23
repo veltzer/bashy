@@ -17,11 +17,20 @@ function _activate_minikube() {
 
 function _install_minikube() {
 	# https://minikube.sigs.k8s.io/docs/start/
-	# version="1.32.0"
 	folder="${HOME}/install/binaries"
 	executable="${folder}/minikube"
+	latest_version=$(curl --fail --silent --location "https://api.github.com/repos/kubernetes/minikube/releases/latest" | jq --raw-output '.tag_name' | sed 's/^v//')
+	if [ -x "${executable}" ]; then
+		installed_version=$("${executable}" version 2>/dev/null | grep -oP 'minikube version: v\K[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+		if [ "${installed_version}" = "${latest_version}" ]; then
+			echo "minikube ${latest_version} is already installed (latest)"
+			return
+		fi
+		echo "minikube ${installed_version} is installed, upgrading to ${latest_version}"
+	else
+		echo "Installing minikube ${latest_version}"
+	fi
 	curl --fail --location --silent --output "${executable}" "https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64"
-	# curl --fail --location --silent --output "${executable}" "https://storage.googleapis.com/minikube/releases/${version}/minikube-linux-amd64"
 	chmod +x "${executable}"
 }
 

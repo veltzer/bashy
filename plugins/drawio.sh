@@ -40,12 +40,23 @@ function _install_drawio() {
     
   echo "Latest version: ${version}"
   echo "Download URL: ${download_url}"
-    
+
+  # Compare with installed version
+  local latest_version="${version#v}"
+  local installed_version
+  installed_version=$(dpkg-query -W -f='${Version}' drawio 2>/dev/null || true)
+  if [ "${installed_version}" = "${latest_version}" ]; then
+    echo "drawio ${latest_version} is already installed (latest)"
+    rm -rf "${temp_dir}"
+    return 0
+  fi
+  echo "Upgrading drawio from [${installed_version:-not installed}] to [${latest_version}]"
+
   # Download the .deb package
   local filename
   filename=$(basename "${download_url}")
   local temp_file="${temp_dir}/${filename}"
-    
+
   echo "Downloading ${filename}..."
   if ! curl -L -o "${temp_file}" "${download_url}" || [[ ! -f "${temp_file}" ]]; then
     echo "Error: Failed to download DrawIO .deb package"

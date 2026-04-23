@@ -18,12 +18,16 @@ function _install_spark() {
 	# https://medium.com/@patilmailbox4/install-apache-spark-on-ubuntu-ffa151e12e30
 	version="3.5.4"
 	toplevel="spark-${version}-bin-hadoop3"
+	if [ -d "${HOME}/install/${toplevel}" ]; then
+		echo "spark ${version} is already installed"
+		after_strict
+		return
+	fi
 	rm -f "${HOME}/install/spark" || true
-	rm -rf "${HOME}/install/${toplevel}" || true
 	url="https://dlcdn.apache.org/spark/spark-${version}/spark-${version}-bin-hadoop3.tgz"
 	echo "url is [${url}]..."
 	curl --fail --location --silent "${url}" | tar xz -C "${HOME}/install"
-	ln -s "${HOME}/install/${toplevel}" "${HOME}/install/spark"
+	ln -sfn "${HOME}/install/${toplevel}" "${HOME}/install/spark"
 	after_strict
 }
 

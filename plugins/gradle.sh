@@ -31,6 +31,7 @@ function _install_gradle() {
 	rm -rf "${HOME}/install/${folder}" "${HOME}/install/gradle"
 	wget "https://downloads.gradle.org/distributions/${filename}" -P /tmp
 	unzip -qq "/tmp/${filename}" -d "${HOME}/install"
+	rm -f "/tmp/${filename}"
 	cd "${HOME}/install" || return
 	ln -s "${folder}" "gradle"
 }

@@ -22,22 +22,40 @@ function _activate_nvim_with_folder() {
 
 function _install_nvim_latest_appimage() {
 	# https://github.com/neovim/neovim/blob/master/INSTALL.md
-	# version="v0.8.3"
-	version="latest"
+	latest_version=$(curl --fail --silent --location "https://api.github.com/repos/neovim/neovim/releases/latest" | jq --raw-output '.tag_name' | sed 's/^v//')
 	folder="${HOME}/install/binaries"
 	executable="${folder}/nvim"
-	if [ -f "${executable}" ]; then
+	if [ -x "${executable}" ]; then
+		installed_version=$("${executable}" --version 2>/dev/null | awk '/^NVIM v/{print substr($2,2); exit}')
+		if [ "${installed_version}" = "${latest_version}" ]; then
+			echo "nvim ${latest_version} is already installed (latest)"
+			return
+		fi
+		echo "nvim ${installed_version} is installed, upgrading to ${latest_version}"
 		rm -f "${executable}"
+	else
+		echo "Installing nvim ${latest_version}"
 	fi
-	curl --fail --location --silent --output "${executable}" "https://github.com/neovim/neovim/releases/${version}/download/nvim-linux-x86_64.appimage"
+	curl --fail --location --silent --output "${executable}" "https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage"
 	chmod +x "${executable}"
 }
 
 function _install_nvim_latest_tar() {
-	version="latest"
+	latest_version=$(curl --fail --silent --location "https://api.github.com/repos/neovim/neovim/releases/latest" | jq --raw-output '.tag_name' | sed 's/^v//')
 	folder="${HOME}/install/nvim-linux64"
+	executable="${folder}/bin/nvim"
+	if [ -x "${executable}" ]; then
+		installed_version=$("${executable}" --version 2>/dev/null | awk '/^NVIM v/{print substr($2,2); exit}')
+		if [ "${installed_version}" = "${latest_version}" ]; then
+			echo "nvim ${latest_version} is already installed (latest)"
+			return
+		fi
+		echo "nvim ${installed_version} is installed, upgrading to ${latest_version}"
+	else
+		echo "Installing nvim ${latest_version}"
+	fi
 	rm -rf "${folder}"
-	curl --fail --location --silent "https://github.com/neovim/neovim/releases/${version}/download/nvim-linux64.tar.gz" | tar xz -C "${HOME}/install"
+	curl --fail --location --silent "https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz" | tar xz -C "${HOME}/install"
 }
 
 function _install_nvim_nightly_tar() {

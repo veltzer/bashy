@@ -16,9 +16,18 @@ function _activate_starship() {
 }
 
 function _install_starship() {
-	# cargo way
-	#cargo install starship --locked
-	# install.sh way
+	latest_version=$(curl --fail --silent --location "https://api.github.com/repos/starship/starship/releases/latest" | jq --raw-output '.tag_name' | sed 's/^v//')
+	executable="${HOME}/install/binaries/starship"
+	if [ -x "${executable}" ]; then
+		installed_version=$("${executable}" --version 2>/dev/null | awk '/^starship /{print $2; exit}')
+		if [ "${installed_version}" = "${latest_version}" ]; then
+			echo "starship ${latest_version} is already installed (latest)"
+			return
+		fi
+		echo "starship ${installed_version} is installed, upgrading to ${latest_version}"
+	else
+		echo "Installing starship ${latest_version}"
+	fi
 	BIN_DIR="${HOME}/install/binaries" sh <(curl --fail --silent https://starship.rs/install.sh) -y
 }
 

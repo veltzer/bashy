@@ -9,12 +9,20 @@ function _activate_audacity() {
 
 function _install_audacity() {
 	before_strict
-	_uninstall_audacity
+	version="3.4.2"
 	folder="${HOME}/install/binaries"
 	executable="${folder}/audacity"
-	url="https://github.com/audacity/audacity/releases/download/Audacity-3.4.2/audacity-linux-3.4.2-x64.AppImage"
+	marker="${folder}/.audacity_version"
+	if [ -x "${executable}" ] && [ -f "${marker}" ] && [ "$(cat "${marker}")" = "${version}" ]; then
+		echo "audacity ${version} is already installed"
+		after_strict
+		return
+	fi
+	_uninstall_audacity
+	url="https://github.com/audacity/audacity/releases/download/Audacity-${version}/audacity-linux-${version}-x64.AppImage"
 	curl --fail --location --silent --output "${executable}" "${url}"
 	chmod +x "${executable}"
+	echo "${version}" > "${marker}"
 	echo "downloaded ${executable}"
 	after_strict
 }

@@ -14,11 +14,17 @@ function _install_phantomjs() {
 	before_strict
 	base="phantomjs-2.1.1-linux-x86_64"
 	full="${base}.tar.bz2"
+	if [ -d "${HOME}/install/${base}" ]; then
+		echo "phantomjs ${base} is already installed"
+		after_strict
+		return
+	fi
 	url="https://bitbucket.org/ariya/phantomjs/downloads/${full}"
 	wget --quiet "${url}" -P /tmp
 	tar xf "/tmp/${full}" -C "${HOME}/install"
+	rm -f "/tmp/${full}"
 	rm -f "${HOME}/install/phantomjs" || true
-	ln -s "${HOME}/install/${base}" "${HOME}/install/phantomjs"
+	ln -sfn "${HOME}/install/${base}" "${HOME}/install/phantomjs"
 	after_strict
 }
 

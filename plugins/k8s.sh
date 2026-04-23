@@ -20,16 +20,20 @@ function _install_k8s() {
 	before_install
 	# instructions for installing k8s are at
 	# https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
-	if true
-	then
-		version=$(curl --fail --silent --location "https://dl.k8s.io/release/stable.txt")
-		echo "installing latest version ${version}"
-	else
-		version="v1.26.7"
-		echo "installing hardcoded version ${version}"
-	fi
+	version=$(curl --fail --silent --location "https://dl.k8s.io/release/stable.txt")
 	folder="${HOME}/install/binaries"
 	executable="${folder}/kubectl"
+	if [ -x "${executable}" ]; then
+		installed_version=$("${executable}" version --client 2>/dev/null | grep -oP 'Client Version: \K[^\s]+' | head -1)
+		if [ "${installed_version}" = "${version}" ]; then
+			echo "kubectl ${version} is already installed (latest)"
+			after_install
+			return
+		fi
+		echo "kubectl ${installed_version} is installed, upgrading to ${version}"
+	else
+		echo "Installing kubectl ${version}"
+	fi
 	curl --fail --location --silent --output "${executable}" "https://dl.k8s.io/release/${version}/bin/linux/amd64/kubectl"
 	chmod +x "${executable}"
 	after_install

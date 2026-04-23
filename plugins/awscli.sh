@@ -37,9 +37,6 @@ function _install_awscli_wrapper() {
 
 function _install_awscli_old() {
 	# installation using a bundle
-	# -O [filename] will overwrite the file if it exists
-	# -P [folder] will not overwrite the file if it exists
-	# and will create a new file named [filename].1
 	rm -rf /tmp/awscli-bundle.zip /tmp/awscli-bundle
 	wget https://s3.amazonaws.com/aws-cli/awscli-bundle.zip -P /tmp
 	unzip /tmp/awscli-bundle.zip -d /tmp
@@ -48,27 +45,54 @@ function _install_awscli_old() {
 }
 
 function _install_awscli() {
-	rm -rf /tmp/awscliv2.zip /tmp/awscliv2 /tmp/aws "${HOME}/install/aws"
-	curl --fail --silent "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" --output "/tmp/awscliv2.zip"
-	unzip -qq /tmp/awscliv2.zip -d /tmp
-	rm -rf "${HOME}/install/aws"
-	/tmp/aws/install -i "${HOME}/install/aws" -b "${HOME}/install/aws/bin" > /dev/null
-	rm -rf /tmp/aws
-	# checking that you do not have 'awscli' installed from pypi
-	if pip show awscli 2> /dev/null
-	then
-		echo "you have the old 'awscli' python module installed. removing it!!!"
-		pip uninstall awscli 2> /dev/null || true
+	aws_executable="${HOME}/install/aws/bin/aws"
+	latest_aws_version=$(curl --fail --silent --location "https://api.github.com/repos/aws/aws-cli/tags?per_page=20" | jq --raw-output '[.[] | select(.name | startswith("2."))][0].name')
+	needs_aws_install=true
+	if [ -x "${aws_executable}" ] && [ -n "${latest_aws_version}" ]; then
+		installed_aws_version=$("${aws_executable}" --version 2>/dev/null | grep -oP 'aws-cli/\K[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+		if [ "${installed_aws_version}" = "${latest_aws_version}" ]; then
+			echo "awscli ${latest_aws_version} is already installed (latest)"
+			needs_aws_install=false
+		else
+			echo "awscli ${installed_aws_version} is installed, upgrading to ${latest_aws_version}"
+		fi
 	else
-		echo "you dont have the old 'awscli' python module. no need to uninstall it. good!"
+		echo "Installing awscli ${latest_aws_version:-latest}"
 	fi
-	echo "following is the version of awscli (aws --version)..."
-	aws --version
-	# now download the aws-iam-authenticator
-	download_file=$(curl --fail --silent --location https://api.github.com/repos/kubernetes-sigs/aws-iam-authenticator/releases/latest | jq -r '.assets[].browser_download_url | select(endswith("_linux_amd64"))')
-	executable="${HOME}/install/aws/bin/aws-iam-authenticator"
-	curl --fail --location --output "${executable}" "${download_file}"
-	chmod +x "${executable}" 
+	if [ "${needs_aws_install}" = true ]; then
+		rm -rf /tmp/awscliv2.zip /tmp/awscliv2 /tmp/aws "${HOME}/install/aws"
+		curl --fail --silent "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" --output "/tmp/awscliv2.zip"
+		unzip -qq /tmp/awscliv2.zip -d /tmp
+		/tmp/aws/install -i "${HOME}/install/aws" -b "${HOME}/install/aws/bin" > /dev/null
+		rm -rf /tmp/aws /tmp/awscliv2.zip
+		# checking that you do not have 'awscli' installed from pypi
+		if pip show awscli 2> /dev/null
+		then
+			echo "you have the old 'awscli' python module installed. removing it!!!"
+			pip uninstall awscli 2> /dev/null || true
+		else
+			echo "you dont have the old 'awscli' python module. no need to uninstall it. good!"
+		fi
+		echo "following is the version of awscli (aws --version)..."
+		aws --version
+	fi
+	# aws-iam-authenticator
+	iam_executable="${HOME}/install/aws/bin/aws-iam-authenticator"
+	iam_release_json=$(curl --fail --silent --location https://api.github.com/repos/kubernetes-sigs/aws-iam-authenticator/releases/latest)
+	iam_latest_version=$(echo "${iam_release_json}" | jq --raw-output '.tag_name' | sed 's/^v//')
+	if [ -x "${iam_executable}" ]; then
+		iam_installed_version=$("${iam_executable}" version 2>/dev/null | grep -oP '"Version":"\K[^"]+' | head -1)
+		if [ "${iam_installed_version}" = "${iam_latest_version}" ]; then
+			echo "aws-iam-authenticator ${iam_latest_version} is already installed (latest)"
+			return
+		fi
+		echo "aws-iam-authenticator ${iam_installed_version} is installed, upgrading to ${iam_latest_version}"
+	else
+		echo "Installing aws-iam-authenticator ${iam_latest_version}"
+	fi
+	download_file=$(echo "${iam_release_json}" | jq -r '.assets[].browser_download_url | select(endswith("_linux_amd64"))')
+	curl --fail --location --output "${iam_executable}" "${download_file}"
+	chmod +x "${iam_executable}"
 }
 
 function _uninstall_awscli() {

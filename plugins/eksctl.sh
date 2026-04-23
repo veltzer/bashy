@@ -20,8 +20,20 @@ function _activate_eksctl() {
 }
 
 function _install_eksctl() {
-	rm -f "${HOME}/install/binaries/eksctl"
-	curl --fail --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C "${HOME}/install/binaries"
+	latest_version=$(curl --fail --silent --location "https://api.github.com/repos/eksctl-io/eksctl/releases/latest" | jq --raw-output '.tag_name' | sed 's/^v//')
+	executable="${HOME}/install/binaries/eksctl"
+	if [ -x "${executable}" ]; then
+		installed_version=$("${executable}" version 2>/dev/null | head -1)
+		if [ "${installed_version}" = "${latest_version}" ]; then
+			echo "eksctl ${latest_version} is already installed (latest)"
+			return
+		fi
+		echo "eksctl ${installed_version} is installed, upgrading to ${latest_version}"
+	else
+		echo "Installing eksctl ${latest_version}"
+	fi
+	rm -f "${executable}"
+	curl --fail --silent --location "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C "${HOME}/install/binaries" eksctl
 }
 
 function eksctl_uninstall() {

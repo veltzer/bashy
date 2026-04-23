@@ -21,12 +21,26 @@ function _install_hugo_2() {
 function _install_hugo() {
 	# instructions for installing hugo are at https://gohugo.io/installation/linux/
 	before_strict
+	release_json=$(curl --fail --silent --location "https://api.github.com/repos/gohugoio/hugo/releases/latest")
+	latest_version=$(echo "${release_json}" | jq --raw-output '.tag_name' | sed 's/^v//')
+	folder="${HOME}/install/binaries"
+	executable="${folder}/hugo"
+	if [ -x "${executable}" ]; then
+		installed_version=$("${executable}" version 2>/dev/null | grep -oP 'v\K[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+		if [ "${installed_version}" = "${latest_version}" ]; then
+			echo "hugo ${latest_version} is already installed (latest)"
+			after_strict
+			return
+		fi
+		echo "hugo ${installed_version} is installed, upgrading to ${latest_version}"
+	else
+		echo "Installing hugo ${latest_version}"
+	fi
+	download_file=$(echo "${release_json}" | jq --raw-output '.assets[].browser_download_url | select(test("hugo_extended.*_linux-amd64.tar.gz$"))')
+	echo "download_file is [${download_file}]"
 	tar="/tmp/hugo.tar.gz"
 	rm -f "${tar}"
-	download_file=$(curl --fail --silent --location "https://api.github.com/repos/gohugoio/hugo/releases/latest" | jq --raw-output '.assets[].browser_download_url | select(test("hugo_extended.*_linux-amd64.tar.gz$"))')
-	echo "download_file is [${download_file}]"
 	curl --fail --location --silent "${download_file}" --output "${tar}"
-	folder="${HOME}/install/binaries"
 	tar xf "${tar}" -C "${folder}" hugo
 	rm -f "${tar}"
 	after_strict

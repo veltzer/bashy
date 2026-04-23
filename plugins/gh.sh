@@ -12,17 +12,27 @@ function _install_gh_apt() {
 }
 
 function _install_gh() {
+	release_json=$(curl --fail --silent --location "https://api.github.com/repos/cli/cli/releases/latest")
+	latest_version=$(echo "${release_json}" | jq --raw-output '.tag_name' | sed 's/^v//')
+	folder="${HOME}/install/binaries"
+	executable="${folder}/gh"
+	if [ -x "${executable}" ]; then
+		installed_version=$("${executable}" --version 2>/dev/null | awk '/^gh version/{print $3; exit}')
+		if [ "${installed_version}" = "${latest_version}" ]; then
+			echo "gh ${latest_version} is already installed (latest)"
+			return
+		fi
+		echo "gh ${installed_version} is installed, upgrading to ${latest_version}"
+	else
+		echo "Installing gh ${latest_version}"
+	fi
+	download_file=$(echo "${release_json}" | jq --raw-output '.assets[].browser_download_url | select(endswith("_linux_amd64.tar.gz"))')
+	echo "download_file is [${download_file}]. It is the latest version."
 	tar="/tmp/gh.tar.gz"
 	rm -f "${tar}"
-	download_file=$(curl --fail --silent --location "https://api.github.com/repos/cli/cli/releases/latest" | jq --raw-output '.assets[].browser_download_url | select(endswith("_linux_amd64.tar.gz"))')
-	echo "download_file is [${download_file}]. It is the latest version."
 	curl --fail --location --silent "${download_file}" --output "${tar}"
-	folder="${HOME}/install/binaries"
-	tar xf "${tar}" -C "${folder}" --wildcards "*/bin/gh" --transform 's/.*\/bin\/gh/gh/g' 
+	tar xf "${tar}" -C "${folder}" --wildcards "*/bin/gh" --transform 's/.*\/bin\/gh/gh/g'
 	rm -f "${tar}"
-	# there is not need to set the "x" bit on the file since tar extracts it with the right bits
-	# executable="${folder}/lazygit"
-	# chmod +x "${executable}" 
 }
 
 register_interactive _activate_gh
