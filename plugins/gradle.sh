@@ -13,6 +13,13 @@ function _install_gradle() {
 	version="8.14.1"
 	folder="gradle-${version}"
 	filename="${folder}-bin.zip"
+	if [ -x "${HOME}/install/gradle/bin/gradle" ]; then
+		installed=$("${HOME}/install/gradle/bin/gradle" --version 2>/dev/null | awk '/^Gradle /{print $2; exit}')
+		if [ "${installed}" = "${version}" ]; then
+			echo "Gradle ${version} is already installed"
+			return
+		fi
+	fi
 	rm -rf "/tmp/${filename}"
 	rm -rf "${HOME}/install/${folder}" "${HOME}/install/gradle"
 	wget "https://downloads.gradle.org/distributions/${filename}" -P /tmp
