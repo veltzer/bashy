@@ -1,5 +1,17 @@
 # This is a plugin for dotnet
 
+# https://learn.microsoft.com/en-us/dotnet/core/install/linux-ubuntu
+function _install_dotnet() {
+	local ubuntu_version
+	ubuntu_version=$(lsb_release -rs)
+	local deb="/tmp/packages-microsoft-prod.deb"
+	wget -qO "${deb}" "https://packages.microsoft.com/config/ubuntu/${ubuntu_version}/packages-microsoft-prod.deb"
+	sudo dpkg -i "${deb}"
+	rm -f "${deb}"
+	sudo apt-get update
+	sudo DEBIAN_FRONTEND=noninteractive apt-get install -y dotnet-sdk-8.0
+}
+
 function _activate_dotnet() {
 	local -n __var=$1
 	local -n __error=$2
@@ -16,4 +28,5 @@ function _dotnet_bash_complete() {
 	read -d '' -ra COMPREPLY < <(compgen -W "${candidates[*]:-}" -- "${cur}")
 }
 
+register_install _install_dotnet
 register_interactive _activate_dotnet
