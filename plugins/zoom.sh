@@ -7,6 +7,7 @@ function _install_zoom_latest_force() {
 	local_file="/tmp/zoom_amd64.deb"
 	curl --fail --location --silent --output "${local_file}" "${url}"
 	sudo dpkg --install "${local_file}"
+	rm --force "${local_file}"
 	after_strict
 }
 
@@ -15,7 +16,14 @@ function _install_zoom_latest() {
 	url="https://zoom.us/client/latest/zoom_amd64.deb"
 	local_file="/tmp/zoom_amd64.deb"
 	# Extract remote version from the redirect URL
-	remote_version=$(curl --fail --silent --head --location --output /dev/null --write-out '%{url_effective}' "${url}" | grep -oP '/prod/\K[^/]+')
+	effective_url=$(curl --fail --silent --head --location --output /dev/null --write-out '%{url_effective}' "${url}")
+	remote_version=$(echo "${effective_url}" | grep -oP '/prod/\K[^/]+')
+	if [ -z "${remote_version}" ]
+	then
+		echo "could not determine remote zoom version from [${effective_url}]" >&2
+		after_strict
+		return 1
+	fi
 	# Get installed version (empty if not installed)
 	installed_version=$(dpkg-query -W -f='${Version}' zoom 2>/dev/null || true)
 	if [ "${installed_version}" = "${remote_version}" ]
@@ -27,6 +35,7 @@ function _install_zoom_latest() {
 	echo "Upgrading zoom from [${installed_version:-not installed}] to [${remote_version}]"
 	curl --fail --location --silent --output "${local_file}" "${url}"
 	sudo dpkg --install "${local_file}"
+	rm --force "${local_file}"
 	after_strict
 }
 
@@ -43,6 +52,7 @@ function _install_zoom_6() {
 
   echo "Installing Zoom ${ZOOM_VERSION} (will downgrade if newer version is installed)..."
   sudo dpkg -i "${TMPFILE}" || sudo apt-get install -f -y
+  rm --force "${TMPFILE}"
   echo "Installed version:"
   dpkg -l zoom | tail -1
 }
