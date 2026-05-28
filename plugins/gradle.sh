@@ -27,11 +27,10 @@ function _install_gradle() {
 	else
 		echo "Installing Gradle ${version}"
 	fi
-	rm -rf "/tmp/${filename}"
 	rm -rf "${HOME}/install/${folder}" "${HOME}/install/gradle"
-	wget "https://downloads.gradle.org/distributions/${filename}" -P /tmp
-	unzip -qq "/tmp/${filename}" -d "${HOME}/install"
-	rm -f "/tmp/${filename}"
+	local archive
+	bashy_download "https://downloads.gradle.org/distributions/${filename}" archive || return
+	unzip -qq "${archive}" -d "${HOME}/install"
 	cd "${HOME}/install" || return
 	ln -s "${folder}" "gradle"
 }

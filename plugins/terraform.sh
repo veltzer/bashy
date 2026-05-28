@@ -25,10 +25,10 @@ function _install_terraform() {
 	fi
 	file="terraform_${version}_linux_amd64.zip"
 	download="https://releases.hashicorp.com/terraform/${version}/${file}"
-	rm -rf "/tmp/${file}" "${folder}/terraform"
-	wget --quiet "${download}" -P "/tmp"
-	unzip -q "/tmp/${file}" -d "${folder}" terraform
-	rm -rf "/tmp/${file}"
+	rm -rf "${folder}/terraform"
+	local archive
+	bashy_download "${download}" archive || { after_strict; return; }
+	unzip -q "${archive}" -d "${folder}" terraform
 	after_strict
 }
 

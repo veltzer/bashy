@@ -20,9 +20,9 @@ function _install_phantomjs() {
 		return
 	fi
 	url="https://bitbucket.org/ariya/phantomjs/downloads/${full}"
-	wget --quiet "${url}" -P /tmp
-	tar xf "/tmp/${full}" -C "${HOME}/install"
-	rm -f "/tmp/${full}"
+	local archive
+	bashy_download "${url}" archive || { after_strict; return; }
+	tar xf "${archive}" -C "${HOME}/install"
 	rm -f "${HOME}/install/phantomjs" || true
 	ln -sfn "${HOME}/install/${base}" "${HOME}/install/phantomjs"
 	after_strict

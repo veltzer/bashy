@@ -28,11 +28,9 @@ function _install_gh() {
 	fi
 	download_file=$(echo "${release_json}" | jq --raw-output '.assets[].browser_download_url | select(endswith("_linux_amd64.tar.gz"))')
 	echo "download_file is [${download_file}]. It is the latest version."
-	tar="/tmp/gh.tar.gz"
-	rm -f "${tar}"
-	curl --fail --location --silent "${download_file}" --output "${tar}"
+	local tar
+	bashy_download "${download_file}" tar || return
 	tar xf "${tar}" -C "${folder}" --wildcards "*/bin/gh" --transform 's/.*\/bin\/gh/gh/g'
-	rm -f "${tar}"
 }
 
 register_interactive _activate_gh

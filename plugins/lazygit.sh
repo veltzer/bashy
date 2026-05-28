@@ -19,11 +19,9 @@ function _install_lazygit() {
 	fi
 	download_file=$(echo "${release_json}" | jq --raw-output '.assets[].browser_download_url | select(endswith("_Linux_x86_64.tar.gz"))')
 	echo "download_file is ${download_file}"
-	tar="/tmp/lazygit.tar.gz"
-	rm -f "${tar}"
-	curl --fail --location --silent "${download_file}" --output "${tar}"
+	local tar
+	bashy_download "${download_file}" tar || return
 	tar xf "${tar}" -C "${folder}" lazygit
-	rm -f "${tar}"
 }
 
 function _activate_lazygit() {

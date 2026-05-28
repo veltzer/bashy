@@ -25,10 +25,10 @@ function _install_packer() {
 	fi
 	file="packer_${version}_linux_amd64.zip"
 	url="https://releases.hashicorp.com/packer/${version}/${file}"
-	rm -rf "/tmp/${file}" "${folder}/packer"
-	wget --quiet "${url}" -P "/tmp"
-	unzip -q "/tmp/${file}" -d "${folder}" packer
-	rm -f "/tmp/${file}"
+	rm -rf "${folder}/packer"
+	local archive
+	bashy_download "${url}" archive || { after_strict; return; }
+	unzip -q "${archive}" -d "${folder}" packer
 	after_strict
 }
 

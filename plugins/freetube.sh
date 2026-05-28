@@ -17,11 +17,10 @@ function _install_freetube_latest() {
 		return
 	fi
 	echo "Upgrading freetube from [${installed_version:-not installed}] to [${latest_version}]"
-	local_file="/tmp/freetube_amd64.deb"
 	echo "Downloading FreeTube from [${url}]..."
-	curl --fail --location --silent --output "${local_file}" "${url}"
+	local local_file
+	bashy_download "${url}" local_file || { after_strict; return 1; }
 	sudo dpkg --install "${local_file}" || sudo apt-get install -f -y
-	rm -f "${local_file}"
 	after_strict
 }
 

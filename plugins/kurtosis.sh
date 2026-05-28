@@ -34,10 +34,9 @@ function _install_kurtosis() {
 	fi
 	url=$(echo "${release_json}" | jq --raw-output '.assets[].browser_download_url | select(endswith("_linux_amd64.tar.gz"))')
 	echo "url is [${url}]..."
-	local local_file="/tmp/kurtosis.tar.gz"
-	curl --fail --silent --location "${url}" --output "${local_file}"
+	local local_file
+	bashy_download "${url}" local_file || { errexit_restore "${e}"; return 1; }
 	tar zxf "${local_file}" -C "${install_dir}" kurtosis
-	rm -f "${local_file}"
 	chmod +x "${kurtosis_path}"
 	errexit_restore "${e}"
 }

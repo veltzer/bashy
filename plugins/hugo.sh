@@ -38,11 +38,9 @@ function _install_hugo() {
 	fi
 	download_file=$(echo "${release_json}" | jq --raw-output '.assets[].browser_download_url | select(test("hugo_extended.*_linux-amd64.tar.gz$"))')
 	echo "download_file is [${download_file}]"
-	tar="/tmp/hugo.tar.gz"
-	rm -f "${tar}"
-	curl --fail --location --silent "${download_file}" --output "${tar}"
+	local tar
+	bashy_download "${download_file}" tar || { after_strict; return; }
 	tar xf "${tar}" -C "${folder}" hugo
-	rm -f "${tar}"
 	after_strict
 }
 
