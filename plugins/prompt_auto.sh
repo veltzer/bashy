@@ -4,21 +4,47 @@
 auto_file_enter=".auto.enter.sh"
 auto_file_exit=".auto.exit.sh"
 
+# Source a file in the current shell with errexit on, so the first failing
+# command stops the rest of that script. No subshell is used, so the script's
+# environment changes (vars, PATH, etc.) persist.
+#
+# The trick: "set -T" (functrace) propagates the ERR trap into the sourced
+# script, and the ERR trap does "return 1" so a failing command returns from
+# this function (stopping the rest of the script) instead of letting errexit
+# unwind up into prompt_auto. Both traps restore errexit to off afterwards.
+#
+# Note: an interactive shell is assumed NOT to be running under "set -e"
+# (it would exit on the first failing command at the prompt), so we always
+# restore to "set +e" rather than tracking the prior state.
+function _prompt_auto_source() {
+	local auto_file="$1"
+	set -T
+	trap 'trap - ERR RETURN; set +e; return 1' ERR
+	trap 'trap - ERR RETURN; set +e' RETURN
+	set -e
+	# shellcheck source=/dev/null
+	source "${auto_file}"
+}
+
+# Exit the currently active auto environment (if any): source its
+# .auto.exit.sh and unset AUTO_ACTIVE.
+function _prompt_auto_exit() {
+	if var_is_defined AUTO_ACTIVE
+	then
+		auto_file_exit_full="${AUTO_ACTIVE}/${auto_file_exit}"
+		if [ -f "${auto_file_exit_full}" ]
+		then
+			bashy_log "prompt_auto" "${BASHY_LOG_INFO}" "sourcing [${auto_file_exit_full}]"
+			_prompt_auto_source "${auto_file_exit_full}"
+		fi
+		unset AUTO_ACTIVE
+	fi
+}
+
 function prompt_auto() {
 	if ! git_is_inside
 	then
-		if var_is_defined AUTO_ACTIVE
-		then
-			bashy_log "prompt_auto" "${BASHY_LOG_INFO}" "down"
-			auto_file_exit_full="${AUTO_ACTIVE}/${auto_file_exit}"
-			if [ -f "${auto_file_exit_full}" ]
-			then
-				bashy_log "prompt_auto" "${BASHY_LOG_INFO}" "sourcing [${auto_file_exit_full}]"
-				# shellcheck source=/dev/null
-				source "${auto_file_exit_full}"
-			fi
-			unset AUTO_ACTIVE
-		fi
+		_prompt_auto_exit
 		return
 	fi
 
@@ -29,39 +55,20 @@ function prompt_auto() {
 	then
 		if var_is_defined AUTO_ACTIVE
 		then
-			if [ "${git_root}" != "${AUTO_ACTIVE}" ]
+			if [ "${git_root}" == "${AUTO_ACTIVE}" ]
 			then
-				# we need to get out of a previous auto
-				auto_file_exit_full="${AUTO_ACTIVE}/${auto_file_exit}"
-				if [ -f "${auto_file_exit_full}" ]
-				then
-					bashy_log "prompt_auto" "${BASHY_LOG_INFO}" "sourcing [${auto_file_exit_full}]"
-					# shellcheck source=/dev/null
-					source "${auto_file_exit_full}"
-				fi
-				unset AUTO_ACTIVE
-			else
 				return
 			fi
+			# we need to get out of a previous auto
+			_prompt_auto_exit
 		fi
 		# we need to enter the new environment
 		bashy_log "prompt_auto" "${BASHY_LOG_INFO}" "sourcing [${auto_file_enter_full}]"
-		# shellcheck source=/dev/null
-		source "${auto_file_enter_full}"
+		_prompt_auto_source "${auto_file_enter_full}"
 		export AUTO_ACTIVE="${git_root}"
 	else
-		if var_is_defined AUTO_ACTIVE
-		then
-			# we need to get out of a previous auto
-			auto_file_exit_full="${AUTO_ACTIVE}/${auto_file_exit}"
-			if [ -f "${auto_file_exit_full}" ]
-			then
-				bashy_log "prompt_auto" "${BASHY_LOG_INFO}" "sourcing [${auto_file_exit_full}]"
-				# shellcheck source=/dev/null
-				source "${auto_file_exit_full}"
-			fi
-			unset AUTO_ACTIVE
-		fi
+		# no enter file here; get out of a previous auto if needed
+		_prompt_auto_exit
 	fi
 }
 
