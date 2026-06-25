@@ -4,6 +4,15 @@
 
 gcp_conf_file_name=".gcp.conf"
 
+# Unset PROJECT_ID if it is currently set, logging the transition.
+function _prompt_gcp_unset_project_id() {
+	if var_is_defined PROJECT_ID
+	then
+		bashy_log "prompt_gcp" "${BASHY_LOG_INFO}" "down"
+		unset PROJECT_ID
+	fi
+}
+
 function prompt_gcp() {
 	assoc_new gcp_conf
 
@@ -14,6 +23,7 @@ function prompt_gcp() {
 			bashy_log "prompt_gcp" "${BASHY_LOG_INFO}" "down"
 			unset CLOUDSDK_ACTIVE_CONFIG_NAME
 		fi
+		_prompt_gcp_unset_project_id
 		return
 	fi
 
@@ -29,6 +39,21 @@ function prompt_gcp() {
 	if [ -r "${git_root}/${gcp_conf_file_name}" ]
 	then
 		assoc_config_read gcp_conf "${git_root}/${gcp_conf_file_name}"
+	fi
+
+	# Export PROJECT_ID while inside a repo that has a .gcp.conf, and unset it
+	# otherwise. This replaces the per-repo .auto.enter.sh/.auto.exit.sh that
+	# used to do this.
+	if [ -r "${git_root}/${gcp_conf_file_name}" ]
+	then
+		if ! var_is_defined PROJECT_ID
+		then
+			bashy_log "prompt_gcp" "${BASHY_LOG_INFO}" "up"
+			export PROJECT_ID
+			PROJECT_ID="$(pygooglecloud get_project_id)"
+		fi
+	else
+		_prompt_gcp_unset_project_id
 	fi
 
 	CLOUDSDK_ACTIVE_CONFIG_NAME_NEW=""
