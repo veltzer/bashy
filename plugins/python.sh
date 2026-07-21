@@ -10,8 +10,7 @@ function _activate_python() {
 	# export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
 	# shellcheck source=/dev/null
 	# you need to "pip install 'keyring[completion]'" for this to work
-	if ! source <(python -m keyring --print-completion bash)
-	then
+	if ! source <(python -m keyring --print-completion bash); then
 		__var=1
 		__error="problem in sourcing keyring completion"
 		return
@@ -33,43 +32,39 @@ function pyrun() {
 	# For an src layout: pyrun src/my_module/main.py
 	#
 	# Check if any arguments were provided.
-	if [[ ${#} == 0 ]]
-	then
-		echo "pyrun: error: usage: pyrun [relative_path]";
-		return 1;
-	fi;
+	if [[ ${#} == 0 ]]; then
+		echo "pyrun: error: usage: pyrun [relative_path]"
+		return 1
+	fi
 
 	local module_path=$1
 	local module
 
 	# Check if the provided path is absolute. This function requires a relative path.
-	if [[ "${module_path}" == /* ]]
-	then
-		echo "pyrun: error: please provide a relative path, not an absolute one.";
-		return 1;
-	fi;
+	if [[ "${module_path}" == /* ]]; then
+		echo "pyrun: error: please provide a relative path, not an absolute one."
+		return 1
+	fi
 
 	# Remove the leading './' if it exists.
-	module_path=${module_path#\./};
+	module_path=${module_path#\./}
 
 	# If the path starts with 'src/', remove it for the module name calculation.
 	# This ensures that 'src/my_package/main.py' becomes 'my_package.main'.
-	if [[ "${module_path}" == src/* ]]
-	then
-		module=${module_path#src/};
+	if [[ "${module_path}" == src/* ]]; then
+		module=${module_path#src/}
 	else
-		module=${module_path};
+		module=${module_path}
 	fi
 
 	# Convert the file path to a Python module path.
 	# Example: 'my_package/main.py' becomes 'my_package.main'
-	module=${module%.py}; # Remove .py extension
-	module=${module//\//.}; # Replace all '/' with '.'
-	module=${module%.}; # Remove trailing '.' if any
+	module=${module%.py}   # Remove .py extension
+	module=${module//\//.} # Replace all '/' with '.'
+	module=${module%.}     # Remove trailing '.' if any
 
 	# Check for the existence of an 'src' directory.
-	if [[ -d "src" ]]
-	then
+	if [[ -d "src" ]]; then
 		# If 'src' exists, run the command with PYTHONPATH set to 'src'.
 		# This allows Python to find the modules inside the src directory.
 		# echo "--> Found 'src' directory. Running with PYTHONPATH=src"
@@ -80,4 +75,4 @@ function pyrun() {
 	fi
 }
 
-register _activate_python
+register_interactive _activate_python
