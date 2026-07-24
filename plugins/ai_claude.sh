@@ -1,4 +1,4 @@
-function _activate_claude() {
+function _activate_ai_claude() {
 	local -n __var=$1
 	local -n __error=$2
 	if ! pass show "keys/claude.ai" &>/dev/null; then
@@ -51,4 +51,4 @@ function _uninstall_claude_brew() {
 	after_strict
 }
 
-register_interactive _activate_claude
+register_interactive _activate_ai_claude

@@ -62,9 +62,9 @@ zoom
 buck2
 # AI
 ai_agy
-claude
-copilot
-chatgpt
+ai_claude
+ai_copilot
+ai_chatgpt
 # bazel - still needs work
 # oc - slow
 # helm - slow
