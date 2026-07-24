@@ -1,4 +1,4 @@
-function _activate_agy() {
+function _activate_ai_agy() {
 	local -n __var=$1
 	local -n __error=$2
 	if ! pass show "keys/ai.google.dev" &>/dev/null; then
@@ -13,4 +13,4 @@ function _activate_agy() {
 	__var=0
 }
 
-register _activate_agy
+register _activate_ai_agy
