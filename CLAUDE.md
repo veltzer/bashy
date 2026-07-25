@@ -78,3 +78,11 @@ is silently lost at the next build. That has already happened once.
 Mako treats `${...}` as an expression, so any shell example containing `${HOME}` or
 similar has to sit inside a `<%text>` block, and markdown headings are wrapped the
 same way. After editing the snipplet run `pydmt build` and check `README.md`.
+
+## Generated files that look like changes
+
+`pydmt build` bumps `config/version.py` and regenerates `core/version.sh` and
+`README.md` from it. A working copy that has been built therefore shows a diff in
+those files that is not work anyone did. Check what a diff actually contains before
+treating it as a change, and do not commit a version bump that came from a build
+you ran while investigating something else.

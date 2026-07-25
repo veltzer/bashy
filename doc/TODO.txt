@@ -1,3 +1,11 @@
+NOTE: three rounds of planned work are recorded in doc/plan_done.md,
+doc/plan_done2.md and plan.md. Some items below were done there:
+- "do an install hook ... $ bashy install [name]" - install functions are
+  _install_<name>, with shared helpers in core/install.sh, see README.md
+- "allow to deactivate plugins" - a leading minus in bashy.list disables one
+- "use associate array for bashys internal structures" - done, core/assoc.sh
+The rest of this file has not been reconciled with those plans.
+
 - add saving a stack of all previous commands
 
 - I have way too many plugins/prompt_*.bash plugins and a lot of them do the same thing.

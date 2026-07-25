@@ -14,7 +14,7 @@ function bashy_prompt_print() {
 
 function _activate_inf_prompt() {
 	local -n __var=$1
-	local -n __error=$1
+	local -n __error=$2
 	_bashy_array_new _BASHY_PROMPT_FUNCTIONS
 	PROMPT_COMMAND="bashy_prompt"
 	__var=0

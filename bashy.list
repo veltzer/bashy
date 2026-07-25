@@ -78,7 +78,8 @@ gradle
 encfs
 node
 proxy
-# pip
+# pip - completion for bare pip(1), superseded here by the uv plugin, which
+#       completes "uv pip". Kept because bare pip still exists in virtualenvs.
 # xinput - disabled by move to wayland (24.10)
 # order must be aws, gcp first and only then env
 # but this order must be in *reverse*

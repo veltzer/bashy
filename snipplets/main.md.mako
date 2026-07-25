@@ -119,6 +119,42 @@ function _activate_hello_plugin() {
 register _activate_hello_plugin
 ```
 
+<%text>### Writing a prompt plugin</%text>
+
+A prompt plugin registers a function that runs after every command you type, not
+once at startup. Register it from your activation function:
+
+<%text>
+```bash
+function prompt_hello() {
+	# runs on every prompt
+	:
+}
+
+function _activate_prompt_hello() {
+	local -n __var=$1
+	local -n __error=$2
+	_bashy_prompt_register prompt_hello
+	__var=0
+}
+register_interactive _activate_prompt_hello
+```
+</%text>
+
+Because it runs that often, speed is the whole design constraint. A prompt function
+that forks once costs a few milliseconds every single command, and there are nine
+prompt plugins here, so it adds up quickly. Do not run a program if a shell builtin
+or an already exported variable will do.
+
+If you need to know whether the current directory is inside a git repository, call
+`git_is_inside` rather than running `git` yourself. It remembers the answer per
+directory, which took about 28 ms off every prompt when the seven plugins that ask
+were each forking their own `git rev-parse`. Call `git_is_inside_flush` if a
+repository appears or disappears under a directory you are already in.
+
+Registration prepends, so prompt functions run in reverse registration order: a
+plugin listed later in `bashy.list` gets to set `PS1` before an earlier one.
+
 <%text>### Shell completions</%text>
 
 Do not run a completion command directly at activation time. Every one of those is
