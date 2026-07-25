@@ -49,20 +49,3 @@ function bashy_log_debug() {
 	export BASHY_LOG_LEVEL="${BASHY_LOG_DEBUG}"
 }
 
-# the next two functions dont really belong in the log module, move them out
-function is_profile() {
-	# 0 means profile is on
-	# 1 means profile is off
-	return 0
-}
-
-function is_step() {
-	# 0 means step is on
-	# 1 means step is off
-	if ! declare -p "BASHY_STEP" > /dev/null 2> /dev/null
-	then
-		return 1
-	else
-		return "${BASHY_STEP}"
-	fi
-}

@@ -44,6 +44,7 @@ bashy_core_order=(
 	float
 	git
 	measure
+	profile
 	version
 	install
 	completion

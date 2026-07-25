@@ -69,7 +69,7 @@ Measured, same machine, same method:
 A 25% cut. Less than hoped, because the remaining cost is not in the plugins - see
 item 2, which is now the bigger win by some distance.
 
-## 2. Profiling always runs, and it is not free - TODO
+## 2. Profiling always runs, and it is not free - DONE
 
 `is_profile` in `core/log.sh` is hardcoded to `return 0` and carries a comment
 saying it does not belong there. So the profiling branch in `_bashy_run_plugins`
@@ -83,8 +83,18 @@ whole startup is now 2.21 s and the plugins themselves only account for 0.97 s o
 it, so profiling is close to half of what is left. This is now the single biggest
 remaining item, bigger than everything item 1 recovered.
 
-Make it a real setting that defaults to off, and compute the elapsed time with
-bash arithmetic on `EPOCHREALTIME` instead of forking `date` and `bc`.
+Both done. `core/profile.sh` added, holding `is_profile` and `is_step`, which were
+in `core/log.sh` with a comment saying they did not belong there. Profiling is now
+off unless `~/.bashy.config` sets `readonly BASHY_PROFILE=0`, and `measure` times
+with `EPOCHREALTIME` string arithmetic instead of forking `date` twice and `bc`.
+
+| | before | after |
+| --- | --- | --- |
+| interactive shell | 2.21 s | **1.01 s** |
+
+Together with item 1 that is **2.95 s down to 1.01 s**, a 66% cut. `test_measure`
+still passes against the new implementation, and turning profiling back on still
+produces real numbers.
 
 ## 3. The installer documentation was lost - TODO
 

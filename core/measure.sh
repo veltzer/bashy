@@ -1,14 +1,22 @@
+# measure <out_var> <function> <var> <error>
+# Call <function> <var> <error> and put the seconds it took into <out_var>.
+#
+# This used to shell out to "date" twice and "bc" once per call. At seventy plugins
+# that was over two hundred processes and close to a second of every shell start,
+# so the timing is now done with EPOCHREALTIME, which bash expands itself without
+# forking anything.
+#
+# EPOCHREALTIME looks like "1785012015.681490", so dropping the dot turns it into
+# whole microseconds that plain shell arithmetic can subtract.
 function measure() {
 	local -n __user_var=$1
 	local function_name=$2
 	local -n __var_name=$3
 	local -n __var_name2=$4
-	local _start
-	local _end
-	local _m_diff
-	_start=$(date +%s.%N)
+	local _start="${EPOCHREALTIME/./}"
 	"${function_name}" __var_name __var_name2
-	_end=$(date +%s.%N)
-	_m_diff=$(echo "${_end} - ${_start}" | bc -l)
-	__user_var="${_m_diff}"
+	local _end="${EPOCHREALTIME/./}"
+	local _usec=$(( _end - _start ))
+	# back to seconds, keeping the six decimals the old "date +%s.%N" style produced
+	printf -v __user_var '%d.%06d' "$(( _usec / 1000000 ))" "$(( _usec % 1000000 ))"
 }
