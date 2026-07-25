@@ -1,9 +1,20 @@
 function _activate_pycharm() {
 	local -n __var=$1
 	local -n __error=$2
-	#PYCHARM_HOME="${HOME}/install/pycharm"
-	# FIX THIS! The hardcoded version of pycharm is horrible...
-	PYCHARM_HOME="${HOME}/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-1/221.5921.27"
+	# The jetbrains toolbox keeps builds under <app>/<channel>/<build number> and adds a
+	# new directory on every update, so nothing here may be hardcoded. Find the highest
+	# build number across the channels of every installed pycharm edition.
+	# Only a directory that actually holds a bin/ counts as a build, otherwise leftovers
+	# such as the toolbox .history directory would win the sort and break activation.
+	local toolbox="${HOME}/.local/share/JetBrains/Toolbox/apps"
+	PYCHARM_HOME=$(find "${toolbox}" -maxdepth 4 -mindepth 2 -type d -name bin -path "*/PyCharm*" \
+		-not -path "*/.history/*" 2>/dev/null | sed 's|/bin$||' | sort --version-sort | tail -1)
+	if [ -z "${PYCHARM_HOME}" ]
+	then
+		__error="no pycharm build found under [${toolbox}]"
+		__var=1
+		return
+	fi
 	PYCHARM_BIN="${PYCHARM_HOME}/bin"
 	if ! checkDirectoryExists "${PYCHARM_HOME}" __var __error; then return; fi
 	if ! checkDirectoryExists "${PYCHARM_BIN}" __var __error; then return; fi
