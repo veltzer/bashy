@@ -26,13 +26,11 @@ function _install_zoom_latest() {
 	fi
 	# Get installed version (empty if not installed)
 	installed_version=$(dpkg-query -W -f='${Version}' zoom 2>/dev/null || true)
-	if [ "${installed_version}" = "${remote_version}" ]
-  then
-		echo "zoom is already up to date (${installed_version})"
+	if bashy_install_check "zoom" "${installed_version}" "${remote_version}"
+	then
 		after_strict
 		return
 	fi
-	echo "Upgrading zoom from [${installed_version:-not installed}] to [${remote_version}]"
 	curl --fail --location --silent --output "${local_file}" "${url}"
 	sudo dpkg --install "${local_file}"
 	rm --force "${local_file}"

@@ -10,19 +10,18 @@ function _install_buck2() {
 	latest_version=$(echo "${release_json}" | jq --raw-output --arg asset "${asset}" '.assets[] | select(.name==$asset) | .updated_at' | cut -d'T' -f1)
 	folder="${HOME}/install/binaries"
 	executable="${folder}/buck2"
-	if [ -x "${executable}" ]; then
+	installed_version=""
+	if [ -x "${executable}" ]
+	then
 		installed_version=$("${executable}" --version 2>/dev/null | awk '/^buck2 /{print $2; exit}' | grep -oP '^[0-9]{4}-[0-9]{2}-[0-9]{2}')
-		if [ "${installed_version}" = "${latest_version}" ]; then
-			echo "buck2 ${latest_version} is already installed (latest)"
-			after_strict
-			return
-		fi
-		echo "buck2 ${installed_version} is installed, upgrading to ${latest_version}"
-	else
-		echo "Installing buck2 ${latest_version}"
+	fi
+	if bashy_install_check "buck2" "${installed_version}" "${latest_version}"
+	then
+		after_strict
+		return
 	fi
 	download_file=$(echo "${release_json}" | jq --raw-output --arg asset "${asset}" '.assets[] | select(.name==$asset) | .browser_download_url')
-	echo "download_file is [${download_file}]"
+	bashy_install_download "${download_file}"
 	local zst
 	bashy_download "${download_file}" zst || { after_strict; return; }
 	rm -f "${executable}"

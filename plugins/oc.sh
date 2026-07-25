@@ -23,15 +23,14 @@ function _install_oc() {
 	folder="${HOME}/install/binaries"
 	executable="${folder}/oc"
 	latest_version=$(curl --fail --silent --location "https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/release.txt" | grep -oP 'Version:\s+\K[0-9]+\.[0-9]+\.[0-9]+' | head -1)
-	if [ -x "${executable}" ] && [ -n "${latest_version}" ]; then
+	installed_version=""
+	if [ -x "${executable}" ]
+	then
 		installed_version=$("${executable}" version --client 2>/dev/null | grep -oP 'Client Version:\s+\K[0-9]+\.[0-9]+\.[0-9]+' | head -1)
-		if [ "${installed_version}" = "${latest_version}" ]; then
-			echo "oc ${latest_version} is already installed (latest)"
-			return
-		fi
-		echo "oc ${installed_version} is installed, upgrading to ${latest_version}"
-	else
-		echo "Installing oc ${latest_version:-latest}"
+	fi
+	if bashy_install_check "oc" "${installed_version}" "${latest_version}"
+	then
+		return
 	fi
 	wget --quiet "${url}" -O- | tar zxf - -C "${folder}" oc
 	chmod +x "${executable}"

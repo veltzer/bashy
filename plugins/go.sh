@@ -29,16 +29,15 @@ function _install_go() {
 	full_folder="${folder}/go"
 	version=$(curl --fail --show-error --silent "https://go.dev/VERSION?m=text" | grep -o "[0-9]\+\.[0-9]\+\.[0-9]\+")
 	executable="${full_folder}/bin/go"
-	if [ -x "${executable}" ]; then
+	installed_version=""
+	if [ -x "${executable}" ]
+	then
 		installed_version=$("${executable}" version 2>/dev/null | grep -oP 'go\K[0-9]+\.[0-9]+\.[0-9]+' | head -1)
-		if [ "${installed_version}" = "${version}" ]; then
-			echo "go ${version} is already installed (latest)"
-			after_strict
-			return
-		fi
-		echo "go ${installed_version} is installed, upgrading to ${version}"
-	else
-		echo "installing go ${version}..."
+	fi
+	if bashy_install_check "go" "${installed_version}" "${version}"
+	then
+		after_strict
+		return
 	fi
 	rm -rf "${full_folder}"
 	url="https://go.dev/dl/go${version}.linux-amd64.tar.gz"

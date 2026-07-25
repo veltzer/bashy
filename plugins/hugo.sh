@@ -25,19 +25,18 @@ function _install_hugo() {
 	latest_version=$(echo "${release_json}" | jq --raw-output '.tag_name' | sed 's/^v//')
 	folder="${HOME}/install/binaries"
 	executable="${folder}/hugo"
-	if [ -x "${executable}" ]; then
+	installed_version=""
+	if [ -x "${executable}" ]
+	then
 		installed_version=$("${executable}" version 2>/dev/null | grep -oP 'v\K[0-9]+\.[0-9]+\.[0-9]+' | head -1)
-		if [ "${installed_version}" = "${latest_version}" ]; then
-			echo "hugo ${latest_version} is already installed (latest)"
-			after_strict
-			return
-		fi
-		echo "hugo ${installed_version} is installed, upgrading to ${latest_version}"
-	else
-		echo "Installing hugo ${latest_version}"
+	fi
+	if bashy_install_check "hugo" "${installed_version}" "${latest_version}"
+	then
+		after_strict
+		return
 	fi
 	download_file=$(echo "${release_json}" | jq --raw-output '.assets[].browser_download_url | select(test("hugo_extended.*_linux-amd64.tar.gz$"))')
-	echo "download_file is [${download_file}]"
+	bashy_install_download "${download_file}"
 	local tar
 	bashy_download "${download_file}" tar || { after_strict; return; }
 	tar xf "${tar}" -C "${folder}" hugo

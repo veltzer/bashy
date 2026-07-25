@@ -17,15 +17,14 @@ function _install_gradle() {
 	fi
 	folder="gradle-${version}"
 	filename="${folder}-bin.zip"
-	if [ -x "${HOME}/install/gradle/bin/gradle" ]; then
+	installed=""
+	if [ -x "${HOME}/install/gradle/bin/gradle" ]
+	then
 		installed=$("${HOME}/install/gradle/bin/gradle" --version 2>/dev/null | awk '/^Gradle /{print $2; exit}')
-		if [ "${installed}" = "${version}" ]; then
-			echo "Gradle ${version} is already installed (latest)"
-			return
-		fi
-		echo "Gradle ${installed} is installed, upgrading to ${version}"
-	else
-		echo "Installing Gradle ${version}"
+	fi
+	if bashy_install_check "gradle" "${installed}" "${version}"
+	then
+		return
 	fi
 	rm -rf "${HOME}/install/${folder}" "${HOME}/install/gradle"
 	local archive

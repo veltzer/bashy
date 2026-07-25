@@ -16,16 +16,15 @@ function _install_audacity() {
 	# the AppImage cannot report its own version ("audacity --version" just dumps
 	# library paths), so record what we installed in a marker file next to it.
 	marker="${folder}/.audacity_version"
-	if [ -x "${executable}" ] && [ -f "${marker}" ]; then
+	installed_version=""
+	if [ -x "${executable}" ] && [ -f "${marker}" ]
+	then
 		installed_version=$(cat "${marker}")
-		if [ "${installed_version}" = "${latest_version}" ]; then
-			echo "audacity ${latest_version} is already installed (latest)"
-			after_strict
-			return
-		fi
-		echo "audacity ${installed_version} is installed, upgrading to ${latest_version}"
-	else
-		echo "Installing audacity ${latest_version}"
+	fi
+	if bashy_install_check "audacity" "${installed_version}" "${latest_version}"
+	then
+		after_strict
+		return
 	fi
 	# assets are named audacity-linux-<version>-x64-<ubuntu release>.AppImage, take the newest base
 	download_file=$(echo "${release_json}" | jq --raw-output '.assets[].browser_download_url | select(test("audacity-linux-.*-x64.*\\.AppImage$"))' | sort --version-sort | tail -1)
@@ -34,7 +33,7 @@ function _install_audacity() {
 		after_strict
 		return 1
 	fi
-	echo "download_file is [${download_file}]"
+	bashy_install_download "${download_file}"
 	local appimage
 	bashy_download "${download_file}" appimage || { after_strict; return 1; }
 	rm -f "${executable}" "${marker}"

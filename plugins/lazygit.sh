@@ -7,18 +7,18 @@ function _install_lazygit() {
 	latest_version=$(echo "${release_json}" | jq --raw-output '.tag_name' | sed 's/^v//')
 	folder="${HOME}/install/binaries"
 	executable="${folder}/lazygit"
-	if [ -x "${executable}" ]; then
+	installed_version=""
+	if [ -x "${executable}" ]
+	then
 		installed_version=$("${executable}" --version 2>/dev/null | grep -oP 'version=\K[0-9]+\.[0-9]+\.[0-9]+' | head -1)
-		if [ "${installed_version}" = "${latest_version}" ]; then
-			echo "lazygit ${latest_version} is already installed (latest)"
-			return
-		fi
-		echo "lazygit ${installed_version} is installed, upgrading to ${latest_version}"
-	else
-		echo "Installing lazygit ${latest_version}"
 	fi
-	download_file=$(echo "${release_json}" | jq --raw-output '.assets[].browser_download_url | select(endswith("_Linux_x86_64.tar.gz"))')
-	echo "download_file is ${download_file}"
+	if bashy_install_check "lazygit" "${installed_version}" "${latest_version}"
+	then
+		return
+	fi
+	# upstream renamed these from _Linux_x86_64 to _linux_x86_64, match either
+	download_file=$(echo "${release_json}" | jq --raw-output '.assets[].browser_download_url | select(test("_[Ll]inux_x86_64\\.tar\\.gz$"))')
+	bashy_install_download "${download_file}"
 	local tar
 	bashy_download "${download_file}" tar || return
 	tar xf "${tar}" -C "${folder}" lazygit

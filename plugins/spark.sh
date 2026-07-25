@@ -18,8 +18,13 @@ function _install_spark() {
 	# https://medium.com/@patilmailbox4/install-apache-spark-on-ubuntu-ffa151e12e30
 	version="3.5.4"
 	toplevel="spark-${version}-bin-hadoop3"
-	if [ -d "${HOME}/install/${toplevel}" ]; then
-		echo "spark ${version} is already installed"
+	installed_version=""
+	if [ -d "${HOME}/install/${toplevel}" ]
+	then
+		installed_version="${version}"
+	fi
+	if bashy_install_check "spark" "${installed_version}" "${version}"
+	then
 		after_strict
 		return
 	fi

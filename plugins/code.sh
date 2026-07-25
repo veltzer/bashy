@@ -28,15 +28,14 @@ function _install_code_direct() {
   # Get the latest version available from the VS Code update API
   LATEST=$(curl -fsSL "https://update.code.visualstudio.com/api/update/linux-deb-x64/stable/latest" | python3 -c "import sys,json; print(json.load(sys.stdin)['productVersion'])")
 
-  if command -v code &>/dev/null; then
+  INSTALLED=""
+  if command -v code &>/dev/null
+  then
     INSTALLED=$(code --version | head -1)
-    if [ "${INSTALLED}" = "${LATEST}" ]; then
-      echo "VS Code is already up to date: ${INSTALLED}"
-      exit 0
-    fi
-    echo "VS Code ${INSTALLED} is installed, but ${LATEST} is available. Upgrading..."
-  else
-    echo "VS Code is not installed. Installing ${LATEST}..."
+  fi
+  if bashy_install_check "code" "${INSTALLED}" "${LATEST}"
+  then
+    return
   fi
 
   echo "Downloading VS Code .deb package..."

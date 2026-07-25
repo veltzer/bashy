@@ -39,11 +39,10 @@ function _install_drawio() {
   local latest_version="${version#v}"
   local installed_version
   installed_version=$(dpkg-query -W -f='${Version}' drawio 2>/dev/null || true)
-  if [ "${installed_version}" = "${latest_version}" ]; then
-    echo "drawio ${latest_version} is already installed (latest)"
+  if bashy_install_check "drawio" "${installed_version}" "${latest_version}"
+  then
     return 0
   fi
-  echo "Upgrading drawio from [${installed_version:-not installed}] to [${latest_version}]"
 
   # Download the .deb package
   local temp_file

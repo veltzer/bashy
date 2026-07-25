@@ -15,15 +15,14 @@ function _activate_helm() {
 function _install_helm() {
 	latest_version=$(curl --fail --silent --location "https://api.github.com/repos/helm/helm/releases/latest" | jq --raw-output '.tag_name')
 	executable="${HOME}/install/binaries/helm"
-	if [ -x "${executable}" ]; then
+	installed_version=""
+	if [ -x "${executable}" ]
+	then
 		installed_version=$("${executable}" version --short 2>/dev/null | grep -oP '^v[0-9]+\.[0-9]+\.[0-9]+' | head -1)
-		if [ "${installed_version}" = "${latest_version}" ]; then
-			echo "helm ${latest_version} is already installed (latest)"
-			return
-		fi
-		echo "helm ${installed_version} is installed, upgrading to ${latest_version}"
-	else
-		echo "Installing helm ${latest_version}"
+	fi
+	if bashy_install_check "helm" "${installed_version}" "${latest_version}"
+	then
+		return
 	fi
 	rm -f "${executable}" /tmp/get_helm.sh
 	curl --fail --silent --location --show-error --output "/tmp/get_helm.sh" "https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3"

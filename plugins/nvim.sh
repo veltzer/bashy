@@ -25,17 +25,16 @@ function _install_nvim() {
 	latest_version=$(curl --fail --silent --location "https://api.github.com/repos/neovim/neovim/releases/latest" | jq --raw-output '.tag_name' | sed 's/^v//')
 	folder="${HOME}/install/binaries"
 	executable="${folder}/nvim"
-	if [ -x "${executable}" ]; then
+	installed_version=""
+	if [ -x "${executable}" ]
+	then
 		installed_version=$("${executable}" --version 2>/dev/null | awk '/^NVIM v/{print substr($2,2); exit}')
-		if [ "${installed_version}" = "${latest_version}" ]; then
-			echo "nvim ${latest_version} is already installed (latest)"
-			return
-		fi
-		echo "nvim ${installed_version} is installed, upgrading to ${latest_version}"
-		rm -f "${executable}"
-	else
-		echo "Installing nvim ${latest_version}"
 	fi
+	if bashy_install_check "nvim" "${installed_version}" "${latest_version}"
+	then
+		return
+	fi
+	rm -f "${executable}"
 	curl --fail --location --silent --output "${executable}" "https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage"
 	chmod +x "${executable}"
 }
@@ -44,15 +43,14 @@ function _install_nvim_latest_tar() {
 	latest_version=$(curl --fail --silent --location "https://api.github.com/repos/neovim/neovim/releases/latest" | jq --raw-output '.tag_name' | sed 's/^v//')
 	folder="${HOME}/install/nvim-linux64"
 	executable="${folder}/bin/nvim"
-	if [ -x "${executable}" ]; then
+	installed_version=""
+	if [ -x "${executable}" ]
+	then
 		installed_version=$("${executable}" --version 2>/dev/null | awk '/^NVIM v/{print substr($2,2); exit}')
-		if [ "${installed_version}" = "${latest_version}" ]; then
-			echo "nvim ${latest_version} is already installed (latest)"
-			return
-		fi
-		echo "nvim ${installed_version} is installed, upgrading to ${latest_version}"
-	else
-		echo "Installing nvim ${latest_version}"
+	fi
+	if bashy_install_check "nvim" "${installed_version}" "${latest_version}"
+	then
+		return
 	fi
 	rm -rf "${folder}"
 	curl --fail --location --silent "https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz" | tar xz -C "${HOME}/install"

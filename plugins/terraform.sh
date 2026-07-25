@@ -12,16 +12,15 @@ function _install_terraform() {
 	version=$(curl --fail --silent "https://checkpoint-api.hashicorp.com/v1/check/terraform" | jq -r -M ".current_version")
 	folder="${HOME}/install/binaries"
 	executable="${folder}/terraform"
-	if [ -x "${executable}" ]; then
+	installed_version=""
+	if [ -x "${executable}" ]
+	then
 		installed_version=$("${executable}" version 2>/dev/null | grep -oP '^Terraform v\K[0-9]+\.[0-9]+\.[0-9]+' | head -1)
-		if [ "${installed_version}" = "${version}" ]; then
-			echo "terraform ${version} is already installed (latest)"
-			after_strict
-			return
-		fi
-		echo "terraform ${installed_version} is installed, upgrading to ${version}"
-	else
-		echo "Installing terraform ${version}"
+	fi
+	if bashy_install_check "terraform" "${installed_version}" "${version}"
+	then
+		after_strict
+		return
 	fi
 	file="terraform_${version}_linux_amd64.zip"
 	download="https://releases.hashicorp.com/terraform/${version}/${file}"

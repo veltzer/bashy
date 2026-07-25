@@ -14,8 +14,13 @@ function _install_phantomjs() {
 	before_strict
 	base="phantomjs-2.1.1-linux-x86_64"
 	full="${base}.tar.bz2"
-	if [ -d "${HOME}/install/${base}" ]; then
-		echo "phantomjs ${base} is already installed"
+	installed_version=""
+	if [ -d "${HOME}/install/${base}" ]
+	then
+		installed_version="${base}"
+	fi
+	if bashy_install_check "phantomjs" "${installed_version}" "${base}"
+	then
 		after_strict
 		return
 	fi

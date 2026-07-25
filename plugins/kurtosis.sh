@@ -20,17 +20,15 @@ function _install_kurtosis() {
 	latest_version=$(echo "${release_json}" | jq --raw-output '.tag_name')
 	local install_dir="${HOME}/install/binaries"
 	local kurtosis_path="${install_dir}/kurtosis"
-	if [ -x "${kurtosis_path}" ]; then
-		local installed_version
+	local installed_version=""
+	if [ -x "${kurtosis_path}" ]
+	then
 		installed_version=$("${kurtosis_path}" version 2>/dev/null | grep -oP 'CLI Version:\s+\K[0-9]+\.[0-9]+\.[0-9]+' | head -1)
-		if [ "${installed_version}" = "${latest_version}" ]; then
-			echo "kurtosis ${latest_version} is already installed (latest)"
-			errexit_restore "${e}"
-			return
-		fi
-		echo "kurtosis ${installed_version} is installed, upgrading to ${latest_version}"
-	else
-		echo "Installing kurtosis ${latest_version}"
+	fi
+	if bashy_install_check "kurtosis" "${installed_version}" "${latest_version}"
+	then
+		errexit_restore "${e}"
+		return
 	fi
 	url=$(echo "${release_json}" | jq --raw-output '.assets[].browser_download_url | select(endswith("_linux_amd64.tar.gz"))')
 	echo "url is [${url}]..."

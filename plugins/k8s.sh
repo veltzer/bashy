@@ -22,16 +22,15 @@ function _install_k8s() {
 	version=$(curl --fail --silent --location "https://dl.k8s.io/release/stable.txt")
 	folder="${HOME}/install/binaries"
 	executable="${folder}/kubectl"
-	if [ -x "${executable}" ]; then
+	installed_version=""
+	if [ -x "${executable}" ]
+	then
 		installed_version=$("${executable}" version --client 2>/dev/null | grep -oP 'Client Version: \K[^\s]+' | head -1)
-		if [ "${installed_version}" = "${version}" ]; then
-			echo "kubectl ${version} is already installed (latest)"
-			after_strict
-			return
-		fi
-		echo "kubectl ${installed_version} is installed, upgrading to ${version}"
-	else
-		echo "Installing kubectl ${version}"
+	fi
+	if bashy_install_check "kubectl" "${installed_version}" "${version}"
+	then
+		after_strict
+		return
 	fi
 	curl --fail --location --silent --output "${executable}" "https://dl.k8s.io/release/${version}/bin/linux/amd64/kubectl"
 	chmod +x "${executable}"

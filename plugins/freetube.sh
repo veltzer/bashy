@@ -11,13 +11,11 @@ function _install_freetube_latest() {
 	fi
 	latest_version=$(echo "${url}" | grep -oP '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
 	installed_version=$(dpkg-query -W -f='${Version}' freetube 2>/dev/null || true)
-	if [ -n "${latest_version}" ] && [ "${installed_version}" = "${latest_version}" ]; then
-		echo "freetube ${latest_version} is already installed (latest)"
+	if bashy_install_check "freetube" "${installed_version}" "${latest_version}"
+	then
 		after_strict
 		return
 	fi
-	echo "Upgrading freetube from [${installed_version:-not installed}] to [${latest_version}]"
-	echo "Downloading FreeTube from [${url}]..."
 	local local_file
 	bashy_download "${url}" local_file || { after_strict; return 1; }
 	sudo dpkg --install "${local_file}" || sudo apt-get install -f -y

@@ -12,16 +12,15 @@ function _install_packer() {
 	version=$(curl --fail --show-error --silent "https://checkpoint-api.hashicorp.com/v1/check/packer" | jq -r -M ".current_version")
 	folder="${HOME}/install/binaries"
 	executable="${folder}/packer"
-	if [ -x "${executable}" ]; then
+	installed_version=""
+	if [ -x "${executable}" ]
+	then
 		installed_version=$("${executable}" --version 2>/dev/null | grep -oP '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
-		if [ "${installed_version}" = "${version}" ]; then
-			echo "packer ${version} is already installed (latest)"
-			after_strict
-			return
-		fi
-		echo "packer ${installed_version} is installed, upgrading to ${version}"
-	else
-		echo "Installing packer ${version}"
+	fi
+	if bashy_install_check "packer" "${installed_version}" "${version}"
+	then
+		after_strict
+		return
 	fi
 	file="packer_${version}_linux_amd64.zip"
 	url="https://releases.hashicorp.com/packer/${version}/${file}"
