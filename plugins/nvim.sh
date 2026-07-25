@@ -9,7 +9,7 @@ function _activate_nvim() {
 function _activate_nvim_with_folder() {
 	local -n __var=$1
 	local -n __error=$2
-	NVIM_PATH="${HOME}/install/nvim-linux64"
+	NVIM_PATH="${HOME}/install/nvim-linux-x86_64"
 	local NVIM_PATHBIN="${NVIM_PATH}/bin"
 	if ! checkDirectoryExists "${NVIM_PATH}" __var __error; then return; fi
 	if ! checkDirectoryExists "${NVIM_PATHBIN}" __var __error; then return; fi
@@ -41,7 +41,7 @@ function _install_nvim() {
 
 function _install_nvim_latest_tar() {
 	latest_version=$(curl --fail --silent --location "https://api.github.com/repos/neovim/neovim/releases/latest" | jq --raw-output '.tag_name' | sed 's/^v//')
-	folder="${HOME}/install/nvim-linux64"
+	folder="${HOME}/install/nvim-linux-x86_64"
 	executable="${folder}/bin/nvim"
 	installed_version=""
 	if [ -x "${executable}" ]
@@ -52,7 +52,7 @@ function _install_nvim_latest_tar() {
 	then
 		return
 	fi
-	download_file="https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz"
+	download_file="https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz"
 	bashy_install_download "${download_file}"
 	local tar
 	bashy_download "${download_file}" tar || return
@@ -62,8 +62,8 @@ function _install_nvim_latest_tar() {
 
 function _install_nvim_nightly_tar() {
 	version="nightly"
-	folder="${HOME}/install/nvim-linux64"
-	download_file="https://github.com/neovim/neovim-releases/releases/download/${version}/nvim-linux64.tar.gz"
+	folder="${HOME}/install/nvim-linux-x86_64"
+	download_file="https://github.com/neovim/neovim-releases/releases/download/${version}/nvim-linux-x86_64.tar.gz"
 	bashy_install_download "${download_file}"
 	local tar
 	bashy_download "${download_file}" tar || return
