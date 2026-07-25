@@ -54,6 +54,20 @@ function testVerifySha256BareDigestFile() {
 	rm -rf "${dir}"
 }
 
+function testVerifySha256PathAndBinaryMarker() {
+	local dir
+	dir=$(mktemp --directory)
+	echo "hello bashy" > "${dir}/rustup-init"
+	# rustup publishes "<digest> *./rustup-init": a binary marker and a path, not a
+	# bare filename, and both have to be stripped before the name can be matched
+	local sum
+	sum=$(sha256sum "${dir}/rustup-init" | awk '{print $1}')
+	printf '%s *./rustup-init\n' "${sum}" > "${dir}/sums.txt"
+	bashy_verify_sha256 "${dir}/rustup-init" "file://${dir}/sums.txt" > /dev/null \
+		|| _bashy_assert_fail
+	rm -rf "${dir}"
+}
+
 function testVerifySha256FileNotListed() {
 	local dir
 	dir=$(mktemp --directory)

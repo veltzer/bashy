@@ -149,9 +149,12 @@ function bashy_verify_sha256() {
 		then
 			expected="${stripped}"
 		else
-			# match on the basename, the checksums file names assets without a path
+			# Match on the basename. The listed name may carry a "*" binary marker and
+			# may be a path rather than a bare name - rustup publishes
+			# "<digest> *./rustup-init" - so strip both before comparing.
 			local want="${file##*/}"
-			expected=$(echo "${sums}" | awk -v want="${want}" '{name=$2; sub(/^\*/,"",name); if(name==want){print $1; exit}}')
+			expected=$(echo "${sums}" | awk -v want="${want}" \
+				'{name=$2; sub(/^\*/,"",name); sub(/.*\//,"",name); if(name==want){print $1; exit}}')
 			if [ -z "${expected}" ]
 			then
 				echo "bashy_verify_sha256: [${want}] not listed in [${source}]" >&2
