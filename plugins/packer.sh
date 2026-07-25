@@ -25,10 +25,12 @@ function _install_packer() {
 	fi
 	file="packer_${version}_linux_amd64.zip"
 	url="https://releases.hashicorp.com/packer/${version}/${file}"
-	rm -rf "${folder}/packer"
+	rm -f "${executable}"
 	local archive
 	bashy_download "${url}" archive || { after_strict; return; }
 	unzip -q "${archive}" -d "${folder}" packer
+	# unzip restores the timestamp stored in the zip, stamp it with the install time instead
+	touch "${executable}"
 	after_strict
 }
 
