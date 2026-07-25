@@ -67,3 +67,14 @@ Run `make`. It runs shellcheck over every shell file and then `test_all.sh`.
 
 Do not claim an item is complete without checking the code. Grep for what the claim
 asserts rather than trusting a summary written earlier in the session.
+
+## README.md is generated
+
+Do not edit `README.md`. It is built by `pydmt build` from
+`templates/README.md.mako`, which includes `snipplets/main.md.mako`. The prose
+sections all live in the snipplet, and editing the generated file means the change
+is silently lost at the next build. That has already happened once.
+
+Mako treats `${...}` as an expression, so any shell example containing `${HOME}` or
+similar has to sit inside a `<%text>` block, and markdown headings are wrapped the
+same way. After editing the snipplet run `pydmt build` and check `README.md`.
