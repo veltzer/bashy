@@ -9,6 +9,12 @@
 # in a cache file, and source the file afterwards. The cache is keyed on the mtime
 # and size of the tool's binary, so upgrading the tool regenerates it by itself.
 #
+# Only worth it for slow tools. A cached call still costs about 10 ms of its own,
+# for "command -v", a "stat" and sourcing the file, so a tool that emits its
+# completion in under that is faster left alone. The tools cached here take 20 to
+# 80 ms natively; the seven rs* tools in plugins/complete.sh take 5 to 15 ms and
+# were measurably slower when routed through here.
+#
 # Usage from a plugin, in place of "source <(minikube completion bash)":
 #
 #	bashy_completion minikube minikube completion bash
