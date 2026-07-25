@@ -36,4 +36,8 @@ function _install_gh() {
 	tar xf "${tar}" -m -C "${folder}" --wildcards "*/bin/gh" --transform 's/.*\/bin\/gh/gh/g'
 }
 
+function _uninstall_gh() {
+	bashy_uninstall_binary "gh"
+}
+
 register_interactive _activate_gh

@@ -34,9 +34,13 @@ function _install_kurtosis() {
 	echo "url is [${url}]..."
 	local local_file
 	bashy_download "${url}" local_file || { errexit_restore "${e}"; return 1; }
-	tar zxf "${local_file}" -C "${install_dir}" kurtosis
+	bashy_install_extract "${local_file}" "${install_dir}" kurtosis
 	chmod +x "${kurtosis_path}"
 	errexit_restore "${e}"
+}
+
+function _uninstall_kurtosis() {
+	bashy_uninstall_binary "kurtosis"
 }
 
 register_interactive _activate_kurtosis

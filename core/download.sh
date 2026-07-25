@@ -161,7 +161,9 @@ function bashy_verify_sha256() {
 		echo "  actual   [${actual}]" >&2
 		return 1
 	fi
-	bashy_log "core/download" "${BASHY_LOG_INFO}" "sha256 verified for [${file##*/}]"
+	# never let the logger decide the result of a verification
+	bashy_log "core/download" "${BASHY_LOG_INFO:-}" "sha256 verified for [${file##*/}]" 2>/dev/null || true
+	return 0
 }
 
 # bashy_download_clean

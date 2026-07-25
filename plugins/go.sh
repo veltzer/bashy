@@ -39,9 +39,12 @@ function _install_go() {
 		after_strict
 		return
 	fi
-	rm -rf "${full_folder}"
 	url="https://go.dev/dl/go${version}.linux-amd64.tar.gz"
-	curl --fail --location --silent "${url}" | tar xz -C "${folder}"
+	bashy_install_download "${url}"
+	local tar
+	bashy_download "${url}" tar || { after_strict; return; }
+	rm -rf "${full_folder}"
+	bashy_install_extract "${tar}" "${folder}"
 	rm -rf "${HOME}/.cache/go-build" "${HOME}/install/gopath"
 	mkdir -p "${HOME}/install/gopath/bin"
 	after_strict

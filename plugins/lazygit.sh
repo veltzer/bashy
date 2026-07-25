@@ -23,13 +23,17 @@ function _install_lazygit() {
 	bashy_download "${download_file}" tar || return
 	checksums=$(echo "${release_json}" | jq --raw-output '.assets[].browser_download_url | select(endswith("checksums.txt"))')
 	bashy_verify_sha256 "${tar}" "${checksums}" || return
-	tar xf "${tar}" -C "${folder}" lazygit
+	bashy_install_extract "${tar}" "${folder}" lazygit
 }
 
 function _activate_lazygit() {
 	local -n __var=$1
 	local -n __error=$2
 	__var=0
+}
+
+function _uninstall_lazygit() {
+	bashy_uninstall_binary "lazygit"
 }
 
 register _activate_lazygit

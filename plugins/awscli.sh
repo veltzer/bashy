@@ -58,11 +58,16 @@ function _install_awscli() {
 		needs_aws_install=false
 	fi
 	if [ "${needs_aws_install}" = true ]; then
-		rm -rf /tmp/awscliv2.zip /tmp/awscliv2 /tmp/aws "${HOME}/install/aws"
-		curl --fail --silent "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" --output "/tmp/awscliv2.zip"
-		unzip -qq /tmp/awscliv2.zip -d /tmp
-		/tmp/aws/install -i "${HOME}/install/aws" -b "${HOME}/install/aws/bin" > /dev/null
-		rm -rf /tmp/aws /tmp/awscliv2.zip
+		rm -rf "${HOME}/install/aws"
+		local aws_zip
+		bashy_download "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" aws_zip || return 1
+		# unpack into a private directory, /tmp/aws is a predictable path in a
+		# world writable place and anyone could have created it first
+		local aws_tmp
+		aws_tmp=$(mktemp --directory)
+		bashy_install_extract "${aws_zip}" "${aws_tmp}"
+		"${aws_tmp}/aws/install" -i "${HOME}/install/aws" -b "${HOME}/install/aws/bin" > /dev/null
+		rm -rf "${aws_tmp}"
 		# checking that you do not have 'awscli' installed from pypi
 		if pip show awscli 2> /dev/null
 		then

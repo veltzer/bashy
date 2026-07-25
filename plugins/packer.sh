@@ -35,4 +35,8 @@ function _install_packer() {
 	after_strict
 }
 
+function _uninstall_packer() {
+	bashy_uninstall_binary "packer"
+}
+
 register_interactive _activate_packer

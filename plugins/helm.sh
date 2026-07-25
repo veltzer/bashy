@@ -38,4 +38,8 @@ function _install_helm() {
 	tar xf "${tar}" -m -C "${folder}" --strip-components=1 linux-amd64/helm
 }
 
+function _uninstall_helm() {
+	bashy_uninstall_binary "helm"
+}
+
 register _activate_helm

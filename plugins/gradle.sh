@@ -29,7 +29,7 @@ function _install_gradle() {
 	rm -rf "${HOME}/install/${folder}" "${HOME}/install/gradle"
 	local archive
 	bashy_download "https://downloads.gradle.org/distributions/${filename}" archive || return
-	unzip -qq "${archive}" -d "${HOME}/install"
+	bashy_install_extract "${archive}" "${HOME}/install"
 	cd "${HOME}/install" || return
 	ln -s "${folder}" "gradle"
 }

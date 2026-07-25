@@ -32,7 +32,11 @@ function _install_oc() {
 	then
 		return
 	fi
-	wget --quiet "${url}" -O- | tar zxf - -C "${folder}" oc
+	bashy_install_download "${url}"
+	local tar
+	bashy_download "${url}" tar || return
+	rm -f "${executable}"
+	bashy_install_extract "${tar}" "${folder}" oc
 	chmod +x "${executable}"
 }
 

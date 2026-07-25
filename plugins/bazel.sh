@@ -30,4 +30,8 @@ function _install_bazel() {
 	after_strict
 }
 
+function _uninstall_bazel() {
+	bashy_uninstall_binary "bazel"
+}
+
 register_interactive _activate_bazel

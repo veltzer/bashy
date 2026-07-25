@@ -35,4 +35,8 @@ function _install_terraform() {
 	after_strict
 }
 
+function _uninstall_terraform() {
+	bashy_uninstall_binary "terraform"
+}
+
 register_interactive _activate_terraform

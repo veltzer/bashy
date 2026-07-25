@@ -32,7 +32,7 @@ function _install_azurecli_doesnt_work() {
 
 	# Extract
 	echo "Extracting..."
-	tar -xzf "${tarball}" -C "${tmp_dir}"
+	bashy_install_extract "${tarball}" "${tmp_dir}"
 
 	# Find the extracted directory (it has a versioned name)
 	local extracted_dir

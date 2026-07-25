@@ -54,3 +54,104 @@ function bashy_install_check() {
 function bashy_install_download() {
 	echo "download_file is [$1]"
 }
+
+# bashy_uninstall_binary <name> [executable path]
+# Remove a single binary installed into ~/install/binaries, reporting either way.
+# The path defaults to ~/install/binaries/<name>.
+function bashy_uninstall_binary() {
+	local name=$1
+	local executable=${2:-${HOME}/install/binaries/$1}
+	if [ -f "${executable}" ]
+	then
+		echo "removing ${executable}"
+		rm -f "${executable}"
+	else
+		echo "no ${name} detected"
+	fi
+	return 0
+}
+
+# bashy_github_release <owner/repo> [out_var]
+# Fetch the json of the latest release of a github project.
+# Assigns to out_var when given, otherwise echoes. Returns 1 when the fetch fails.
+function bashy_github_release() {
+	local repo=$1
+	local json
+	if ! json=$(curl --fail --silent --location "https://api.github.com/repos/${repo}/releases/latest")
+	then
+		echo "bashy_github_release: could not fetch the latest release of [${repo}]" >&2
+		return 1
+	fi
+	if [ -n "${2:-}" ]
+	then
+		local -n __out=$2
+		__out="${json}"
+	else
+		echo "${json}"
+	fi
+}
+
+# bashy_github_version <release json> [prefix]
+# Echo the version of a release, with <prefix> stripped from the tag name.
+# The prefix defaults to "v", which is what almost every project tags with.
+function bashy_github_version() {
+	local json=$1
+	local prefix=${2-v}
+	echo "${json}" | jq --raw-output '.tag_name' | sed "s/^${prefix}//"
+}
+
+# bashy_github_asset <release json> <jq test regex> [out_var]
+# Echo the download url of the one asset of a release matching <jq test regex>.
+# Fails when the pattern matches no asset, or more than one - an ambiguous match
+# silently produced a multi line url before, which is never what a caller wants.
+function bashy_github_asset() {
+	local json=$1
+	local pattern=$2
+	local urls
+	urls=$(echo "${json}" | jq --raw-output --arg re "${pattern}" \
+		'.assets[].browser_download_url | select(test($re))')
+	local count
+	count=$(echo "${urls}" | grep --count . || true)
+	if [ "${count}" -eq 0 ]
+	then
+		echo "bashy_github_asset: no asset matches [${pattern}]" >&2
+		return 1
+	fi
+	if [ "${count}" -gt 1 ]
+	then
+		echo "bashy_github_asset: [${pattern}] matches ${count} assets, expected one:" >&2
+		echo "${urls//$'\n'/$'\n  '}" >&2
+		return 1
+	fi
+	if [ -n "${3:-}" ]
+	then
+		local -n __out=$3
+		__out="${urls}"
+	else
+		echo "${urls}"
+	fi
+}
+
+# bashy_install_extract <archive> <destination folder> [tar/unzip arguments...]
+# Unpack <archive> into <destination folder>, then stamp everything it wrote with
+# the current time. Both tar and unzip restore the mtime recorded inside the
+# archive, which makes a freshly installed file look years old.
+function bashy_install_extract() {
+	local archive=$1
+	local folder=$2
+	shift 2
+	case "${archive}" in
+		*.zip)
+			unzip -q -o "${archive}" -d "${folder}" "$@" || return 1
+			# unzip has no equivalent of tar --touch, so restamp afterwards
+			local member
+			for member in "$@"
+			do
+				touch "${folder}/${member}" 2>/dev/null || true
+			done
+			;;
+		*)
+			tar xf "${archive}" -m -C "${folder}" "$@" || return 1
+			;;
+	esac
+}

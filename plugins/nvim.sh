@@ -83,4 +83,8 @@ function _config_clean_nvim() {
 	rm -rf "${HOME}/.config/nvim"
 }
 
+function _uninstall_nvim() {
+	bashy_uninstall_binary "nvim"
+}
+
 register_interactive _activate_nvim

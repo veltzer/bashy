@@ -30,5 +30,9 @@ function _install_starship() {
 	BIN_DIR="${HOME}/install/binaries" sh <(curl --fail --silent https://starship.rs/install.sh) -y
 }
 
+function _uninstall_starship() {
+	bashy_uninstall_binary "starship"
+}
+
 register_interactive _activate_starship
 register_install _install_starship

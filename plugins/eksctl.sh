@@ -31,12 +31,20 @@ function _install_eksctl() {
 	then
 		return
 	fi
+	download_file="https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz"
+	bashy_install_download "${download_file}"
+	local tar
+	bashy_download "${download_file}" tar || return
 	rm -f "${executable}"
-	curl --fail --silent --location "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C "${HOME}/install/binaries" eksctl
+	bashy_install_extract "${tar}" "${HOME}/install/binaries" eksctl
 }
 
 function eksctl_uninstall() {
 	rm -f "${EKSCTL_BINARY}"
+}
+
+function _uninstall_eksctl() {
+	bashy_uninstall_binary "eksctl"
 }
 
 register_interactive _activate_eksctl
