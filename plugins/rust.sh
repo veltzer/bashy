@@ -29,8 +29,21 @@ function _remove_rust() {
 function _install_rust_rustup() {
 	export CARGO_HOME="${HOME}/install/cargo"
 	export RUSTUP_HOME="${HOME}/.rustup"
+	# sh.rustup.rs is a shim that downloads this same rustup-init and runs it. Fetch
+	# the binary directly instead, because rust publishes a sha256 next to it, so it
+	# can be checked before anything is executed.
+	local base="https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu"
+	local init
+	bashy_download "${base}/rustup-init" init || return 1
+	bashy_verify_sha256 "${init}" "${base}/rustup-init.sha256" || return 1
 	rm -rf "${CARGO_HOME}" "${RUSTUP_HOME}"
-	curl --fail --proto '=https' --tlsv1.2 --silent --show-error "https://sh.rustup.rs" | sh
+	# the cached copy is not executable, and must not be chmod'ed in place
+	local runner
+	runner=$(mktemp)
+	cp "${init}" "${runner}"
+	chmod +x "${runner}"
+	"${runner}" -y --no-modify-path
+	rm -f "${runner}"
 }
 
 function _install_rust_ubuntu() {
