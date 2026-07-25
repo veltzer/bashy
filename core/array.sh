@@ -81,14 +81,16 @@ function _bashy_array_contains() {
 function _bashy_array_remove() {
 	local -n __array_remove=$1
 	local value=$2
-	_bashy_array_new new_array
+	local -a __kept=()
+	local elem
 	for elem in "${__array_remove[@]}"
 	do
 		if [[ "${elem}" != "${value}" ]]
 		then
-			_bashy_array_push new_array "${elem}"
+			__kept+=("${elem}")
 		fi
 	done
-	__array=("${new_array[@]}")
-	unset new_array
+	# assign through the nameref, this used to write to an undefined __array so the
+	# caller's array was left untouched and nothing was ever removed
+	__array_remove=("${__kept[@]}")
 }

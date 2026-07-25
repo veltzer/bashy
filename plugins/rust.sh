@@ -37,5 +37,8 @@ function _install_rust_ubuntu() {
 	# these are the ubuntu package for rust
 	sudo apt install cargo rustc rust-src
 }
+function _uninstall_rust() {
+	bashy_uninstall_directory "rust" "${HOME}/install/cargo" "${HOME}/.cargo" "${HOME}/.rustup"
+}
 
 register _activate_rust

@@ -29,15 +29,25 @@ or signature check anywhere in the tree. These binaries end up on `PATH`.
 with no filename column, which covers every shape these projects publish.
 
 Verified now: audacity, bazel, eksctl, gh, gradle, helm, hugo, kurtosis, lazygit,
-minikube, oc, packer, terraform.
+minikube, oc, packer, starship, terraform.
 
 Still unverified because the project publishes nothing to check against: buck2,
 drawio, freetube, lens, nvim, spark, zoom. Not applicable: awscli, azurecli, code,
 dotnet, k8s install through a vendor installer or a package manager.
 
-`plugins/starship.sh` is the one real remaining hole - it runs
-`sh <(curl https://starship.rs/install.sh)`, so the script is executed unverified.
-Installing the release asset directly would let it be checked like the others.
+`plugins/starship.sh` used to pipe the vendor `install.sh` straight into a shell,
+running unverified code from the network. It now installs the release tarball
+directly and checks it against the published `.sha256`, like every other plugin.
+
+Six plugins still pipe a remote script into a shell:
+
+- `ai_claude.sh`, `ai_copilot.sh`, `rust.sh`, `google_cloud_sdk.sh` - into `sh`/`bash`
+- `azurecli.sh` (two functions) - into `sudo bash`, so the script runs as root
+
+Starship was easy to convert because it ships one self contained binary per release.
+These are bootstrap installers that lay down a whole toolchain and have no single
+release asset to swap in, so closing them means either vendoring the install steps
+or accepting the vendor script. The `sudo bash` pair is the most worrying of them.
 
 ## 3. Extract the remaining installer boilerplate - DONE
 
@@ -78,16 +88,25 @@ the cache revalidation logic, and they run without network access.
 The cache test was checked against a deliberately reintroduced item 1 bug and fails
 when it comes back.
 
-Still untested: `check.sh`, `errexit.sh`, `hooks.sh`.
+`tests/check.sh`, `tests/errexit.sh` and `tests/hooks.sh` added, taking the suite to
+59 tests. Writing them turned up two real bugs, see below.
+
+Untested but not worth it: `assert.sh` is the test framework itself, `version.sh` is
+generated, and `color.sh`/`log.sh`/`misc.sh`/`null.sh`/`source.sh`/`git.sh` are thin
+wrappers.
 
 ## 6. Uninstall coverage - DONE
 
-`bashy_uninstall_binary` added, plus `_uninstall_*` functions for the single binary
-plugins that lacked one: bazel, eksctl, gh, helm, kurtosis, lazygit, nvim, packer,
-starship, terraform.
+`bashy_uninstall_binary` added, plus `_uninstall_*` for the single binary plugins
+that lacked one: bazel, eksctl, gh, helm, kurtosis, lazygit, nvim, packer, starship,
+terraform.
 
-Plugins installing through a package manager or into a directory tree still have no
-uninstaller.
+`bashy_uninstall_directory` added for the plugins that unpack a whole tree: fzf, go,
+gradle, node, phantomjs, rust. gradle and phantomjs symlink `~/install/<name>` at a
+versioned directory, so their uninstallers resolve the link and remove both.
+
+Plugins that install through a package manager still have no uninstaller, which is
+correct - removal there belongs to the package manager.
 
 ## 7. Smaller items - DONE
 
@@ -104,3 +123,36 @@ uninstaller.
   the cache and a `mktemp` directory like the main installer.
 - `README.md` gained a "writing an installer" section documenting every helper and
   the download cache.
+
+## 8. Bugs found while doing the above
+
+Not planned work, but worth recording.
+
+- `core/check.sh` - the success branches of `checkVariableDefined` and
+  `checkDirectoryExists` assigned to `__var` rather than the `__var2` nameref bound
+  to the caller's variable, so a successful check never reported its result. The
+  other three functions in the file were already correct.
+- `core/errexit.sh` - the function was named `errexist_save_and_start` while the
+  documentation and `plugins/kurtosis.sh` both used `errexit_save_and_start`, so the
+  call resolved to nothing. `kurtosis.sh` also wrote `local e=errexit_save_and_start`,
+  assigning the name as a string rather than calling it, so `set -e` was never
+  enabled and `errexit_restore` was handed a non numeric value. The implementation
+  could not have worked either: `set -o errexit` turns errexit on rather than
+  reporting the previous state, so the saved value was always the same. Rewritten to
+  read `$-`, return the state through a named variable, and keep the old misspelling
+  as an alias.
+- `Makefile` - `check_all` referenced an undefined `ALL_BASH`, so shellcheck ran with
+  no file arguments and printed its usage instead of checking anything. It is
+  `SH_SRC` that holds the shell sources.
+- `plugins/nvim.sh` - neovim renamed its release assets from `nvim-linux64` to
+  `nvim-linux-x86_64`, so the tar installer had been fetching a 404 and silently
+  extracting nothing.
+- `plugins/lazygit.sh` - upstream renamed assets from `_Linux_x86_64` to
+  `_linux_x86_64`, so the asset filter matched nothing.
+- `core/array.sh` - `_bashy_array_remove` built the filtered array correctly and
+  then assigned it to an undefined `__array` instead of the `__array_remove`
+  nameref, so it never removed anything. This was the SC2154 warning that `make`
+  had been reporting. `tests/array.sh` had a `testRemove` that passed anyway
+  because it only popped from the end; it now asserts on the length, and three
+  more cases cover removing the last element, removing an absent value, and
+  preserving elements containing spaces.

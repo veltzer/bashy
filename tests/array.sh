@@ -36,16 +36,46 @@ function testPushPop() {
 	_bashy_assert_equal "${elem}" a
 }
 
+# shellcheck disable=SC2154 # arr is created by _bashy_array_new
 function testRemove() {
 	_bashy_array_new arr
 	_bashy_array_push arr a
 	_bashy_array_push arr b
 	_bashy_array_push arr c
 	_bashy_array_remove arr b
+	# the length has to shrink, popping alone passed even when nothing was removed
+	_bashy_assert_equal "${#arr[@]}" 2
 	_bashy_array_pop arr elem
 	_bashy_assert_equal "${elem}" c
 	_bashy_array_pop arr elem
 	_bashy_assert_equal "${elem}" a
+}
+
+# shellcheck disable=SC2154 # arr is created by _bashy_array_new
+function testRemoveLastElement() {
+	_bashy_array_new arr
+	_bashy_array_push arr only
+	_bashy_array_remove arr only
+	_bashy_assert_equal "${#arr[@]}" 0
+}
+
+# shellcheck disable=SC2154 # arr is created by _bashy_array_new
+function testRemoveAbsentValue() {
+	_bashy_array_new arr
+	_bashy_array_push arr keep
+	_bashy_array_remove arr missing
+	_bashy_assert_equal "${#arr[@]}" 1
+	_bashy_assert_equal "${arr[0]}" keep
+}
+
+# shellcheck disable=SC2154 # arr is created by _bashy_array_new
+function testRemoveKeepsWhitespace() {
+	_bashy_array_new arr
+	_bashy_array_push arr "two words"
+	_bashy_array_push arr other
+	_bashy_array_remove arr other
+	_bashy_assert_equal "${#arr[@]}" 1
+	_bashy_assert_equal "${arr[0]}" "two words"
 }
 
 function testFind() {

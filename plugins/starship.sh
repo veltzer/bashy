@@ -16,8 +16,13 @@ function _activate_starship() {
 }
 
 function _install_starship() {
-	latest_version=$(curl --fail --silent --location "https://api.github.com/repos/starship/starship/releases/latest" | jq --raw-output '.tag_name' | sed 's/^v//')
-	executable="${HOME}/install/binaries/starship"
+	# install the release asset directly rather than piping the vendor install.sh
+	# into a shell, which would run unverified code from the network
+	local release_json
+	bashy_github_release "starship/starship" release_json || return
+	latest_version=$(bashy_github_version "${release_json}")
+	folder="${HOME}/install/binaries"
+	executable="${folder}/starship"
 	installed_version=""
 	if [ -x "${executable}" ]
 	then
@@ -27,7 +32,14 @@ function _install_starship() {
 	then
 		return
 	fi
-	BIN_DIR="${HOME}/install/binaries" sh <(curl --fail --silent https://starship.rs/install.sh) -y
+	local download_file
+	bashy_github_asset "${release_json}" "starship-x86_64-unknown-linux-gnu\\.tar\\.gz$" download_file || return
+	bashy_install_download "${download_file}"
+	local tar
+	bashy_download "${download_file}" tar || return
+	bashy_verify_sha256 "${tar}" "${download_file}.sha256" || return
+	rm -f "${executable}"
+	bashy_install_extract "${tar}" "${folder}" starship
 }
 
 function _uninstall_starship() {

@@ -14,7 +14,8 @@ function _activate_kurtosis() {
 }
 
 function _install_kurtosis() {
-	local e=errexit_save_and_start
+	local e
+	errexit_save_and_start e
 	local release_json latest_version url
 	release_json=$(curl --fail --silent --location "https://api.github.com/repos/kurtosis-tech/kurtosis-cli-release-artifacts/releases/latest")
 	latest_version=$(echo "${release_json}" | jq --raw-output '.tag_name')

@@ -38,5 +38,16 @@ function _install_gradle() {
 function _install_gradle_apt() {
 	sudo apt install gradle
 }
+function _uninstall_gradle() {
+	# the symlink points at the versioned directory, drop both
+	# the symlink points at the versioned directory and may be relative, so
+	# resolve it before handing it over to be removed
+	local target=""
+	if [ -L "${HOME}/install/gradle" ]
+	then
+		target=$(readlink --canonicalize "${HOME}/install/gradle")
+	fi
+	bashy_uninstall_directory "gradle" "${HOME}/install/gradle" ${target:+"${target}"}
+}
 
 register _activate_gradle

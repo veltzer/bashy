@@ -49,5 +49,8 @@ function _install_go() {
 	mkdir -p "${HOME}/install/gopath/bin"
 	after_strict
 }
+function _uninstall_go() {
+	bashy_uninstall_directory "go" "${HOME}/install/go" "${HOME}/install/gopath"
+}
 
 register _activate_go

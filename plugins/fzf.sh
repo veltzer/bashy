@@ -38,6 +38,9 @@ function _install_fzf() {
 	"${HOME}/install/fzf/install" --no-update-rc --key-bindings --completion > /dev/null 2> /dev/null
 	# sudo apt install fzf
 }
+function _uninstall_fzf() {
+	bashy_uninstall_directory "fzf" "${HOME}/install/fzf" "${HOME}/.fzf"
+}
 
 register_interactive _activate_fzf
 register_install _install_fzf

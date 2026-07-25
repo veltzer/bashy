@@ -10,7 +10,7 @@ function checkVariableDefined() {
 		__var2=1
 		return 1
 	else
-		__var=0
+		__var2=0
 		return 0
 	fi
 }
@@ -25,7 +25,7 @@ function checkDirectoryExists() {
 		__var2=1
 		return 1
 	else
-		__var=0
+		__var2=0
 		return 0
 	fi
 }

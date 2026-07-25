@@ -71,6 +71,31 @@ function bashy_uninstall_binary() {
 	return 0
 }
 
+# bashy_uninstall_directory <name> <directory> [more directories...]
+# Remove the directory tree(s) a plugin installed, reporting either way.
+# Handy for the plugins that unpack a whole toolchain rather than one binary.
+function bashy_uninstall_directory() {
+	local name=$1
+	shift
+	local found=1
+	local directory
+	for directory in "$@"
+	do
+		# a plugin may leave both a versioned directory and a symlink to it
+		if [ -d "${directory}" ] || [ -L "${directory}" ]
+		then
+			echo "removing ${directory}"
+			rm -rf "${directory}"
+			found=0
+		fi
+	done
+	if [ "${found}" -ne 0 ]
+	then
+		echo "no ${name} detected"
+	fi
+	return 0
+}
+
 # bashy_github_release <owner/repo> [out_var]
 # Fetch the json of the latest release of a github project.
 # Assigns to out_var when given, otherwise echoes. Returns 1 when the fetch fails.
@@ -120,7 +145,7 @@ function bashy_github_asset() {
 	if [ "${count}" -gt 1 ]
 	then
 		echo "bashy_github_asset: [${pattern}] matches ${count} assets, expected one:" >&2
-		echo "${urls//$'\n'/$'\n  '}" >&2
+		echo "${urls}" >&2
 		return 1
 	fi
 	if [ -n "${3:-}" ]

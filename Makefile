@@ -72,7 +72,7 @@ clean_hard:
 check_all:
 	$(Q)pymakehelper no_err git grep "\ \ " -- "*.sh"
 	$(Q)pymakehelper no_err git grep " \$$" -- "*.sh"
-	$(Q)shellcheck --shell=bash $(ALL_BASH)
+	$(Q)shellcheck --shell=bash $(SH_SRC)
 	$(Q)git grep "$$[^\"'{(123 ]" -- "*.sh"
 
 ############
@@ -82,7 +82,7 @@ $(SH_CHECK): out/%.check: % .shellcheckrc
 	$(info doing [$@])
 	$(Q)shellcheck --shell=bash --external-sources --source-path="$${HOME}" $<
 	$(Q)pymakehelper touch_mkdir $@
-$(ALL_TEST_STAMP): $(ALL_BASH)
+$(ALL_TEST_STAMP): $(SH_SRC)
 	$(info doing [$@])
 	$(Q)./test_all.sh
 	$(Q)pymakehelper touch_mkdir $@

@@ -36,6 +36,9 @@ function _install_node() {
 function npm_logout() {
 	sed -i "/\(registry=\|_authToken=\)/d" "${HOME}/.npmrc"
 }
+function _uninstall_node() {
+	bashy_uninstall_directory "node" "${HOME}/install/node"
+}
 
 register_interactive _activate_node
 register_install _install_node

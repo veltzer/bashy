@@ -32,5 +32,15 @@ function _install_phantomjs() {
 	ln -sfn "${HOME}/install/${base}" "${HOME}/install/phantomjs"
 	after_strict
 }
+function _uninstall_phantomjs() {
+	# the symlink points at the versioned directory and may be relative, so
+	# resolve it before handing it over to be removed
+	local target=""
+	if [ -L "${HOME}/install/phantomjs" ]
+	then
+		target=$(readlink --canonicalize "${HOME}/install/phantomjs")
+	fi
+	bashy_uninstall_directory "phantomjs" "${HOME}/install/phantomjs" ${target:+"${target}"}
+}
 
 register _activate_phantomjs

@@ -118,7 +118,7 @@ function bashy_download() {
 # Check <file> against a published sha256.
 #
 # The second argument is either a bare 64 character digest or the url of a
-# checksums file in the usual "<digest>  <filename>" sha256sum format. That covers
+# checksums file in the usual "<digest> <filename>" sha256sum format. That covers
 # both shapes upstreams publish: a single .sha256sum next to the artifact and a
 # combined checksums.txt listing every asset of the release.
 #
@@ -164,8 +164,8 @@ function bashy_verify_sha256() {
 	if [ "${actual,,}" != "${expected,,}" ]
 	then
 		echo "bashy_verify_sha256: checksum mismatch for [${file}]" >&2
-		echo "  expected [${expected}]" >&2
-		echo "  actual   [${actual}]" >&2
+		echo "expected [${expected}]" >&2
+		echo "actual [${actual}]" >&2
 		return 1
 	fi
 	# never let the logger decide the result of a verification
