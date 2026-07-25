@@ -20,11 +20,80 @@
 # run with 'set +e'. The reason is that forcing 'set -e' on all plugins
 # is a really bad design descision.
 
+# The core modules are loaded in this order rather than alphabetically, so that a
+# module can just call into the ones before it. It goes from the standalone
+# building blocks to the modules that build on top of them:
+#
+#   source                bootstrap, everything else is loaded through it
+#   null .. version       standalone, they depend on nothing
+#   assoc .. hooks        each one uses modules listed above it
+#
+# Add a new module wherever its dependencies are already satisfied. Anything not
+# named here still gets loaded afterwards, so a forgotten module is not fatal.
+bashy_core_order=(
+	# standalone building blocks
+	null
+	assert
+	array
+	var
+	log
+	misc
+	color
+	pathutils
+	errexit
+	float
+	git
+	measure
+	version
+	install
+	# these use the modules above
+	assoc
+	check
+	python
+	download
+	hooks
+)
+
 function _bashy_load_core() {
 	# cannot use _bashy_source_absolute function here since it is still not loaded (bootstrap problem)
 	# shellcheck source=/dev/null
 	source "${BASH_SOURCE%/*}/core/source.sh"
-	for f in "${BASH_SOURCE%/*}"/core/*.sh
+	local _dir="${BASH_SOURCE%/*}/core"
+	# named modules first, in dependency order, then anything left over
+	local _ordered=()
+	local _module
+	for _module in "${bashy_core_order[@]}"
+	do
+		if [ -r "${_dir}/${_module}.sh" ]
+		then
+			_ordered+=("${_dir}/${_module}.sh")
+		fi
+	done
+	local _f
+	for _f in "${_dir}"/*.sh
+	do
+		local _base="${_f##*/}"
+		_base="${_base%.sh}"
+		if [ "${_base}" = "source" ]
+		then
+			continue
+		fi
+		# array.sh is not loaded yet at this point, so check by hand
+		local _known=1
+		for _module in "${bashy_core_order[@]}"
+		do
+			if [ "${_module}" = "${_base}" ]
+			then
+				_known=0
+				break
+			fi
+		done
+		if [ "${_known}" -ne 0 ]
+		then
+			_ordered+=("${_f}")
+		fi
+	done
+	for f in "${_ordered[@]}"
 	do
 		local _name="${f##*/}"
 		_name="${_name%%.*}"

@@ -1,3 +1,5 @@
+source core/assert.sh
+source core/null.sh
 source core/assoc.sh
 
 function testAssoc() {

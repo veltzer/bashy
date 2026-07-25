@@ -1,4 +1,5 @@
 source core/assert.sh
+source core/log.sh
 source core/download.sh
 
 # these tests must not touch the network, so they drive the pieces that do not
