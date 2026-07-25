@@ -29,9 +29,7 @@ function _install_packer() {
 	bashy_download "${url}" archive || { after_strict; return; }
 	sums="https://releases.hashicorp.com/packer/${version}/packer_${version}_SHA256SUMS"
 	bashy_verify_sha256 "${archive}" "${sums}" || { after_strict; return; }
-	unzip -q "${archive}" -d "${folder}" packer
-	# unzip restores the timestamp stored in the zip, stamp it with the install time instead
-	touch "${executable}"
+	bashy_install_extract "${archive}" "${folder}" packer
 	after_strict
 }
 

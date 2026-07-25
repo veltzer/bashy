@@ -40,7 +40,7 @@ function _install_spark() {
 		rm -rf "${HOME}/install/spark-${installed_version}-bin-hadoop3"
 	fi
 	rm -rf "${HOME}/install/spark" "${HOME}/install/${toplevel}"
-	tar xzf "${archive}" -m -C "${HOME}/install"
+	bashy_install_extract "${archive}" "${HOME}/install"
 	ln -sfn "${HOME}/install/${toplevel}" "${HOME}/install/spark"
 	after_strict
 }

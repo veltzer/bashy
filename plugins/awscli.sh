@@ -37,11 +37,14 @@ function _install_awscli_wrapper() {
 
 function _install_awscli_old() {
 	# installation using a bundle
-	rm -rf /tmp/awscli-bundle.zip /tmp/awscli-bundle
-	wget https://s3.amazonaws.com/aws-cli/awscli-bundle.zip -P /tmp
-	unzip /tmp/awscli-bundle.zip -d /tmp
-	/tmp/awscli-bundle/install -b "${HOME}/install/bin/aws"
-	rm -rf /tmp/awscli-bundle.zip /tmp/awscli-bundle
+	local bundle
+	bashy_download "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" bundle || return 1
+	# unpack privately, /tmp/awscli-bundle is a predictable path in a world writable place
+	local tmp_dir
+	tmp_dir=$(mktemp --directory)
+	bashy_install_extract "${bundle}" "${tmp_dir}"
+	"${tmp_dir}/awscli-bundle/install" -b "${HOME}/install/bin/aws"
+	rm -rf "${tmp_dir}"
 }
 
 function _install_awscli() {

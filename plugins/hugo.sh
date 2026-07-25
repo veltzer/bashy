@@ -44,8 +44,7 @@ function _install_hugo() {
 	checksums=$(echo "${release_json}" | jq --raw-output '.assets[].browser_download_url | select(endswith("checksums.txt"))')
 	bashy_verify_sha256 "${tar}" "${checksums}" || { after_strict; return; }
 	rm -f "${executable}"
-	# --touch so the installed file is stamped now, not with the release build time
-	tar xf "${tar}" -m -C "${folder}" hugo
+	bashy_install_extract "${tar}" "${folder}" hugo
 	after_strict
 }
 

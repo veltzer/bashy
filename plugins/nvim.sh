@@ -52,15 +52,23 @@ function _install_nvim_latest_tar() {
 	then
 		return
 	fi
+	download_file="https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz"
+	bashy_install_download "${download_file}"
+	local tar
+	bashy_download "${download_file}" tar || return
 	rm -rf "${folder}"
-	curl --fail --location --silent "https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz" | tar xz -C "${HOME}/install"
+	bashy_install_extract "${tar}" "${HOME}/install"
 }
 
 function _install_nvim_nightly_tar() {
 	version="nightly"
 	folder="${HOME}/install/nvim-linux64"
+	download_file="https://github.com/neovim/neovim-releases/releases/download/${version}/nvim-linux64.tar.gz"
+	bashy_install_download "${download_file}"
+	local tar
+	bashy_download "${download_file}" tar || return
 	rm -rf "${folder}"
-	curl --fail --location --silent "https://github.com/neovim/neovim-releases/releases/download/${version}/nvim-linux64.tar.gz" | tar xz -C "${HOME}/install"
+	bashy_install_extract "${tar}" "${HOME}/install"
 }
 
 function _install_nvim_ubuntu() {
