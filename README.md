@@ -1,6 +1,6 @@
 ## bashy
 
-version: 0.0.93
+version: 0.0.94
 
 description: bashy handles bash configuration for you
 
@@ -98,17 +98,6 @@ To reinit Bashy when a new version is installed or pulled:
 bashy_init
 ```
 
-## Core module load order
-
-The modules in `core` are loaded in the order listed by `bashy_core_order` in
-`bashy.sh`, not alphabetically. The list runs from the standalone modules to the
-ones built on top of them, so a module may call into anything loaded before it and
-does not have to source its own dependencies.
-
-When adding a core module, put its name in that list at a point where everything it
-uses is already loaded. A module left out of the list is still loaded, after all the
-named ones.
-
 ## Writing Bashy plugins
 
 Bashy plugins may never fail a command (all commands need to return 0)
@@ -125,67 +114,6 @@ function _activate_hello_plugin() {
 }
 register _activate_hello_plugin
 ```
-
-### Writing an installer
-
-Install functions are named `_install_<name>` and should never hardcode a version
-number: always ask the project what its latest release is. The core modules provide
-the pieces so that every plugin behaves and reports the same way.
-
-```bash
-function _install_hello() {
-	local release_json
-	bashy_github_release "someorg/hello" release_json || return
-	latest_version=$(bashy_github_version "${release_json}")
-	folder="${HOME}/install/binaries"
-	executable="${folder}/hello"
-	# an empty installed version means "not installed yet"
-	installed_version=""
-	if [ -x "${executable}" ]
-	then
-		installed_version=$("${executable}" --version 2>/dev/null)
-	fi
-	# prints one of the three standard lines and says whether there is work to do
-	if bashy_install_check "hello" "${installed_version}" "${latest_version}"
-	then
-		return
-	fi
-	local download_file
-	bashy_github_asset "${release_json}" "_linux_amd64\\.tar\\.gz$" download_file || return
-	bashy_install_download "${download_file}"
-	local tar
-	bashy_download "${download_file}" tar || return
-	# verify whenever the project publishes checksums
-	local checksums
-	bashy_github_asset "${release_json}" "checksums\\.txt$" checksums || return
-	bashy_verify_sha256 "${tar}" "${checksums}" || return
-	rm -f "${executable}"
-	bashy_install_extract "${tar}" "${folder}" hello
-}
-
-function _uninstall_hello() {
-	bashy_uninstall_binary "hello"
-}
-```
-
-The helpers involved:
-
-| function | purpose |
-| --- | --- |
-| `bashy_install_check <name> <installed> <latest>` | print the standard install/upgrade/up to date line, return 0 when there is nothing to do |
-| `bashy_install_download <url>` | report the artifact about to be fetched |
-| `bashy_github_release <owner/repo> [out]` | fetch the latest release json |
-| `bashy_github_version <json> [prefix]` | tag name with the prefix (default `v`) stripped |
-| `bashy_github_asset <json> <regex> [out]` | the single asset url matching a regex, fails on an ambiguous match |
-| `bashy_download <url> [out]` | download through the cache, revalidating against the origin |
-| `bashy_verify_sha256 <file> <url or digest>` | check a download against a published sha256 |
-| `bashy_install_extract <archive> <folder> [members...]` | unpack and stamp with the install time rather than the archive mtime |
-| `bashy_uninstall_binary <name> [path]` | remove a single binary from `~/install/binaries` |
-
-Downloads are cached under `${XDG_CACHE_HOME:-~/.cache}/bashy/downloads`, overridable
-with `BASHY_DOWNLOAD_CACHE`. Cached files are revalidated with the origin, so a
-rolling `latest` asset that keeps one filename forever is still refetched when it
-changes upstream. Use `bashy_download_clean` to drop the cache entirely.
 
 ## Config files
 
