@@ -4,8 +4,7 @@ function _activate_kurtosis() {
 	local -n __var=$1
 	local -n __error=$2
 	if ! checkInPath "kurtosis" __var __error; then return; fi
-	# shellcheck source=/dev/null
-	if ! source <(kurtosis completion bash)
+	if ! bashy_completion kurtosis kurtosis completion bash
 	then
 		__var=$?
 		__error="could not source kurtosis completion script"

@@ -34,8 +34,11 @@ fi
 # Echo a short string that changes whenever the file at <path> changes.
 # Uses size and mtime rather than a hash, since hashing a 100MB binary at every
 # shell start would cost more than the completion command it is meant to avoid.
+# The mtime is taken with nanoseconds (%.Y, not %Y): whole seconds are too coarse,
+# a tool replaced within the same second as the last stamp would keep serving the
+# previous completion.
 function _bashy_completion_stamp() {
-	stat --format='%s-%Y' "$1" 2>/dev/null
+	stat --format='%s-%.Y' "$1" 2>/dev/null
 }
 
 # bashy_completion <tool> <command...>

@@ -9,8 +9,7 @@ function _activate_eksctl() {
 	EKSCTL_BINARY="${HOME}/install/binaries/eksctl"
 	if ! checkExecutableFile "${EKSCTL_BINARY}" __var __error; then return; fi
 	export EKSCTL_BINARY
-	# shellcheck source=/dev/null
-	if ! source <(eksctl completion bash)
+	if ! bashy_completion eksctl eksctl completion bash
 	then
 		__var=$?
 		__error="could not source eskctl bash completions"

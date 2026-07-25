@@ -5,8 +5,7 @@ function _activate_starship() {
 	local -n __error=$2
 	if ! checkInPath "starship" __var __error; then return; fi
 	eval "$(starship init bash)"
-	# shellcheck source=/dev/null
-	if ! source <(starship completions bash)
+	if ! bashy_completion starship starship completions bash
 	then
 		__var=$?
 		__error="could not source startship completion"

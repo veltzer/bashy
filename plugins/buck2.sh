@@ -50,7 +50,7 @@ function _activate_buck2() {
 	local -n __var=$1
 	local -n __error=$2
 	if ! checkInPath "buck2" __var __error; then return; fi
-	eval "$(buck2 completion bash)"
+	bashy_completion buck2 buck2 completion bash
 	__var=0
 }
 

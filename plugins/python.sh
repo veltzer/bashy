@@ -10,7 +10,7 @@ function _activate_python() {
 	# export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
 	# shellcheck source=/dev/null
 	# you need to "pip install 'keyring[completion]'" for this to work
-	if ! source <(python -m keyring --print-completion bash); then
+	if ! bashy_completion python python -m keyring --print-completion bash; then
 		__var=1
 		__error="problem in sourcing keyring completion"
 		return

@@ -4,8 +4,7 @@ function _activate_hugo() {
 	local -n __var=$1
 	local -n __error=$2
 	if ! checkInPath "hugo" __var __error; then return; fi
-	# shellcheck source=/dev/null
-	if ! source <(hugo completion bash)
+	if ! bashy_completion hugo hugo completion bash
 	then
 		__var=1
 		__error="problem in sourcing hugo completion"

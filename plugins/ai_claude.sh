@@ -1,12 +1,14 @@
 function _activate_ai_claude() {
 	local -n __var=$1
 	local -n __error=$2
-	if ! pass show "keys/claude.ai" &>/dev/null; then
+	# one pass(1) lookup, not two - each one is a gpg decryption costing ~35ms
+	local _key
+	if ! _key=$(pass show "keys/claude.ai" 2>/dev/null); then
 		__var=$?
 		__error="no pass(1) for [keys/claude.ai] to activate claude.ai"
 		return
 	fi
-	ANTHROPIC_API_KEY="$(pass show "keys/claude.ai")"
+	ANTHROPIC_API_KEY="${_key}"
 	export ANTHROPIC_API_KEY
 	alias claude="claude --dangerously-skip-permissions"
 	__var=0

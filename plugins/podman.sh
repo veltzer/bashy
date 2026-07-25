@@ -4,7 +4,7 @@ function _activate_podman() {
 	local -n __var=$1
 	local -n __error=$2
 	if ! checkInPath "podman" __var __error; then return; fi
-	eval "$(podman completion bash)"
+	bashy_completion podman podman completion bash
 	__var=0
 }
 

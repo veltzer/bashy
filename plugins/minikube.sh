@@ -5,8 +5,7 @@ function _activate_minikube() {
 	local -n __var=$1
 	local -n __error=$2
 	if ! checkInPath "minikube" __var __error; then return; fi
-	# shellcheck source=/dev/null
-	if ! source <(minikube completion bash)
+	if ! bashy_completion minikube minikube completion bash
 	then
 		__var=$?
 		__error="could not source minikube completion"
