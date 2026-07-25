@@ -42,6 +42,17 @@ function testVerifySha256ChecksumsFile() {
 	rm -rf "${dir}"
 }
 
+function testVerifySha256BareDigestFile() {
+	local dir
+	dir=$(mktemp --directory)
+	echo "hello bashy" > "${dir}/tool"
+	# minikube and friends publish just the digest, with no filename column
+	sha256sum "${dir}/tool" | awk '{print $1}' > "${dir}/tool.sha256"
+	bashy_verify_sha256 "${dir}/tool" "file://${dir}/tool.sha256" > /dev/null \
+		|| _bashy_assert_fail
+	rm -rf "${dir}"
+}
+
 function testVerifySha256FileNotListed() {
 	local dir
 	dir=$(mktemp --directory)

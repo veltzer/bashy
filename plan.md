@@ -24,10 +24,21 @@ Fix: revalidate cached entries with the origin instead of trusting the filename.
 Every downloading installer writes straight to disk and `chmod +x`, with no checksum
 or signature check anywhere in the tree. These binaries end up on `PATH`.
 
-Several upstreams already publish what is needed: lazygit and gh ship a
-`checksums.txt`, helm ships a `.sha256`, hugo ships checksums. A small
-`bashy_verify_sha256` helper in core, used wherever a checksum is published, closes
-this cheaply.
+`bashy_verify_sha256` added to `core/download.sh`. It accepts a literal digest, a
+`sha256sum` style checksums file listing many assets, or a file holding a bare digest
+with no filename column, which covers every shape these projects publish.
+
+Verified now: audacity, bazel, eksctl, gh, helm, hugo, kurtosis, lazygit, minikube,
+packer, terraform.
+
+Still unverified, because the project publishes nothing to check against: buck2,
+drawio, freetube, lens, nvim, spark, zoom. Verified by other means, so not a gap:
+awscli, azurecli, code, dotnet, gradle, k8s, oc go through a vendor installer or
+package manager, and starship pipes the vendor install script.
+
+`plugins/starship.sh` is the one real remaining hole - it runs
+`sh <(curl https://starship.rs/install.sh)`, so the script is executed unverified.
+Installing the release asset directly would let it be checked like the others.
 
 ## 3. Extract the remaining installer boilerplate - DONE
 

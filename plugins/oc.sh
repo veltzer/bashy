@@ -35,6 +35,7 @@ function _install_oc() {
 	bashy_install_download "${url}"
 	local tar
 	bashy_download "${url}" tar || return
+	bashy_verify_sha256 "${tar}" "https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/sha256sum.txt" || return
 	rm -f "${executable}"
 	bashy_install_extract "${tar}" "${folder}" oc
 	chmod +x "${executable}"
