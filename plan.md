@@ -61,9 +61,13 @@ Added to `core/install.sh`:
 `tar` and `unzip` restore the mtime stored inside the archive, so installed files
 carry the upstream build date instead of the install date.
 
-All extraction sites now go through `bashy_install_extract`, which stamps what it
-unpacked with the install time. Covered: gh, terraform, packer, hugo, helm, spark,
-eksctl, kurtosis, oc, go, lazygit, phantomjs, azurecli, gradle, awscli.
+Extraction goes through `bashy_install_extract`, which stamps what it unpacked with
+the install time: terraform, packer, hugo, spark, eksctl, kurtosis, oc, go, lazygit,
+phantomjs, azurecli, gradle, awscli, nvim.
+
+`gh` and `helm` still call `tar` directly because they need `--transform` and
+`--strip-components`, which the helper does not pass through. Both already use
+`-m`, so the timestamps are right; only the call site differs.
 
 ## 5. Test coverage - DONE
 
@@ -89,8 +93,14 @@ uninstaller.
 
 - `plugins/awscli.sh` now downloads through the cache and unpacks into a `mktemp`
   directory instead of predictable `/tmp` paths.
-- The `curl | tar` pipelines in eksctl, oc and go were replaced with a guarded
-  `bashy_download` followed by `bashy_install_extract`, so a failed download can no
-  longer leave a partial extract.
+- The `curl | tar` pipelines in eksctl, oc, go and both nvim tar installers were
+  replaced with a guarded `bashy_download` followed by `bashy_install_extract`, so a
+  failed download can no longer leave a partial extract.
+- Adding that guard immediately surfaced a dead url: neovim renamed its assets from
+  `nvim-linux64` to `nvim-linux-x86_64`, so `_install_nvim_latest_tar` had been
+  downloading a 404 and silently extracting nothing. Renamed throughout the plugin,
+  including the `NVIM_PATH` used by the activation function.
+- `_install_awscli_old` also unpacked through predictable `/tmp` paths; it now uses
+  the cache and a `mktemp` directory like the main installer.
 - `README.md` gained a "writing an installer" section documenting every helper and
   the download cache.
