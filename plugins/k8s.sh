@@ -7,8 +7,7 @@ function _activate_k8s() {
 	local -n __error=$2
 	if ! checkInPath "kubectl" __var __error; then return; fi
 	# shellcheck source=/dev/null
-	if ! source <(kubectl completion bash)
-	then
+	if ! source <(kubectl completion bash); then
 		__var=1
 		__error="problem in sourcing kubectl completion"
 		return
@@ -17,7 +16,7 @@ function _activate_k8s() {
 }
 
 function _install_k8s() {
-	before_install
+	before_strict
 	# instructions for installing k8s are at
 	# https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 	version=$(curl --fail --silent --location "https://dl.k8s.io/release/stable.txt")
@@ -27,7 +26,7 @@ function _install_k8s() {
 		installed_version=$("${executable}" version --client 2>/dev/null | grep -oP 'Client Version: \K[^\s]+' | head -1)
 		if [ "${installed_version}" = "${version}" ]; then
 			echo "kubectl ${version} is already installed (latest)"
-			after_install
+			after_strict
 			return
 		fi
 		echo "kubectl ${installed_version} is installed, upgrading to ${version}"
@@ -36,14 +35,13 @@ function _install_k8s() {
 	fi
 	curl --fail --location --silent --output "${executable}" "https://dl.k8s.io/release/${version}/bin/linux/amd64/kubectl"
 	chmod +x "${executable}"
-	after_install
+	after_strict
 }
 
 function _uninstall_k8s() {
 	folder="${HOME}/install/binaries"
 	executable="${folder}/kubectl"
-	if [ -f "${executable}" ]
-	then
+	if [ -f "${executable}" ]; then
 		echo "removing ${executable}"
 		rm "${executable}"
 	else
