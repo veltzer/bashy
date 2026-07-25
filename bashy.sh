@@ -128,7 +128,10 @@ function _bashy_read_plugins_filename() {
 		fi
 		_bashy_array_push bashy_array_plugin "${plugin}"
 		assoc_set bashy_assoc_enabled "${plugin}" "${enabled}"
-	done < "${filename}"
+	# read returns false on a final line that has no trailing newline, which silently
+	# dropped the last plugin of a hand edited list. Appending a newline to the
+	# stream costs nothing and makes the last line arrive like any other.
+	done < <(cat "${filename}"; echo)
 }
 
 function _bashy_read_plugins() {
