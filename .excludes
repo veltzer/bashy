@@ -16,6 +16,7 @@ requirements.thawed.txt
 test_all.bash
 tests
 README.md
+CLAUDE.md
 out
 Makefile
 LICENSE
