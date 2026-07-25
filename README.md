@@ -42,6 +42,27 @@ source ~/.bashy/bashy.sh
 
 In my own setup this is the only line I have in my `~/.bashrc`
 
+### Installing from a working copy
+
+If you develop bashy rather than just use it, clone the repository somewhere else
+and install from there:
+
+```bash
+./scripts/install_in_home.bash
+```
+
+That copies only what is needed at runtime, listed in `.includes`, and it is
+incremental: it prints the files that changed and copies nothing else. `--delete`
+prunes anything in `~/.bashy` that is no longer part of the install, so a renamed or
+removed plugin does not linger.
+
+To check whether the running `~/.bashy` still matches your checkout:
+
+```bash
+bashy_check_deployment
+```
+
+
 ## Debugging Bashy
 
 Just add this line before sourcing bashy:
@@ -140,6 +161,7 @@ Install functions are named `_install_<name>` and should never hardcode a versio
 number: always ask the project what its latest release is. The core modules provide
 the pieces so that every plugin behaves and reports the same way.
 
+
 ```bash
 function _install_hello() {
 	local release_json
@@ -175,6 +197,7 @@ function _uninstall_hello() {
 	bashy_uninstall_binary "hello"
 }
 ```
+
 
 The helpers involved:
 
@@ -221,18 +244,21 @@ readonly BASHY_PROFILE=0
 
 then open a shell and run `bashy_status_plugins`.
 
+
 ## Config files
 
 You can activate various plgins via the `~/.bashy.config` file.
 
 Here is an example:
+
 ```bash
 readonly ENCFS_ENABLED=true
-readonly ENCFS_FOLDER_CLEAR="${HOME}/insync.real"
-readonly ENCFS_FOLDER_ENCRYPTED="${HOME}/insync/encrypted"
+readonly ENCFS_FOLDER_CLEAR="${"${HOME}"}/insync.real"
+readonly ENCFS_FOLDER_ENCRYPTED="${"${HOME}"}/insync/encrypted"
 readonly ENCFS_PASSWORD=XXXXXXXX
 readonly PROXY_ENABLED=false
 ```
+
 
 This is a bash file and so you can overwrite values by using conditionals so:
 ```bash

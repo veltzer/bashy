@@ -9,7 +9,7 @@ probably not worth acting on.
 
 Status legend: `DONE`, `TODO`.
 
-## 1. Shell startup takes three seconds - DONE, partly
+## 1. Shell startup takes three seconds - DONE
 
 This is the big one. Measured on this machine, repeatably:
 
@@ -66,8 +66,9 @@ Measured, same machine, same method:
 | plugin activations, summed | 1.44 s | 0.97 s |
 | execve per startup | 236 | 214 |
 
-A 25% cut. Less than hoped, because the remaining cost is not in the plugins - see
-item 2, which is now the bigger win by some distance.
+A 25% cut on its own. The rest of the cost turned out not to be in the plugins at
+all but in the profiling wrapped around them, which is item 2. Together the two
+items take startup from **2.95 s to 1.01 s**.
 
 ## 2. Profiling always runs, and it is not free - DONE
 
@@ -187,23 +188,29 @@ Done as part of item 1. `bashy_completion` in `core/completion.sh` is now the on
 place that runs a completion command, so the caching, the error handling and the
 duplication were all fixed in one move. Fifteen plugins use it.
 
-## 7. Test coverage of the runtime path - TODO
+## 7. Test coverage of the runtime path - DONE
 
 Round one covered the installer helpers well. The code that runs on every shell is
 still untested: `_bashy_read_plugins`, `_bashy_load_plugins`, `_bashy_run_plugins`
 and the enable/disable/order logic driven by `bashy.list`, including the `-plugin`
 syntax for disabling.
 
-That is the code most likely to break a user's shell, and it currently has no test
-at all.
+`tests/runtime.sh` added, eleven tests, taking the suite to 73. It pulls
+`_bashy_read_plugins_filename` out of `bashy.sh` and drives it directly, covering
+order, the `-plugin` disable syntax, comments, blank lines, later entries winning
+over earlier ones, and an empty file. One test walks the shipped `bashy.list` and
+checks every named plugin actually has a file.
 
-## 8. Smaller items - TODO
+That immediately found a real bug: a list whose last line had **no trailing
+newline** silently lost its last plugin, because `read` returns false on an
+unterminated final line. A hand edited `~/.bashy.list` would hit this. Fixed by
+appending a newline to the stream.
 
-- `is_profile` and `is_step` live in `core/log.sh` with a comment saying they do not
-  belong there. Move them.
-- `core/version.sh` is generated and holds only `BASHY_VERSION_STR`, but nothing
-  checks it. A deployed `~/.bashy` that has drifted from the repo is invisible;
-  `bashy_status_core` could report it.
-- `README.md` says to install by cloning straight into `~/.bashy`, but
-  `scripts/install_in_home.bash` rsyncs from a working copy using `.includes`. Two
-  different install stories, only one of them documented.
+## 8. Smaller items - DONE
+
+- `is_profile` and `is_step` moved out of `core/log.sh` into the new
+  `core/profile.sh`, as part of item 2.
+- `bashy_check_deployment` added. It compares the running `~/.bashy` against a
+  checkout and lists what differs, so a drifted deployment is no longer invisible.
+- `README.md` now documents both install routes: cloning straight into `~/.bashy`
+  for users, and `scripts/install_in_home.bash` for working from a checkout.
