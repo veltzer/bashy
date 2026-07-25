@@ -9,7 +9,7 @@ probably not worth acting on.
 
 Status legend: `DONE`, `TODO`.
 
-## 1. Shell startup takes three seconds - TODO
+## 1. Shell startup takes three seconds - DONE, partly
 
 This is the big one. Measured on this machine, repeatably:
 
@@ -36,13 +36,38 @@ subprocess spawns for shell completions:
 
 `minikube completion bash` alone takes 117 ms to run.
 
-Sixteen plugins shell out for completions this way. The output is deterministic -
-running `minikube completion bash` twice gives a byte identical result - so it can
-be generated once and cached on disk, keyed by the tool's version or mtime, and
-sourced from the cache afterwards. A `bashy_completion_cached <name> <command>`
-helper in core would let all sixteen share it.
+`core/completion.sh` added. `bashy_completion <tool> <command...>` runs the
+completion command once, caches the output, and sources the cache afterwards. The
+cache is keyed on the size and mtime of the tool's binary, so upgrading the tool
+regenerates it. Fifteen plugins now use it.
 
-That alone should take the bulk of a second off every shell.
+The stamp uses `stat %.Y`, nanoseconds, not `%Y`. Whole seconds turned out to be too
+coarse: a tool replaced within the same second as the previous stamp kept serving
+the old completion, which a test caught.
+
+Two other things came out of the profiling:
+
+- `plugins/ai_claude.sh` and `plugins/ai_agy.sh` each called `pass show` twice, once
+  to test and once to read. Each call is a gpg decryption costing about 35 ms. Now
+  one call, captured and tested.
+- `plugins/python.sh` was running `python -m keyring --print-completion`, the single
+  most expensive plugin at 156 ms. Cached too.
+
+`eval "$(zoxide init bash)"`, `starship init`, `pyenv init` and `thefuck --alias`
+are deliberately **not** cached. That output is shell setup rather than a
+completion and can legitimately embed per session state, and none of those tools
+are installed here to verify against.
+
+Measured, same machine, same method:
+
+| | before | after |
+| --- | --- | --- |
+| interactive shell | 2.95 s | **2.21 s** |
+| plugin activations, summed | 1.44 s | 0.97 s |
+| execve per startup | 236 | 214 |
+
+A 25% cut. Less than hoped, because the remaining cost is not in the plugins - see
+item 2, which is now the bigger win by some distance.
 
 ## 2. Profiling always runs, and it is not free - TODO
 
@@ -52,6 +77,11 @@ runs unconditionally, and `measure` forks `date` twice and `bc` once per plugin.
 
 At 70 plugins that is roughly 210 processes spent purely on measuring, on every
 shell, whether or not anyone will ever look at `bashy_assoc_diff`.
+
+Measured directly after finishing item 1: those forks cost **about 995 ms**. The
+whole startup is now 2.21 s and the plugins themselves only account for 0.97 s of
+it, so profiling is close to half of what is left. This is now the single biggest
+remaining item, bigger than everything item 1 recovered.
 
 Make it a real setting that defaults to off, and compute the elapsed time with
 bash arithmetic on `EPOCHREALTIME` instead of forking `date` and `bc`.
