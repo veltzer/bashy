@@ -9,21 +9,38 @@ function _activate_audacity() {
 
 function _install_audacity() {
 	before_strict
-	version="3.4.2"
+	release_json=$(curl --fail --silent --location "https://api.github.com/repos/audacity/audacity/releases/latest")
+	latest_version=$(echo "${release_json}" | jq --raw-output '.tag_name' | sed 's/^Audacity-//')
 	folder="${HOME}/install/binaries"
 	executable="${folder}/audacity"
+	# the AppImage cannot report its own version ("audacity --version" just dumps
+	# library paths), so record what we installed in a marker file next to it.
 	marker="${folder}/.audacity_version"
-	if [ -x "${executable}" ] && [ -f "${marker}" ] && [ "$(cat "${marker}")" = "${version}" ]; then
-		echo "audacity ${version} is already installed"
-		after_strict
-		return
+	if [ -x "${executable}" ] && [ -f "${marker}" ]; then
+		installed_version=$(cat "${marker}")
+		if [ "${installed_version}" = "${latest_version}" ]; then
+			echo "audacity ${latest_version} is already installed (latest)"
+			after_strict
+			return
+		fi
+		echo "audacity ${installed_version} is installed, upgrading to ${latest_version}"
+	else
+		echo "Installing audacity ${latest_version}"
 	fi
-	_uninstall_audacity
-	url="https://github.com/audacity/audacity/releases/download/Audacity-${version}/audacity-linux-${version}-x64.AppImage"
-	curl --fail --location --silent --output "${executable}" "${url}"
+	# assets are named audacity-linux-<version>-x64-<ubuntu release>.AppImage, take the newest base
+	download_file=$(echo "${release_json}" | jq --raw-output '.assets[].browser_download_url | select(test("audacity-linux-.*-x64.*\\.AppImage$"))' | sort --version-sort | tail -1)
+	if [ -z "${download_file}" ]; then
+		echo "ERROR: could not find an audacity linux x64 AppImage in the latest release"
+		after_strict
+		return 1
+	fi
+	echo "download_file is [${download_file}]"
+	local appimage
+	bashy_download "${download_file}" appimage || { after_strict; return 1; }
+	rm -f "${executable}" "${marker}"
+	cp "${appimage}" "${executable}"
 	chmod +x "${executable}"
-	echo "${version}" > "${marker}"
-	echo "downloaded ${executable}"
+	echo "${latest_version}" > "${marker}"
 	after_strict
 }
 
@@ -38,6 +55,7 @@ function _uninstall_audacity() {
 	else
 		echo "no audacity detected"
 	fi
+	rm -f "${folder}/.audacity_version"
 	after_strict
 }
 

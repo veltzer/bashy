@@ -2,34 +2,48 @@
 
 function _install_buck2() {
 	before_strict
-	# buck2 ships a rolling "latest" tag; buck2 --version reports a git hash, not semver.
-	# Compare against the GitHub release's published_at timestamp to decide if we need to upgrade.
-	final="${HOME}/install/binaries/buck2"
-	marker="${HOME}/install/binaries/.buck2_published_at"
-	latest_stamp=$(curl --fail --silent --location "https://api.github.com/repos/facebook/buck2/releases/tags/latest" | jq --raw-output '.published_at // empty')
-	if [ -x "${final}" ] && [ -f "${marker}" ] && [ -n "${latest_stamp}" ]; then
-		if [ "$(cat "${marker}")" = "${latest_stamp}" ]; then
-			echo "buck2 (published ${latest_stamp}) is already installed (latest)"
+	# buck2 ships from a rolling "latest" tag whose published_at never moves, so the
+	# version is the date of the asset itself. "buck2 --version" prints "buck2 <date>-<hash>",
+	# so both sides of the comparison end up as a plain YYYY-MM-DD date.
+	asset="buck2-x86_64-unknown-linux-gnu.zst"
+	release_json=$(curl --fail --silent --location "https://api.github.com/repos/facebook/buck2/releases/tags/latest")
+	latest_version=$(echo "${release_json}" | jq --raw-output --arg asset "${asset}" '.assets[] | select(.name==$asset) | .updated_at' | cut -d'T' -f1)
+	folder="${HOME}/install/binaries"
+	executable="${folder}/buck2"
+	if [ -x "${executable}" ]; then
+		installed_version=$("${executable}" --version 2>/dev/null | awk '/^buck2 /{print $2; exit}' | grep -oP '^[0-9]{4}-[0-9]{2}-[0-9]{2}')
+		if [ "${installed_version}" = "${latest_version}" ]; then
+			echo "buck2 ${latest_version} is already installed (latest)"
 			after_strict
 			return
 		fi
+		echo "buck2 ${installed_version} is installed, upgrading to ${latest_version}"
+	else
+		echo "Installing buck2 ${latest_version}"
 	fi
-	url="https://github.com/facebook/buck2/releases/download/latest/buck2-x86_64-unknown-linux-gnu.zst"
-	local_file="/tmp/file.zst"
-	curl --fail --silent --location "${url}" --output "${local_file}"
-	zstd -d "${local_file}" -o "${final}"
-	rm -f "${local_file}"
-	chmod +x "${final}"
-	if [ -n "${latest_stamp}" ]; then
-		echo "${latest_stamp}" > "${marker}"
-	fi
+	download_file=$(echo "${release_json}" | jq --raw-output --arg asset "${asset}" '.assets[] | select(.name==$asset) | .browser_download_url')
+	echo "download_file is [${download_file}]"
+	local zst
+	bashy_download "${download_file}" zst || { after_strict; return; }
+	rm -f "${executable}"
+	zstd --quiet --decompress "${zst}" -o "${executable}"
+	chmod +x "${executable}"
 	after_strict
 }
 
 function _uninstall_buck2() {
 	before_strict
-	final="${HOME}/install/binaries/buck2"
-	rm -f "${final}"
+	folder="${HOME}/install/binaries"
+	executable="${folder}/buck2"
+	if [ -f "${executable}" ]
+	then
+		echo "removing ${executable}"
+		rm -f "${executable}"
+	else
+		echo "no buck2 detected"
+	fi
+	# left over from the old published_at based version check
+	rm -f "${folder}/.buck2_published_at"
 	after_strict
 }
 
