@@ -25,7 +25,11 @@ function _install_bazel() {
 	fi
 	download_file=$(echo "${release_json}" | jq --raw-output '.assets[].browser_download_url | select(endswith("-linux-x86_64")) | select(contains("nojdk") | not)')
 	bashy_install_download "${download_file}"
-	curl --fail --location --silent "${download_file}" --output "${executable}"
+	local binary
+	bashy_download "${download_file}" binary || { after_strict; return; }
+	bashy_verify_sha256 "${binary}" "${download_file}.sha256" || { after_strict; return; }
+	rm -f "${executable}"
+	cp "${binary}" "${executable}"
 	chmod +x "${executable}"
 	after_strict
 }

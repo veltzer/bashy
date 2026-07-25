@@ -35,6 +35,7 @@ function _install_eksctl() {
 	bashy_install_download "${download_file}"
 	local tar
 	bashy_download "${download_file}" tar || return
+	bashy_verify_sha256 "${tar}" "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_checksums.txt" || return
 	rm -f "${executable}"
 	bashy_install_extract "${tar}" "${HOME}/install/binaries" eksctl
 }

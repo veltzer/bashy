@@ -36,6 +36,18 @@ function _install_audacity() {
 	bashy_install_download "${download_file}"
 	local appimage
 	bashy_download "${download_file}" appimage || { after_strict; return 1; }
+	# audacity publishes a table of "name length hash" rather than a sha256sum file,
+	# so pull out the digest for our asset and hand that over directly
+	local sums expected
+	sums=$(echo "${release_json}" | jq --raw-output '.assets[].browser_download_url | select(endswith("CHECKSUMS.txt"))')
+	if [ -n "${sums}" ]
+	then
+		expected=$(curl --fail --location --silent "${sums}" | awk -v want="${download_file##*/}" '$1==want{print $3; exit}')
+		if [ -n "${expected}" ]
+		then
+			bashy_verify_sha256 "${appimage}" "${expected}" || { after_strict; return 1; }
+		fi
+	fi
 	rm -f "${executable}" "${marker}"
 	cp "${appimage}" "${executable}"
 	chmod +x "${executable}"

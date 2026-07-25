@@ -34,6 +34,9 @@ function _install_kurtosis() {
 	echo "url is [${url}]..."
 	local local_file
 	bashy_download "${url}" local_file || { errexit_restore "${e}"; return 1; }
+	local checksums
+	checksums=$(echo "${release_json}" | jq --raw-output '.assets[].browser_download_url | select(endswith("checksums.txt"))')
+	bashy_verify_sha256 "${local_file}" "${checksums}" || { errexit_restore "${e}"; return 1; }
 	bashy_install_extract "${local_file}" "${install_dir}" kurtosis
 	chmod +x "${kurtosis_path}"
 	errexit_restore "${e}"
