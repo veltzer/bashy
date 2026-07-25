@@ -21,6 +21,23 @@
 #		return
 #	fi
 
+# Where plugins put the single binaries they install. Override in ~/.bashy.config.
+if [ -z "${BASHY_INSTALL_DIR+x}" ]
+then
+	export BASHY_INSTALL_DIR="${HOME}/install/binaries"
+fi
+
+# bashy_install_dir
+# Echo the install directory, creating it if it is not there yet. Installers used
+# to just assume it existed and failed obscurely on a fresh machine when it did not.
+function bashy_install_dir() {
+	if [ ! -d "${BASHY_INSTALL_DIR}" ]
+	then
+		mkdir -p "${BASHY_INSTALL_DIR}"
+	fi
+	echo "${BASHY_INSTALL_DIR}"
+}
+
 # bashy_install_check <name> <installed_version> <latest_version>
 # Report what is about to happen and say whether there is anything to do.
 # An empty <installed_version> means the tool is not installed yet.
@@ -56,11 +73,11 @@ function bashy_install_download() {
 }
 
 # bashy_uninstall_binary <name> [executable path]
-# Remove a single binary installed into ~/install/binaries, reporting either way.
-# The path defaults to ~/install/binaries/<name>.
+# Remove a single binary installed into BASHY_INSTALL_DIR, reporting either way.
+# The path defaults to ${BASHY_INSTALL_DIR}/<name>.
 function bashy_uninstall_binary() {
 	local name=$1
-	local executable=${2:-${HOME}/install/binaries/$1}
+	local executable=${2:-${BASHY_INSTALL_DIR}/$1}
 	if [ -f "${executable}" ]
 	then
 		echo "removing ${executable}"

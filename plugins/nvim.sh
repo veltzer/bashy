@@ -23,7 +23,7 @@ function _activate_nvim_with_folder() {
 function _install_nvim() {
 	# https://github.com/neovim/neovim/blob/master/INSTALL.md
 	latest_version=$(curl --fail --silent --location "https://api.github.com/repos/neovim/neovim/releases/latest" | jq --raw-output '.tag_name' | sed 's/^v//')
-	folder="${HOME}/install/binaries"
+	folder=$(bashy_install_dir)
 	executable="${folder}/nvim"
 	installed_version=""
 	if [ -x "${executable}" ]

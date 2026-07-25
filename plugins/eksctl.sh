@@ -6,7 +6,7 @@
 function _activate_eksctl() {
 	local -n __var=$1
 	local -n __error=$2
-	EKSCTL_BINARY="${HOME}/install/binaries/eksctl"
+	EKSCTL_BINARY="${BASHY_INSTALL_DIR}/eksctl"
 	if ! checkExecutableFile "${EKSCTL_BINARY}" __var __error; then return; fi
 	export EKSCTL_BINARY
 	if ! bashy_completion eksctl eksctl completion bash
@@ -20,7 +20,7 @@ function _activate_eksctl() {
 
 function _install_eksctl() {
 	latest_version=$(curl --fail --silent --location "https://api.github.com/repos/eksctl-io/eksctl/releases/latest" | jq --raw-output '.tag_name' | sed 's/^v//')
-	executable="${HOME}/install/binaries/eksctl"
+	executable="${BASHY_INSTALL_DIR}/eksctl"
 	installed_version=""
 	if [ -x "${executable}" ]
 	then
@@ -36,7 +36,7 @@ function _install_eksctl() {
 	bashy_download "${download_file}" tar || return
 	bashy_verify_sha256 "${tar}" "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_checksums.txt" || return
 	rm -f "${executable}"
-	bashy_install_extract "${tar}" "${HOME}/install/binaries" eksctl
+	bashy_install_extract "${tar}" "${BASHY_INSTALL_DIR}" eksctl
 }
 
 function eksctl_uninstall() {

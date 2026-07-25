@@ -3,7 +3,7 @@ function _activate_local_install() {
 	local -n __error=$2
 	LOCAL_INSTALL_BIN="${HOME}/install/bin"
 	LOCAL_INSTALL_LIB="${HOME}/install/lib"
-	LOCAL_INSTALL_BINARIES="${HOME}/install/binaries"
+	LOCAL_INSTALL_BINARIES="${BASHY_INSTALL_DIR}"
 	if ! checkDirectoryExists "${LOCAL_INSTALL_BIN}" __var __error; then return; fi
 	if ! checkDirectoryExists "${LOCAL_INSTALL_LIB}" __var __error; then return; fi
 	if ! checkDirectoryExists "${LOCAL_INSTALL_BINARIES}" __var __error; then return; fi

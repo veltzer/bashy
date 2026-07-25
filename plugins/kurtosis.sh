@@ -18,7 +18,7 @@ function _install_kurtosis() {
 	local release_json latest_version url
 	release_json=$(curl --fail --silent --location "https://api.github.com/repos/kurtosis-tech/kurtosis-cli-release-artifacts/releases/latest")
 	latest_version=$(echo "${release_json}" | jq --raw-output '.tag_name')
-	local install_dir="${HOME}/install/binaries"
+	local install_dir="${BASHY_INSTALL_DIR}"
 	local kurtosis_path="${install_dir}/kurtosis"
 	local installed_version=""
 	if [ -x "${kurtosis_path}" ]

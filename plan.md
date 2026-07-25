@@ -96,7 +96,7 @@ Together with item 1 that is **2.95 s down to 1.01 s**, a 66% cut. `test_measure
 still passes against the new implementation, and turning profiling back on still
 produces real numbers.
 
-## 3. The installer documentation was lost - TODO
+## 3. The installer documentation was lost - DONE
 
 `README.md` was reverted at some point and the "writing an installer" section went
 with it, so nothing user facing documents the helpers that round one added:
@@ -107,7 +107,13 @@ with it, so nothing user facing documents the helpers that round one added:
 The "core module load order" section documenting `bashy_core_order` is gone too.
 
 `CLAUDE.md` still summarises both, but that file is guidance for an assistant, not
-documentation for a person writing a plugin. Restore both README sections.
+documentation for a person writing a plugin.
+
+Restored, and extended. `README.md` now has "writing an installer" with a worked
+example and the full helper table, "core module load order", a new "shell
+completions" section covering `bashy_completion`, and "profiling startup"
+documenting `BASHY_PROFILE`. The worked example was run verbatim against a real
+project to confirm it still works.
 
 ## 4. Plugins piping a remote script into a shell - PARTLY DONE
 
@@ -155,25 +161,31 @@ Leave these alone unless a vendor starts publishing a verifiable artifact. If
 anything is done here, the cheapest version is to fetch the script to a file, then
 run that file, so there is at least something on disk to look at afterwards.
 
-## 5. The install location is hardcoded in 19 plugins - TODO
+## 5. The install location is hardcoded in 19 plugins - DONE
 
 `${HOME}/install/binaries` appears literally in 19 plugins, and
 `bashy_uninstall_binary` defaults to it as well. Nothing lets a user put binaries
 somewhere else, and nothing documents that the directory is expected to exist -
 `_install_bazel` and friends will simply fail if it does not.
 
-Introduce `BASHY_INSTALL_DIR`, defaulting to the current path, have the core
-helpers create it when missing, and move the plugins onto it.
+`BASHY_INSTALL_DIR` added to `core/install.sh`, defaulting to the old path so
+nothing moves unless asked. `bashy_install_dir` echoes it and creates it when
+missing, which is what the plugins now call, so a fresh machine no longer fails
+obscurely. All 19 plugins and `bashy_uninstall_binary` moved onto it.
 
-## 6. Completion boilerplate is copy pasted - TODO
+Verified by installing into a directory that did not exist yet: it was created, the
+binary landed there, and the uninstaller found it again.
+
+## 6. Completion boilerplate is copy pasted - DONE
 
 Sixteen plugins repeat some variant of
 
 	source <(tool completion bash)
 
 with slightly different error handling, some checking the result and some not.
-Alongside item 1 this is the obvious place for one `bashy_completion` helper: it
-would fix the caching, the error handling and the duplication in one move.
+Done as part of item 1. `bashy_completion` in `core/completion.sh` is now the one
+place that runs a completion command, so the caching, the error handling and the
+duplication were all fixed in one move. Fifteen plugins use it.
 
 ## 7. Test coverage of the runtime path - TODO
 

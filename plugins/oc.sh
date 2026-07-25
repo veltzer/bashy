@@ -19,7 +19,7 @@ function _install_oc() {
 	# https://access.redhat.com/documentation/en-us/red_hat_build_of_microshift/4.12/html/cli_tools/microshift-oc-cli-install
 	# But I'm using a different download link to account the need to log-in with a redhat account
 	url="https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/openshift-client-linux.tar.gz"
-	folder="${HOME}/install/binaries"
+	folder=$(bashy_install_dir)
 	executable="${folder}/oc"
 	latest_version=$(curl --fail --silent --location "https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/release.txt" | grep -oP 'Version:\s+\K[0-9]+\.[0-9]+\.[0-9]+' | head -1)
 	installed_version=""
@@ -41,7 +41,7 @@ function _install_oc() {
 }
 
 function _uninstall_oc() {
-	folder="${HOME}/install/binaries"
+	folder=$(bashy_install_dir)
 	executable="${folder}/oc"
 	if [ -f "${executable}" ]
 	then

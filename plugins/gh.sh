@@ -14,7 +14,7 @@ function _install_gh_apt() {
 function _install_gh() {
 	release_json=$(curl --fail --silent --location "https://api.github.com/repos/cli/cli/releases/latest")
 	latest_version=$(echo "${release_json}" | jq --raw-output '.tag_name' | sed 's/^v//')
-	folder="${HOME}/install/binaries"
+	folder=$(bashy_install_dir)
 	executable="${folder}/gh"
 	installed_version=""
 	if [ -x "${executable}" ]

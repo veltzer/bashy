@@ -22,7 +22,7 @@ function _install_hugo() {
 	before_strict
 	release_json=$(curl --fail --silent --location "https://api.github.com/repos/gohugoio/hugo/releases/latest")
 	latest_version=$(echo "${release_json}" | jq --raw-output '.tag_name' | sed 's/^v//')
-	folder="${HOME}/install/binaries"
+	folder=$(bashy_install_dir)
 	executable="${folder}/hugo"
 	installed_version=""
 	if [ -x "${executable}" ]
@@ -48,7 +48,7 @@ function _install_hugo() {
 }
 
 function _uninstall_hugo() {
-	folder="${HOME}/install/binaries"
+	folder=$(bashy_install_dir)
 	executable="${folder}/hugo"
 	if [ -f "${executable}" ]
 	then

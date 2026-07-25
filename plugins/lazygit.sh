@@ -5,7 +5,7 @@
 function _install_lazygit() {
 	release_json=$(curl --fail --silent --location "https://api.github.com/repos/jesseduffield/lazygit/releases/latest")
 	latest_version=$(echo "${release_json}" | jq --raw-output '.tag_name' | sed 's/^v//')
-	folder="${HOME}/install/binaries"
+	folder=$(bashy_install_dir)
 	executable="${folder}/lazygit"
 	installed_version=""
 	if [ -x "${executable}" ]

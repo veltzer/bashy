@@ -1,5 +1,5 @@
 function _install_drawio() {
-  local install_dir="${HOME}/install/binaries"
+  local install_dir="${BASHY_INSTALL_DIR}"
 
   echo "Installing DrawIO to ${install_dir}/drawio..."
 

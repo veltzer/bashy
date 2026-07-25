@@ -11,7 +11,7 @@ function _install_audacity() {
 	before_strict
 	release_json=$(curl --fail --silent --location "https://api.github.com/repos/audacity/audacity/releases/latest")
 	latest_version=$(echo "${release_json}" | jq --raw-output '.tag_name' | sed 's/^Audacity-//')
-	folder="${HOME}/install/binaries"
+	folder=$(bashy_install_dir)
 	executable="${folder}/audacity"
 	# the AppImage cannot report its own version ("audacity --version" just dumps
 	# library paths), so record what we installed in a marker file next to it.
@@ -57,7 +57,7 @@ function _install_audacity() {
 
 function _uninstall_audacity() {
 	before_strict
-	folder="${HOME}/install/binaries"
+	folder=$(bashy_install_dir)
 	executable="${folder}/audacity"
 	if [ -f "${executable}" ]
 	then

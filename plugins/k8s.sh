@@ -19,7 +19,7 @@ function _install_k8s() {
 	# instructions for installing k8s are at
 	# https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 	version=$(curl --fail --silent --location "https://dl.k8s.io/release/stable.txt")
-	folder="${HOME}/install/binaries"
+	folder=$(bashy_install_dir)
 	executable="${folder}/kubectl"
 	installed_version=""
 	if [ -x "${executable}" ]
@@ -37,7 +37,7 @@ function _install_k8s() {
 }
 
 function _uninstall_k8s() {
-	folder="${HOME}/install/binaries"
+	folder=$(bashy_install_dir)
 	executable="${folder}/kubectl"
 	if [ -f "${executable}" ]; then
 		echo "removing ${executable}"

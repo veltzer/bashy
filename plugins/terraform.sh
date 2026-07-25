@@ -10,7 +10,7 @@ function _install_terraform() {
 	before_strict
 	# latest version: https://github.com/hashicorp/terraform/issues/9803
 	version=$(curl --fail --silent "https://checkpoint-api.hashicorp.com/v1/check/terraform" | jq -r -M ".current_version")
-	folder="${HOME}/install/binaries"
+	folder=$(bashy_install_dir)
 	executable="${folder}/terraform"
 	installed_version=""
 	if [ -x "${executable}" ]

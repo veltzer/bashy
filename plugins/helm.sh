@@ -17,7 +17,7 @@ function _install_helm() {
 	# current one. The upstream get-helm-3 script is pinned to the v3 line, so using it
 	# here would forever reinstall v3 while this check compared against v4.
 	latest_version=$(curl --fail --silent --location "https://get.helm.sh/helm-latest-version")
-	folder="${HOME}/install/binaries"
+	folder=$(bashy_install_dir)
 	executable="${folder}/helm"
 	installed_version=""
 	if [ -x "${executable}" ]

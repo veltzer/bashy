@@ -8,7 +8,7 @@ function _install_buck2() {
 	asset="buck2-x86_64-unknown-linux-gnu.zst"
 	release_json=$(curl --fail --silent --location "https://api.github.com/repos/facebook/buck2/releases/tags/latest")
 	latest_version=$(echo "${release_json}" | jq --raw-output --arg asset "${asset}" '.assets[] | select(.name==$asset) | .updated_at' | cut -d'T' -f1)
-	folder="${HOME}/install/binaries"
+	folder=$(bashy_install_dir)
 	executable="${folder}/buck2"
 	installed_version=""
 	if [ -x "${executable}" ]
@@ -32,7 +32,7 @@ function _install_buck2() {
 
 function _uninstall_buck2() {
 	before_strict
-	folder="${HOME}/install/binaries"
+	folder=$(bashy_install_dir)
 	executable="${folder}/buck2"
 	if [ -f "${executable}" ]
 	then

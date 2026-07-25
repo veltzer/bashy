@@ -16,7 +16,7 @@ function _activate_minikube() {
 
 function _install_minikube() {
 	# https://minikube.sigs.k8s.io/docs/start/
-	folder="${HOME}/install/binaries"
+	folder=$(bashy_install_dir)
 	executable="${folder}/minikube"
 	latest_version=$(curl --fail --silent --location "https://api.github.com/repos/kubernetes/minikube/releases/latest" | jq --raw-output '.tag_name' | sed 's/^v//')
 	installed_version=""

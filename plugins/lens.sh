@@ -8,7 +8,7 @@ function _activate_lens() {
 function _install_lens() {
 	# instructions for installing lens are at
 	# https://docs.k8slens.dev/getting-started/install-lens/#install-lens-desktop-from-the-appimage
-	folder="${HOME}/install/binaries"
+	folder=$(bashy_install_dir)
 	executable="${folder}/lens"
 	marker="${folder}/.lens_etag"
 	url="https://api.k8slens.dev/binaries/latest.x86_64.AppImage"
@@ -32,7 +32,7 @@ function _install_lens() {
 }
 
 function _uninstall_lens() {
-	folder="${HOME}/install/binaries"
+	folder=$(bashy_install_dir)
 	executable="${folder}/lens"
 	rm -f "${executable}"
 }

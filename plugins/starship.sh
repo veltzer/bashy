@@ -20,7 +20,7 @@ function _install_starship() {
 	local release_json
 	bashy_github_release "starship/starship" release_json || return
 	latest_version=$(bashy_github_version "${release_json}")
-	folder="${HOME}/install/binaries"
+	folder=$(bashy_install_dir)
 	executable="${folder}/starship"
 	installed_version=""
 	if [ -x "${executable}" ]

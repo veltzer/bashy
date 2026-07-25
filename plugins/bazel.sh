@@ -12,7 +12,7 @@ function _install_bazel() {
 	before_strict
 	release_json=$(curl --fail --silent --location "https://api.github.com/repos/bazelbuild/bazel/releases/latest")
 	latest_version=$(echo "${release_json}" | jq --raw-output '.tag_name')
-	executable="${HOME}/install/binaries/bazel"
+	executable="${BASHY_INSTALL_DIR}/bazel"
 	installed_version=""
 	if [ -x "${executable}" ]
 	then
