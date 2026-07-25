@@ -5,12 +5,73 @@
 # https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-linux?pivots=apt
 
 # recommended
+#
+# This does by hand exactly what Microsoft's InstallAzureCLIDeb script does: add
+# their signing key, add their apt repository, install azure-cli from it. Doing it
+# here rather than piping their script into "sudo bash" means nothing downloaded
+# over the network is ever executed as root, and after this apt owns the package,
+# so updates and signature checking are handled by apt itself.
+#
+# Upstream script, for comparison: https://aka.ms/InstallAzureCLIDeb
 function _install_azurecli_deb() {
-	curl --fail --silent --location "https://aka.ms/InstallAzureCLIDeb" | sudo bash
+	before_strict
+	local keyring="/etc/apt/keyrings/microsoft.gpg"
+	local sources="/etc/apt/sources.list.d/azure-cli.sources"
+	sudo apt-get update
+	sudo apt-get install --assume-yes --no-install-recommends \
+		apt-transport-https ca-certificates curl gnupg lsb-release
+	# the key is armoured, dearmour it into the keyring apt expects
+	local key
+	if ! bashy_download "https://packages.microsoft.com/keys/microsoft.asc" key
+	then
+		after_strict
+		return 1
+	fi
+	sudo mkdir -p /etc/apt/keyrings
+	gpg --dearmor < "${key}" | sudo tee "${keyring}" > /dev/null
+	sudo chmod go+r "${keyring}"
+	# microsoft does not publish a repository for every dist, and their script falls
+	# back to jammy on ubuntu, so do the same rather than failing on a new release
+	local repo
+	repo=$(lsb_release -cs)
+	if ! curl --fail --silent --location "https://packages.microsoft.com/repos/azure-cli/dists/" | grep -q "${repo}"
+	then
+		local dist
+		dist=$(lsb_release -is)
+		case "${dist}" in
+			Ubuntu|LinuxMint) repo="jammy" ;;
+			Debian) repo="bookworm" ;;
+			*)
+				echo "no azure-cli repository for [${dist} ${repo}], see https://packages.microsoft.com/repos/azure-cli/dists/" >&2
+				after_strict
+				return 1
+				;;
+		esac
+		echo "no azure-cli repository for this dist, falling back to [${repo}]"
+	fi
+	# the old style .list file would shadow the .sources one
+	sudo rm -f /etc/apt/sources.list.d/azure-cli.list
+	printf 'Types: deb\nURIs: https://packages.microsoft.com/repos/azure-cli/\nSuites: %s\nComponents: main\nArchitectures: %s\nSigned-by: %s\n' \
+		"${repo}" "$(dpkg --print-architecture)" "${keyring}" | sudo tee "${sources}" > /dev/null
+	sudo apt-get update
+	sudo apt-get install --assume-yes azure-cli
+	after_strict
 }
 
+# The standalone installer is a python bootstrap with no packaged equivalent, so
+# there is nothing to reimplement here. Download it first and run that file, rather
+# than piping it into a root shell, so there is something on disk to look at.
 function _install_azurecli_standalone() {
-	curl --fail --silent --location "https://aka.ms/InstallAzureCLI" | sudo bash
+	before_strict
+	local script
+	if ! bashy_download "https://aka.ms/InstallAzureCLI" script
+	then
+		after_strict
+		return 1
+	fi
+	echo "running [${script}] as root, inspect it first if you like"
+	sudo bash "${script}"
+	after_strict
 }
 
 function _install_azurecli_doesnt_work() {
