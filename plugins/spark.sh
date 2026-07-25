@@ -35,6 +35,10 @@ function _install_spark() {
 	local archive
 	bashy_download "${url}" archive || { after_strict; return; }
 	# drop the previous install, otherwise every upgrade leaves the old tree behind
+	if [ -n "${installed_version}" ]
+	then
+		rm -rf "${HOME}/install/spark-${installed_version}-bin-hadoop3"
+	fi
 	rm -rf "${HOME}/install/spark" "${HOME}/install/${toplevel}"
 	tar xzf "${archive}" -m -C "${HOME}/install"
 	ln -sfn "${HOME}/install/${toplevel}" "${HOME}/install/spark"
