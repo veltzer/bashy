@@ -29,7 +29,13 @@ function _install_minikube() {
 	then
 		return
 	fi
-	curl --fail --location --silent --output "${executable}" "https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64"
+	download_file="https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64"
+	bashy_install_download "${download_file}"
+	local binary
+	bashy_download "${download_file}" binary || return
+	bashy_verify_sha256 "${binary}" "${download_file}.sha256" || return
+	rm -f "${executable}"
+	cp "${binary}" "${executable}"
 	chmod +x "${executable}"
 }
 
