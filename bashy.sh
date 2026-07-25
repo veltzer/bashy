@@ -354,6 +354,46 @@ function bashy_version() {
 	echo "${BASHY_VERSION_STR}"
 }
 
+# bashy_check_deployment [source checkout]
+# Compare the running ~/.bashy against a checkout of the repository and say what
+# differs. A deployment that has drifted from the source is otherwise invisible:
+# everything keeps working, just not with the code you think you are running.
+function bashy_check_deployment() {
+	local source_dir=${1:-}
+	if [ -z "${source_dir}" ]
+	then
+		for source_dir in "${HOME}/git/veltzer/bashy" "${HOME}/bashy" ""
+		do
+			[ -n "${source_dir}" ] && [ -r "${source_dir}/bashy.sh" ] && break
+		done
+	fi
+	if [ -z "${source_dir}" ] || [ ! -r "${source_dir}/bashy.sh" ]
+	then
+		echo "no bashy checkout found, pass one: bashy_check_deployment <dir>"
+		return 1
+	fi
+	echo "comparing [${HOME}/.bashy] against [${source_dir}]"
+	local source_version
+	source_version=$(sed -n 's/^export BASHY_VERSION_STR="\(.*\)"/\1/p' "${source_dir}/core/version.sh" 2>/dev/null)
+	if [ -n "${source_version}" ] && [ "${source_version}" != "${BASHY_VERSION_STR}" ]
+	then
+		echo "  version: running ${BASHY_VERSION_STR}, source ${source_version}"
+	fi
+	local differing
+	differing=$(diff --recursive --brief "${source_dir}/core" "${HOME}/.bashy/core" 2>&1
+		diff --recursive --brief "${source_dir}/plugins" "${HOME}/.bashy/plugins" 2>&1
+		diff --brief "${source_dir}/bashy.sh" "${HOME}/.bashy/bashy.sh" 2>&1
+		diff --brief "${source_dir}/bashy.list" "${HOME}/.bashy/bashy.list" 2>&1)
+	if [ -z "${differing}" ]
+	then
+		echo "  up to date"
+		return 0
+	fi
+	printf '  %s\n' "${differing}"
+	echo "  run ${source_dir}/scripts/install_in_home.bash to update"
+	return 1
+}
+
 function _bashy_init() {
 	_bashy_load_config
 	if [ -f "${HOME}/.bashy.disable" ]
