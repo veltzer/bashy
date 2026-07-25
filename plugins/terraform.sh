@@ -25,10 +25,12 @@ function _install_terraform() {
 	fi
 	file="terraform_${version}_linux_amd64.zip"
 	download="https://releases.hashicorp.com/terraform/${version}/${file}"
-	rm -rf "${folder}/terraform"
+	rm -f "${executable}"
 	local archive
 	bashy_download "${download}" archive || { after_strict; return; }
 	unzip -q "${archive}" -d "${folder}" terraform
+	# unzip restores the timestamp stored in the zip, stamp it with the install time instead
+	touch "${executable}"
 	after_strict
 }
 

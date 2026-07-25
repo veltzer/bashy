@@ -30,7 +30,9 @@ function _install_gh() {
 	echo "download_file is [${download_file}]. It is the latest version."
 	local tar
 	bashy_download "${download_file}" tar || return
-	tar xf "${tar}" -C "${folder}" --wildcards "*/bin/gh" --transform 's/.*\/bin\/gh/gh/g'
+	rm -f "${executable}"
+	# --touch so the installed file is stamped now, not with the release build time
+	tar xf "${tar}" -m -C "${folder}" --wildcards "*/bin/gh" --transform 's/.*\/bin\/gh/gh/g'
 }
 
 register_interactive _activate_gh
