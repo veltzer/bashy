@@ -35,11 +35,15 @@ function _install_hugo() {
 		after_strict
 		return
 	fi
-	download_file=$(echo "${release_json}" | jq --raw-output '.assets[].browser_download_url | select(test("hugo_extended.*_linux-amd64.tar.gz$"))')
+	# the release also ships a hugo_extended_withdeploy_... build, exclude it so this
+	# matches exactly one asset rather than returning two urls
+	download_file=$(echo "${release_json}" | jq --raw-output '.assets[].browser_download_url | select(test("hugo_extended_[0-9][^/]*_linux-amd64\\.tar\\.gz$"))')
 	bashy_install_download "${download_file}"
 	local tar
 	bashy_download "${download_file}" tar || { after_strict; return; }
-	tar xf "${tar}" -C "${folder}" hugo
+	rm -f "${executable}"
+	# --touch so the installed file is stamped now, not with the release build time
+	tar xf "${tar}" -m -C "${folder}" hugo
 	after_strict
 }
 

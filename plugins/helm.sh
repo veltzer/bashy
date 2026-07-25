@@ -13,8 +13,12 @@ function _activate_helm() {
 }
 
 function _install_helm() {
-	latest_version=$(curl --fail --silent --location "https://api.github.com/repos/helm/helm/releases/latest" | jq --raw-output '.tag_name')
-	executable="${HOME}/install/binaries/helm"
+	# get.helm.sh publishes the latest tag of each line; "helm-latest-version" is the
+	# current one. The upstream get-helm-3 script is pinned to the v3 line, so using it
+	# here would forever reinstall v3 while this check compared against v4.
+	latest_version=$(curl --fail --silent --location "https://get.helm.sh/helm-latest-version")
+	folder="${HOME}/install/binaries"
+	executable="${folder}/helm"
 	installed_version=""
 	if [ -x "${executable}" ]
 	then
@@ -24,11 +28,13 @@ function _install_helm() {
 	then
 		return
 	fi
-	rm -f "${executable}" /tmp/get_helm.sh
-	curl --fail --silent --location --show-error --output "/tmp/get_helm.sh" "https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3"
-	chmod +x /tmp/get_helm.sh
-	HELM_INSTALL_DIR="${HOME}/install/binaries" /tmp/get_helm.sh --no-sudo
-	rm -f /tmp/get_helm.sh
+	download_file="https://get.helm.sh/helm-${latest_version}-linux-amd64.tar.gz"
+	bashy_install_download "${download_file}"
+	local tar
+	bashy_download "${download_file}" tar || return
+	rm -f "${executable}"
+	# --touch so the installed file is stamped now, not with the release build time
+	tar xf "${tar}" -m -C "${folder}" --strip-components=1 linux-amd64/helm
 }
 
 register _activate_helm
