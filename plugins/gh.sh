@@ -29,6 +29,8 @@ function _install_gh() {
 	bashy_install_download "${download_file}"
 	local tar
 	bashy_download "${download_file}" tar || return
+	checksums=$(echo "${release_json}" | jq --raw-output '.assets[].browser_download_url | select(endswith("_checksums.txt"))')
+	bashy_verify_sha256 "${tar}" "${checksums}" || return
 	rm -f "${executable}"
 	# --touch so the installed file is stamped now, not with the release build time
 	tar xf "${tar}" -m -C "${folder}" --wildcards "*/bin/gh" --transform 's/.*\/bin\/gh/gh/g'

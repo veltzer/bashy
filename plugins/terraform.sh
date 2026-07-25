@@ -27,6 +27,8 @@ function _install_terraform() {
 	rm -f "${executable}"
 	local archive
 	bashy_download "${download}" archive || { after_strict; return; }
+	sums="https://releases.hashicorp.com/terraform/${version}/terraform_${version}_SHA256SUMS"
+	bashy_verify_sha256 "${archive}" "${sums}" || { after_strict; return; }
 	unzip -q "${archive}" -d "${folder}" terraform
 	# unzip restores the timestamp stored in the zip, stamp it with the install time instead
 	touch "${executable}"

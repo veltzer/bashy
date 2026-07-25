@@ -32,6 +32,7 @@ function _install_helm() {
 	bashy_install_download "${download_file}"
 	local tar
 	bashy_download "${download_file}" tar || return
+	bashy_verify_sha256 "${tar}" "${download_file}.sha256sum" || return
 	rm -f "${executable}"
 	# --touch so the installed file is stamped now, not with the release build time
 	tar xf "${tar}" -m -C "${folder}" --strip-components=1 linux-amd64/helm
