@@ -46,6 +46,7 @@ bashy_core_order=(
 	measure
 	version
 	install
+	completion
 	# these use the modules above
 	assoc
 	check
