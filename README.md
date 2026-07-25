@@ -98,6 +98,17 @@ To reinit Bashy when a new version is installed or pulled:
 bashy_init
 ```
 
+## Core module load order
+
+The modules in `core` are loaded in the order listed by `bashy_core_order` in
+`bashy.sh`, not alphabetically. The list runs from the standalone modules to the
+ones built on top of them, so a module may call into anything loaded before it and
+does not have to source its own dependencies.
+
+When adding a core module, put its name in that list at a point where everything it
+uses is already loaded. A module left out of the list is still loaded, after all the
+named ones.
+
 ## Writing Bashy plugins
 
 Bashy plugins may never fail a command (all commands need to return 0)

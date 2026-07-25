@@ -147,12 +147,14 @@ Not planned work, but worth recording.
 - `plugins/nvim.sh` - neovim renamed its release assets from `nvim-linux64` to
   `nvim-linux-x86_64`, so the tar installer had been fetching a 404 and silently
   extracting nothing.
-- `core/download.sh` - the module calls `bashy_log` but never pulled in
-  `core/log.sh`, so it only worked when something else happened to have loaded the
-  logger first. Under `test_all.sh` nothing did, and the suite printed
-  "bashy_log: command not found" on every cache decision. It now declares the
-  dependency with `_bashy_source_relative log.sh`, the same way `core/assoc.sh`
-  pulls in `null.sh`.
+- `core/download.sh` - the module calls `bashy_log` but the core modules were
+  loaded alphabetically, which said nothing about dependencies. Under
+  `test_all.sh` the logger was never loaded and the suite printed
+  "bashy_log: command not found" on every cache decision. `bashy.sh` now loads
+  core in an explicit `bashy_core_order`, going from the standalone modules to
+  the ones built on top of them, so a module can simply call into anything listed
+  before it. Modules no longer source each other, and any module missing from the
+  list is still loaded afterwards so a forgotten one is not fatal.
 - `plugins/lazygit.sh` - upstream renamed assets from `_Linux_x86_64` to
   `_linux_x86_64`, so the asset filter matched nothing.
 - `core/array.sh` - `_bashy_array_remove` built the filtered array correctly and
