@@ -101,7 +101,7 @@ ssh_agent
 complete
 lazygit
 audacity
-dotnet
+# dotnet
 docker
 # podman
 # java
