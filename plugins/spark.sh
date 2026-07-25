@@ -16,22 +16,27 @@ function _install_spark() {
 	before_strict
 	# instructions for installing spark are at
 	# https://medium.com/@patilmailbox4/install-apache-spark-on-ubuntu-ffa151e12e30
-	version="3.5.4"
+	# the download mirror lists a directory per release, take the highest one
+	version=$(curl --fail --silent --location "https://dlcdn.apache.org/spark/" | grep -oP 'href="spark-\K[0-9]+\.[0-9]+\.[0-9]+(?=/")' | sort --version-sort --unique | tail -1)
 	toplevel="spark-${version}-bin-hadoop3"
+	# ~/install/spark is a symlink into the versioned directory, so it names what is installed
 	installed_version=""
-	if [ -d "${HOME}/install/${toplevel}" ]
+	if [ -d "${HOME}/install/spark" ]
 	then
-		installed_version="${version}"
+		installed_version=$(readlink "${HOME}/install/spark" | grep -oP 'spark-\K[0-9]+\.[0-9]+\.[0-9]+')
 	fi
 	if bashy_install_check "spark" "${installed_version}" "${version}"
 	then
 		after_strict
 		return
 	fi
-	rm -f "${HOME}/install/spark" || true
-	url="https://dlcdn.apache.org/spark/spark-${version}/spark-${version}-bin-hadoop3.tgz"
-	echo "url is [${url}]..."
-	curl --fail --location --silent "${url}" | tar xz -C "${HOME}/install"
+	url="https://dlcdn.apache.org/spark/spark-${version}/${toplevel}.tgz"
+	bashy_install_download "${url}"
+	local archive
+	bashy_download "${url}" archive || { after_strict; return; }
+	# drop the previous install, otherwise every upgrade leaves the old tree behind
+	rm -rf "${HOME}/install/spark" "${HOME}/install/${toplevel}"
+	tar xzf "${archive}" -m -C "${HOME}/install"
 	ln -sfn "${HOME}/install/${toplevel}" "${HOME}/install/spark"
 	after_strict
 }
