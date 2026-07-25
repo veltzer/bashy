@@ -143,13 +143,20 @@ function bashy_verify_sha256() {
 			echo "bashy_verify_sha256: could not fetch checksums from [${source}]" >&2
 			return 1
 		fi
-		# match on the basename, the checksums file names assets without a path
-		local want="${file##*/}"
-		expected=$(echo "${sums}" | awk -v want="${want}" '{name=$2; sub(/^\*/,"",name); if(name==want){print $1; exit}}')
-		if [ -z "${expected}" ]
+		# some projects publish a bare digest with no filename column at all
+		local stripped="${sums//[[:space:]]/}"
+		if [[ "${stripped}" =~ ^[0-9a-fA-F]{64}$ ]]
 		then
-			echo "bashy_verify_sha256: [${want}] not listed in [${source}]" >&2
-			return 1
+			expected="${stripped}"
+		else
+			# match on the basename, the checksums file names assets without a path
+			local want="${file##*/}"
+			expected=$(echo "${sums}" | awk -v want="${want}" '{name=$2; sub(/^\*/,"",name); if(name==want){print $1; exit}}')
+			if [ -z "${expected}" ]
+			then
+				echo "bashy_verify_sha256: [${want}] not listed in [${source}]" >&2
+				return 1
+			fi
 		fi
 	fi
 	local actual
