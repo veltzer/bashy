@@ -28,13 +28,12 @@ or signature check anywhere in the tree. These binaries end up on `PATH`.
 `sha256sum` style checksums file listing many assets, or a file holding a bare digest
 with no filename column, which covers every shape these projects publish.
 
-Verified now: audacity, bazel, eksctl, gh, helm, hugo, kurtosis, lazygit, minikube,
-packer, terraform.
+Verified now: audacity, bazel, eksctl, gh, gradle, helm, hugo, kurtosis, lazygit,
+minikube, oc, packer, terraform.
 
-Still unverified, because the project publishes nothing to check against: buck2,
-drawio, freetube, lens, nvim, spark, zoom. Verified by other means, so not a gap:
-awscli, azurecli, code, dotnet, gradle, k8s, oc go through a vendor installer or
-package manager, and starship pipes the vendor install script.
+Still unverified because the project publishes nothing to check against: buck2,
+drawio, freetube, lens, nvim, spark, zoom. Not applicable: awscli, azurecli, code,
+dotnet, k8s install through a vendor installer or a package manager.
 
 `plugins/starship.sh` is the one real remaining hole - it runs
 `sh <(curl https://starship.rs/install.sh)`, so the script is executed unverified.
