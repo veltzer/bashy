@@ -39,9 +39,10 @@ changes=$(rsync "${flags[@]}" --dry-run ./ "${target}/" \
 
 if [ -z "${changes}" ]
 then
-	echo "  (none, ${target} is up to date)"
+	echo "${target} is up to date"
 	exit 0
 fi
+echo "updating [${target}]:"
 printf '  %s\n' "${changes}"
 
 # the preview above is the report, so let the real run work quietly. It still has to
