@@ -1,5 +1,8 @@
 #!/bin/bash -eu
 
-rsync -rvnc --delete ./ ~/.bashy --exclude-from=.excludes
+# What gets installed is listed in .includes, which is an allow list: its last line
+# excludes everything, so anything not named there stays out of ~/.bashy.
+
+rsync -rvnc --delete ./ ~/.bashy --include-from=.includes
 rm -rf "${HOME}/.bashy"
-rsync --archive ./ ~/.bashy --exclude-from=.excludes
+rsync --archive ./ ~/.bashy --include-from=.includes

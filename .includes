@@ -1,0 +1,12 @@
+# What gets installed into ~/.bashy, for rsync --include-from.
+#
+# This is an allow list: the last line excludes everything, so anything not named
+# here stays out. That way a new file at the top of the repo is not silently
+# deployed, which is what kept happening with the old .excludes list.
+#
+# Directories need the trailing /*** to pull in their contents too.
+bashy.sh
+bashy.list
+core/***
+plugins/***
+- *
