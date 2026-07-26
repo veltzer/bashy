@@ -14,8 +14,8 @@ python
 # the powerline plugin must be before other plugins that customize the shell
 # powerline
 # pypowerline
-powerline-shell
-# starship
+# powerline-shell - a python program, so it costs ~100ms on every prompt
+starship
 # other plugins
 ansible
 bash_completions_userdir
