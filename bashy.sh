@@ -64,39 +64,31 @@ function _bashy_load_core() {
 	# named modules first, in dependency order, then anything left over
 	local _ordered=()
 	local _module
-	for _module in "${bashy_core_order[@]}"
-	do
-		if [ -r "${_dir}/${_module}.sh" ]
-		then
+	for _module in "${bashy_core_order[@]}"; do
+		if [ -r "${_dir}/${_module}.sh" ]; then
 			_ordered+=("${_dir}/${_module}.sh")
 		fi
 	done
 	local _f
-	for _f in "${_dir}"/*.sh
-	do
+	for _f in "${_dir}"/*.sh; do
 		local _base="${_f##*/}"
 		_base="${_base%.sh}"
-		if [ "${_base}" = "source" ]
-		then
+		if [ "${_base}" = "source" ]; then
 			continue
 		fi
 		# array.sh is not loaded yet at this point, so check by hand
 		local _known=1
-		for _module in "${bashy_core_order[@]}"
-		do
-			if [ "${_module}" = "${_base}" ]
-			then
+		for _module in "${bashy_core_order[@]}"; do
+			if [ "${_module}" = "${_base}" ]; then
 				_known=0
 				break
 			fi
 		done
-		if [ "${_known}" -ne 0 ]
-		then
+		if [ "${_known}" -ne 0 ]; then
 			_ordered+=("${_f}")
 		fi
 	done
-	for f in "${_ordered[@]}"
-	do
+	for f in "${_ordered[@]}"; do
 		local _name="${f##*/}"
 		_name="${_name%%.*}"
 		bashy_core_names+=("${_name}")
@@ -108,18 +100,14 @@ function _bashy_load_core() {
 
 function _bashy_read_plugins_filename() {
 	local filename=$1
-	while read -r line
-	do
-		if [[ "${line}" =~ ^#.* ]]
-		then
+	while read -r line; do
+		if [[ "${line}" =~ ^#.* ]]; then
 			continue
 		fi
-		if [[ "${line}" =~ ^[[:space:]]*$ ]]
-		then
+		if [[ "${line}" =~ ^[[:space:]]*$ ]]; then
 			continue
 		fi
-		if [[ "${line}" =~ ^-.* ]]
-		then
+		if [[ "${line}" =~ ^-.* ]]; then
 			plugin="${line:1}"
 			enabled=0
 		else
@@ -128,34 +116,33 @@ function _bashy_read_plugins_filename() {
 		fi
 		_bashy_array_push bashy_array_plugin "${plugin}"
 		assoc_set bashy_assoc_enabled "${plugin}" "${enabled}"
-	# read returns false on a final line that has no trailing newline, which silently
-	# dropped the last plugin of a hand edited list. Appending a newline to the
-	# stream costs nothing and makes the last line arrive like any other.
-	done < <(cat "${filename}"; echo)
+		# read returns false on a final line that has no trailing newline, which silently
+		# dropped the last plugin of a hand edited list. Appending a newline to the
+		# stream costs nothing and makes the last line arrive like any other.
+	done < <(
+		cat "${filename}"
+		echo
+	)
 }
 
 function _bashy_read_plugins() {
 	filename="${HOME}/.bashy/bashy.list"
 	_bashy_read_plugins_filename "${filename}"
 	filename="${HOME}/.bashy.list"
-	if [ -f "${filename}" ]
-	then
+	if [ -f "${filename}" ]; then
 		_bashy_read_plugins_filename "${filename}"
 	fi
 }
 
 function _bashy_load_plugins() {
-	for plugin in "${bashy_array_plugin[@]}"
-	do
+	for plugin in "${bashy_array_plugin[@]}"; do
 		current_filename="${HOME}/.bashy/plugins/${plugin}.sh"
-		if [[ -r "${current_filename}" ]]
-		then
+		if [[ -r "${current_filename}" ]]; then
 			assoc_set bashy_assoc_found "${plugin}" 1
 			assoc_set bashy_assoc_filename "${plugin}" "${current_filename}"
 		else
 			current_filename="${HOME}/.bashy_extra/${plugin}.sh"
-			if [[ -r "${current_filename}" ]]
-			then
+			if [[ -r "${current_filename}" ]]; then
 				assoc_set bashy_assoc_found "${plugin}" 1
 				assoc_set bashy_assoc_filename "${plugin}" "${current_filename}"
 			else
@@ -171,8 +158,7 @@ function _bashy_load_plugins() {
 
 function _bashy_load_config() {
 	local bashy_config="${HOME}/.bashy.config"
-	if [ -f "${bashy_config}" ]
-	then
+	if [ -f "${bashy_config}" ]; then
 		# cannot use _bashy_source_absolute function here since it is still not loaded
 		# shellcheck source=/dev/null
 		source "${bashy_config}"
@@ -180,24 +166,20 @@ function _bashy_load_config() {
 }
 
 function _bashy_run_plugins() {
-	for function in "${_bashy_array_function[@]}"
-	do
+	for function in "${_bashy_array_function[@]}"; do
 		local plugin
 		assoc_get _bashy_assoc_function plugin "${function}"
 		local enabled
 		assoc_get bashy_assoc_enabled enabled "${plugin}"
-		if [[ "${enabled}" = 0 ]]
-		then
+		if [[ "${enabled}" = 0 ]]; then
 			bashy_log "core/bashy" "${BASHY_LOG_DEBUG}" "${plugin} disabled"
 			continue
 		fi
 		bashy_log "core/bashy" "${BASHY_LOG_DEBUG}" "running function [${function}]"
-		if is_step
-		then
+		if is_step; then
 			read -rn 1
 		fi
-		if is_profile
-		then
+		if is_profile; then
 			local result=
 			local error=""
 			local _diff=
@@ -217,13 +199,11 @@ function _bashy_run_plugins() {
 }
 
 function bashy_status_core() {
-	((i=0))
-	for name in "${bashy_core_names[@]}"
-	do
+	((i = 0))
+	for name in "${bashy_core_names[@]}"; do
 		_bashy_cecho gr "${name}" 1
 		res="${bashy_core_res[${i}]}"
-		if [ "${res}" = 0 ]
-		then
+		if [ "${res}" = 0 ]; then
 			_bashy_cecho g "\tOK" 0
 		else
 			_bashy_cecho r "\tERROR" 0
@@ -238,21 +218,18 @@ function bashy_status_core() {
 # handlers which may have succeeded in initializing
 # or not
 function bashy_status_plugins() {
-	for plugin in "${bashy_array_plugin[@]}"
-	do
+	for plugin in "${bashy_array_plugin[@]}"; do
 		_bashy_cecho gr "${plugin}" 1
 		local enabled
 		assoc_get bashy_assoc_enabled enabled "${plugin}"
-		if [[ "${enabled}" = 1 ]]
-		then
+		if [[ "${enabled}" = 1 ]]; then
 			_bashy_cecho g "\tEN" 1
 		else
 			_bashy_cecho y "\tDI" 1
 		fi
 		local found
 		assoc_get bashy_assoc_found found "${plugin}"
-		if [[ "${found}" = 1 ]]
-		then
+		if [[ "${found}" = 1 ]]; then
 			_bashy_cecho g "\tFOUND_OK" 1
 		else
 			_bashy_cecho r "\tFOUND_ERROR" 1
@@ -266,26 +243,22 @@ function bashy_status_plugins() {
 		# else
 		# 	_bashy_cecho gr "\t${filename}" 1
 		# fi
-		if [[ "${enabled}" = 1 ]]
-		then
+		if [[ "${enabled}" = 1 ]]; then
 			local source
 			assoc_get bashy_assoc_source source "${plugin}"
-			if [[ "${source}" = 0 ]]
-			then
+			if [[ "${source}" = 0 ]]; then
 				_bashy_cecho g "\tLOAD_OK" 1
 			else
 				_bashy_cecho r "\tLOAD_ERROR" 1
 			fi
 			local result
 			assoc_get bashy_assoc_result result "${plugin}"
-			if [[ "${result}" = 0 ]]
-			then
+			if [[ "${result}" = 0 ]]; then
 				_bashy_cecho g "\tRESULT_OK" 1
 			else
 				_bashy_cecho r "\tRESULT_ERROR" 1
 			fi
-			if is_profile
-			then
+			if is_profile; then
 				local _diff
 				assoc_get bashy_assoc_diff _diff "${plugin}"
 				printf "\t%s\n" "${_diff}"
@@ -302,20 +275,17 @@ function bashy_status_plugins() {
 
 function bashy_errors() {
 	local i
-	((i=0))
-	for plugin in "${bashy_array_plugin[@]}"
-	do
+	((i = 0))
+	for plugin in "${bashy_array_plugin[@]}"; do
 		local enabled
 		assoc_get bashy_assoc_enabled enabled "${plugin}"
-		if [[ "${enabled}" = 0 ]]
-		then
+		if [[ "${enabled}" = 0 ]]; then
 			bashy_log "core/bashy" "${BASHY_LOG_DEBUG}" "${plugin} disabled"
 			continue
 		fi
 		local result
 		assoc_get bashy_assoc_result result "${plugin}"
-		if [[ "${result}" = 0 ]]
-		then
+		if [[ "${result}" = 0 ]]; then
 			bashy_log "core/bashy" "${BASHY_LOG_DEBUG}" "${plugin} succeeded"
 			continue
 		fi
@@ -331,8 +301,7 @@ function bashy_internal_print() {
 }
 
 function bashy_off() {
-	if [ -f "${HOME}/.bashy.disable" ]
-	then
+	if [ -f "${HOME}/.bashy.disable" ]; then
 		echo "bashy is already off"
 	else
 		touch "${HOME}/.bashy.disable"
@@ -341,8 +310,7 @@ function bashy_off() {
 }
 
 function bashy_on() {
-	if [ -f "${HOME}/.bashy.disable" ]
-	then
+	if [ -f "${HOME}/.bashy.disable" ]; then
 		rm "${HOME}/.bashy.disable"
 		echo "turned bashy on"
 	else
@@ -360,32 +328,29 @@ function bashy_version() {
 # everything keeps working, just not with the code you think you are running.
 function bashy_check_deployment() {
 	local source_dir=${1:-}
-	if [ -z "${source_dir}" ]
-	then
-		for source_dir in "${HOME}/git/veltzer/bashy" "${HOME}/bashy" ""
-		do
+	if [ -z "${source_dir}" ]; then
+		for source_dir in "${REPOS_FOLDER}/bashy" "${REPOS_FOLDER}/veltzer/bashy" "${HOME}/bashy" ""; do
 			[ -n "${source_dir}" ] && [ -r "${source_dir}/bashy.sh" ] && break
 		done
 	fi
-	if [ -z "${source_dir}" ] || [ ! -r "${source_dir}/bashy.sh" ]
-	then
+	if [ -z "${source_dir}" ] || [ ! -r "${source_dir}/bashy.sh" ]; then
 		echo "no bashy checkout found, pass one: bashy_check_deployment <dir>"
 		return 1
 	fi
 	echo "comparing [${HOME}/.bashy] against [${source_dir}]"
 	local source_version
 	source_version=$(sed -n 's/^export BASHY_VERSION_STR="\(.*\)"/\1/p' "${source_dir}/core/version.sh" 2>/dev/null)
-	if [ -n "${source_version}" ] && [ "${source_version}" != "${BASHY_VERSION_STR}" ]
-	then
+	if [ -n "${source_version}" ] && [ "${source_version}" != "${BASHY_VERSION_STR}" ]; then
 		echo "  version: running ${BASHY_VERSION_STR}, source ${source_version}"
 	fi
 	local differing
-	differing=$(diff --recursive --brief "${source_dir}/core" "${HOME}/.bashy/core" 2>&1
+	differing=$(
+		diff --recursive --brief "${source_dir}/core" "${HOME}/.bashy/core" 2>&1
 		diff --recursive --brief "${source_dir}/plugins" "${HOME}/.bashy/plugins" 2>&1
 		diff --brief "${source_dir}/bashy.sh" "${HOME}/.bashy/bashy.sh" 2>&1
-		diff --brief "${source_dir}/bashy.list" "${HOME}/.bashy/bashy.list" 2>&1)
-	if [ -z "${differing}" ]
-	then
+		diff --brief "${source_dir}/bashy.list" "${HOME}/.bashy/bashy.list" 2>&1
+	)
+	if [ -z "${differing}" ]; then
 		echo "  up to date"
 		return 0
 	fi
@@ -396,8 +361,7 @@ function bashy_check_deployment() {
 
 function _bashy_init() {
 	_bashy_load_config
-	if [ -f "${HOME}/.bashy.disable" ]
-	then
+	if [ -f "${HOME}/.bashy.disable" ]; then
 		return
 	fi
 	declare -ga bashy_core_names
