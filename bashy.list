@@ -11,6 +11,7 @@ prompt
 # python_local
 python_venv
 python
+keyring
 # the powerline plugin must be before other plugins that customize the shell
 # powerline
 # pypowerline
