@@ -1,0 +1,16 @@
+# shellcheck every shell file in the repo. --external-sources is needed because
+# plugins source files outside the repo (e.g. plugins/git.sh sources the system
+# git completion). .shellcheckrc is a tracked dependency by default.
+[processor.shellcheck]
+src_dirs = ["."]
+src_exclude_dirs = [".venv", "node_modules", "out"]
+args = ["--shell=bash", "--external-sources"]
+
+# run the test suite whenever any shell file changes. test_all.sh takes no
+# arguments and ignores the file list the checker passes it.
+[processor.script.test_all]
+command = "scripts/test_all.sh"
+src_dirs = ["."]
+src_extensions = [".sh"]
+src_exclude_dirs = [".venv", "node_modules", "out"]
+batch = true
