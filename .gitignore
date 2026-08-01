@@ -6,6 +6,7 @@
 /out/
 *.out
 /.mypy_cache/
+/.rsconstruct/
 
 # folders to git ignore
 /*.gi

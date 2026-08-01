@@ -15,6 +15,12 @@
 
 target="${HOME}/.bashy"
 
+# bashy.sh, bashy.list and plugins/ have moved under src/, but core/ still lives at
+# the repo root, so the install draws from both. The trailing slash on src/ makes
+# rsync copy its contents rather than the directory, which is also what lets the
+# allow list in .includes match the paths it names.
+declare -a sources=(src/ core)
+
 # rsync flags shared by the preview and the real run, so the preview cannot
 # describe a different operation than the one that follows it
 declare -a flags=(
@@ -32,13 +38,12 @@ declare -a flags=(
 # leading > or * marks a transfer or a deletion. A line where only t (mtime) differs
 # means the content is identical and rsync is merely restoring the timestamp, which
 # is not a change worth reporting. Keep only real ones.
-changes=$(rsync "${flags[@]}" --dry-run ./ "${target}/" \
-	| grep -E '^(>|<|\*|c[dfLDS])' \
-	| grep -vE '^\.[fdLDS]\.\.t' \
-	|| true)
+changes=$(rsync "${flags[@]}" --dry-run "${sources[@]}" "${target}/" |
+	grep -E '^(>|<|\*|c[dfLDS])' |
+	grep -vE '^\.[fdLDS]\.\.t' ||
+	true)
 
-if [ -z "${changes}" ]
-then
+if [ -z "${changes}" ]; then
 	echo "${target} is up to date"
 	exit 0
 fi
@@ -47,4 +52,4 @@ printf '  %s\n' "${changes}"
 
 # the preview above is the report, so let the real run work quietly. It still has to
 # carry --itemize-changes so that it is the same operation that was previewed.
-rsync "${flags[@]}" ./ "${target}/" > /dev/null
+rsync "${flags[@]}" "${sources[@]}" "${target}/" >/dev/null
