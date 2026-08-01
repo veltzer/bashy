@@ -1,6 +1,6 @@
-source core/assert.sh
-source core/log.sh
-source core/download.sh
+source src/core/assert.sh
+source src/core/log.sh
+source src/core/download.sh
 
 # these tests must not touch the network, so they drive the pieces that do not
 # need it and stub the validator lookup where a cache decision is being checked

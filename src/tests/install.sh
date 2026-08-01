@@ -1,5 +1,5 @@
-source core/assert.sh
-source core/install.sh
+source src/core/assert.sh
+source src/core/install.sh
 
 function testInstallCheckNotInstalled() {
 	local out

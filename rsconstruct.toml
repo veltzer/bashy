@@ -1,15 +1,23 @@
+# generate README.md, LICENSE, requirements.thawed.txt, the github workflow and
+# src/core/version.sh from tera.templates/. The analyzer tracks load_python /
+# version_str / include dependencies, so a change in config/*.py or
+# tera.snippets/ rebuilds the outputs.
+[analyzer.tera]
+
+[processor.tera]
+
 # shellcheck every shell file in the repo. --external-sources is needed because
 # plugins source files outside the repo (e.g. plugins/git.sh sources the system
 # git completion). .shellcheckrc is a tracked dependency by default.
 [processor.shellcheck]
-src_dirs = ["src", "scripts", "core", "tests"]
-src_extensions = [".sh", ".bash"]
+src_dirs = ["src", "scripts"]
+src_extensions = [".sh"]
 args = ["--shell=bash", "--external-sources"]
 
 # run the test suite whenever any shell file changes. test_all.sh takes no
 # arguments and ignores the file list the checker passes it.
 [processor.script.test_all]
 command = "scripts/test_all.sh"
-src_dirs = ["src", "scripts", "core", "tests"]
-src_extensions = [".sh", ".bash"]
+src_dirs = ["src", "scripts"]
+src_extensions = [".sh"]
 batch = true

@@ -1,6 +1,6 @@
-source core/assert.sh
-source core/log.sh
-source core/completion.sh
+source src/core/assert.sh
+source src/core/log.sh
+source src/core/completion.sh
 
 # a stand in for a real tool, so these tests do not depend on minikube or gh being
 # installed and can control exactly when the "tool" changes

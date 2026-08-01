@@ -1,5 +1,5 @@
-source core/assert.sh
-source core/var.sh
+source src/core/assert.sh
+source src/core/var.sh
 
 function testSetByName() {
 	local b=5

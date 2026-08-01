@@ -1,10 +1,10 @@
 #!/bin/bash -eu
 
-source core/color.sh
-source core/assert.sh
-source core/source.sh
+source src/core/color.sh
+source src/core/assert.sh
+source src/core/source.sh
 
-for f in tests/*.sh
+for f in src/tests/*.sh
 do
 	# shellcheck source=/dev/null
 	source "${f}"

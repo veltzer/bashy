@@ -1,6 +1,6 @@
-source core/assert.sh
-source core/check.sh
-source core/pathutils.sh
+source src/core/assert.sh
+source src/core/check.sh
+source src/core/pathutils.sh
 
 function testCheckVariableDefined() {
 	local v e

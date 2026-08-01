@@ -1,8 +1,8 @@
-source core/assert.sh
-source core/array.sh
-source core/assoc.sh
-source core/misc.sh
-source core/hooks.sh
+source src/core/assert.sh
+source src/core/array.sh
+source src/core/assoc.sh
+source src/core/misc.sh
+source src/core/hooks.sh
 
 # hooks registers into these two globals, so each test starts from a clean pair
 function _test_hooks_reset() {

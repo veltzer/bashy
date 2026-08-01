@@ -1,7 +1,7 @@
-source core/assert.sh
-source core/null.sh
-source core/array.sh
-source core/assoc.sh
+source src/core/assert.sh
+source src/core/null.sh
+source src/core/array.sh
+source src/core/assoc.sh
 
 # The plugin list parser is the code that decides which plugins run and in what
 # order, so it is the piece most able to break a user's shell. It lives in

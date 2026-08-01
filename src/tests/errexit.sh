@@ -1,5 +1,5 @@
-source core/assert.sh
-source core/errexit.sh
+source src/core/assert.sh
+source src/core/errexit.sh
 
 function testErrexitSaveReportsOff() {
 	set +e

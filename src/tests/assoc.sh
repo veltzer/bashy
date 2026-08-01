@@ -1,6 +1,6 @@
-source core/assert.sh
-source core/null.sh
-source core/assoc.sh
+source src/core/assert.sh
+source src/core/null.sh
+source src/core/assoc.sh
 
 function testAssoc() {
 	assoc_new conf

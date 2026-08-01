@@ -18,6 +18,7 @@ keyring
 # powerline-shell - a python program, so it costs ~100ms on every prompt
 starship
 # other plugins
+pass
 ansible
 bash_completions_userdir
 bash_completions_system

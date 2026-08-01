@@ -1,0 +1,2 @@
+### auto generated version file
+export BASHY_VERSION_STR="{{ version_str(path="config/version.py") }}"

@@ -1,5 +1,5 @@
-source core/assert.sh
-source core/array.sh
+source src/core/assert.sh
+source src/core/array.sh
 
 # The prompt subsystem decides what runs after every command, so a mistake here
 # either breaks the prompt or silently drops part of it. bashy.sh is a whole shell

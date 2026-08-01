@@ -2,18 +2,18 @@
 
 ## Never delete plugins
 
-Do not delete a plugin from `plugins/` because it is unused, disabled in
+Do not delete a plugin from `src/plugins/` because it is unused, disabled in
 `bashy.list`, or its upstream project looks dead. bashy is a collection meant for
 other people's setups, not only this machine - a plugin that works but is not needed
 here may be exactly what someone else needs.
 
-Plugins are free at runtime anyway: the `check*` helpers in `core/check.sh`
+Plugins are free at runtime anyway: the `check*` helpers in `src/core/check.sh`
 (`checkInPath`, `checkExecutableFile`, ...) make an inapplicable plugin a silent
 no-op.
 
 To opt out of a plugin locally, comment its line out in `bashy.list`. Leave the file
 in place. "Unused here" and "upstream is archived" are not reasons to prune -
-`plugins/phantomjs.sh` is pinned to a 2018 release and still stays.
+`src/plugins/phantomjs.sh` is pinned to a 2018 release and still stays.
 
 Fix and improve plugins. Treat the set as additive.
 
@@ -24,12 +24,12 @@ literal. Version numbers embedded in a download url count too, and so do pinned
 distro codenames in an asset name.
 
 The exceptions are deliberate and carry a comment saying so: `_install_zoom_6` pins
-a version because it exists to downgrade, and `plugins/phantomjs.sh` pins one
+a version because it exists to downgrade, and `src/plugins/phantomjs.sh` pins one
 because the project was archived with no releases to query.
 
 ## Core module load order
 
-`core/*.sh` is loaded in the order given by `bashy_core_order` in `bashy.sh`, not
+`src/core/*.sh` is loaded in the order given by `bashy_core_order` in `bashy.sh`, not
 alphabetically. The list runs from the standalone modules to the ones built on top
 of them, so a module may call into anything listed before it.
 
@@ -71,19 +71,19 @@ asserts rather than trusting a summary written earlier in the session.
 
 ## README.md is generated
 
-Do not edit `README.md`. It is built by `pydmt build` from
-`templates/README.md.mako`, which includes `snippets/main.md.mako`. The prose
-sections all live in the snippet, and editing the generated file means the change
-is silently lost at the next build. That has already happened once.
+Do not edit `README.md`. It is built by `rsconstruct build` from
+`tera.templates/README.md.tera`, which includes `tera.snippets/main.md.tera`. The
+prose sections all live in the snippet, and editing the generated file means the
+change is silently lost at the next build. That has already happened once.
 
-Mako treats `${...}` as an expression, so any shell example containing `${HOME}` or
-similar has to sit inside a `<%text>` block, and markdown headings are wrapped the
-same way. After editing the snippet run `pydmt build` and check `README.md`.
+Tera treats `{{ ... }}` and `{% ... %}` as syntax, so a literal double brace in an
+example has to sit inside a `{% raw %}` block. Plain shell `${HOME}` needs no
+escaping. After editing the snippet run `rsconstruct build` and check `README.md`.
 
-## Generated files that look like changes
+## Generated files
 
-`pydmt build` bumps `config/version.py` and regenerates `core/version.sh` and
-`README.md` from it. A working copy that has been built therefore shows a diff in
-those files that is not work anyone did. Check what a diff actually contains before
-treating it as a change, and do not commit a version bump that came from a build
-you ran while investigating something else.
+`rsconstruct build` regenerates `README.md`, `LICENSE`, `requirements.thawed.txt`,
+`.github/workflows/build.yml` and `src/core/version.sh` from `tera.templates/`.
+These outputs are tracked in git, so fix the template, never the output. The
+version in `config/version.py` is bumped by hand; nothing bumps it as a build side
+effect anymore.

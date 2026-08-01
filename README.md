@@ -10,7 +10,6 @@ website: https://veltzer.github.io/bashy
 
 ![build](https://github.com/veltzer/bashy/workflows/build/badge.svg)
 
-
 ## Contact
 
 chat with me at [![gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/veltzer/mark.veltzer)
@@ -289,8 +288,8 @@ Here is an example:
 
 ```bash
 readonly ENCFS_ENABLED=true
-readonly ENCFS_FOLDER_CLEAR="${"${HOME}"}/insync.real"
-readonly ENCFS_FOLDER_ENCRYPTED="${"${HOME}"}/insync/encrypted"
+readonly ENCFS_FOLDER_CLEAR="${HOME}/insync.real"
+readonly ENCFS_FOLDER_ENCRYPTED="${HOME}/insync/encrypted"
 readonly ENCFS_PASSWORD=XXXXXXXX
 readonly PROXY_ENABLED=false
 ```

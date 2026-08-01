@@ -1,5 +1,5 @@
-source core/assert.sh
-source core/profile.sh
+source src/core/assert.sh
+source src/core/profile.sh
 
 # These two decide whether the profiling path in _bashy_run_plugins runs at all.
 # is_profile used to be hardcoded to "return 0", which cost about a second of every
