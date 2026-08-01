@@ -82,8 +82,13 @@ escaping. After editing the snippet run `rsconstruct build` and check `README.md
 
 ## Generated files
 
-`rsconstruct build` regenerates `README.md`, `LICENSE`, `requirements.thawed.txt`,
-`.github/workflows/build.yml` and `src/core/version.sh` from `tera.templates/`.
-These outputs are tracked in git, so fix the template, never the output. The
-version in `config/version.py` is bumped by hand; nothing bumps it as a build side
-effect anymore.
+`rsconstruct build` regenerates `README.md`, `LICENSE` and `src/core/version.sh`
+from `tera.templates/`. These outputs are tracked in git, so fix the template,
+never the output. The version in `config/version.lua` is bumped by hand; nothing
+bumps it as a build side effect anymore.
+
+The configs in `config/` are lua and templates read them with
+`load_lua(path="...")`, which the tera analyzer content-tracks. Do not switch a
+template to `version_str()` - the analyzer does not scan for it, so the output
+would go stale when the version changes. `.github/workflows/build.yml` is written
+by hand, not generated.

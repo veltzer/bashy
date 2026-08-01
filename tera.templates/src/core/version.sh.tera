@@ -1,2 +1,3 @@
+{% set version = load_lua(path="config/version.lua") -%}
 ### auto generated version file
-export BASHY_VERSION_STR="{{ version_str(path="config/version.py") }}"
+export BASHY_VERSION_STR="{{ version.tup | join(sep=".") }}"

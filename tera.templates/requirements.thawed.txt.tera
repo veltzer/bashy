@@ -1,5 +1,0 @@
-{% set py = load_python(path="config/python.py") -%}
-# THIS IS AN AUTO-GENERATED FILE. DO NOT EDIT!
-{% for a in py.requires | sort -%}
-{{ a }}
-{% endfor -%}
