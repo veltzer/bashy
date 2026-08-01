@@ -9,7 +9,7 @@ function _test_prompt_load() {
 	local body
 	body=$(sed -n '/^function bashy_prompt()/,/^}/p;
 		/^function _bashy_prompt_register/,/^}/p;
-		/^function _bashy_prompt_deregister/,/^}/p' plugins/prompt.sh)
+		/^function _bashy_prompt_deregister/,/^}/p' src/plugins/prompt.sh)
 	eval "${body}"
 }
 

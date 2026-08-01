@@ -9,7 +9,7 @@ source core/assoc.sh
 # and drive it directly.
 function _test_runtime_load_parser() {
 	local body
-	body=$(sed -n '/^function _bashy_read_plugins_filename/,/^}/p' bashy.sh)
+	body=$(sed -n '/^function _bashy_read_plugins_filename/,/^}/p' src/bashy.sh)
 	eval "${body}"
 }
 
@@ -143,11 +143,11 @@ function testBashyListEntriesAllExist() {
 		[[ "${line}" =~ ^#.* ]] && continue
 		[[ "${line}" =~ ^[[:space:]]*$ ]] && continue
 		plugin="${line#-}"
-		if [ ! -r "plugins/${plugin}.sh" ]
+		if [ ! -r "src/plugins/${plugin}.sh" ]
 		then
 			echo "no plugin file for [${plugin}]"
 			missing=1
 		fi
-	done < bashy.list
+	done < src/bashy.list
 	_bashy_assert_equal "${missing}" 0
 }
