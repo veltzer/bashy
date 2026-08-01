@@ -5,6 +5,10 @@
 [analyzer.tera]
 
 [processor.tera]
+# the analyzer only follows {% include %}; files read via load_python/version_str
+# are not discovered, so declare them or a config change never rebuilds the
+# outputs. The glob also catches config/shared.py, which config/python.py imports.
+dep_inputs = ["config/*.py"]
 
 # shellcheck every shell file in the repo. --external-sources is needed because
 # plugins source files outside the repo (e.g. plugins/git.sh sources the system
