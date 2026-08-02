@@ -35,8 +35,10 @@ function _activate_complete() {
 	source <(rsspell complete bash)
 	# shellcheck source=/dev/null
 	source <(rstype complete bash)
+	# shellcheck source=/dev/null
+	source <(rspass complete bash)
 
-  complete -F _rsmultigit mg
+	complete -F _rsmultigit mg
 	__var=0
 }
 
