@@ -8,6 +8,7 @@
 # which the tera analyzer discovers and content-tracks by itself. The templates
 # deliberately avoid version_str(), which the analyzer does not scan for.
 [processor.tera]
+src_dirs = ["tera.templates"]
 
 # shellcheck every shell file in the repo. --external-sources is needed because
 # plugins source files outside the repo (e.g. plugins/git.sh sources the system
