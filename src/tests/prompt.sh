@@ -65,11 +65,17 @@ function testPromptDeregisterUnknownIsHarmless() {
 
 function testPromptRunsEveryFunction() {
 	_test_prompt_reset
-	_test_prompt_marker=""
-	# shellcheck disable=SC2329 # called indirectly through bashy_prompt
 	function _test_prompt_a() { _test_prompt_marker="${_test_prompt_marker}a"; }
-	# shellcheck disable=SC2329 # called indirectly through bashy_prompt
 	function _test_prompt_b() { _test_prompt_marker="${_test_prompt_marker}b"; }
+	# call both directly first. That pins down what each one does on its own, so a
+	# failure below is about registration rather than about the helpers, and it
+	# gives them a visible call site - a function only ever reached by name through
+	# bashy_prompt reads as dead code to shellcheck.
+	_test_prompt_marker=""
+	_test_prompt_a
+	_test_prompt_b
+	_bashy_assert_equal "${_test_prompt_marker}" "ab"
+	_test_prompt_marker=""
 	_bashy_prompt_register "_test_prompt_a"
 	_bashy_prompt_register "_test_prompt_b"
 	bashy_prompt
