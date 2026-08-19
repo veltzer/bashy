@@ -71,6 +71,7 @@ ai_chatgpt
 # oc - slow
 # helm - slow
 # hugo - slow
+zola
 # lens
 code
 uv
