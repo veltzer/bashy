@@ -1,15 +1,22 @@
-## bashy
-
-version: 0.0.97
+# *bashy* project by Mark Veltzer
 
 description: bashy handles bash configuration for you
 
-website: https://veltzer.github.io/bashy
+project website: https://veltzer.github.io/bashy
 
-## Build
+author: Mark Veltzer
+
+version: 0.0.97
+
+![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
+
+## github
+
+![License](https://img.shields.io/github/license/veltzer/bashy)
+
+## build
 
 ![build](https://github.com/veltzer/bashy/workflows/build/badge.svg)
-
 Bashy is bash based system to enable you control of your bash with precision and elegance.
 It is plugin based and allows for easy extension.
 
@@ -319,8 +326,11 @@ fi
 * https://www.maketecheasier.com/customise-bash-prompt-linux/
 * https://www.computerworld.com/article/2833199/3-ways-to-pimp-your-bash-console.html
 
-## Contact
+## contact me
 
-chat with me at [![gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/veltzer/mark.veltzer)
+[mailto](mailto:mark.veltzer@gmail.com)
+![gitter](https://img.shields.io/gitter/room/veltzer/mark.veltzer)
+![discord](https://img.shields.io/discord/719336281624281119)
+![discord](https://img.shields.io/discord/719336282194444302)
 
 Mark Veltzer, Copyright © 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026
