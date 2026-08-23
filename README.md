@@ -10,10 +10,6 @@ website: https://veltzer.github.io/bashy
 
 ![build](https://github.com/veltzer/bashy/workflows/build/badge.svg)
 
-## Contact
-
-chat with me at [![gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/veltzer/mark.veltzer)
-
 Bashy is bash based system to enable you control of your bash with precision and elegance.
 It is plugin based and allows for easy extension.
 
@@ -322,5 +318,9 @@ fi
 * https://medium.com/@mandymadethis/pimp-out-your-command-line-b317cf42e953
 * https://www.maketecheasier.com/customise-bash-prompt-linux/
 * https://www.computerworld.com/article/2833199/3-ways-to-pimp-your-bash-console.html
+
+## Contact
+
+chat with me at [![gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/veltzer/mark.veltzer)
 
 Mark Veltzer, Copyright © 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026
