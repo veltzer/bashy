@@ -1,4 +1,4 @@
-# generate README.md, LICENSE, requirements.thawed.txt, the github workflow and
+# generate README.md, LICENSE, the github workflow and
 # src/core/version.sh from tera.templates/. The analyzer tracks load_python /
 # version_str / include dependencies, so a change in config/*.py or
 # tera.snippets/ rebuilds the outputs.
