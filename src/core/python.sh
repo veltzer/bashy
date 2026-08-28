@@ -54,7 +54,7 @@ function python_deactivate() {
 	if var_is_defined PYTHON_VENV_ACTIVE
 	then
 		bashy_log "core/python" "${BASHY_LOG_DEBUG}" "deactivating venv"
-		_bashy_pathutils_remove PATH "${folder}/bin"
+		_bashy_pathutils_remove PATH "${PYTHON_VENV_ACTIVE}/bin"
 		unset PYTHON_VENV_ACTIVE
 	else
 		bashy_log "core/python" "${BASHY_LOG_DEBUG}" "no venv active"
