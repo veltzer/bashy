@@ -12,6 +12,9 @@
 # hold; it is re-activated once you leave the project folder.
 # - If 'uv sync' fails its output is kept in '.uv.sync.errors' at the
 # project root and no further syncs happen until that file is removed.
+# The file is erased automatically once the venv is found to be in
+# sync again (a later sync succeeds, or pyproject.toml is reverted to
+# what the venv was built from).
 
 export _BASHY_UV_ACTIVE=""
 export _BASHY_UV_HELD=""
@@ -39,6 +42,7 @@ function _prompt_uv_sync() {
 	local project_root=$1
 	local venv=$2
 	local checksum_file="${venv}/pyproject.toml.checksum"
+	local error_file="${project_root}/.uv.sync.errors"
 	local current
 	current=$(md5sum < "${project_root}/pyproject.toml")
 	local stored=""
@@ -49,9 +53,14 @@ function _prompt_uv_sync() {
 	if [ "${current}" == "${stored}" ]
 	then
 		bashy_log "prompt_uv" "${BASHY_LOG_DEBUG}" "checksum is up to date"
+		# the venv is in sync, so a sentinel left by an earlier failure is stale
+		if [ -f "${error_file}" ]
+		then
+			bashy_log "prompt_uv" "${BASHY_LOG_INFO}" "venv is in sync, removing stale error file [${error_file}]"
+			rm -f "${error_file}"
+		fi
 		return 0
 	fi
-	local error_file="${project_root}/.uv.sync.errors"
 	if [ -f "${error_file}" ]
 	then
 		bashy_log "prompt_uv" "${BASHY_LOG_ERROR}" "found error file [${error_file}], not syncing"
