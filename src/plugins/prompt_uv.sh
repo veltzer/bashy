@@ -107,10 +107,16 @@ function prompt_uv() {
 			python_deactivate
 		elif var_is_defined VIRTUAL_ENV
 		then
-			# a virtual env activated by hand with "source .../bin/activate"
+			# a virtual env activated with "source .../bin/activate".
+			# do not call its own "deactivate": that restores the PATH
+			# snapshot taken at activation time, wiping every entry added
+			# since (the node plugin's bin folder among them). take the
+			# venv off the PATH ourselves instead.
 			bashy_log "prompt_uv" "${BASHY_LOG_INFO}" "holding env [${VIRTUAL_ENV}]"
 			_BASHY_UV_HELD="${VIRTUAL_ENV}"
-			deactivate
+			_bashy_pathutils_remove PATH "${VIRTUAL_ENV}/bin"
+			unset VIRTUAL_ENV VIRTUAL_ENV_PROMPT _OLD_VIRTUAL_PATH _OLD_VIRTUAL_PS1
+			unset -f deactivate
 		fi
 		python_activate "${venv}"
 		_BASHY_UV_ACTIVE="${venv}"
