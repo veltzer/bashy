@@ -10,6 +10,9 @@
 # the new checksum is stored.
 # - Any virtual env that was active before is deactivated and put on
 # hold; it is re-activated once you leave the project folder.
+# - If '.venv' is missing entirely (say a 'git clean' took it) that
+# same 'uv sync' recreates it, and a leftover '.uv.sync.errors' from
+# before the venv vanished does not block that sync.
 # - If 'uv sync' fails its output is kept in '.uv.sync.errors' at the
 # project root and no further syncs happen until that file is removed.
 # The file is erased automatically once the venv is found to be in
@@ -18,6 +21,7 @@
 
 export _BASHY_UV_ACTIVE=""
 export _BASHY_UV_HELD=""
+export _BASHY_UV_BIN=""
 
 # find the closest folder at or above ${PWD} holding a pyproject.toml
 function _prompt_uv_find_root() {
@@ -63,11 +67,21 @@ function _prompt_uv_sync() {
 	fi
 	if [ -f "${error_file}" ]
 	then
-		bashy_log "prompt_uv" "${BASHY_LOG_ERROR}" "found error file [${error_file}], not syncing"
-		return 1
+		if [ -d "${venv}" ]
+		then
+			bashy_log "prompt_uv" "${BASHY_LOG_ERROR}" "found error file [${error_file}], not syncing"
+			return 1
+		fi
+		# no venv at all (a 'git clean' took it): whatever failed back
+		# then happened to a venv that no longer exists, so start over
+		bashy_log "prompt_uv" "${BASHY_LOG_INFO}" "venv is gone, removing error file [${error_file}] and re-syncing"
+		rm -f "${error_file}"
 	fi
 	bashy_log "prompt_uv" "${BASHY_LOG_INFO}" "running uv sync in [${project_root}]"
-	if (cd "${project_root}" || exit 1; uv sync > "${error_file}" 2>&1)
+	# ${_BASHY_UV_BIN} rather than plain uv: uv may live in the very env this
+	# plugin put on hold, which is off the PATH while a project env is active,
+	# and a re-sync after '.venv' was deleted under us would then find no uv
+	if (cd "${project_root}" || exit 1; "${_BASHY_UV_BIN}" sync > "${error_file}" 2>&1)
 	then
 		rm -f "${error_file}"
 		echo "${current}" > "${checksum_file}"
@@ -137,6 +151,9 @@ function _activate_prompt_uv() {
 	local -n __error=$2
 	if ! checkInPath "uv" __var __error; then return; fi
 	if ! checkInPath "md5sum" __var __error; then return; fi
+	# resolve uv now, while the PATH is still intact - a later sync can run
+	# at a moment when the env providing uv is held by this very plugin
+	_BASHY_UV_BIN=$(type -P uv)
 	_bashy_prompt_register prompt_uv
 	__var=0
 }
