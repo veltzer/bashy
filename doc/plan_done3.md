@@ -70,8 +70,8 @@ call, not a fix I should make.
 
 `plugins/prompt.sh` line 17 and `plugins/fail.sh` line 3 both do:
 
-	local -n __var=$1
-	local -n __error=$1
+    local -n __var=$1
+    local -n __error=$1
 
 The second one should be `$2`. As written, `__var` and `__error` are the same
 variable, so assigning the error message overwrites the status code and the caller

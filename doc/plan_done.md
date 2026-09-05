@@ -11,7 +11,7 @@ Status legend: `DONE`, `TODO`.
 fine for `terraform_1.15.8_linux_amd64.zip`, where the version is part of the name,
 but buck2 downloads a rolling `latest` asset whose filename never changes:
 
-	https://github.com/facebook/buck2/releases/download/latest/buck2-x86_64-unknown-linux-gnu.zst
+    https://github.com/facebook/buck2/releases/download/latest/buck2-x86_64-unknown-linux-gnu.zst
 
 Once that file is cached, `bashy_download` returns it forever without touching the
 network, so a buck2 upgrade reinstalls the stale binary. The version check correctly

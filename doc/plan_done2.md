@@ -205,7 +205,7 @@ binary landed there, and the uninstaller found it again.
 
 Sixteen plugins repeat some variant of
 
-	source <(tool completion bash)
+    source <(tool completion bash)
 
 with slightly different error handling, some checking the result and some not.
 Done as part of item 1. `bashy_completion` in `core/completion.sh` is now the one

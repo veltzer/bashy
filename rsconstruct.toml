@@ -29,3 +29,14 @@ batch = true
 # lint the GitHub Actions workflow files with actionlint
 [processor.actionlint]
 src_dirs = [".github/workflows"]
+
+# ─── markdown ────────────────────────────────────────────────────────────────
+
+[processor.rumdl]
+src_dirs = ["doc"]
+src_files = ["CLAUDE.md", "README.md"]
+
+# ─── lua ─────────────────────────────────────────────────────────────────────
+
+[processor.luacheck]
+src_dirs = ["config"]

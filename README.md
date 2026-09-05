@@ -64,7 +64,6 @@ To check whether the running `~/.bashy` still matches your checkout:
 bashy_check_deployment
 ```
 
-
 ## Debugging Bashy
 
 Just add this line before sourcing bashy:
@@ -79,7 +78,7 @@ bashy_errors
 
 To get debug messages you can create a `~/.bashy.config` and put the following content into it:
 
-```
+```text
 readonly BASHY_DEBUG=0
 ```
 
@@ -100,7 +99,7 @@ bashy_status_plugins
 To disable or enable a plugins or to change the order in which
 they are applied just edit `~/.bashy.list`
 
-```
+```text
 # this file supports hash comments
 by_host
 meta
@@ -143,7 +142,6 @@ register _activate_hello_plugin
 A prompt plugin registers a function that runs after every command you type, not
 once at startup. Register it from your activation function:
 
-
 ```bash
 function prompt_hello() {
 	# runs on every prompt
@@ -158,7 +156,6 @@ function _activate_prompt_hello() {
 }
 register_interactive _activate_prompt_hello
 ```
-
 
 Because it runs that often, speed is the whole design constraint. A prompt function
 that forks once costs a few milliseconds every single command, and there are nine
@@ -199,7 +196,6 @@ Install functions are named `_install_<name>` and should never hardcode a versio
 number: always ask the project what its latest release is. The core modules provide
 the pieces so that every plugin behaves and reports the same way.
 
-
 ```bash
 function _install_hello() {
 	local release_json
@@ -235,7 +231,6 @@ function _uninstall_hello() {
 	bashy_uninstall_binary "hello"
 }
 ```
-
 
 The helpers involved:
 
@@ -282,7 +277,6 @@ readonly BASHY_PROFILE=0
 
 then open a shell and run `bashy_status_plugins`.
 
-
 ## Config files
 
 You can activate various plgins via the `~/.bashy.config` file.
@@ -296,7 +290,6 @@ readonly ENCFS_FOLDER_ENCRYPTED="${HOME}/insync/encrypted"
 readonly ENCFS_PASSWORD=XXXXXXXX
 readonly PROXY_ENABLED=false
 ```
-
 
 This is a bash file and so you can overwrite values by using conditionals so:
 ```bash
