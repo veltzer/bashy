@@ -65,6 +65,7 @@ buck2
 # AI
 ai_agy
 ai_claude
+ai_codex
 ai_copilot
 ai_chatgpt
 # bazel - still needs work
