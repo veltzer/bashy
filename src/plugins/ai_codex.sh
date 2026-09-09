@@ -24,8 +24,11 @@ function _install_codex() {
 	latest_version=$(bashy_github_version "${release_json}" "rust-v")
 	folder=$(bashy_install_dir)
 	executable="${folder}/codex"
+	# codex spawns codex-code-mode-host next to itself, so an install without it is
+	# incomplete and gets redone even when the version matches
+	local host="${folder}/codex-code-mode-host"
 	installed_version=""
-	if [ -x "${executable}" ]
+	if [ -x "${executable}" ] && [ -x "${host}" ]
 	then
 		installed_version=$("${executable}" --version 2>/dev/null | awk '/^codex-cli/{print $2; exit}')
 	fi
@@ -35,7 +38,7 @@ function _install_codex() {
 	fi
 	# The bare "codex-x86_64-unknown-linux-musl.tar.gz" asset is the same binary but
 	# is not listed in the published checksums, so fetch the "package" tarball that is
-	# and take bin/codex out of it.
+	# and take bin/codex and bin/codex-code-mode-host out of it.
 	local download_file
 	bashy_github_asset "${release_json}" "codex-package-x86_64-unknown-linux-musl\\.tar\\.gz$" download_file || return
 	bashy_install_download "${download_file}"
@@ -44,13 +47,13 @@ function _install_codex() {
 	local checksums
 	bashy_github_asset "${release_json}" "codex-package_SHA256SUMS$" checksums || return
 	bashy_verify_sha256 "${tar}" "${checksums}" || return
-	rm -f "${executable}"
-	# --touch so the installed file is stamped now, not with the release build time
-	tar xf "${tar}" -m -C "${folder}" "bin/codex" --transform 's/^bin\/codex/codex/'
+	rm -f "${executable}" "${host}"
+	bashy_install_extract "${tar}" "${folder}" "bin/codex" "bin/codex-code-mode-host" --transform 's/^bin\///'
 }
 
 function _uninstall_codex() {
 	bashy_uninstall_binary "codex"
+	bashy_uninstall_binary "codex-code-mode-host"
 }
 
 function _install_codex_npm() {
