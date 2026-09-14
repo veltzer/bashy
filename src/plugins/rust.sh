@@ -17,6 +17,15 @@ function _activate_rust() {
 	source "${CARGO_ENV}"
 	# _bashy_pathutils_add_head PATH "${CARGO_HOME_BIN}"
 	export CARGO_HOME
+	# The crates.io token lives in pass(1) only; cargo publish reads it from
+	# CARGO_REGISTRY_TOKEN, so there is no ~/.cargo/credentials file. One
+	# lookup, not two - each one is a gpg decryption costing ~35ms. A missing
+	# entry does not fail activation: the toolchain works without publishing.
+	local _token
+	if _token=$(pass show "keys/crates.io" 2>/dev/null); then
+		CARGO_REGISTRY_TOKEN="${_token}"
+		export CARGO_REGISTRY_TOKEN
+	fi
 	__var=0
 }
 
