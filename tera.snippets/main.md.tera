@@ -268,7 +268,7 @@ Here is an example:
 readonly ENCFS_ENABLED=true
 readonly ENCFS_FOLDER_CLEAR="${HOME}/insync.real"
 readonly ENCFS_FOLDER_ENCRYPTED="${HOME}/insync/encrypted"
-readonly ENCFS_PASSWORD=XXXXXXXX
+readonly ENCFS_PASS_PATH="passwords/encfs/insync"
 readonly PROXY_ENABLED=false
 ```
 

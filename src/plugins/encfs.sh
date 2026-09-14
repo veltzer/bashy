@@ -17,7 +17,16 @@ function _activate_encfs() {
 		__var=0
 		return
 	fi
-	echo "${ENCFS_PASSWORD}" | encfs --stdinpass "${ENCFS_FOLDER_ENCRYPTED}" "${ENCFS_FOLDER_CLEAR}"
+	# the password lives in pass(1) only; fetch it at mount time and hand it over
+	# on stdin so it never touches a config file or the process argument list
+	local password
+	if ! password=$(pass show "${ENCFS_PASS_PATH}" 2>/dev/null)
+	then
+		__error="could not read encfs password from pass entry ${ENCFS_PASS_PATH}"
+		__var=1
+		return
+	fi
+	echo "${password}" | encfs --stdinpass "${ENCFS_FOLDER_ENCRYPTED}" "${ENCFS_FOLDER_CLEAR}"
 	__var=$?
 }
 
